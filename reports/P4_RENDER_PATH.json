@@ -1,0 +1,2204 @@
+{
+  "phase": "P4",
+  "date": "2026-10-29",
+  "timezone": "Asia/Taipei",
+  "status": "BLOCKED",
+  "completion": "PARTIAL SNAPSHOT; investigation paused by user; not a completed P4 gate",
+  "baseline_code_commit": "1e3cd304322870d67518e5bb04f524c9f553246f",
+  "scope": "Existing P4 evidence and tooling only; no new trace or game launch during commit preparation",
+  "japanese_oracle": "NOT EXECUTED; unavailable; no assets/patches acquired or applied",
+  "japanese_patch_source_commit": "c5db7b77b93a3b99b27556c3e5d8654d1679ced5",
+  "upstream_tgwUltima_commit": "2b6ee659cb153254ea8e3d2787d601a6fa79f3d2",
+  "pe": {
+    "sha256": "83915175abaf8a65dab96fc42f1feed24a78f55dc8b28a736b61ffa83314b545",
+    "size": 4593152,
+    "machine": 332,
+    "image_base": 4194304,
+    "entry_rva": 3229984,
+    "image_size": 15958016,
+    "characteristics": 267,
+    "dll_characteristics": 0,
+    "sections": [
+      {
+        "name": ".text",
+        "rva": 4096,
+        "virtual_size": 3402298,
+        "raw_offset": 1024,
+        "raw_size": 3402752,
+        "characteristics": 1610612768
+      },
+      {
+        "name": ".rdata",
+        "rva": 3407872,
+        "virtual_size": 255030,
+        "raw_offset": 3403776,
+        "raw_size": 255488,
+        "characteristics": 1073741888
+      },
+      {
+        "name": ".data",
+        "rva": 3665920,
+        "virtual_size": 12282244,
+        "raw_offset": 3659264,
+        "raw_size": 756736,
+        "characteristics": 3221225536
+      },
+      {
+        "name": "_ADATA",
+        "rva": 15949824,
+        "virtual_size": 3456,
+        "raw_offset": 4416000,
+        "raw_size": 3584,
+        "characteristics": 3221225536
+      },
+      {
+        "name": ".rsrc",
+        "rva": 15953920,
+        "virtual_size": 2908,
+        "raw_offset": 4419584,
+        "raw_size": 3072,
+        "characteristics": 1073741888
+      }
+    ],
+    "imports": [
+      {
+        "dll": "dshow.dll",
+        "name": "CoCreateInstance",
+        "ordinal": null,
+        "iat_rva": 3408920
+      },
+      {
+        "dll": "dshow.dll",
+        "name": "CoUninitialize",
+        "ordinal": null,
+        "iat_rva": 3408924
+      },
+      {
+        "dll": "dshow.dll",
+        "name": "CoInitialize",
+        "ordinal": null,
+        "iat_rva": 3408928
+      },
+      {
+        "dll": "DDRAW.dll",
+        "name": "DirectDrawEnumerateExA",
+        "ordinal": null,
+        "iat_rva": 3407888
+      },
+      {
+        "dll": "DDRAW.dll",
+        "name": "DirectDrawCreate",
+        "ordinal": null,
+        "iat_rva": 3407892
+      },
+      {
+        "dll": "DDRAW.dll",
+        "name": "DirectDrawEnumerateA",
+        "ordinal": null,
+        "iat_rva": 3407896
+      },
+      {
+        "dll": "DSOUND.dll",
+        "name": null,
+        "ordinal": 2,
+        "iat_rva": 3407904
+      },
+      {
+        "dll": "DSOUND.dll",
+        "name": null,
+        "ordinal": 1,
+        "iat_rva": 3407908
+      },
+      {
+        "dll": "WINMM.dll",
+        "name": "timeGetTime",
+        "ordinal": null,
+        "iat_rva": 3408896
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetVolumeInformationA",
+        "ordinal": null,
+        "iat_rva": 3408020
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetDriveTypeA",
+        "ordinal": null,
+        "iat_rva": 3408024
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetErrorMode",
+        "ordinal": null,
+        "iat_rva": 3408028
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetLogicalDrives",
+        "ordinal": null,
+        "iat_rva": 3408032
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "DeleteFileA",
+        "ordinal": null,
+        "iat_rva": 3408036
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FreeLibrary",
+        "ordinal": null,
+        "iat_rva": 3408040
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "OutputDebugStringA",
+        "ordinal": null,
+        "iat_rva": 3408044
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FindResourceA",
+        "ordinal": null,
+        "iat_rva": 3408048
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetVersionExA",
+        "ordinal": null,
+        "iat_rva": 3408052
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "VirtualAlloc",
+        "ordinal": null,
+        "iat_rva": 3408056
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "VirtualFree",
+        "ordinal": null,
+        "iat_rva": 3408060
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "LoadResource",
+        "ordinal": null,
+        "iat_rva": 3408064
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "lstrcpyA",
+        "ordinal": null,
+        "iat_rva": 3408068
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetFileSize",
+        "ordinal": null,
+        "iat_rva": 3408072
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "CreateFileA",
+        "ordinal": null,
+        "iat_rva": 3408076
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetEvent",
+        "ordinal": null,
+        "iat_rva": 3408080
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "CreateEventA",
+        "ordinal": null,
+        "iat_rva": 3408084
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "ResetEvent",
+        "ordinal": null,
+        "iat_rva": 3408088
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "CreateThread",
+        "ordinal": null,
+        "iat_rva": 3408092
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "DeleteCriticalSection",
+        "ordinal": null,
+        "iat_rva": 3408096
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "DeviceIoControl",
+        "ordinal": null,
+        "iat_rva": 3408100
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetCurrentDirectoryA",
+        "ordinal": null,
+        "iat_rva": 3408104
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "WaitForMultipleObjects",
+        "ordinal": null,
+        "iat_rva": 3408108
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "MultiByteToWideChar",
+        "ordinal": null,
+        "iat_rva": 3408112
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "lstrlenA",
+        "ordinal": null,
+        "iat_rva": 3408116
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetModuleHandleA",
+        "ordinal": null,
+        "iat_rva": 3408120
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FreeResource",
+        "ordinal": null,
+        "iat_rva": 3408124
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "lstrcmpiA",
+        "ordinal": null,
+        "iat_rva": 3408128
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetSystemTime",
+        "ordinal": null,
+        "iat_rva": 3408132
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetProcAddress",
+        "ordinal": null,
+        "iat_rva": 3408136
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "WideCharToMultiByte",
+        "ordinal": null,
+        "iat_rva": 3408140
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetTickCount",
+        "ordinal": null,
+        "iat_rva": 3408144
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetDateFormatA",
+        "ordinal": null,
+        "iat_rva": 3408148
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetPrivateProfileIntA",
+        "ordinal": null,
+        "iat_rva": 3408152
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetPrivateProfileSectionA",
+        "ordinal": null,
+        "iat_rva": 3408156
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetCommandLineA",
+        "ordinal": null,
+        "iat_rva": 3408160
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "CreateFileMappingA",
+        "ordinal": null,
+        "iat_rva": 3408164
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "WritePrivateProfileStringA",
+        "ordinal": null,
+        "iat_rva": 3408168
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "EnterCriticalSection",
+        "ordinal": null,
+        "iat_rva": 3408172
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "LeaveCriticalSection",
+        "ordinal": null,
+        "iat_rva": 3408176
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "InitializeCriticalSection",
+        "ordinal": null,
+        "iat_rva": 3408180
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FormatMessageA",
+        "ordinal": null,
+        "iat_rva": 3408184
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "MapViewOfFile",
+        "ordinal": null,
+        "iat_rva": 3408188
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetLastError",
+        "ordinal": null,
+        "iat_rva": 3408192
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "CloseHandle",
+        "ordinal": null,
+        "iat_rva": 3408196
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "LocalFree",
+        "ordinal": null,
+        "iat_rva": 3408200
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "UnmapViewOfFile",
+        "ordinal": null,
+        "iat_rva": 3408204
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FlushViewOfFile",
+        "ordinal": null,
+        "iat_rva": 3408208
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetPrivateProfileStringA",
+        "ordinal": null,
+        "iat_rva": 3408212
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "WaitForSingleObject",
+        "ordinal": null,
+        "iat_rva": 3408216
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "LoadLibraryA",
+        "ordinal": null,
+        "iat_rva": 3408220
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetFileTime",
+        "ordinal": null,
+        "iat_rva": 3408224
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetOEMCP",
+        "ordinal": null,
+        "iat_rva": 3408228
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FileTimeToSystemTime",
+        "ordinal": null,
+        "iat_rva": 3408232
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetConsoleCtrlHandler",
+        "ordinal": null,
+        "iat_rva": 3408236
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FileTimeToLocalFileTime",
+        "ordinal": null,
+        "iat_rva": 3408240
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetStringTypeA",
+        "ordinal": null,
+        "iat_rva": 3408244
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetEnvironmentVariableA",
+        "ordinal": null,
+        "iat_rva": 3408248
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetStringTypeW",
+        "ordinal": null,
+        "iat_rva": 3408252
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "CompareStringA",
+        "ordinal": null,
+        "iat_rva": 3408256
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetTimeZoneInformation",
+        "ordinal": null,
+        "iat_rva": 3408260
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "CompareStringW",
+        "ordinal": null,
+        "iat_rva": 3408264
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "EnumSystemLocalesA",
+        "ordinal": null,
+        "iat_rva": 3408268
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetLocaleInfoA",
+        "ordinal": null,
+        "iat_rva": 3408272
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetUserDefaultLCID",
+        "ordinal": null,
+        "iat_rva": 3408276
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "IsValidLocale",
+        "ordinal": null,
+        "iat_rva": 3408280
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "IsBadCodePtr",
+        "ordinal": null,
+        "iat_rva": 3408284
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "IsValidCodePage",
+        "ordinal": null,
+        "iat_rva": 3408288
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "IsBadReadPtr",
+        "ordinal": null,
+        "iat_rva": 3408292
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetEnvironmentStringsW",
+        "ordinal": null,
+        "iat_rva": 3408296
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "IsBadWritePtr",
+        "ordinal": null,
+        "iat_rva": 3408300
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FreeEnvironmentStringsW",
+        "ordinal": null,
+        "iat_rva": 3408304
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FreeEnvironmentStringsA",
+        "ordinal": null,
+        "iat_rva": 3408308
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetEnvironmentStrings",
+        "ordinal": null,
+        "iat_rva": 3408312
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FindClose",
+        "ordinal": null,
+        "iat_rva": 3408316
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "UnhandledExceptionFilter",
+        "ordinal": null,
+        "iat_rva": 3408320
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetACP",
+        "ordinal": null,
+        "iat_rva": 3408324
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetCPInfo",
+        "ordinal": null,
+        "iat_rva": 3408328
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetUnhandledExceptionFilter",
+        "ordinal": null,
+        "iat_rva": 3408332
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "LCMapStringW",
+        "ordinal": null,
+        "iat_rva": 3408336
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "LCMapStringA",
+        "ordinal": null,
+        "iat_rva": 3408340
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetStdHandle",
+        "ordinal": null,
+        "iat_rva": 3408344
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "Sleep",
+        "ordinal": null,
+        "iat_rva": 3408348
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "HeapCreate",
+        "ordinal": null,
+        "iat_rva": 3408352
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "HeapDestroy",
+        "ordinal": null,
+        "iat_rva": 3408356
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetStdHandle",
+        "ordinal": null,
+        "iat_rva": 3408360
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetHandleCount",
+        "ordinal": null,
+        "iat_rva": 3408364
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetFullPathNameA",
+        "ordinal": null,
+        "iat_rva": 3408368
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "CreateDirectoryA",
+        "ordinal": null,
+        "iat_rva": 3408372
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "WriteFile",
+        "ordinal": null,
+        "iat_rva": 3408376
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "ReadFile",
+        "ordinal": null,
+        "iat_rva": 3408380
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetFilePointer",
+        "ordinal": null,
+        "iat_rva": 3408384
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "LockFile",
+        "ordinal": null,
+        "iat_rva": 3408388
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "UnlockFile",
+        "ordinal": null,
+        "iat_rva": 3408392
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetEndOfFile",
+        "ordinal": null,
+        "iat_rva": 3408396
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetLocaleInfoW",
+        "ordinal": null,
+        "iat_rva": 3408400
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetFileAttributesA",
+        "ordinal": null,
+        "iat_rva": 3408404
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetFileAttributesA",
+        "ordinal": null,
+        "iat_rva": 3408408
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FlushFileBuffers",
+        "ordinal": null,
+        "iat_rva": 3408412
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "MoveFileA",
+        "ordinal": null,
+        "iat_rva": 3408416
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetSystemInfo",
+        "ordinal": null,
+        "iat_rva": 3408420
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "MapViewOfFileEx",
+        "ordinal": null,
+        "iat_rva": 3408424
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "RtlUnwind",
+        "ordinal": null,
+        "iat_rva": 3408428
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "HeapFree",
+        "ordinal": null,
+        "iat_rva": 3408432
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FindFirstFileA",
+        "ordinal": null,
+        "iat_rva": 3408436
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FindNextFileA",
+        "ordinal": null,
+        "iat_rva": 3408440
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "HeapSize",
+        "ordinal": null,
+        "iat_rva": 3408444
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "FatalAppExitA",
+        "ordinal": null,
+        "iat_rva": 3408448
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetModuleFileNameA",
+        "ordinal": null,
+        "iat_rva": 3408452
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetFileType",
+        "ordinal": null,
+        "iat_rva": 3408456
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "ExitProcess",
+        "ordinal": null,
+        "iat_rva": 3408460
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "TerminateProcess",
+        "ordinal": null,
+        "iat_rva": 3408464
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetCurrentProcess",
+        "ordinal": null,
+        "iat_rva": 3408468
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "InterlockedDecrement",
+        "ordinal": null,
+        "iat_rva": 3408472
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "InterlockedIncrement",
+        "ordinal": null,
+        "iat_rva": 3408476
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "RaiseException",
+        "ordinal": null,
+        "iat_rva": 3408480
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetStartupInfoA",
+        "ordinal": null,
+        "iat_rva": 3408484
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetVersion",
+        "ordinal": null,
+        "iat_rva": 3408488
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "HeapAlloc",
+        "ordinal": null,
+        "iat_rva": 3408492
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetCurrentThreadId",
+        "ordinal": null,
+        "iat_rva": 3408496
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "TlsSetValue",
+        "ordinal": null,
+        "iat_rva": 3408500
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "TlsAlloc",
+        "ordinal": null,
+        "iat_rva": 3408504
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "TlsFree",
+        "ordinal": null,
+        "iat_rva": 3408508
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "SetLastError",
+        "ordinal": null,
+        "iat_rva": 3408512
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "TlsGetValue",
+        "ordinal": null,
+        "iat_rva": 3408516
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "GetCurrentThread",
+        "ordinal": null,
+        "iat_rva": 3408520
+      },
+      {
+        "dll": "KERNEL32.dll",
+        "name": "HeapReAlloc",
+        "ordinal": null,
+        "iat_rva": 3408524
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "RedrawWindow",
+        "ordinal": null,
+        "iat_rva": 3408540
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "DrawMenuBar",
+        "ordinal": null,
+        "iat_rva": 3408544
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "LoadImageA",
+        "ordinal": null,
+        "iat_rva": 3408548
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetCursorPos",
+        "ordinal": null,
+        "iat_rva": 3408552
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "ClipCursor",
+        "ordinal": null,
+        "iat_rva": 3408556
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "PostQuitMessage",
+        "ordinal": null,
+        "iat_rva": 3408560
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "EndPaint",
+        "ordinal": null,
+        "iat_rva": 3408564
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "BeginPaint",
+        "ordinal": null,
+        "iat_rva": 3408568
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "MoveWindow",
+        "ordinal": null,
+        "iat_rva": 3408572
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetWindowRect",
+        "ordinal": null,
+        "iat_rva": 3408576
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "CallNextHookEx",
+        "ordinal": null,
+        "iat_rva": 3408580
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "UnhookWindowsHookEx",
+        "ordinal": null,
+        "iat_rva": 3408584
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "ShowCursor",
+        "ordinal": null,
+        "iat_rva": 3408588
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "MessageBeep",
+        "ordinal": null,
+        "iat_rva": 3408592
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetAsyncKeyState",
+        "ordinal": null,
+        "iat_rva": 3408596
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SystemParametersInfoA",
+        "ordinal": null,
+        "iat_rva": 3408600
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetUpdateRect",
+        "ordinal": null,
+        "iat_rva": 3408604
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "EndDialog",
+        "ordinal": null,
+        "iat_rva": 3408608
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SendDlgItemMessageA",
+        "ordinal": null,
+        "iat_rva": 3408612
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "LoadIconA",
+        "ordinal": null,
+        "iat_rva": 3408616
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "DestroyWindow",
+        "ordinal": null,
+        "iat_rva": 3408620
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "DefWindowProcA",
+        "ordinal": null,
+        "iat_rva": 3408624
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "CreateWindowExA",
+        "ordinal": null,
+        "iat_rva": 3408628
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "LoadCursorA",
+        "ordinal": null,
+        "iat_rva": 3408632
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "RegisterClassA",
+        "ordinal": null,
+        "iat_rva": 3408636
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetWindowPos",
+        "ordinal": null,
+        "iat_rva": 3408640
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "ShowWindow",
+        "ordinal": null,
+        "iat_rva": 3408644
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "UpdateWindow",
+        "ordinal": null,
+        "iat_rva": 3408648
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "FindWindowA",
+        "ordinal": null,
+        "iat_rva": 3408652
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetCapture",
+        "ordinal": null,
+        "iat_rva": 3408656
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "ReleaseCapture",
+        "ordinal": null,
+        "iat_rva": 3408660
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetWindowsHookExA",
+        "ordinal": null,
+        "iat_rva": 3408664
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetTopWindow",
+        "ordinal": null,
+        "iat_rva": 3408668
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetDoubleClickTime",
+        "ordinal": null,
+        "iat_rva": 3408672
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetKeyboardState",
+        "ordinal": null,
+        "iat_rva": 3408676
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "ReleaseDC",
+        "ordinal": null,
+        "iat_rva": 3408680
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetDC",
+        "ordinal": null,
+        "iat_rva": 3408684
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "LoadMenuA",
+        "ordinal": null,
+        "iat_rva": 3408688
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetSubMenu",
+        "ordinal": null,
+        "iat_rva": 3408692
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetMenuStringA",
+        "ordinal": null,
+        "iat_rva": 3408696
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetMenuItemCount",
+        "ordinal": null,
+        "iat_rva": 3408700
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetWindowPlacement",
+        "ordinal": null,
+        "iat_rva": 3408704
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetWindowPlacement",
+        "ordinal": null,
+        "iat_rva": 3408708
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "CheckMenuItem",
+        "ordinal": null,
+        "iat_rva": 3408712
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetMenu",
+        "ordinal": null,
+        "iat_rva": 3408716
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetMenuState",
+        "ordinal": null,
+        "iat_rva": 3408720
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "InvalidateRect",
+        "ordinal": null,
+        "iat_rva": 3408724
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "DialogBoxParamA",
+        "ordinal": null,
+        "iat_rva": 3408728
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "CreateDialogParamA",
+        "ordinal": null,
+        "iat_rva": 3408732
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetFocus",
+        "ordinal": null,
+        "iat_rva": 3408736
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "LoadAcceleratorsA",
+        "ordinal": null,
+        "iat_rva": 3408740
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "DispatchMessageA",
+        "ordinal": null,
+        "iat_rva": 3408744
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "TranslateAcceleratorA",
+        "ordinal": null,
+        "iat_rva": 3408748
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "TranslateMDISysAccel",
+        "ordinal": null,
+        "iat_rva": 3408752
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "PeekMessageA",
+        "ordinal": null,
+        "iat_rva": 3408756
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetMessageA",
+        "ordinal": null,
+        "iat_rva": 3408760
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "TranslateMessage",
+        "ordinal": null,
+        "iat_rva": 3408764
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "IsDialogMessageA",
+        "ordinal": null,
+        "iat_rva": 3408768
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetSystemMetrics",
+        "ordinal": null,
+        "iat_rva": 3408772
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "LoadBitmapA",
+        "ordinal": null,
+        "iat_rva": 3408776
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetWindow",
+        "ordinal": null,
+        "iat_rva": 3408780
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetWindowLongA",
+        "ordinal": null,
+        "iat_rva": 3408784
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetCursor",
+        "ordinal": null,
+        "iat_rva": 3408788
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetCursor",
+        "ordinal": null,
+        "iat_rva": 3408792
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetClassNameA",
+        "ordinal": null,
+        "iat_rva": 3408796
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "DialogBoxIndirectParamA",
+        "ordinal": null,
+        "iat_rva": 3408800
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "DefFrameProcA",
+        "ordinal": null,
+        "iat_rva": 3408804
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "DefMDIChildProcA",
+        "ordinal": null,
+        "iat_rva": 3408808
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetScrollPos",
+        "ordinal": null,
+        "iat_rva": 3408812
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetWindowTextA",
+        "ordinal": null,
+        "iat_rva": 3408816
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetScrollRange",
+        "ordinal": null,
+        "iat_rva": 3408820
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "FillRect",
+        "ordinal": null,
+        "iat_rva": 3408824
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetParent",
+        "ordinal": null,
+        "iat_rva": 3408828
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "CallWindowProcA",
+        "ordinal": null,
+        "iat_rva": 3408832
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "IsChild",
+        "ordinal": null,
+        "iat_rva": 3408836
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetTimer",
+        "ordinal": null,
+        "iat_rva": 3408840
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "KillTimer",
+        "ordinal": null,
+        "iat_rva": 3408844
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetRect",
+        "ordinal": null,
+        "iat_rva": 3408848
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "ClientToScreen",
+        "ordinal": null,
+        "iat_rva": 3408852
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetClientRect",
+        "ordinal": null,
+        "iat_rva": 3408856
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetWindowLongA",
+        "ordinal": null,
+        "iat_rva": 3408860
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SetWindowTextA",
+        "ordinal": null,
+        "iat_rva": 3408864
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetDlgItem",
+        "ordinal": null,
+        "iat_rva": 3408868
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "SendMessageA",
+        "ordinal": null,
+        "iat_rva": 3408872
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "PtInRect",
+        "ordinal": null,
+        "iat_rva": 3408876
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetCursorPos",
+        "ordinal": null,
+        "iat_rva": 3408880
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "GetKeyState",
+        "ordinal": null,
+        "iat_rva": 3408884
+      },
+      {
+        "dll": "USER32.dll",
+        "name": "MessageBoxA",
+        "ordinal": null,
+        "iat_rva": 3408888
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "GetSystemPaletteEntries",
+        "ordinal": null,
+        "iat_rva": 3407916
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "SetSystemPaletteUse",
+        "ordinal": null,
+        "iat_rva": 3407920
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "GetTextExtentPoint32A",
+        "ordinal": null,
+        "iat_rva": 3407924
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "DeleteObject",
+        "ordinal": null,
+        "iat_rva": 3407928
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "BitBlt",
+        "ordinal": null,
+        "iat_rva": 3407932
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "SelectObject",
+        "ordinal": null,
+        "iat_rva": 3407936
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "DeleteDC",
+        "ordinal": null,
+        "iat_rva": 3407940
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "GetObjectA",
+        "ordinal": null,
+        "iat_rva": 3407944
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "CreateDIBSection",
+        "ordinal": null,
+        "iat_rva": 3407948
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "CreateCompatibleDC",
+        "ordinal": null,
+        "iat_rva": 3407952
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "GetStockObject",
+        "ordinal": null,
+        "iat_rva": 3407956
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "GetDIBColorTable",
+        "ordinal": null,
+        "iat_rva": 3407960
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "SelectPalette",
+        "ordinal": null,
+        "iat_rva": 3407964
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "CreatePalette",
+        "ordinal": null,
+        "iat_rva": 3407968
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "RealizePalette",
+        "ordinal": null,
+        "iat_rva": 3407972
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "MoveToEx",
+        "ordinal": null,
+        "iat_rva": 3407976
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "Rectangle",
+        "ordinal": null,
+        "iat_rva": 3407980
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "LineTo",
+        "ordinal": null,
+        "iat_rva": 3407984
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "GetPaletteEntries",
+        "ordinal": null,
+        "iat_rva": 3407988
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "TextOutA",
+        "ordinal": null,
+        "iat_rva": 3407992
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "CreatePen",
+        "ordinal": null,
+        "iat_rva": 3407996
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "SetBkMode",
+        "ordinal": null,
+        "iat_rva": 3408000
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "GetDeviceCaps",
+        "ordinal": null,
+        "iat_rva": 3408004
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "CreateSolidBrush",
+        "ordinal": null,
+        "iat_rva": 3408008
+      },
+      {
+        "dll": "GDI32.dll",
+        "name": "CreateFontA",
+        "ordinal": null,
+        "iat_rva": 3408012
+      },
+      {
+        "dll": "ADVAPI32.dll",
+        "name": "RegOpenKeyExA",
+        "ordinal": null,
+        "iat_rva": 3407872
+      },
+      {
+        "dll": "ADVAPI32.dll",
+        "name": "RegQueryValueExA",
+        "ordinal": null,
+        "iat_rva": 3407876
+      },
+      {
+        "dll": "ADVAPI32.dll",
+        "name": "RegCloseKey",
+        "ordinal": null,
+        "iat_rva": 3407880
+      },
+      {
+        "dll": "Quartz.dll",
+        "name": "AMGetErrorTextA",
+        "ordinal": null,
+        "iat_rva": 3408532
+      },
+      {
+        "dll": "comdlg32.dll",
+        "name": "GetOpenFileNameA",
+        "ordinal": null,
+        "iat_rva": 3408904
+      },
+      {
+        "dll": "comdlg32.dll",
+        "name": "CommDlgExtendedError",
+        "ordinal": null,
+        "iat_rva": 3408908
+      },
+      {
+        "dll": "comdlg32.dll",
+        "name": "GetSaveFileNameA",
+        "ordinal": null,
+        "iat_rva": 3408912
+      }
+    ],
+    "resources": [
+      {
+        "path": [
+          3,
+          1,
+          1033
+        ],
+        "rva": 15954152,
+        "size": 2216,
+        "codepage": 1252
+      },
+      {
+        "path": [
+          14,
+          102,
+          1033
+        ],
+        "rva": 15956368,
+        "size": 20,
+        "codepage": 1252
+      },
+      {
+        "path": [
+          24,
+          1,
+          1033
+        ],
+        "rva": 15956388,
+        "size": 440,
+        "codepage": 1252
+      }
+    ]
+  },
+  "selected_static_evidence": {
+    "image_base": 4194304,
+    "selected_resource_strings": [
+      {
+        "text": "Courier",
+        "va": 7886532,
+        "file_offset": 3685572
+      },
+      {
+        "text": "text.flx",
+        "va": 7891736,
+        "file_offset": 3690776
+      },
+      {
+        "text": "misctext.flx",
+        "va": 7892000,
+        "file_offset": 3691040
+      },
+      {
+        "text": "bitmapsh.flx",
+        "va": 7892376,
+        "file_offset": 3691416
+      },
+      {
+        "text": "bitmap16.flx",
+        "va": 7892392,
+        "file_offset": 3691432
+      },
+      {
+        "text": "bitmapC.flx",
+        "va": 7892408,
+        "file_offset": 3691448
+      },
+      {
+        "text": "Arial",
+        "va": 7989652,
+        "file_offset": 3788692
+      }
+    ],
+    "selected_xrefs": [
+      {
+        "rva": 190020,
+        "va": "0x42e644",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 261711,
+        "va": "0x43fe4f",
+        "mnemonic": "push",
+        "operands": "0x7856c4",
+        "string": "Courier"
+      },
+      {
+        "rva": 261744,
+        "va": "0x43fe70",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74008c]",
+        "import": "CreateFontA"
+      },
+      {
+        "rva": 618348,
+        "va": "0x496f6c",
+        "mnemonic": "push",
+        "operands": "0x786b18",
+        "string": "text.flx"
+      },
+      {
+        "rva": 618371,
+        "va": "0x496f83",
+        "mnemonic": "push",
+        "operands": "0x786c20",
+        "string": "misctext.flx"
+      },
+      {
+        "rva": 618428,
+        "va": "0x496fbc",
+        "mnemonic": "push",
+        "operands": "0x786b18",
+        "string": "text.flx"
+      },
+      {
+        "rva": 618465,
+        "va": "0x496fe1",
+        "mnemonic": "push",
+        "operands": "0x786c20",
+        "string": "misctext.flx"
+      },
+      {
+        "rva": 1332647,
+        "va": "0x5455a7",
+        "mnemonic": "push",
+        "operands": "0x786b18",
+        "string": "text.flx"
+      },
+      {
+        "rva": 1333064,
+        "va": "0x545748",
+        "mnemonic": "push",
+        "operands": "0x786c20",
+        "string": "misctext.flx"
+      },
+      {
+        "rva": 1592110,
+        "va": "0x584b2e",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 1778424,
+        "va": "0x5b22f8",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 1778561,
+        "va": "0x5b2381",
+        "mnemonic": "mov",
+        "operands": "ebx, dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 1778770,
+        "va": "0x5b2452",
+        "mnemonic": "mov",
+        "operands": "ebp, dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 1778800,
+        "va": "0x5b2470",
+        "mnemonic": "push",
+        "operands": "0x79e994",
+        "string": "Arial"
+      },
+      {
+        "rva": 1778846,
+        "va": "0x5b249e",
+        "mnemonic": "push",
+        "operands": "0x79e994",
+        "string": "Arial"
+      },
+      {
+        "rva": 1847862,
+        "va": "0x5c3236",
+        "mnemonic": "jmp",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 1848048,
+        "va": "0x5c32f0",
+        "mnemonic": "jmp",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 1848330,
+        "va": "0x5c340a",
+        "mnemonic": "jmp",
+        "operands": "dword ptr [0x74008c]",
+        "import": "CreateFontA"
+      },
+      {
+        "rva": 1925939,
+        "va": "0x5d6333",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x740078]",
+        "import": "TextOutA"
+      },
+      {
+        "rva": 1933378,
+        "va": "0x5d8042",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74008c]",
+        "import": "CreateFontA"
+      },
+      {
+        "rva": 1951229,
+        "va": "0x5dc5fd",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x740034]",
+        "import": "GetTextExtentPoint32A"
+      },
+      {
+        "rva": 1952515,
+        "va": "0x5dcb03",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x740034]",
+        "import": "GetTextExtentPoint32A"
+      },
+      {
+        "rva": 1953367,
+        "va": "0x5dce57",
+        "mnemonic": "mov",
+        "operands": "edi, dword ptr [0x740034]",
+        "import": "GetTextExtentPoint32A"
+      },
+      {
+        "rva": 1953422,
+        "va": "0x5dce8e",
+        "mnemonic": "mov",
+        "operands": "edi, dword ptr [0x740034]",
+        "import": "GetTextExtentPoint32A"
+      },
+      {
+        "rva": 1954142,
+        "va": "0x5dd15e",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x740034]",
+        "import": "GetTextExtentPoint32A"
+      },
+      {
+        "rva": 1954194,
+        "va": "0x5dd192",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x740078]",
+        "import": "TextOutA"
+      },
+      {
+        "rva": 2186102,
+        "va": "0x615b76",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 2186737,
+        "va": "0x615df1",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3255216,
+        "va": "0x71abb0",
+        "mnemonic": "mov",
+        "operands": "ebp, dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3263568,
+        "va": "0x71cc50",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3263623,
+        "va": "0x71cc87",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3263809,
+        "va": "0x71cd41",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3263838,
+        "va": "0x71cd5e",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3264170,
+        "va": "0x71ceaa",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3264221,
+        "va": "0x71cedd",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3264420,
+        "va": "0x71cfa4",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3264456,
+        "va": "0x71cfc8",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3268839,
+        "va": "0x71e0e7",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3268967,
+        "va": "0x71e167",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3269210,
+        "va": "0x71e25a",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3269249,
+        "va": "0x71e281",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3273073,
+        "va": "0x71f171",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3273730,
+        "va": "0x71f402",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3273798,
+        "va": "0x71f446",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3283478,
+        "va": "0x721a16",
+        "mnemonic": "mov",
+        "operands": "ebx, dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3284316,
+        "va": "0x721d5c",
+        "mnemonic": "mov",
+        "operands": "edi, dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3285535,
+        "va": "0x72221f",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3285602,
+        "va": "0x722262",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3285920,
+        "va": "0x7223a0",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3285960,
+        "va": "0x7223c8",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3300590,
+        "va": "0x725cee",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3300662,
+        "va": "0x725d36",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3300753,
+        "va": "0x725d91",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3300877,
+        "va": "0x725e0d",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3302264,
+        "va": "0x726378",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3302308,
+        "va": "0x7263a4",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x7400f0]",
+        "import": "MultiByteToWideChar"
+      },
+      {
+        "rva": 3302580,
+        "va": "0x7264b4",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3302627,
+        "va": "0x7264e3",
+        "mnemonic": "call",
+        "operands": "dword ptr [0x74010c]",
+        "import": "WideCharToMultiByte"
+      },
+      {
+        "rva": 3303440,
+        "va": "0x726810",
+        "mnemonic": "jmp",
+        "operands": "dword ptr [0x740078]",
+        "import": "TextOutA"
+      },
+      {
+        "rva": 3303464,
+        "va": "0x726828",
+        "mnemonic": "jmp",
+        "operands": "dword ptr [0x740034]",
+        "import": "GetTextExtentPoint32A"
+      }
+    ],
+    "codepage_932_search": "Only stack/structure displacements and a CRT table comparison were found; these do not establish a game CP932 conversion path",
+    "capstone_distribution": "5.0.9",
+    "capstone_module": "5.0.7"
+  },
+  "requested_import_presence": {
+    "MultiByteToWideChar": true,
+    "WideCharToMultiByte": true,
+    "TextOutA": true,
+    "TextOutW": false,
+    "ExtTextOutA": false,
+    "ExtTextOutW": false,
+    "DrawTextA": false,
+    "DrawTextW": false,
+    "GetTextExtentPoint32A": true,
+    "GetTextExtentPoint32W": false,
+    "CreateFontA": true,
+    "CreateFontW": false,
+    "GetGlyphOutlineA": false,
+    "GetGlyphOutlineW": false,
+    "GetACP": true,
+    "GetOEMCP": true,
+    "GetCPInfo": true,
+    "GetLocaleInfoA": true,
+    "GetLocaleInfoW": true,
+    "EnumSystemLocalesA": true,
+    "IsValidLocale": true,
+    "DirectDrawCreate": true
+  },
+  "dynamic_conversion": {
+    "scope": "P4 controlled diagnostic trace, no patching",
+    "source_exe_sha256": "83915175abaf8a65dab96fc42f1feed24a78f55dc8b28a736b61ffa83314b545",
+    "resource_sha256": "68548b8a78092c85a70267303c6077553b7ff32257368942c5937bc8765d0e04",
+    "conversion_call_va": "0x615b76",
+    "conversion_call_rva": "0x215b76",
+    "original_argument_prefix_hex": "2d 4e 76 00 61 00 74 00 61 00 72 00 2c 00",
+    "wide_object_prefix_hex": "2d 4e 76 00 61 00 74 00 61 00 72 00 2c 00",
+    "codepage_argument": 0,
+    "output_capacity": 130,
+    "api_return_value": 0,
+    "get_last_error_value": 122,
+    "ansi_object_prefix_hex": "a4 a4 76 61 74 61 72 2c 20 61 72 69 73 65 20 66",
+    "debug_register_cleanup_errors": [],
+    "observation_limit": "Only initial three data-access events retain the verified target prefix; later recycled-allocation events are excluded from text-path conclusions"
+  },
+  "traces": [
+    {
+      "local_path": ".local/p4/trace-01.json",
+      "sha256": "3f415716651fc872b5dc17660c4d86b46593a0900ee4316a1fba6a33ace582fc",
+      "status": "BOUNDED TRACE COMPLETE",
+      "elapsed_seconds": 89.25,
+      "target_found": true,
+      "total_data_events": 48,
+      "target_prefix_matching_events": 3,
+      "cleanup_errors": [],
+      "verified_copy_edges": 0
+    },
+    {
+      "local_path": ".local/p4/trace-02.json",
+      "sha256": "93e64cbae3403669dd2b1ac87f5ab65a2d10cf61b42d6b6397b05554418ab21d",
+      "status": "TIME LIMIT",
+      "elapsed_seconds": 90.14,
+      "target_found": true,
+      "total_data_events": 3,
+      "target_prefix_matching_events": 3,
+      "cleanup_errors": [],
+      "verified_copy_edges": 0
+    }
+  ],
+  "stage_representations": {
+    "archive_entry_memory": "CONFIRMED: original source argument prefix contains UTF-16LE 2d 4e",
+    "wide_string_object": "CONFIRMED: U+4E2D remains in the wide copy at object +8",
+    "ansi_string_object": "CONFIRMED: object +0 points to cached multibyte prefix a4 a4 76 61",
+    "layout": "UNKNOWN; only string scans/copy accesses captured with verified target provenance",
+    "glyph_lookup_render": "UNKNOWN; no provenance-safe final lookup identified"
+  },
+  "root_cause_classification": "E - UNKNOWN (full chain incomplete)",
+  "confirmed_failure_component": "A - CODEPAGE CONVERSION: wide-to-ACP call produces multibyte output and returns buffer-size failure",
+  "host_ansi_codepage": 950,
+  "target_ansi_codepage_note": "CP_ACP argument 0 observed; output a4 a4 is consistent with Big5. Target GetACP return was not captured; host value must not be substituted as a direct target observation.",
+  "copy_following_tool_revision": "Grouped REP destination recovery is unit tested; final revised version has not been runtime validated",
+  "tests_before": {
+    "command": "python -m unittest discover -s tests -v",
+    "ran": 29,
+    "passed": 29,
+    "exit_code": 0
+  },
+  "tests_at_snapshot": {
+    "command": "python -m unittest discover -s tests -v",
+    "environment": "U9_GAME_DIR configured; original installation unchanged",
+    "ran": 38,
+    "passed": 38,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  "cleanup": {
+    "u9_process_running_at_snapshot": false,
+    "private_runtime_text_restored_to_pristine": true,
+    "private_baseline_assets_match": true,
+    "original_baseline_assets_match": true,
+    "hardware_debug_cleanup_errors": []
+  },
+  "next_launch_requirement": "Windowed mode requested by user; must configure and verify before any next game launch; not yet implemented or verified",
+  "pending": [
+    "Trace verified converted-string copies through width/layout and glyph lookup",
+    "Identify font/glyph source and fallback behavior",
+    "Determine final root cause and justified P5 strategy",
+    "Configure and verify windowed operation before further controlled tracing"
+  ],
+  "p5": "NOT EXECUTED; no P5 implementation justified yet"
+}

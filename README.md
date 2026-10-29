@@ -12,6 +12,12 @@ runtime 冒煙測試通過。後續 P3 已完成單筆 ASCII／BMP 診斷：ASCI
 詳見 [P0](reports/P0_PRECHECK.md)、[P1](reports/P1_ASSET_INVENTORY.md)、
 [P2](reports/P2_ROUNDTRIP_DIFF.md)、[P3 報告](reports/P3_FIRST_CHT_POC.md)。
 
+P4 已另獲診斷授權，目前仍為**未完成的進度快照**。已確認選定字串經過
+`WideCharToMultiByte(CP_ACP)`，輸出為 `A4 A4` 且回報緩衝區不足；排版與
+最終字形查找仍待追蹤。詳見 [P4 進度報告](reports/P4_RENDER_PATH.md)。
+私人資源副本已還原；下次啟動前必須先設定並確認視窗模式，現有追蹤工具
+尚未自動設定視窗模式。P5 未授權。
+
 需要 Python 3.12 以上與 Git。工具使用 Python 標準函式庫及一份附 MIT 授權的
 TITAN reader 原始碼，不需安裝 TITAN 的其他套件。
 

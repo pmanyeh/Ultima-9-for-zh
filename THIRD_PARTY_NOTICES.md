@@ -11,3 +11,9 @@ installing unrelated graphics/UI dependencies. No game fixtures are vendored.
 
 The project adds strict validation and a layout-preserving serializer because
 upstream's generic repacker regenerates unknown header bytes and changes layout.
+
+P4 research additionally used an already-installed Capstone disassembler under
+its BSD-style license (installed LICENSE.TXT). Distribution metadata reports
+5.0.9; the imported module reports 5.0.7. No Capstone source/binary is vendored,
+and it is an optional local dependency of the experimental trace script, not of
+the normal text tools or unit suite. No package was installed during this batch.
