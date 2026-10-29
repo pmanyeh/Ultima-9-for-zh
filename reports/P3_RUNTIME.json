@@ -1,0 +1,152 @@
+{
+  "phase": "P3",
+  "date": "2026-10-29",
+  "status": "PASS WITH LIMITATIONS",
+  "authorized_scope": "P3-A then P3-B; P3-C conditional; stop on missing/incorrect glyph; no P4",
+  "baseline_code_commit": "7979318f4230131c409c4b16e1f7283f4ef20b44",
+  "upstream_commit": "2b6ee659cb153254ea8e3d2787d601a6fa79f3d2",
+  "tests_before": {
+    "ran": 23,
+    "passed": 23,
+    "exit_code": 0
+  },
+  "A": {
+    "static": {
+      "original_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+      "rebuilt_sha256": "530007ebf1634488ef2da78d0e921cb5e81e8f7024d2204b035b00c59601d1d5",
+      "original_size": 1200660,
+      "rebuilt_size": 1200660,
+      "difference_count": 6,
+      "difference_ranges_half_open": [
+        [
+          676832,
+          676833
+        ],
+        [
+          676834,
+          676835
+        ],
+        [
+          676836,
+          676837
+        ],
+        [
+          676838,
+          676839
+        ],
+        [
+          676840,
+          676841
+        ],
+        [
+          676842,
+          676843
+        ]
+      ],
+      "changed_header_fields": [],
+      "changed_offsets_or_lengths": [],
+      "slot_count_changed": false,
+      "padding_changed": false,
+      "semantic_content_changed": true,
+      "validation": "EXPECTED SINGLE-ENTRY MUTATION",
+      "entry_id": 4164,
+      "original_text": "Avatar, arise from your slumber!  The Guardian has invaded Britannia, and Lord British has summoned you for your final adventure!",
+      "replacement_text": "TEST!!, arise from your slumber!  The Guardian has invaded Britannia, and Lord British has summoned you for your final adventure!",
+      "original_entry_size": 260,
+      "rebuilt_entry_size": 260,
+      "entry_offset": 676832,
+      "size_delta": 0,
+      "changed_payload_ids": [
+        4164
+      ],
+      "changed_offset_count": 0,
+      "all_unmodified_payloads_identical": true,
+      "source_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0"
+    },
+    "runtime": "PASS",
+    "visual_result": "TEST!! visibly rendered at the opening subtitle start; remaining text readable",
+    "crash_observed": false,
+    "screenshot": ".local/evidence/P3_A_20261029.png",
+    "screenshot_sha256": "05085a368a7f256802d957b5df83757c6e424de61b0f8da91bbd1e33b7b20583"
+  },
+  "B": {
+    "tested_code_point": "U+4E2D",
+    "utf16le_bytes": "2d 4e",
+    "original_unit_bytes": "41 00",
+    "source_template": "pristine baseline (not P3-A output)",
+    "static": {
+      "original_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+      "rebuilt_sha256": "68548b8a78092c85a70267303c6077553b7ff32257368942c5937bc8765d0e04",
+      "original_size": 1200660,
+      "rebuilt_size": 1200660,
+      "difference_count": 2,
+      "difference_ranges_half_open": [
+        [
+          676832,
+          676834
+        ]
+      ],
+      "changed_header_fields": [],
+      "changed_offsets_or_lengths": [],
+      "slot_count_changed": false,
+      "padding_changed": false,
+      "semantic_content_changed": true,
+      "validation": "EXPECTED SINGLE-ENTRY MUTATION",
+      "entry_id": 4164,
+      "original_text": "Avatar, arise from your slumber!  The Guardian has invaded Britannia, and Lord British has summoned you for your final adventure!",
+      "replacement_text": "\u4e2dvatar, arise from your slumber!  The Guardian has invaded Britannia, and Lord British has summoned you for your final adventure!",
+      "original_entry_size": 260,
+      "rebuilt_entry_size": 260,
+      "entry_offset": 676832,
+      "size_delta": 0,
+      "changed_payload_ids": [
+        4164
+      ],
+      "changed_offset_count": 0,
+      "all_unmodified_payloads_identical": true,
+      "source_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0"
+    },
+    "runtime": "ENCODING / MAPPING FAILURE",
+    "visual_result": "Two repeated crossed/box-like symbols appear before vatar instead of the intended Han character; remaining subtitle renders",
+    "classification_note": "Conservative visual classification. Whether symbols are fallback/missing-glyph markers or wrong glyph mapping remains UNKNOWN; no internal decode/glyph trace performed",
+    "crash_observed": false,
+    "screenshot": ".local/evidence/P3_B_20261029.png",
+    "screenshot_sha256": "a4dabf11eca3d8bc631f2a114af1a6c7233f078960548a6d59cde5da476e8b83"
+  },
+  "C": {
+    "runtime": "NOT EXECUTED",
+    "reason": "Explicit stop condition: P3-B produced incorrect glyphs; this overrides the broader conditional changed-length eligibility. No C archive was built or launched"
+  },
+  "diagnostic_stop_triggered": "P3-B displayed incorrect glyphs; no further experiment or P4 performed",
+  "tests_after": {
+    "command": "python -m unittest discover -s tests -v",
+    "ran": 29,
+    "passed": 29,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  "focused_helper_tests": {
+    "command": "python -m unittest discover -s tests -p test_diagnostic.py -v",
+    "ran": 6,
+    "passed": 6,
+    "exit_code": 0
+  },
+  "cleanup": {
+    "test_game_closed": true,
+    "runtime_text_flx_restored_to_baseline": true,
+    "original_baseline_assets_unchanged": true,
+    "runtime_exe_and_other_baseline_resources_unchanged": true,
+    "restored_text_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0"
+  },
+  "environment": {
+    "python": "3.12.10",
+    "git": "2.55.0.windows.3",
+    "os": "Windows-11-10.0.26300-SP0",
+    "game_patch_label": "UNKNOWN; same observed GOG English baseline as P0/P2",
+    "exe_sha256": "83915175abaf8a65dab96fc42f1feed24a78f55dc8b28a736b61ffa83314b545",
+    "gog_game_id": "1207659093",
+    "gog_build_id": "59198760502252807",
+    "runtime_copy": ".local/runtime-game/",
+    "new_dependencies": []
+  }
+}

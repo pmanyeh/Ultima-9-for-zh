@@ -1,13 +1,16 @@
 # U9-CHT — Ultima IX 繁體中文化
 
 執行依據為 [AGENTS.md](AGENTS.md) 與 [Master Plan](ULTIMA_IX_CHT_MASTER_PLAN.md)。
-目前僅授權 P0、P1、P2（限 `text.flx`）；各階段須通過 Gate，P3 另行授權。
+初始批次為 P0、P1、P2（限 `text.flx`）；後續已明確授權 P3 診斷。
+各階段須通過 Gate；P4 以後仍需另行授權。
 
 目前狀態（2026-10-29）：P0～P2 **PASS WITH LIMITATIONS**。
 英文 `text.flx` 未修改往返為 **BYTE-PERFECT PASS**，獨立遊戲副本的開場
-runtime 冒煙測試通過。尚未修改任何實際字串、驗證中文字形或執行 P3。
+runtime 冒煙測試通過。後續 P3 已完成單筆 ASCII／BMP 診斷：ASCII `TEST!!`
+正常顯示；U+4E2D「中」顯示錯誤符號，分類為 **ENCODING / MAPPING FAILURE**。
+依停止條件未執行 changed-length runtime 測試，也未進入 P4。私人副本已還原。
 詳見 [P0](reports/P0_PRECHECK.md)、[P1](reports/P1_ASSET_INVENTORY.md)、
-[P2 報告](reports/P2_ROUNDTRIP_DIFF.md)。
+[P2](reports/P2_ROUNDTRIP_DIFF.md)、[P3 報告](reports/P3_FIRST_CHT_POC.md)。
 
 需要 Python 3.12 以上與 Git。工具使用 Python 標準函式庫及一份附 MIT 授權的
 TITAN reader 原始碼，不需安裝 TITAN 的其他套件。
