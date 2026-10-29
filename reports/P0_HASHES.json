@@ -1,0 +1,92 @@
+{
+  "schema": "u9cht-observed-baseline-v1",
+  "status": "OBSERVED LOCAL BASELINE",
+  "environment": {
+    "python": "3.12.10",
+    "os": "Windows-11-10.0.26300-SP0"
+  },
+  "inputs": [
+    {
+      "filename": "AGENTS.md",
+      "sha256": "658bc7a274ba604c43b93c5fc073a048417b67a80560ea19ca4a0a5d0e28dd44"
+    },
+    {
+      "filename": "ULTIMA_IX_CHT_MASTER_PLAN.md",
+      "sha256": "df2ebc034b8067017025ddec55f5adee4577226887a2b805335789e174216c20"
+    }
+  ],
+  "assets": [
+    {
+      "filename": "u9.exe",
+      "size": 4593152,
+      "sha256": "83915175abaf8a65dab96fc42f1feed24a78f55dc8b28a736b61ffa83314b545"
+    },
+    {
+      "filename": "static/BOOKS-EN.FLX",
+      "size": 221316,
+      "sha256": "a0653ef3608537575e707faa56aca6f24efc2eddaab554d49279d6c1c1a8858b"
+    },
+    {
+      "filename": "static/TYPENAME.FLX",
+      "size": 134200,
+      "sha256": "26c9042d2e8f0f55559c84c22113ae62348ed0694375ad02b4fe65fea9e3f4ca"
+    },
+    {
+      "filename": "static/misctext.flx",
+      "size": 14618,
+      "sha256": "3c5bb8845ff101bfba87f38dcb253d81eb9bee6580d18c22a1649179e5e9b570"
+    },
+    {
+      "filename": "static/text.flx",
+      "size": 1200660,
+      "sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0"
+    }
+  ],
+  "blockers": [],
+  "baseline_verified": true,
+  "recorded_date": "2026-10-29",
+  "edition": {
+    "name": "Ultima IX - Ascension",
+    "language": "English",
+    "gog_game_id": "1207659093",
+    "gog_build_id": "59198760502252807",
+    "game_patch_label": "UNKNOWN; executable has no FileVersion resource",
+    "japanese_installation": "NOT AVAILABLE (user confirmed)"
+  },
+  "upstream": {
+    "tgwUltima": "2b6ee659cb153254ea8e3d2787d601a6fa79f3d2",
+    "UltimaPatcher": "c5db7b77b93a3b99b27556c3e5d8654d1679ced5"
+  },
+  "additional_inspected_files": [
+    {
+      "filename": "ddraw.dll",
+      "size": 1671168,
+      "sha256": "f045795c50eb1e5bf93853a32ca00ebe58d47b94da61842558aeecd3f755a502"
+    },
+    {
+      "filename": "glide2x.dll",
+      "size": 1679360,
+      "sha256": "0ad163eee4b9a15e818cd6861f65b9467f5ec7abdc372683e85500b7aa538974"
+    },
+    {
+      "filename": "goggame-1207659093.info",
+      "size": 2118,
+      "sha256": "9bed336c902c5aa1b1fe29f1dea1c72105a74dd087692953cd18b23b38cbcf25"
+    },
+    {
+      "filename": "Options.ini",
+      "size": 7736,
+      "sha256": "442a0536868d10bf4bdb77ec468904761a606cdb554fae74cfa6b411c52f4603"
+    },
+    {
+      "filename": "nglide_config.ini",
+      "size": 87,
+      "sha256": "07879f3391d9946392d11823a19a5f31020bf8eaa732650a71f63f4f13e6676f"
+    },
+    {
+      "filename": "dxcfg.ini",
+      "size": 207,
+      "sha256": "b8c3f8f3d26b0a4edb24615c57d2158f3e1af37fc58fe43521715cdb6b40b7b9"
+    }
+  ]
+}

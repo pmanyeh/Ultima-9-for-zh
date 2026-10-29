@@ -1,0 +1,37 @@
+{
+  "scope": "P0 upstream suitability audit; synthetic only; not P2 execution",
+  "commit": "2b6ee659cb153254ea8e3d2787d601a6fa79f3d2",
+  "source_files": [
+    {
+      "path": "titan-ultima/src/titan/u9/flx_archive.py",
+      "sha256": "ed93945fed316de8933462ba2e442ab47593e2a0b4b7b7ca6a84b1b025d1b4cc"
+    },
+    {
+      "path": "titan-ultima/src/titan/u9/flx_writer.py",
+      "sha256": "4c49eb670b4966ab7d382a2d80ab153157de18b50f003e7156a63ba6de046d1d"
+    },
+    {
+      "path": "titan-ultima/src/titan/u9/text.py",
+      "sha256": "9509692241c81cdd375c2cec4862acf85f5a1d0696914507f8a191f6eefce01f"
+    }
+  ],
+  "probes": [
+    {
+      "name": "unknown_header_byte",
+      "confirmed": "repack changes synthetic byte at 0x70 from A5 to 00"
+    },
+    {
+      "name": "out_of_bounds_entry",
+      "confirmed": "reader lists slot as used but returns empty bytes"
+    },
+    {
+      "name": "multiple_trailing_nuls",
+      "confirmed": "text reader strips all trailing NUL code units"
+    },
+    {
+      "name": "missing_terminator",
+      "confirmed": "text reader accepts unterminated even-length entry"
+    }
+  ],
+  "result": "4/4 audit probes reproduced; upstream needs preservation and validation wrapper before game use"
+}

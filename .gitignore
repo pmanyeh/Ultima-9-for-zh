@@ -1,0 +1,32 @@
+# Private research and legally held game installations
+.local/
+game/
+oracle/
+research-private/
+private-data/
+output/
+translation/source/
+translation/build/
+config.local.json
+*.local.json
+.env
+.env.*
+
+# Game resources must never enter the public repository
+*.flx
+*.exe
+*.dll
+*.wav
+*.mp3
+*.ogg
+*.avi
+*.bik
+*.ttf
+*.otf
+
+# Generated files
+__pycache__/
+*.py[cod]
+.venv/
+bin/
+obj/
