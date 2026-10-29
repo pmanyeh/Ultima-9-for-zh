@@ -1,0 +1,15 @@
+{
+  "original_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+  "rebuilt_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+  "original_size": 1200660,
+  "rebuilt_size": 1200660,
+  "difference_count": 0,
+  "difference_ranges_half_open": [],
+  "runtime": "RUNTIME PASS (startup smoke; see P2_RUNTIME.json)",
+  "status": "BYTE-PERFECT PASS",
+  "changed_header_fields": [],
+  "changed_offsets_or_lengths": [],
+  "slot_count_changed": false,
+  "padding_changed": false,
+  "semantic_content_changed": false
+}

@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-29",
+  "status": "RUNTIME PASS",
+  "test": "Unchanged text.flx startup smoke test in independent installation copy",
+  "executable_sha256": "83915175abaf8a65dab96fc42f1feed24a78f55dc8b28a736b61ffa83314b545",
+  "text_flx_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+  "modified_entry_id": null,
+  "observed_entry_id": 4164,
+  "observed_entry_offset": 676832,
+  "observed_entry_raw_size": 260,
+  "before_text_excerpt": "Avatar, arise from your slumber!",
+  "after_text_excerpt": "Avatar, arise from your slumber!",
+  "launch_result": "Opening bedroom scene and matching subtitle rendered",
+  "crash_observed": false,
+  "screenshot": ".local/evidence/P2_20261029_startup.png",
+  "limitations": [
+    "No file I/O trace was collected; clone executable and source/rebuilt hashes were verified",
+    "Smoke test only; no changed content, CJK glyphs, or full-game QA tested"
+  ],
+  "patch_label": "UNKNOWN",
+  "graphics_wrapper": "GOG.com DirectX 1-7 wrapper 1.1.0.6423; glide2x.dll 2.61.00.0658 present; active backend not traced",
+  "display": "1600x1200 configured; 1920x1200 captured screenshot",
+  "compatibility_settings": "No settings changed; inherited host settings not exhaustively enumerated"
+}

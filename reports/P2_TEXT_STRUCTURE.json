@@ -1,0 +1,29 @@
+{
+  "size": 1200660,
+  "sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+  "header_hex_0x4c_to_0x6b": "00 00 00 00 e8 1d 00 00 02 00 00 00 14 52 12 00 14 52 12 00 00 00 00 00 00 00 00 00 01 00 00 00",
+  "slots": 7656,
+  "used": 7656,
+  "unused": 0,
+  "table_end": 61376,
+  "first_payload": 61376,
+  "trailing_bytes": 0,
+  "unique_ranges": 7656,
+  "half_empty_slots": 0,
+  "overlaps": 0,
+  "gaps": {
+    "0": 7655
+  },
+  "unaligned_4": 3823,
+  "trailing_nul_units": {
+    "1": 7656
+  },
+  "control_codepoints": {},
+  "non_ascii_characters": 3,
+  "supplementary_characters": 0,
+  "file_markers": 266,
+  "bom_entries": 0,
+  "entry_size_min": 6,
+  "entry_size_max": 1072,
+  "problems": []
+}
