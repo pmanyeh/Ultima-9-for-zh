@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-29",
+  "timezone": "Asia/Taipei",
+  "tested_code_commit": "5e84a3b1eb0abf1bae2db615be29d04795696bd9",
+  "local_tests": {
+    "command": "python -m unittest discover -s tests -v",
+    "environment": "U9_GAME_DIR configured to user-supplied installation",
+    "ran": 23,
+    "passed": 23,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  "clean_clone_tests": {
+    "command": "python -m unittest discover -s tests -v",
+    "environment": "U9_GAME_DIR absent; no original assets or upstream clone in clean checkout",
+    "ran": 23,
+    "passed": 22,
+    "skipped": 1,
+    "exit_code": 0,
+    "working_tree_clean_after_tests": true
+  },
+  "upstream_audit": {
+    "command": "python scripts/audit_upstream.py",
+    "probes_reproduced": 4,
+    "exit_code": 0
+  },
+  "baseline_check": {
+    "command": "python scripts/preflight.py --game-dir $env:U9_GAME_DIR --baseline reports/P0_HASHES.json --output .local/preflight-resumed.json",
+    "status": "PASS WITH LIMITATIONS",
+    "exit_code": 0
+  },
+  "privacy_review": {
+    "tracked_game_assets": 0,
+    "machine_specific_paths_in_added_source": 0,
+    "game_exports_and_screenshots_ignored": true,
+    "provided_instructions_unchanged": true,
+    "vendored_reader_matches_pin": true,
+    "added_source_whitespace_check": "PASS; provided instruction files retain original Markdown hard-break whitespace"
+  },
+  "roundtrip": "BYTE-PERFECT PASS",
+  "runtime": "RUNTIME PASS (startup smoke; see P2_RUNTIME.json)",
+  "scope_stop": "P2; P3 NOT EXECUTED"
+}

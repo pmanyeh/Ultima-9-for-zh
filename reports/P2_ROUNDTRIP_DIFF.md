@@ -86,7 +86,9 @@ python -m u9cht verify-roundtrip "$env:U9_GAME_DIR/static/text.flx" .local/outpu
 Export/import/verify each exit 0; 7,656 entries exported, 1,200,660 bytes rebuilt,
 BYTE-PERFECT PASS. Create-only outputs require fresh names when repeating.
 The initial suite ran 19 tests: 19 passed with local assets configured, or
-18 passed/1 skipped without them. Final suite totals are in `VALIDATION.json`.
+18 passed/1 skipped without them. The final suite ran 23 tests: 23 passed with
+local assets configured. A clean clone without assets ran 23 tests: 22 passed,
+1 LOCAL-ONLY test skipped. Both exit 0; exact results are in `VALIDATION.json`.
 
 Synthetic tests cover empty/ASCII/extended/CJK strings, BOM and multiple NUL
 preservation, unused slots, aliases/conflicting edits, odd lengths, malformed

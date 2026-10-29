@@ -60,9 +60,14 @@ source, relative-only output, invalid baseline, matching hashes and changed-inpu
 stop. Full suite results are recorded in P2's report.
 
 `python scripts/preflight.py --game-dir $env:U9_GAME_DIR --baseline reports/P0_HASHES.json --output .local/preflight-resumed.json`:
-expected exit 0 for this exact recorded local baseline; any change must block.
+exit 0, PASS WITH LIMITATIONS, for this exact recorded local baseline; any change must block.
 Without a baseline the tool intentionally reports BLOCKED, not certification of
 an unknown edition.
+
+Clean clone of code commit `5e84a3b` succeeded. Without game assets or the private
+upstream clone, `python -m unittest discover -s tests -v` ran 23 tests: 22 passed,
+1 LOCAL-ONLY test skipped, exit 0. The clone remained clean and retained identical
+instruction/vendor bytes. Exact final check results are in `VALIDATION.json`.
 
 # Results
 
