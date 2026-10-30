@@ -1,10 +1,38 @@
 import ctypes
+import hashlib
+import json
+from pathlib import Path
+import tempfile
 import unittest
 
-from u9cht.wintrace import Context32, DebugEvent, hardware_config, forward_copy_destination
+from u9cht.wintrace import (Context32, DebugEvent, hardware_config,
+                           forward_copy_destination, verified_window_receipt)
 
 
 class TraceMetadataTests(unittest.TestCase):
+    def test_window_receipt_rejects_unverified_fullscreen_and_changed_settings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            game = Path(directory)
+            (game / "Options.ini").write_text("synthetic options\n")
+            (game / "dxcfg.ini").write_text("presentation=windowed\n")
+            receipt = {"verified_windowed": True, "visual_verified_3d": True,
+                       "caption": True, "minimized": False, "client": [533, 400],
+                       "screen": [1920, 1200], "configuration_hashes": {
+                           name: hashlib.sha256((game / name).read_bytes()).hexdigest()
+                           for name in ("Options.ini", "dxcfg.ini")}}
+            target = game / "receipt.json"
+            target.write_text(json.dumps(receipt))
+            self.assertTrue(verified_window_receipt(game, target)["verified_windowed"])
+            for key, value in (("visual_verified_3d", False), ("caption", False),
+                               ("client", [1920, 1200])):
+                target.write_text(json.dumps(dict(receipt, **{key: value})))
+                with self.assertRaises(ValueError):
+                    verified_window_receipt(game, target)
+            target.write_text(json.dumps(receipt))
+            (game / "dxcfg.ini").write_text("presentation=application\n")
+            with self.assertRaises(ValueError):
+                verified_window_receipt(game, target)
+
     def test_wow64_context_layout(self):
         self.assertEqual(ctypes.sizeof(Context32), 716)
         self.assertEqual(Context32.Eip.offset, 184)

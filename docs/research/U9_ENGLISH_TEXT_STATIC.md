@@ -1,8 +1,10 @@
-# English text-path analysis — partial P4 snapshot
+# English text-path analysis — P4-C2
 
-2026-10-29. This document records completed observations, not a finished P4
-investigation. Layout/glyph provenance remains unresolved. No executable,
-font or renderer patch was made. No Japanese executable was acquired.
+Updated 2026-10-30. The initial 2026-10-29 checkpoint below is retained with its
+historical limits. P4-C2 now establishes the selected English subtitle's
+conversion/width/glyph path; see the continuation section and
+[current report](../../reports/P4_RENDER_PATH.md). Native Japanese/CJK behavior
+remains untested. No executable, font or renderer patch was made.
 
 ## Baseline and tools
 
@@ -75,8 +77,9 @@ observations for the 4164 diagnostic were:
 CONFIRMED: a failing wide-to-multibyte conversion component exists on the selected
 path. STRONG EVIDENCE: its one-byte-per-wide-unit capacity assumption is unsuitable
 for an expanding multibyte representation. The host GetACP value is 950 and the
-observed `a4 a4` is consistent with Big5 for 中. The target's GetACP return was
-not captured; host ACP is not presented as a direct target observation.
+observed `a4 a4` is consistent with Big5 for 中. At this initial checkpoint the
+target's GetACP return was not captured; host ACP was not presented as a direct
+target observation. C2 subsequently captured the target return directly.
 
 The static continuation stores a terminator using the wide-length-derived index.
 The complete converted tail was not captured, so truncation of a particular final
@@ -97,7 +100,7 @@ Reference API semantics: [WideCharToMultiByte](https://learn.microsoft.com/en-us
 - UNKNOWN: width tables, final character-to-glyph indexing, bitmap identity,
   fallback symbol semantics, or a usable native CJK path.
 
-## Dynamic-trace limitations and resumption
+## Historical dynamic-trace limitations (2026-10-29)
 
 Two hardware-only traces captured the conversion. In trace 1, only the first
 three data events retained the target prefix; later events at the recycled heap
@@ -109,7 +112,62 @@ A grouped-REP destination recovery revision is unit tested, but was not runtime
 validated before the user stopped Computer Use. Do not describe its anticipated
 copy-following behavior as an observed result.
 
-Before any next launch, configure and independently verify windowed operation,
-as requested by the user. The current trace launcher does not itself configure
-windowed mode. Continue from the pristine resource baseline only; P5 remains
-unauthorized. Raw traces and selected local source blobs remain ignored.
+These limitations were resolved for the selected text in C2, below. Raw traces
+and selected local source blobs remain ignored.
+
+## CONFIRMED — C2 continuation (2026-10-30)
+
+Windowed prerequisite was independently verified on actual 3D gameplay before
+tracing. The private existing dxcfg GUI saved `display=800x600@120` and
+`presentation=windowed`; private Options.ini uses 800x600 and Game Rasterizer=2.
+An unsupported 60 Hz attempt had fallen back to desktop and was rejected before
+tracing. The working window had a caption and logical client 533x400 at DPI 144,
+on a 1920x1200 desktop. The trace launcher now requires the verification receipt
+and unchanged private configuration hashes. Original installation files were not
+written. Local screenshots/configuration receipts remain ignored.
+
+Three subsequent windowed traces (03/04/05) captured target GetACP return
+VA/RVA `0x71D0DB` / `0x31D0DB`: EAX=950. This is independent target evidence;
+host ACP=950 remains separately recorded. CP_ACP conversion still returns zero
+and error 122 with capacity 130. Static setup allocates/passes wcslen+1 bytes,
+while this CP950 text needs 131 bytes including NUL. The complete output tail
+was not measured, and no tail-character claim is inferred from the prefix.
+
+Grouped-REP copy recovery now has runtime validation. Each run verifies source,
+initial destination bytes and completed destination prefix before following it.
+For trace 05: cache pointer 0x036B4F40 is copied at 0x41BC58 to 0x03805A70.
+Every subsequent width/glyph observation rechecks the live prefix and selected
+source offset. Each run stops on the first invalidating write; that write and
+recycled-address activity are excluded from text attribution.
+
+| VA / RVA | Proven selected-string consumer |
+| --- | --- |
+| `0x5C7870` / `0x1C7870` | Layout routine, byte reads at 0x5C78C6 and 0x5C7B89; text-pointer increment at 0x5C7C60 |
+| `0x5C7BB3` / `0x1C7BB3` | Width table: both selected bytes are unsigned 0xA4, each width 11, spacing 0 |
+| `0x5C5A80` / `0x1C5A80` | Custom byte-index bitmap lookup; proven caller return 0x5C5D09 and selected pointer from caller stack |
+| `0x5C5ABB` / `0x1C5ABB` | Dispatches identical glyph at x=0 and x=11 (y=20) to 0x5E20E0; renderer mode field 2 |
+
+For printable bytes, lookup is `font + u32(font + 0x10 + (byte - 0x20)*8)`.
+Each 0xA4 therefore uses table index 132, slot offset 0x430 and glyph offset
+0xA458. There is no DBCS pairing on this observed branch. Rendering advances the
+text pointer by one byte at 0x5C5D57. This attributes the selected subtitle to a
+custom bitmap path, without claiming GDI APIs are unused elsewhere or tracing
+every final surface/backend call.
+
+The bounded 76,832-byte runtime font span hashes to
+`b3f3135ee84447b879d8558cea4589695c8f15be7694585906b2bd213d1af2f8`,
+equal to entry 611 in both bitmap16.flx and bitmapC.flx. Hashing did not save
+the font payload. The identical copies prevent deciding which disk archive was
+opened from content alone; see the report for archive hashes and offsets.
+
+The two-symbol mechanism is CONFIRMED: preserved U+4E2D -> CP950 prefix A4 A4 ->
+two byte-indexed lookups -> identical bitmaps at adjacent positions. Whether the
+bitmap was intended as a missing-glyph fallback remains UNKNOWN. A correct
+logical U+4E2D glyph ID was not requested by this path.
+
+Current C2 classification: **E — MULTIPLE FAILURES**, comprising confirmed
+conversion-capacity and SBCS/byte-iteration failures. This supersedes the initial
+checkpoint's old E=UNKNOWN label under the user's revised A–F labels. It does not
+authorize any patch. Native CJK/Japanese differences remain NOT EXECUTED; P5
+remains unauthorized. After all runs the private resource was restored to
+pristine and original/private protected baseline files were verified unchanged.

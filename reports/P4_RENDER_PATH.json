@@ -1,11 +1,11 @@
 {
   "phase": "P4",
-  "date": "2026-10-29",
+  "date": "2026-10-30",
   "timezone": "Asia/Taipei",
-  "status": "BLOCKED",
-  "completion": "PARTIAL SNAPSHOT; investigation paused by user; not a completed P4 gate",
+  "status": "PASS WITH LIMITATIONS",
+  "completion": "Authorized P4-C2 English entry-4164 diagnosis completed; native CJK/Japanese differential remains unexecuted",
   "baseline_code_commit": "1e3cd304322870d67518e5bb04f524c9f553246f",
-  "scope": "Existing P4 evidence and tooling only; no new trace or game launch during commit preparation",
+  "scope": "Continuation of P4-C only; verified windowed private runtime and provenance-safe conversion/width/glyph diagnosis; no P5",
   "japanese_oracle": "NOT EXECUTED; unavailable; no assets/patches acquired or applied",
   "japanese_patch_source_commit": "c5db7b77b93a3b99b27556c3e5d8654d1679ced5",
   "upstream_tgwUltima_commit": "2b6ee659cb153254ea8e3d2787d601a6fa79f3d2",
@@ -2134,7 +2134,13 @@
     "get_last_error_value": 122,
     "ansi_object_prefix_hex": "a4 a4 76 61 74 61 72 2c 20 61 72 69 73 65 20 66",
     "debug_register_cleanup_errors": [],
-    "observation_limit": "Only initial three data-access events retain the verified target prefix; later recycled-allocation events are excluded from text-path conclusions"
+    "observation_limit": "C2 follows a verified copy through width/glyph dispatch; each final mismatching lifetime event is excluded. Earlier trace-01 recycled events remain excluded.",
+    "entry_id": 4164,
+    "entry_size": 260,
+    "wide_units_including_nul": 130,
+    "ansi_capacity_bytes": 130,
+    "capacity_assumption": "CONFIRMED for this wide-construction path: wcslen + 1 bytes allocated and passed as cbMultiByte; not a survey of all executable paths",
+    "computed_cp950_size_including_nul": 131
   },
   "traces": [
     {
@@ -2158,20 +2164,65 @@
       "target_prefix_matching_events": 3,
       "cleanup_errors": [],
       "verified_copy_edges": 0
+    },
+    {
+      "local_path": ".local/p4-c2/trace-03.json",
+      "sha256": "d791c2b67f144dc140927eff0ea3b8800765268d63d8431562273f3b32f62a9e",
+      "status": "STOP: WATCHED BUFFER LIFETIME ENDED",
+      "elapsed_seconds": 46.11,
+      "target_found": true,
+      "total_data_events": 12,
+      "target_prefix_matching_events": 11,
+      "verified_copy_edges": 1,
+      "glyph_observations": 0,
+      "cleanup_errors": [],
+      "crash_observed": false,
+      "closed_normally_after_detach": true
+    },
+    {
+      "local_path": ".local/p4-c2/trace-04.json",
+      "sha256": "42bc824d0a58266264de81189ba8ed249264d08a73ded2916a42fef45e5eab10",
+      "status": "STOP: WATCHED BUFFER LIFETIME ENDED",
+      "elapsed_seconds": 49.782,
+      "target_found": true,
+      "total_data_events": 14,
+      "target_prefix_matching_events": 13,
+      "verified_copy_edges": 1,
+      "glyph_observations": 6,
+      "cleanup_errors": [],
+      "crash_observed": false,
+      "closed_normally_after_detach": true
+    },
+    {
+      "local_path": ".local/p4-c2/trace-05.json",
+      "sha256": "fdad25524baffc6319997f94fa9b7f16c8a65b08cced097a7789ddd81edfc341",
+      "status": "STOP: WATCHED BUFFER LIFETIME ENDED",
+      "elapsed_seconds": 59.328,
+      "target_found": true,
+      "total_data_events": 14,
+      "target_prefix_matching_events": 13,
+      "verified_copy_edges": 1,
+      "glyph_observations": 6,
+      "cleanup_errors": [],
+      "crash_observed": false,
+      "closed_normally_after_detach": true
     }
   ],
   "stage_representations": {
     "archive_entry_memory": "CONFIRMED: original source argument prefix contains UTF-16LE 2d 4e",
     "wide_string_object": "CONFIRMED: U+4E2D remains in the wide copy at object +8",
     "ansi_string_object": "CONFIRMED: object +0 points to cached multibyte prefix a4 a4 76 61",
-    "layout": "UNKNOWN; only string scans/copy accesses captured with verified target provenance",
-    "glyph_lookup_render": "UNKNOWN; no provenance-safe final lookup identified"
+    "layout": "CONFIRMED: two separate unsigned 0xA4 bytes at source offsets 0 and 1; layout loop 0x5C7870, byte reads 0x5C78C6/0x5C7B89; width lookup 0x5C7BB3, one-byte increment 0x5C7C60",
+    "glyph_lookup_render": "CONFIRMED: custom bitmap byte-index lookup at 0x5C5A80, dispatcher call 0x5C5ABB -> 0x5E20E0; identical glyph pointer for two 0xA4 inputs"
   },
-  "root_cause_classification": "E - UNKNOWN (full chain incomplete)",
-  "confirmed_failure_component": "A - CODEPAGE CONVERSION: wide-to-ACP call produces multibyte output and returns buffer-size failure",
+  "root_cause_classification": "E - MULTIPLE FAILURES (current C2 A-F labels)",
+  "confirmed_failure_component": [
+    "A - CODEPAGE CONVERSION/CAPACITY: 130 bytes for an input requiring 131 under CP950; API fails with error 122, but prefix is cached/used",
+    "D - CUSTOM ENCODING / SBCS ASSUMPTION: one byte per glyph lookup/width increment; A4 A4 becomes two identical glyphs"
+  ],
   "host_ansi_codepage": 950,
-  "target_ansi_codepage_note": "CP_ACP argument 0 observed; output a4 a4 is consistent with Big5. Target GetACP return was not captured; host value must not be substituted as a direct target observation.",
-  "copy_following_tool_revision": "Grouped REP destination recovery is unit tested; final revised version has not been runtime validated",
+  "target_ansi_codepage_note": "CONFIRMED: resolved target GetACP entry observed via target IAT after executable entry; actual target return at VA 0x71D0DB gave EAX=950 in traces 03/04/05. Host GetACP=950 remains separately recorded.",
+  "copy_following_tool_revision": "Grouped-REP following runtime validated in traces 03/04/05, one exact verified copy each; lifetime invalidation stops tracing.",
   "tests_before": {
     "command": "python -m unittest discover -s tests -v",
     "ran": 29,
@@ -2191,14 +2242,172 @@
     "private_runtime_text_restored_to_pristine": true,
     "private_baseline_assets_match": true,
     "original_baseline_assets_match": true,
-    "hardware_debug_cleanup_errors": []
+    "hardware_debug_cleanup_errors": [],
+    "private_window_settings_retained": true
   },
-  "next_launch_requirement": "Windowed mode requested by user; must configure and verify before any next game launch; not yet implemented or verified",
+  "next_launch_requirement": "Launcher now fails closed unless private INI hashes match the independently verified windowed 3D receipt; no automatic fullscreen fallback authorized.",
   "pending": [
-    "Trace verified converted-string copies through width/layout and glyph lookup",
-    "Identify font/glyph source and fallback behavior",
-    "Determine final root cause and justified P5 strategy",
-    "Configure and verify windowed operation before further controlled tracing"
+    "Native Japanese/CJK path remains unavailable and untested",
+    "Identical bitmap entry 611 exists in two archives; actual source-file open not traced",
+    "Final surface/backend implementation and intended fallback glyph semantics remain outside this narrow attribution"
   ],
-  "p5": "NOT EXECUTED; no P5 implementation justified yet"
+  "p5": "NOT EXECUTED. Proposed only: separate conversion-capacity correctness from a character-to-glyph/layout strategy. Fixing capacity or replacing a Windows font alone cannot solve the proven byte renderer. Prefer lawful native CJK-path comparison if later available; otherwise obtain explicit authorization for a minimal native bitmap/encoding design investigation before any patch. No overlay/renderer rewrite justified.",
+  "continuation_code_commit": "879b721f381978461dd5d367ab9c1d2e8cc5483f",
+  "checkpoint_history": {
+    "date": "2026-10-29",
+    "status": "BLOCKED",
+    "reason": "User stopped Computer Use before copy-following runtime validation; retained as history, superseded by C2 findings"
+  },
+  "window_mode": {
+    "settings": {
+      "dxcfg.ini": {
+        "general.display": "800x600@120",
+        "general.presentation": "windowed"
+      },
+      "Options.ini": {
+        "GameScreenWidth": 800,
+        "GameScreenHeight": 600,
+        "Game Rasterizer": 2
+      }
+    },
+    "verified_windowed": true,
+    "visual_verified_3d": true,
+    "caption": true,
+    "client": [
+      533,
+      400
+    ],
+    "screen": [
+      1920,
+      1200
+    ],
+    "outer": [
+      691,
+      363,
+      1228,
+      790
+    ],
+    "dpi_for_window": 144,
+    "configuration_hashes": {
+      "Options.ini": "a27aae90f71379577eaa453eb742bfb02e94a13aeca94c45946770ad08f461fa",
+      "dxcfg.ini": "8d8205706681446766de9530d7b895baae9ffa5f72b4202090d0acbab50f4f1b"
+    },
+    "evidence": {
+      "path": ".local/evidence/P4_C2_WINDOWED_20261030.png",
+      "sha256": "0c4ec7bedd8663e6afd0f21f66f54288783533bda528e07edf3adc62d6a43989"
+    },
+    "scope": "Private runtime only; original installation never written by these actions",
+    "failed_first_attempt": "800x600@60 was not accepted by the existing configuration GUI and fell back to desktop; measured fullscreen; tracing did not start",
+    "successful_change": "Existing private dxcfg.exe GUI selected supported 800x600 120 Hz and Windowed, then Save",
+    "source_config_note": "Original display setting independently differed from P0; preserved as observed, never reverted",
+    "source_config_observed_sha256": "4d34a41ce3d7c18a9fa7b5e1ec4e40a626be79707badfd850b85b55a3eed7759"
+  },
+  "target_ansi_codepage": 950,
+  "provenance_example_trace05": {
+    "ansi_cache_pointer": "0x36b4f40",
+    "ansi_prefix_hex": "a4 a4 76 61 74 61 72 2c 20 61 72 69 73 65 20 66",
+    "copy_source": "0x36b4f40",
+    "copy_destination": "0x3805a70",
+    "copy_va": "0x41bc58",
+    "copy_rva": "0x1bc58",
+    "copy_unit_bytes": 4,
+    "consumed_at_data_trap": 4,
+    "remaining_units_at_data_trap": 31,
+    "verified_destination_prefix_hex": "a4 a4 76 61 74 61 72 2c 20 61 72 69 73 65 20 66",
+    "source_offsets_consumed_for_width_and_glyph": [
+      0,
+      1
+    ],
+    "prefix_verified_before_each_probe": true,
+    "allocation_lifetime_policy": "Stop on first prefix mismatch; do not attribute the invalidating write or later recycled addresses to the selected text",
+    "call_provenance": "REP return point and byte verification; render entry return VA 0x5C5D09 and live source pointer recovered from caller stack; not a complete unwind"
+  },
+  "width_glyph_path": {
+    "confidence": "CONFIRMED for selected subtitle only",
+    "layout_va": "0x5C7870",
+    "layout_rva": "0x1C7870",
+    "width_lookup_va": "0x5C7BB3",
+    "width_lookup_rva": "0x1C7BB3",
+    "glyph_function_va": "0x5C5A80",
+    "glyph_function_rva": "0x1C5A80",
+    "bitmap_dispatch_call_va": "0x5C5ABB",
+    "bitmap_dispatch_call_rva": "0x1C5ABB",
+    "bitmap_dispatch_target_va": "0x5E20E0",
+    "bitmap_dispatch_target_rva": "0x1E20E0",
+    "input_bytes": [
+      164,
+      164
+    ],
+    "table_indices": [
+      132,
+      132
+    ],
+    "table_slot_offset": 1072,
+    "lookup_formula": "glyph = font + u32(font + 0x10 + (unsigned_byte - 0x20) * 8)",
+    "glyph_offsets": [
+      42072,
+      42072
+    ],
+    "widths": [
+      11,
+      11
+    ],
+    "spacing": 0,
+    "draw_positions": [
+      [
+        0,
+        20
+      ],
+      [
+        11,
+        20
+      ]
+    ],
+    "renderer_mode_field": 2,
+    "font_candidate_size": 76832,
+    "font_runtime_span_sha256": "b3f3135ee84447b879d8558cea4589695c8f15be7694585906b2bd213d1af2f8",
+    "font_sources": [
+      {
+        "filename": "bitmap16.flx",
+        "archive_sha256": "3ec4ece8540c64ac7717d431267d2ab85a8612ccf119b78c36a299021ad1adcb",
+        "id": 611,
+        "offset": 35067710,
+        "size": 76832,
+        "font_within_entry_offset": 0,
+        "entry_sha256": "b3f3135ee84447b879d8558cea4589695c8f15be7694585906b2bd213d1af2f8"
+      },
+      {
+        "filename": "bitmapC.flx",
+        "archive_sha256": "fc968e348918239ac4a0a8d1694bcf9e6f6b58f3ddcbe8bc7e2d2ae7084d6ad2",
+        "id": 611,
+        "offset": 22583458,
+        "size": 76832,
+        "font_within_entry_offset": 0,
+        "entry_sha256": "b3f3135ee84447b879d8558cea4589695c8f15be7694585906b2bd213d1af2f8"
+      }
+    ],
+    "source_limit": "Runtime font content equals both archives entry 611 byte-for-byte. Which identical on-disk copy was opened was not traced. No font bytes were saved or published.",
+    "gdi_conclusion": "Selected path uses custom bitmap lookup/dispatch, not a logical Unicode/DBCS character passed to TextOutA or GetTextExtentPoint32A. Does not claim those APIs are unused elsewhere.",
+    "directdraw_limit": "Game Rasterizer=2 and existing DirectDraw wrapper; bitmap dispatcher observed. Final surface/backend calls were not separately traced."
+  },
+  "two_symbol_hypothesis": {
+    "classification": "CONFIRMED",
+    "mechanism": "U+4E2D survives in wide copy, CP_ACP=950 emits A4 A4 in the observed failed conversion; downstream consumes those bytes independently and draws the same indexed bitmap twice",
+    "semantic_limit": "Whether that indexed bitmap was designed as a missing-glyph fallback versus a literal unsupported symbol is UNKNOWN; correct U+4E2D glyph lookup was not reached"
+  },
+  "tests_before_c2": {
+    "command": "python -m unittest discover -s tests -v",
+    "ran": 38,
+    "passed": 38,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  "tests_after_c2": {
+    "command": "python -m unittest discover -s tests -v",
+    "ran": 39,
+    "passed": 39,
+    "skipped": 0,
+    "exit_code": 0,
+    "new_test": "Synthetic window receipt rejection for unverified/fullscreen/changed settings; runtime runs separately validate ACP/copy/width/glyph probes"
+  }
 }

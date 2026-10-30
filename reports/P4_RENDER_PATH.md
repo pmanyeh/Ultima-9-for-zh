@@ -1,183 +1,246 @@
 # Phase
 
-P4 — Text Decode / Mapping / Renderer Path Investigation. Partial progress
-snapshot, 2026-10-29, Asia/Taipei. Published at the user's commit/push request.
+P4 — Text Decode / Mapping / Renderer Path Investigation.
+P4-C2 continuation completed 2026-10-30 (Asia/Taipei), following the partial
+2026-10-29 checkpoint. P4-A/B findings are retained; they were not restarted.
 
 # Scope
 
-Explicit P4 diagnosis authorization, including public Japanese-patch source audit,
-read-only English executable analysis and controlled entry-4164 tracing in the
-private runtime copy. The user explicitly waived the requirement for an available
-Japanese oracle for this batch. No P5, executable/font/renderer patching, Japanese
-patch application, asset acquisition or translation expansion was authorized.
+Authorized English-only diagnosis of entry 4164 in the private runtime copy,
+with independently verified windowed execution before tracing. No P5, executable
+patch, buffer/iteration patch, font installation, renderer modification, DLL
+injection, Japanese patch application or Japanese asset acquisition.
 
 # Status
 
-BLOCKED — incomplete investigation paused after the user stopped Computer Use.
-This commit is a progress snapshot, not a claim that P4 or its gate has passed.
-Conversion observations are confirmed; layout, glyph provenance and final cause
-classification remain incomplete. No new game launch/trace was performed while
-preparing this snapshot for commit/push.
+**PASS WITH LIMITATIONS** for the authorized P4-C2 diagnosis on the frozen English
+build. The conversion-to-width-to-bitmap chain is established. This does not mean
+Chinese renders correctly, that a native CJK path has been proved, or that P5 is
+authorized. Japanese differential remains NOT EXECUTED.
 
 # Environment
 
-Same frozen GOG English baseline as P0–P3. Python 3.12.10, Git
-2.55.0.windows.3, 64-bit Windows Python observing a WOW64 process. Starting code
-commit `1e3cd304322870d67518e5bb04f524c9f553246f`.
-Already-installed optional Capstone research dependency: distribution 5.0.9,
-module 5.0.7, BSD-style license. No package installation or core runtime dependency
-was added. See THIRD_PARTY_NOTICES.md and the English static notebook.
+Python 3.12.10, Git 2.55.0.windows.3, 64-bit Windows Python / WOW64 game.
+Continuation begins at commit `879b721f381978461dd5d367ab9c1d2e8cc5483f`.
+Optional, already-installed Capstone: distribution 5.0.9 / module 5.0.7,
+BSD-style license. No dependencies installed. TITAN pin
+`2b6ee659cb153254ea8e3d2787d601a6fa79f3d2` remains unchanged.
 
 # Inputs
 
-English executable SHA-256:
+GOG English game ID 1207659093 / build 59198760502252807; patch label UNKNOWN.
+Executable SHA-256:
 `83915175abaf8a65dab96fc42f1feed24a78f55dc8b28a736b61ffa83314b545`.
-Pristine text.flx SHA-256:
+Pristine text.flx:
 `378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0`.
-Controlled P3-B resource SHA-256 used for tracing:
+Controlled P3-B text.flx:
 `68548b8a78092c85a70267303c6077553b7ff32257368942c5937bc8765d0e04`.
-Only entry 4164's initial BMP unit was changed; no archive-layout change.
+Entry 4164 changes only the first UTF-16 unit to U+4E2D; file size, entry size,
+header, offsets and every other payload remain unchanged.
 
-UltimaPatcher source pin: `c5db7b77b93a3b99b27556c3e5d8654d1679ced5`.
-TITAN source pin: `2b6ee659cb153254ea8e3d2787d601a6fa79f3d2`.
-Baseline hashes and prior P0–P3 evidence were read and rechecked.
+Read the master plan, project rules, P4 JSON/Markdown and both research notebooks.
+Original assets stay outside tracked paths; all runtime assets/evidence stay in
+ignored `.local/`. No copyrighted asset is staged.
 
 # Work Performed
 
-## P4-A — public Japanese mechanism
+## Retained P4-A/B checkpoint
 
-CONFIRMED from source: the Jp installation branch copies the pack's static tree,
-applies an Octodiff using installed u9.exe as basis, creates u9.jp.exe and installs
-Locale Emulator's launcher. The accompanying script uses `LEProc.exe u9.jp.exe`.
-The UI requires Japanese Windows language support. Separate speech installation
-copies sound and Movies trees. The exact Japanese asset manifest is UNKNOWN.
+The source-only Japanese mechanism audit remains pinned to UltimaPatcher commit
+`c5db7b77b93a3b99b27556c3e5d8654d1679ced5`: static-tree copy, delta-generated
+u9.jp.exe and Locale Emulator launcher. Exact compatible Japanese basis and
+native CJK internals remain UNKNOWN. No patch payload was acquired/applied.
+See [Japanese source audit](../docs/research/U9_JAPANESE_PATCH_PATH.md).
 
-`signatureFilePath` is declared but not read in that source block; SkipHashCheck
-is explicitly false. Exact compatible basis SHA-256 remains UNKNOWN because no
-delta/signature payload was inspected or applied. Details and source links are in
-`docs/research/U9_JAPANESE_PATCH_PATH.md`.
+The English PE/import/resource findings remain valid. Import presence alone was
+not used to select a subtitle architecture. See
+[English notebook](../docs/research/U9_ENGLISH_TEXT_STATIC.md).
 
-## P4-B — English static analysis
+## Windowed prerequisite
 
-CONFIRMED: PE32 image base 0x400000, five sections, 256 ordinary imports, three
-resource leaves (icon/group-icon/manifest). Wide/ANSI conversion, ANSI GDI text,
-locale/codepage and DirectDraw imports exist; ordinary W text drawing imports and
-standard RT_FONT leaves were not found. Dynamic API resolution/custom bitmap
-rendering remain possible. Selected function/call RVAs, source hashes and
-resource metadata are recorded without section dumps.
+CONFIRMED: only the private copy was configured. An initial 800x600@60 attempt
+failed: the existing configuration GUI did not retain that unsupported mode and
+the game measured as a 1920x1200 popup. No trace ran in that failed launch.
 
-## P4-C — controlled dynamic observations
+Using the existing private dxcfg.exe GUI, selected **800x600, 120 Hz** and
+**Presentation: Windowed**, then saved. Exact settings:
 
-Used CPU hardware execution/data points, bounded ReadProcessMemory and WOW64
-context observation. No WriteProcessMemory, inserted software breakpoint,
-injected DLL, game code replacement or font change was used. Each diagnostic
-resource was rebuilt from the pristine baseline. Both debugger runs logged no
-debug-register restoration/detachment cleanup errors.
+```ini
+; dxcfg.ini [general]
+display=800x600@120
+presentation=windowed
+```
 
-At VA `0x615B76` (RVA `0x215B76`), the selected wide string is passed to
-WideCharToMultiByte. Source argument and object wide prefix contain `2d 4e`.
-Observed CodePage is 0 (CP_ACP), output capacity 130, return value 0, subsequent
-GetLastError 122. Output/cached ANSI prefix is `a4 a4 76 61 74 61 72 2c`.
-The object's wide copy still contains U+4E2D afterward.
+Private Options.ini: GameScreenWidth=800, GameScreenHeight=600, Game Rasterizer=2.
+Verified on an unmodified-text launch after entering the actual 3D bedroom:
+caption present, outer rectangle [691,363,1228,790], logical client 533x400,
+desktop 1920x1200, window DPI 144. The logical dimensions reflect DPI scaling;
+requiring them to equal configured 800x600 would incorrectly reject this window.
+All three subsequent traced launches were also observed as titled small windows.
 
-Trace 1 captured 48 total data events, but only its first three retained the
-verified target prefix. Recycled-allocation observations are not attributed to
-the text path. Trace 2 captured three string scan/copy observations and hit its
-90-second limit. A grouped-REP copy-following revision was unit tested afterward;
-that final revision has not received runtime validation.
+Private configuration SHA-256 after verification:
 
-## P4-D — Japanese oracle
+- dxcfg.ini: `8d8205706681446766de9530d7b895baae9ffa5f72b4202090d0acbab50f4f1b`
+- Options.ini: `a27aae90f71379577eaa453eb742bfb02e94a13aeca94c45946770ad08f461fa`
 
-NOT EXECUTED. No lawful Japanese executable/install is locally available. No
-language pack, delta/signature binary payload or Locale Emulator binary was
-downloaded, copied into this repository, reconstructed or applied.
+The trace launcher now rejects missing/unverified receipts, desktop-sized clients
+and changed configuration hashes. The original installation's display setting
+independently differed from its P0 snapshot; it was preserved, never written or
+reverted by these actions. Its executable and protected resources still match P0.
+
+## Hardware-only C2 tracing
+
+Three bounded runs, each rebuilding the same P3-B mutation from pristine data.
+Only CPU hardware debug registers and bounded read-only memory inspection were
+used. No game-memory writes, software breakpoint insertion or injected calls.
+
+GetACP was observed through the resolved target IAT after executable entry;
+target return VA 0x71D0DB yielded EAX=950 in all three runs. The host ACP=950 is a
+separate observation.
+
+Grouped-REP following was runtime validated: source prefix, initial copied bytes,
+REP completion and complete destination prefix were checked before switching the
+watch. Width/glyph probes require that destination's live prefix and a source
+pointer at offset 0 or 1. The render entry additionally requires caller return
+0x5C5D09 and the selected pointer recovered from the caller stack. These are
+specific call-site checks, not a claimed complete stack unwind.
+
+Every run stopped on the first later prefix-invalidating write. That event and
+all subsequent recycled-address activity are excluded. All runs detached/restored
+debug registers without cleanup errors, and the game continued without an
+observed crash before being closed normally.
 
 # Findings
 
-| Required question | Current evidence |
-| --- | --- |
-| 1. Expected UTF-16LE bytes in memory? | CONFIRMED in the selected source argument after archive loading; raw ReadFile completion buffer itself was not separately watched |
-| 2. U+4E2D survives archive loading? | CONFIRMED in the retained wide string copy at object +8 |
-| 3. Wide-to-ANSI conversion? | CONFIRMED: CP_ACP WideCharToMultiByte call, ANSI prefix A4 A4, API failure/error 122 |
-| 4. Representation reaching layout? | UNKNOWN; only proven string scan/copy consumers captured |
-| 5. Representation reaching glyph/render? | UNKNOWN; no final provenance-safe lookup identified |
-| 6. Two-symbol P3 result explained? | HYPOTHESIS: two A4 bytes could be processed separately downstream; that byte-to-glyph consumption is not yet observed |
-| 7. Most likely font/glyph source? | UNKNOWN; GDI imports and bitmap resource names provide leads, not attribution |
-| 8. Japanese executable-side localization? | STRONG EVIDENCE from the explicit generated u9.jp.exe mechanism; exact purpose UNKNOWN |
-| 9. Unknown without Japanese oracle? | Binary/function changes, active CJK/DBCS path, font resources and locale behavior |
-| 10. Justified P5 strategy? | UNKNOWN — complete P4 provenance tracing before selecting or implementing a strategy |
+All VA/RVA pairs use image base 0x400000. Heap addresses below are from trace 05
+only and vary between runs.
 
-Root-cause classification for the complete chain remains **E — UNKNOWN** while
-P4 is incomplete. A **CODEPAGE CONVERSION** failure component is directly
-confirmed; this does not prove it is the only downstream problem. The host ACP
-was 950 and A4 A4 is consistent with Big5, but no target GetACP return was captured.
-Do not silently replace a target observation with the host value.
+| Required question | Answer and evidence |
+| --- | --- |
+| 1. Target process ACP? | CONFIRMED: GetACP returns 950, independently of host ACP=950. |
+| 2. Exact post-cache ANSI buffer? | CONFIRMED: cache object +0 points to 0x036B4F40, prefix `a4 a4 76 61 74 61 72 2c`. Verified REP copy at VA/RVA 0x41BC58/0x1BC58 produces the same prefix at 0x03805A70. |
+| 3. One DBCS character or two bytes? | CONFIRMED: two independent unsigned 0xA4 values, from source+0 and source+1. Layout increments one byte at 0x5C7C60; rendering increments one byte at 0x5C5D57. No lead-byte pairing on this observed path. |
+| 4. Width/layout representation? | CONFIRMED: ANSI bytes. Layout function 0x5C7870/0x1C7870, width lookup 0x5C7BB3/0x1C7BB3. Both bytes independently produce width 11, spacing 0. |
+| 5. Glyph lookup representation? | CONFIRMED: byte 0xA4, table index 132 (0xA4 minus 0x20), slot offset 0x430; both select font-relative glyph offset 0xA458. Glyph function 0x5C5A80/0x1C5A80. |
+| 6. Renderer/font path? | CONFIRMED: custom indexed bitmap font, dispatch call 0x5C5ABB/0x1C5ABB to 0x5E20E0/0x1E20E0, renderer mode field 2. Runtime font content matches both bitmap archives' entry 611; details below. Final surface/backend calls were not separately traced. |
+| 7. Why two symbols in P3? | CONFIRMED mechanism: U+4E2D survives in wide storage, CP950 emits observed A4 A4, and two byte lookups draw the identical bitmap at (0,20) and (11,20). Whether that bitmap is intentionally a missing-glyph fallback is UNKNOWN. |
+| 8. 130-byte sizing assumption? | CONFIRMED for this constructor: wcslen+1 bytes allocated and passed to conversion; 260 entry bytes = 130 UTF-16 units including NUL. CP950 needs 131 bytes here. Not a survey of every executable path. |
+| 9. Final classification? | **E — MULTIPLE FAILURES**, comprising A conversion/capacity and D custom encoding/SBCS assumption under the current C2 labels. |
+| 10. Justified P5 strategy? | Separate capacity correctness from character iteration/glyph/layout design. A capacity-only change or Windows font installation cannot fix this byte renderer. First prefer lawful native CJK-path comparison if later available; otherwise request authorization for a minimal native bitmap/encoding design investigation. No implementation is authorized now. |
+
+The central two-symbol hypothesis is **CONFIRMED** as a processing mechanism.
+A correct logical U+4E2D glyph ID never reaches the observed lookup; classification
+C (correct glyph requested but absent) is therefore not established.
+
+Minimal observed algorithm:
+
+```text
+b = unsigned byte at current text pointer
+slot = font + 0x10 + (b - 0x20) * 8
+glyph = font + u32(slot)
+advance = low byte of u32(glyph) + spacing
+draw indexed bitmap; advance text pointer by one byte
+```
+
+This summary applies to the observed printable-byte branch, not control tokens.
+
+## Font content attribution
+
+A bounded 76,832-byte runtime span was hashed without saving its payload:
+`b3f3135ee84447b879d8558cea4589695c8f15be7694585906b2bd213d1af2f8`.
+This equals the entire entry 611 in both:
+
+- bitmap16.flx, offset 35,067,710; archive SHA-256 `3ec4ece8540c64ac7717d431267d2ab85a8612ccf119b78c36a299021ad1adcb`
+- bitmapC.flx, offset 22,583,458; archive SHA-256 `fc968e348918239ac4a0a8d1694bcf9e6f6b58f3ddcbe8bc7e2d2ae7084d6ad2`
+
+Both bytes select the same bitmap within that content, width 11 and height 15.
+Earlier partial-header matches to entry 544 were not promoted to font identity;
+its whole-entry hashes differ. Which identical entry-611 disk copy was opened
+was not traced. The selected path uses custom bitmap lookup/dispatch; this does
+not claim GDI text APIs are unused elsewhere or establish every backend call.
+
+## Capacity defect
+
+At 0x615B4D–0x615B76 the wide length determines allocation and API byte capacity:
+129 wide units excluding NUL, plus one = 130 bytes. Wide storage itself is
+allocated at two bytes per unit. The selected call returns zero, then error 122;
+the failed output prefix is nevertheless copied into the ANSI cache and used.
+The complete converted tail was not measured; no specific final-character loss
+is asserted. This diagnosis changes no capacity or error handling.
 
 # Evidence
 
-`P4_RENDER_PATH.json` contains sanitized PE/import/resource metadata, selected
-static xrefs, small diagnostic byte samples, baseline hashes and bounded trace
-summaries. Raw heap/stack traces and selected upstream source files remain in
-ignored `.local/p4/` storage. No full disassembly, large string dump, screenshot,
-original/modified executable, FLX or patch payload is published.
+[P4_RENDER_PATH.json](P4_RENDER_PATH.json) contains portable hashes, addresses,
+trace summaries and window settings. Raw traces 03/04/05 remain ignored under
+`.local/p4-c2/`; local visual evidence is
+`.local/evidence/P4_C2_WINDOWED_20261030.png` (hash in JSON).
+No asset payloads, full text dump, font data, stack dump or screenshots are
+published. Original traces 01/02 remain historical evidence with their original
+provenance limitations.
 
 # Tests
 
-Before P4 changes: `python -m unittest discover -s tests -v` with U9_GAME_DIR
-configured: **29 run, 29 passed, exit 0**.
+Before C2: `python -m unittest discover -s tests -v`, U9_GAME_DIR configured:
+**38 run, 38 passed, 0 skipped, exit 0**.
 
-At this snapshot: the same command and original installation:
-**38 run, 38 passed, 0 skipped, exit 0**. The nine added tests cover synthetic PE
-headers/imports/resources/bounds, official WOW64 structure layout, debug-register
-control encoding and conservative grouped-REP pointer recovery. No game launches
-are performed by the unit suite.
+After C2: same command/environment:
+**39 run, 39 passed, 0 skipped, exit 0**. Added synthetic window-receipt rejection
+coverage; no tests launch the game. Existing P0–P4 checks were not weakened.
+
+Runtime validation: trace 03 = 46.110 s, 12 data events / 11 valid-prefix events;
+trace 04 = 49.782 s, 14 / 13; trace 05 = 59.328 s, 14 / 13. One verified copy per
+run. Traces 04/05 each recorded two width, two glyph and two bitmap-dispatch
+observations. Each final invalidation event is excluded from text attribution.
+No cleanup errors, second-chance crash or unexplained runtime failure observed.
 
 # Results
 
-Preserved an actionable conversion finding and source audit while explicitly
-leaving the full renderer-path investigation unfinished. The final copy-following
-revision is an experimental research tool, not a validated finished trace.
+Windowed 3D execution works and private settings are retained. The opening
+Chinese character still renders incorrectly; its two-symbol mechanism is now
+attributed to two byte-indexed bitmaps, alongside a separate conversion-capacity
+defect. P3 has not been retroactively marked successful.
 
-At snapshot preparation no U9 process was running. The private runtime resource
-was restored to the pristine hash and all five private/original baseline assets
-matched P0. Original installation resources were never replaced by these tools.
+Each intentional mutation passed the existing single-entry/layout-preservation
+validator. This is not an unchanged round-trip equality claim; the prior P2
+BYTE-PERFECT PASS remains unchanged. After normal game exit, private text.flx was
+restored to pristine, no U9 process remained, and all five protected assets in
+both original/private trees matched P0. No original installation file was written
+by this batch.
 
 # Files Changed
 
-`u9cht/pe.py`, `u9cht/wintrace.py`, `scripts/inspect_pe.py`, `scripts/trace_p4.py`,
-`tests/test_pe.py`, `tests/test_wintrace.py`, the two P4 research notebooks,
-this report, `P4_RENDER_PATH.json`, README and dependency notice.
+`scripts/trace_p4.py`, `u9cht/wintrace.py`, `tests/test_wintrace.py`, this report,
+`reports/P4_RENDER_PATH.json`, `docs/research/U9_ENGLISH_TEXT_STATIC.md`.
+Private configuration, receipts, traces and visual evidence remain ignored.
 
 # Risks
 
-Import names and static candidates do not establish subtitle use. A stale heap
-address is not valid string provenance; recycled-buffer events were excluded.
-The hardware debugger is baseline-specific and experimental. Grouped-REP recovery
-has unit coverage but still needs a controlled runtime check. Do not run the
-current trace launcher until windowed operation is independently configured and
-verified; the launcher does not configure it itself.
+Results are specific to this executable, subtitle and printable-byte path; do
+not generalize to books, UI, other languages or every renderer. Hardware tracing
+is experimental and baseline-locked. The font hash span is a bounded diagnostic
+based on independently inspected local candidates, not a new font-format parser.
+No unknown bytes were normalized or discarded.
 
 # Blockers
 
-P4 remains paused. Width/layout/glyph consumer provenance, fallback meaning and
-font identity are unresolved. The next launch must use windowed mode, as requested
-by the user; this setting is not yet implemented/verified. Japanese differential
-inputs remain absent. P5 has not been authorized.
+No blocker remains for the authorized English C2 attribution. Native CJK support,
+Japanese binary differences, intended fallback semantics, exact source archive
+open and final surface/backend details remain UNKNOWN / NOT EXECUTED. They limit
+future implementation choices. P5 requires explicit human authorization.
 
 # Deviations From Master Plan
 
-The current user authorization explicitly permits P4 without a Japanese oracle.
-This replaces that prerequisite for diagnosis only. Two small controlled replays
-of the P3-B mutation were used for tracing; no new translation was introduced.
-The user stopped Computer Use before final trace validation. This publication
-request archives partial results rather than resuming experiments or marking the
-phase complete.
+The user explicitly permitted English-only P4 without an available Japanese
+oracle. Three controlled replays reused the same one-character P3-B diagnostic;
+no translation expansion occurred. The initial window-mode validation failed and
+was corrected before tracing. The 2026-10-29 paused checkpoint is historical;
+its old E=UNKNOWN label is superseded by the user's current A–F classification.
 
 # Recommendation
 
-Resume P4 only when requested, first configuring/verifying a windowed private
-test run. Follow verified string-copy lifetimes through width/glyph consumers,
-then update the classification and P5 recommendation. Keep actual Japanese
-differential NOT EXECUTED until lawful local inputs become available. No P5
-implementation, font/executable patch or renderer hook is justified by this
-partial snapshot.
+Stop after this P4 diagnosis. Review the two confirmed failure components before
+selecting a P5 design. Prefer native CJK evidence when lawful local inputs become
+available; otherwise define a separately authorized minimal bitmap/encoding
+investigation addressing character iteration, widths and glyph capacity together.
+Do not proceed with buffer patches, a Windows-font-only fix, overlay, broad
+renderer rewrite or Japanese executable patch on the strength of this report.

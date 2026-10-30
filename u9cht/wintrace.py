@@ -7,6 +7,7 @@ are continued normally. Original debug-register state is restored on detach.
 
 import ctypes as c
 import hashlib
+import json
 import os
 from pathlib import Path
 
@@ -18,6 +19,26 @@ DBG_CONTEXT = 0x10010
 FULL_CONTEXT = 0x10017
 CONTINUE = 0x10002
 NOT_HANDLED = 0x80010001
+
+
+def verified_window_receipt(game, receipt_path):
+    """Fail closed unless a visually verified private window matches its settings."""
+    receipt = json.loads(Path(receipt_path).read_text(encoding="utf-8"))
+    if receipt.get("verified_windowed") is not True or receipt.get("visual_verified_3d") is not True:
+        raise ValueError("STOP: actual windowed 3D execution has not been verified")
+    if not receipt.get("caption") or receipt.get("minimized") is not False:
+        raise ValueError("STOP: window verification lacks a visible titled window")
+    width, height = receipt["client"]
+    screen_width, screen_height = receipt["screen"]
+    if not (0 < width < screen_width and 0 < height < screen_height):
+        raise ValueError("STOP: verified client is not smaller than the desktop")
+    for name in ("Options.ini", "dxcfg.ini"):
+        actual = hashlib.sha256((Path(game) / name).read_bytes()).hexdigest()
+        if receipt.get("configuration_hashes", {}).get(name) != actual:
+            raise ValueError("STOP: private window settings changed since verification")
+    if "presentation=windowed" not in (Path(game) / "dxcfg.ini").read_text().splitlines():
+        raise ValueError("STOP: private presentation is not windowed")
+    return receipt
 
 
 class FloatSave(c.Structure):

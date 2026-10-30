@@ -6,6 +6,7 @@ does not write game memory, patch instructions, inject code or apply a language 
 """
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import struct
@@ -16,14 +17,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from u9cht.flx import digest
 from u9cht.pe import PEImage
-from u9cht.wintrace import PrivateDebugger, CONTINUE, NOT_HANDLED, forward_copy_destination
+from u9cht.wintrace import (PrivateDebugger, CONTINUE, NOT_HANDLED,
+                           forward_copy_destination, verified_window_receipt)
 
 EXE_HASH = "83915175abaf8a65dab96fc42f1feed24a78f55dc8b28a736b61ffa83314b545"
 BMP_HASH = "68548b8a78092c85a70267303c6077553b7ff32257368942c5937bc8765d0e04"
 PREFIX = "\u4e2dvatar,".encode("utf-16-le")
 CONVERSIONS = {0x615B76: (0x615B7C, 0x615B86, 0x615BDC, "Ebp"),
                0x615DF1: (0x615DF7, 0x615E01, 0x615E50, "Esi")}
-ACP_RETURNS = {0x71D328, 0x72664E}
 
 
 def main():
@@ -33,6 +34,8 @@ def main():
     parser.add_argument("--output", type=Path, default=ROOT / ".local/p4/trace.json")
     parser.add_argument("--follow-copies", action="store_true",
                         help="follow verified REP copy destinations; stop on buffer lifetime loss")
+    parser.add_argument("--glyph-probes", action="store_true",
+                        help="observe baseline-specific width/glyph sites for the verified prefix only")
     args = parser.parse_args()
     if args.seconds < 1 or args.seconds > 180:
         parser.error("trace duration must be 1..180 seconds")
@@ -40,6 +43,7 @@ def main():
     if not args.output.resolve().is_relative_to(private.resolve()) or args.output.exists():
         parser.error("trace output must be a new ignored private file")
     game = private / "runtime-game"
+    window_receipt = verified_window_receipt(game, private / "p4-c2/window-mode.json")
     binary = (game / "u9.exe").read_bytes()
     if digest(binary) != EXE_HASH or digest((game / "static/text.flx").read_bytes()) != BMP_HASH:
         parser.error("STOP: executable or controlled P3-B archive hash mismatch")
@@ -69,6 +73,7 @@ def main():
               "method": "CPU hardware execution/data points; no game memory/code writes",
               "image_base": image.image_base, "events": [], "target_acp_observations": [],
               "conversion_call_hits": 0, "target_found": False,
+              "window_configuration_hashes": window_receipt["configuration_hashes"],
               "status": "IN PROGRESS", "cleanup_errors": []}
     args.output.parent.mkdir(parents=True, exist_ok=True)
 
@@ -76,12 +81,40 @@ def main():
         args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
 
     debugger = PrivateDebugger(EXE_HASH)
-    initial = [(address, "execute", 1) for address in (*CONVERSIONS.keys(), *sorted(ACP_RETURNS))]
+    entry_point = image.image_base + image.entry_rva
+    acp_iat = image.image_base + next(x["iat_rva"] for x in image.imports() if x["name"] == "GetACP")
+    acp_entry = None
+    acp_pending = {}
+    initial = [(address, "execute", 1) for address in (*CONVERSIONS.keys(), entry_point)]
     points = initial
     target = None
     watch = None
     watch_hits = 0
     copy_pending = None
+    glyph_pending = {}
+    font_snapshots = {}
+
+    def watch_points(pointer):
+        probes = (0x5C7BB3, 0x5C5A80, 0x5C5ABB) if args.glyph_probes else ()
+        return [(pointer, "readwrite", 2 if pointer % 2 == 0 else 1)] + [
+            (address, "execute", 1) for address in probes]
+
+    def font_lookup(font, value):
+        if font not in font_snapshots:
+            # Four independently located local archive candidates are 76,832
+            # bytes. Hash the bounded target span; never save its asset payload.
+            span = debugger.read(font, 76832)
+            font_snapshots[font] = {"pointer": font, "candidate_span_size": len(span),
+                                    "candidate_span_sha256": hashlib.sha256(span).hexdigest(),
+                                    "header_hex": span[:16].hex(" ")}
+            result["font_snapshots"] = list(font_snapshots.values())
+        slot = font + (value & 0xFF) * 8 - 0xF0
+        offset = struct.unpack("<I", debugger.read(slot, 4))[0]
+        glyph = font + offset
+        header = debugger.read(glyph, 16)
+        return {"font_pointer": font, "input_byte": value & 0xFF,
+                "lookup_slot": slot, "glyph_offset": offset, "glyph_pointer": glyph,
+                "glyph_header_hex": header.hex(" "), "width_byte": header[0]}
     start = time.monotonic()
     try:
         result["pid"] = debugger.launch()
@@ -106,9 +139,25 @@ def main():
                 if exception in (0x80000004, 0x4000001E):
                     ctx = debugger.context(event.tid)
                     ip = ctx.Eip
-                    if ip in ACP_RETURNS and target is None:
-                        result["target_acp_observations"].append({"return_va": ip, "value": ctx.Eax})
-                        debugger.configure(event.tid, points, resume_execution=True)
+                    if ip == entry_point and target is None:
+                        acp_entry = struct.unpack("<I", debugger.read(acp_iat, 4))[0]
+                        result["target_getacp_entry"] = acp_entry
+                        points = [(address, "execute", 1) for address in (*CONVERSIONS.keys(), acp_entry)]
+                        for tid in debugger.threads:
+                            debugger.configure(tid, points, resume_execution=tid == event.tid)
+                    elif ip == acp_entry and target is None:
+                        returned = struct.unpack("<I", debugger.read(ctx.Esp, 4))[0]
+                        acp_pending[event.tid] = returned
+                        local = [(address, "execute", 1) for address in (*CONVERSIONS.keys(), returned)]
+                        debugger.configure(event.tid, local, resume_execution=True)
+                    elif ip == acp_pending.get(event.tid) and target is None:
+                        result["target_acp_observations"].append({"return_va": ip, "value": ctx.Eax,
+                                                                "thread_id": event.tid})
+                        del acp_pending[event.tid]
+                        points = [(address, "execute", 1) for address in CONVERSIONS]
+                        for tid in debugger.threads:
+                            debugger.configure(tid, points, resume_execution=tid == event.tid)
+                        save()
                     elif ip in CONVERSIONS and target is None:
                         result["conversion_call_hits"] += 1
                         stack = struct.unpack("<8I", debugger.read(ctx.Esp, 32))
@@ -165,7 +214,7 @@ def main():
                         target["object_ansi_prefix_hex"] = debugger.read(fields[0], 16).hex(" ")
                         target["object_wide_prefix_hex"] = debugger.read(fields[2], len(PREFIX)).hex(" ")
                         watch = fields[0]
-                        points = [(watch, "readwrite", 1)]
+                        points = watch_points(watch)
                         for tid in debugger.threads:
                             debugger.configure(tid, points, resume_execution=tid == event.tid)
                         print("Captured converted string object; observing its first-byte consumers", flush=True)
@@ -179,10 +228,39 @@ def main():
                         result.setdefault("verified_copy_edges", []).append(copy_pending)
                         watch = copy_pending["destination"]
                         copy_pending = None
-                        points = [(watch, "readwrite", 2)]
+                        points = watch_points(watch)
                         for tid in debugger.threads:
                             debugger.configure(tid, points, resume_execution=tid == event.tid)
                         save()
+                    elif args.glyph_probes and watch and ip in (0x5C7BB3, 0x5C5A80, 0x5C5ABB):
+                        live = debugger.read(watch, 16) == bytes.fromhex(target["object_ansi_prefix_hex"])
+                        row = None
+                        if live and ip == 0x5C7BB3 and ctx.Ebp in (watch, watch + 1):
+                            row = font_lookup(ctx.Ecx, ctx.Eax)
+                            row.update(stage="width", source_pointer=ctx.Ebp,
+                                       spacing=struct.unpack("<I", debugger.read(ctx.Esi + 4, 4))[0])
+                        elif live and ip == 0x5C5A80:
+                            stack = struct.unpack("<10I", debugger.read(ctx.Esp, 40))
+                            if stack[0] == 0x5C5D09 and stack[9] in (watch, watch + 1):
+                                font = struct.unpack("<I", debugger.read(ctx.Ecx, 4))[0]
+                                row = font_lookup(font, stack[3])
+                                row.update(stage="glyph", source_pointer=stack[9],
+                                           x=stack[1], y=stack[2], font_record=ctx.Ecx)
+                                glyph_pending[event.tid] = dict(row)
+                        elif live and ip == 0x5C5ABB and event.tid in glyph_pending:
+                            pending = glyph_pending.pop(event.tid)
+                            glyph, x, y = struct.unpack("<3I", debugger.read(ctx.Esp, 12))
+                            if glyph != pending["glyph_pointer"]:
+                                raise RuntimeError("STOP: glyph argument provenance mismatch")
+                            row = dict(pending, stage="bitmap_dispatch", x=x, y=y,
+                                       renderer_object=ctx.Ecx, dispatch_target_va=0x5E20E0,
+                                       renderer_mode_field=struct.unpack("<I", debugger.read(ctx.Ecx + 0x20, 4))[0])
+                        if row:
+                            row.update(va=ip, rva=ip - image.image_base, thread_id=event.tid,
+                                       verified_string_pointer=watch, live_target_prefix_matches=True)
+                            result.setdefault("glyph_observations", []).append(row)
+                            save()
+                        debugger.configure(event.tid, points, resume_execution=True)
                     elif watch and ctx.Dr6 & 1:
                         watch_hits += 1
                         prefix = debugger.read(watch, 16)
