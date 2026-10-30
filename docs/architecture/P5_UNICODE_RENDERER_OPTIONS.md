@@ -1,6 +1,6 @@
 # P5 Unicode renderer architecture options
 
-Decision date: 2026-10-30 (Asia/Taipei). Scope: entry 4164 only, P5-A–D.
+Decision date: 2026-10-30 (Asia/Taipei). Scope: entry 4164 only, P5-A–F.
 The current task overrides the Master Plan's larger glyph-subset example.
 P6, translation expansion and a general overlay are excluded.
 
@@ -8,7 +8,10 @@ P6, translation expansion and a general overlay are excluded.
 
 **PREFERRED: Strategy B — retain UTF-16 identity.**
 **FALLBACK: Strategy A — validated CP950 pairs, decoded to Unicode.**
-These are architecture selections, not claims that an engine bridge exists.
+Strategy B now has a bounded, experimentally verified bridge and presented-frame
+PoC. This is not a persistent playable renderer. See the
+[surface notebook](../research/U9_TEXT_SURFACE_PIPELINE.md) for measured boundaries,
+the initially rejected mixed-line capture, its sizing correction and rollback.
 
 | Criterion | A: CP950 transport | B: retained UTF-16 |
 | --- | --- | --- |
@@ -36,13 +39,20 @@ conversion, lossless round-trip check and pair-aware width/draw implementation.
 | Dispatch `0x5C5ABB` → `0x5E20E0` | Bitmap, x/y, renderer object | Surface resolution/format and wide mapping must be established first |
 | Final backend surface | Potential presentation coordinates | Text identity lost; do not hook it arbitrarily |
 
-Candidate B bridge: capture wide identity before conversion; for the selected
-object alone carry scalar/run metadata through verified copies, then route Latin
-to the unchanged native glyph function and CJK to a measured raster/compositor.
-Byte placeholders, if used for native loop compatibility, are opaque sidecar
-indices, never a replacement encoding. Lifetime invalidation must fail closed.
-No bridge or executable patch is approved by this document alone; the task's
-small-hook authorization and stop conditions apply.
+Implemented B bridge: capture and compare the complete selected UTF-16 string
+before conversion; retain wide object +8 and associate immutable scalar metadata
+with its byte cache +0. One opaque 7F slot represents one Unicode scalar; it is
+never interpreted as a legacy encoding. Only a fully verified source→destination
+copy inherits identity. Free notifications revoke source-buffer associations.
+Native Latin calls are unchanged. Selected CJK width and draw operations use
+Unicode metrics and suppress the native placeholder bitmap.
+
+Both layout and tight-bound calculations need the custom advance. Their common
+font slot is watched; the verified readers `0x5C7BBA` and `0x5C5F62` receive the
+same metric header. Omitting the second reader clipped TEST in the first mixed
+capture. Correcting it expanded that cache from 120 to 142 logical pixels and
+produced the complete mixed line. This is selected-run sizing, not new wrapping.
+The task's explicit small-hook authorization and stop conditions apply.
 
 ## Scalable raster decision
 
@@ -54,26 +64,43 @@ small-hook authorization and stop conditions apply.
 | Direct2D/SDL | Can draw complete text/surfaces | Larger graphics integration than the bounded raster problem needs | Not selected |
 
 **Selected for the bounded BMP PoC: Windows GDI Unicode grayscale rasterization.**
-DirectWrite is the preferred raster fallback for supplementary scalar support or
-a GDI font-format limitation. This choice does not narrow Strategy B's transport
-to BMP; unsupported scalars must be rejected explicitly in this PoC.
-No rasterizer should be connected until surface suitability is measured.
+DirectWrite remains preferable for a broader Unicode renderer. For this bounded
+BMP experiment, GDI provides direct grayscale coverage and exact advances for the
+measured CPU-lockable final target, without another graphics device or a COM font
+bridge. Exact selected font bytes and glyph availability are checked. Unsupported
+scalars are rejected explicitly; no silent legacy/native fallback is allowed.
+The transport model supports scalar identity independently of this BMP rasterizer.
 
 Development font choice: Noto Sans CJK TC Regular, SIL Open Font License 1.1.
-Use an explicit local font file (`U9_CHT_FONT`) and private process registration,
+Use an explicit local font file (`--font`) and private process registration,
 verify selected face and glyph availability; never silently accept Windows font
 substitution. Record the file version/hash when acquired/used. No font binary is
-included in the repository. Font acquisition/use status is in the phase report.
+included in the repository. Acquired/used privately: Regular OTF version 2.004,
+upstream commit `165c01b46ea533872e002e0785ff17e44f6d97d8`, SHA-256
+`dce08bd4fd91aa8aa76ed8fea4b694c2dfb8550f67871e326843212ddbeb88b4`.
+GetFontData SHA-256 equals the explicit file; U+4E2D/U+6587 map to 9544/20036.
 
 ## Surface / success gate
 
-At the chosen dispatch, measure clip rectangle, extent, stride, storage pointer,
-pixel packing, and the eventual copy to the game target. Configured resolution
-and DPI-scaled window dimensions are not proof of target resolution.
-At 1600×1200, a glyph must be rasterized for that actual target scale, rather
-than drawn into a smaller text bitmap that is magnified later. A lower-resolution
-intermediate must be reported explicitly. Stop if meeting the requested output
-requires broad rendering replacement or an unsuitable surface.
+**CONFIRMED R3:** at 1600×1200 the native opening subtitle raster is 595×37,
+RGB555, pitch 1190; the engine scales its UI geometry by 2.5 into a 1600×1200
+XRGB8888 backbuffer, pitch 6400. Chinese bypasses that low-resolution raster.
+After verified EndScene and before native Flip at `0x597B1A`, the existing
+backbuffer is locked, bounded grayscale coverage is blended into final RGB
+pixels, and it is unlocked before the original Flip executes.
+
+Chinese em is 16 logical units: directly rasterized at 40 output pixels for 1600×1200
+and 20 for 800×600, with no enlargement of the Chinese raster. Native Latin keeps
+the game's existing bitmap/texture path. Surface alpha is absent; coverage is
+blended against actual locked background RGB. Cache/output clipping is explicit.
+Window dimensions and screenshots alone are not used as resolution evidence.
+
+No executable instruction bytes are replaced. A 97-byte self-restoring Lock/Unlock
+stub in a private allocation and selected ABI context redirections implement the
+experiment. Remove debug points, finish the call, exit the private process and
+restore the diagnostic text.flx to roll back. The one-frame capture/hold is
+deliberate; continuous rendering, generalized lifetime handling, other resource
+families, fullscreen and wrapping remain unverified. Do not begin P6 automatically.
 
 ## Primary references
 

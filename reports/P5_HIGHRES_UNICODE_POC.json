@@ -1,0 +1,760 @@
+{
+  "schema": "u9cht-p5-highres-poc-v1",
+  "date": "2026-10-30",
+  "phase": "P5",
+  "status": "PASS WITH LIMITATIONS",
+  "classification": "HIGH-RES UNICODE POC PASS (bounded presented-frame experiment)",
+  "resolution_class": "R3",
+  "scope": "entry 4164 only; P6 not executed",
+  "transport": "retained UTF-16, opaque scalar slots, verified copy edges, selective native/Unicode routing",
+  "font": {
+    "repository": "https://github.com/notofonts/noto-cjk",
+    "commit": "165c01b46ea533872e002e0785ff17e44f6d97d8",
+    "font_source": "https://raw.githubusercontent.com/notofonts/noto-cjk/165c01b46ea533872e002e0785ff17e44f6d97d8/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf",
+    "license": "SIL OFL 1.1",
+    "license_source": "https://raw.githubusercontent.com/notofonts/noto-cjk/165c01b46ea533872e002e0785ff17e44f6d97d8/LICENSE",
+    "font_sha256": "dce08bd4fd91aa8aa76ed8fea4b694c2dfb8550f67871e326843212ddbeb88b4",
+    "family": "Noto Sans CJK TC Regular",
+    "version": "2.004",
+    "bytes": 16435884,
+    "rasterizer": "GDI GetGlyphIndicesW + GetGlyphOutlineW GGO_GRAY8_BITMAP",
+    "registration": "private process only"
+  },
+  "runtime_tests": [
+    {
+      "mode": "single",
+      "resource_sha256": "68548b8a78092c85a70267303c6077553b7ff32257368942c5937bc8765d0e04",
+      "utf16_sha256": "96c005e8da3354ec4f079178a0b35792b9cf83d050d07a6a59eea487a7e7a0f5",
+      "output": [
+        1600,
+        1200
+      ],
+      "requested_em_pixels": 40,
+      "scale": "5/2",
+      "glyphs": [
+        {
+          "scalar": 20013,
+          "index": 9544,
+          "em_pixels": 40,
+          "width": 32,
+          "height": 37,
+          "bearing_x": 4,
+          "bearing_y": 34,
+          "advance": 40
+        }
+      ],
+      "unicode_draws": [
+        {
+          "scalar": 20013,
+          "offset": 0,
+          "x": 0,
+          "y": 20,
+          "logical_advance": 16
+        }
+      ],
+      "native_glyph_calls": 127,
+      "width_overrides": 1,
+      "placements": [
+        {
+          "scalar": 20013,
+          "left": 69,
+          "top": 36,
+          "clip": [
+            69,
+            36,
+            101,
+            73
+          ]
+        }
+      ],
+      "pixel_write_count": 394,
+      "glyph_lookup_count": 1,
+      "registers_restored": true,
+      "lock_hresult": "0x0",
+      "unlock_hresult": "0x0",
+      "flip_hresult": "0x0",
+      "cleanup_errors": [],
+      "elapsed_seconds": 79.64,
+      "evidence": ".local/p5-highres/single-1600-01.json",
+      "visual_status": "PASS",
+      "native_cache_dimensions": [
+        589,
+        37
+      ],
+      "native_cache_sha256": "e060be57b2afbb735dccc69957823ea0ca715419bce300e277b30a372d1c4481",
+      "locked_surface": {
+        "width": 1600,
+        "height": 1200,
+        "pitch": 6400,
+        "caps": 24596
+      }
+    },
+    {
+      "mode": "two",
+      "resource_sha256": "17554d48b036e1c8309e96195ac552c1e694cdd898a4fa9383fcbea244752e65",
+      "utf16_sha256": "88cf073b3c387c3ebda8c22f6de2ada0ff6c31e6396c089f03013f7c9ede7d88",
+      "output": [
+        1600,
+        1200
+      ],
+      "requested_em_pixels": 40,
+      "scale": "5/2",
+      "glyphs": [
+        {
+          "scalar": 25991,
+          "index": 20036,
+          "em_pixels": 40,
+          "width": 38,
+          "height": 38,
+          "bearing_x": 2,
+          "bearing_y": 35,
+          "advance": 40
+        },
+        {
+          "scalar": 20013,
+          "index": 9544,
+          "em_pixels": 40,
+          "width": 32,
+          "height": 37,
+          "bearing_x": 4,
+          "bearing_y": 34,
+          "advance": 40
+        }
+      ],
+      "unicode_draws": [
+        {
+          "scalar": 20013,
+          "offset": 0,
+          "x": 0,
+          "y": 20,
+          "logical_advance": 16
+        },
+        {
+          "scalar": 25991,
+          "offset": 1,
+          "x": 16,
+          "y": 20,
+          "logical_advance": 16
+        }
+      ],
+      "native_glyph_calls": 126,
+      "width_overrides": 2,
+      "unicode_foreground_rgb": [
+        181,
+        132,
+        239
+      ],
+      "placements": [
+        {
+          "scalar": 20013,
+          "left": 74,
+          "top": 36,
+          "clip": [
+            74,
+            36,
+            106,
+            73
+          ]
+        },
+        {
+          "scalar": 25991,
+          "left": 112,
+          "top": 35,
+          "clip": [
+            112,
+            35,
+            150,
+            73
+          ]
+        }
+      ],
+      "pixel_write_count": 854,
+      "glyph_lookup_count": 2,
+      "registers_restored": true,
+      "lock_hresult": "0x0",
+      "unlock_hresult": "0x0",
+      "flip_hresult": "0x0",
+      "cleanup_errors": [],
+      "elapsed_seconds": 89.797,
+      "evidence": ".local/p5-highres/two-1600-01.json",
+      "visual_status": "PASS",
+      "native_cache_dimensions": [
+        585,
+        37
+      ],
+      "native_cache_sha256": "dbe23b120eaa53c67dd795bb483a8525840a0da55a39ea6c4eb33d135ab2450f",
+      "locked_surface": {
+        "width": 1600,
+        "height": 1200,
+        "pitch": 6400,
+        "caps": 24596
+      }
+    },
+    {
+      "mode": "mixed",
+      "resource_sha256": "5bb0449a343ba472831514a979e81548a0567eb53aafed7f9fccd860e0a3b1d6",
+      "utf16_sha256": "ca8f3d341f7417c7b0124eb451c560e69ef2d12563086efbc30d612c0e1b15b2",
+      "output": [
+        1600,
+        1200
+      ],
+      "requested_em_pixels": 40,
+      "scale": "5/2",
+      "glyphs": [
+        {
+          "scalar": 25991,
+          "index": 20036,
+          "em_pixels": 40,
+          "width": 38,
+          "height": 38,
+          "bearing_x": 2,
+          "bearing_y": 35,
+          "advance": 40
+        },
+        {
+          "scalar": 20013,
+          "index": 9544,
+          "em_pixels": 40,
+          "width": 32,
+          "height": 37,
+          "bearing_x": 4,
+          "bearing_y": 34,
+          "advance": 40
+        }
+      ],
+      "unicode_draws": [
+        {
+          "scalar": 20013,
+          "offset": 7,
+          "x": 60,
+          "y": 20,
+          "logical_advance": 16
+        },
+        {
+          "scalar": 25991,
+          "offset": 8,
+          "x": 76,
+          "y": 20,
+          "logical_advance": 16
+        }
+      ],
+      "native_glyph_calls": 12,
+      "width_overrides": 2,
+      "unicode_foreground_rgb": [
+        181,
+        132,
+        239
+      ],
+      "placements": [
+        {
+          "scalar": 20013,
+          "left": 804,
+          "top": 36,
+          "clip": [
+            804,
+            36,
+            836,
+            73
+          ]
+        },
+        {
+          "scalar": 25991,
+          "left": 842,
+          "top": 35,
+          "clip": [
+            842,
+            35,
+            880,
+            73
+          ]
+        }
+      ],
+      "pixel_write_count": 854,
+      "glyph_lookup_count": 2,
+      "registers_restored": true,
+      "lock_hresult": "0x0",
+      "unlock_hresult": "0x0",
+      "flip_hresult": "0x0",
+      "cleanup_errors": [],
+      "elapsed_seconds": 125.328,
+      "evidence": ".local/p5-highres/mixed-1600-01.json",
+      "visual_status": "REJECTED: native tail clipped",
+      "native_cache_dimensions": [
+        120,
+        22
+      ],
+      "native_cache_sha256": "a2a5ca75ff9e11c53fb1a1616986eddc060163cfc7744983f1c24a992e9ba8fa",
+      "locked_surface": {
+        "width": 1600,
+        "height": 1200,
+        "pitch": 6400,
+        "caps": 24596
+      }
+    },
+    {
+      "mode": "mixed",
+      "resource_sha256": "5bb0449a343ba472831514a979e81548a0567eb53aafed7f9fccd860e0a3b1d6",
+      "utf16_sha256": "ca8f3d341f7417c7b0124eb451c560e69ef2d12563086efbc30d612c0e1b15b2",
+      "output": [
+        1600,
+        1200
+      ],
+      "requested_em_pixels": 40,
+      "scale": "5/2",
+      "glyphs": [
+        {
+          "scalar": 25991,
+          "index": 20036,
+          "em_pixels": 40,
+          "width": 38,
+          "height": 38,
+          "bearing_x": 2,
+          "bearing_y": 35,
+          "advance": 40
+        },
+        {
+          "scalar": 20013,
+          "index": 9544,
+          "em_pixels": 40,
+          "width": 32,
+          "height": 37,
+          "bearing_x": 4,
+          "bearing_y": 34,
+          "advance": 40
+        }
+      ],
+      "unicode_draws": [
+        {
+          "scalar": 20013,
+          "offset": 7,
+          "x": 60,
+          "y": 20,
+          "logical_advance": 16
+        },
+        {
+          "scalar": 25991,
+          "offset": 8,
+          "x": 76,
+          "y": 20,
+          "logical_advance": 16
+        }
+      ],
+      "native_glyph_calls": 12,
+      "width_overrides": 4,
+      "width_consumers": [
+        "0x5c7bba",
+        "0x5c7bba",
+        "0x5c5f62",
+        "0x5c5f62"
+      ],
+      "unicode_foreground_rgb": [
+        181,
+        132,
+        239
+      ],
+      "placements": [
+        {
+          "scalar": 20013,
+          "left": 776,
+          "top": 36,
+          "clip": [
+            776,
+            36,
+            808,
+            73
+          ]
+        },
+        {
+          "scalar": 25991,
+          "left": 814,
+          "top": 35,
+          "clip": [
+            814,
+            35,
+            852,
+            73
+          ]
+        }
+      ],
+      "pixel_write_count": 854,
+      "glyph_lookup_count": 2,
+      "registers_restored": true,
+      "lock_hresult": "0x0",
+      "unlock_hresult": "0x0",
+      "flip_hresult": "0x0",
+      "cleanup_errors": [],
+      "elapsed_seconds": 117.109,
+      "evidence": ".local/p5-highres/mixed-1600-02.json",
+      "visual_status": "PASS",
+      "native_cache_dimensions": [
+        142,
+        22
+      ],
+      "native_cache_sha256": "c237a4bb68c5f6d2a475b62d5b843f80fb6f6efb3ad2675c0ca73500a0b9b8cb",
+      "locked_surface": {
+        "width": 1600,
+        "height": 1200,
+        "pitch": 6400,
+        "caps": 24596
+      }
+    },
+    {
+      "mode": "mixed",
+      "resource_sha256": "5bb0449a343ba472831514a979e81548a0567eb53aafed7f9fccd860e0a3b1d6",
+      "utf16_sha256": "ca8f3d341f7417c7b0124eb451c560e69ef2d12563086efbc30d612c0e1b15b2",
+      "output": [
+        800,
+        600
+      ],
+      "requested_em_pixels": 20,
+      "scale": "5/4",
+      "glyphs": [
+        {
+          "scalar": 25991,
+          "index": 20036,
+          "em_pixels": 20,
+          "width": 19,
+          "height": 19,
+          "bearing_x": 1,
+          "bearing_y": 17,
+          "advance": 20
+        },
+        {
+          "scalar": 20013,
+          "index": 9544,
+          "em_pixels": 20,
+          "width": 16,
+          "height": 19,
+          "bearing_x": 2,
+          "bearing_y": 17,
+          "advance": 20
+        }
+      ],
+      "unicode_draws": [
+        {
+          "scalar": 20013,
+          "offset": 7,
+          "x": 60,
+          "y": 20,
+          "logical_advance": 16
+        },
+        {
+          "scalar": 25991,
+          "offset": 8,
+          "x": 76,
+          "y": 20,
+          "logical_advance": 16
+        }
+      ],
+      "native_glyph_calls": 12,
+      "width_overrides": 4,
+      "width_consumers": [
+        "0x5c7bba",
+        "0x5c7bba",
+        "0x5c5f62",
+        "0x5c5f62"
+      ],
+      "unicode_foreground_rgb": [
+        181,
+        132,
+        239
+      ],
+      "placements": [
+        {
+          "scalar": 20013,
+          "left": 388,
+          "top": 18,
+          "clip": [
+            388,
+            18,
+            404,
+            37
+          ]
+        },
+        {
+          "scalar": 25991,
+          "left": 407,
+          "top": 18,
+          "clip": [
+            407,
+            18,
+            426,
+            37
+          ]
+        }
+      ],
+      "pixel_write_count": 261,
+      "glyph_lookup_count": 2,
+      "registers_restored": true,
+      "lock_hresult": "0x0",
+      "unlock_hresult": "0x0",
+      "flip_hresult": "0x0",
+      "cleanup_errors": [],
+      "elapsed_seconds": 85.094,
+      "evidence": ".local/p5-highres/mixed-800-01.json",
+      "visual_status": "NOT CAPTURED",
+      "native_cache_dimensions": [
+        142,
+        22
+      ],
+      "native_cache_sha256": "c237a4bb68c5f6d2a475b62d5b843f80fb6f6efb3ad2675c0ca73500a0b9b8cb",
+      "locked_surface": {
+        "width": 800,
+        "height": 600,
+        "pitch": 3200,
+        "caps": 24596
+      }
+    },
+    {
+      "mode": "mixed",
+      "resource_sha256": "5bb0449a343ba472831514a979e81548a0567eb53aafed7f9fccd860e0a3b1d6",
+      "utf16_sha256": "ca8f3d341f7417c7b0124eb451c560e69ef2d12563086efbc30d612c0e1b15b2",
+      "output": [
+        800,
+        600
+      ],
+      "requested_em_pixels": 20,
+      "scale": "5/4",
+      "glyphs": [
+        {
+          "scalar": 25991,
+          "index": 20036,
+          "em_pixels": 20,
+          "width": 19,
+          "height": 19,
+          "bearing_x": 1,
+          "bearing_y": 17,
+          "advance": 20
+        },
+        {
+          "scalar": 20013,
+          "index": 9544,
+          "em_pixels": 20,
+          "width": 16,
+          "height": 19,
+          "bearing_x": 2,
+          "bearing_y": 17,
+          "advance": 20
+        }
+      ],
+      "unicode_draws": [
+        {
+          "scalar": 20013,
+          "offset": 7,
+          "x": 60,
+          "y": 20,
+          "logical_advance": 16
+        },
+        {
+          "scalar": 25991,
+          "offset": 8,
+          "x": 76,
+          "y": 20,
+          "logical_advance": 16
+        }
+      ],
+      "native_glyph_calls": 12,
+      "width_overrides": 4,
+      "width_consumers": [
+        "0x5c7bba",
+        "0x5c7bba",
+        "0x5c5f62",
+        "0x5c5f62"
+      ],
+      "unicode_foreground_rgb": [
+        181,
+        132,
+        239
+      ],
+      "placements": [
+        {
+          "scalar": 20013,
+          "left": 388,
+          "top": 18,
+          "clip": [
+            388,
+            18,
+            404,
+            37
+          ]
+        },
+        {
+          "scalar": 25991,
+          "left": 407,
+          "top": 18,
+          "clip": [
+            407,
+            18,
+            426,
+            37
+          ]
+        }
+      ],
+      "pixel_write_count": 261,
+      "glyph_lookup_count": 2,
+      "registers_restored": true,
+      "lock_hresult": "0x0",
+      "unlock_hresult": "0x0",
+      "flip_hresult": "0x0",
+      "cleanup_errors": [],
+      "elapsed_seconds": 80.141,
+      "evidence": ".local/p5-highres/mixed-800-02.json",
+      "visual_status": "PASS",
+      "native_cache_dimensions": [
+        142,
+        22
+      ],
+      "native_cache_sha256": "c237a4bb68c5f6d2a475b62d5b843f80fb6f6efb3ad2675c0ca73500a0b9b8cb",
+      "locked_surface": {
+        "width": 800,
+        "height": 600,
+        "pitch": 3200,
+        "caps": 24596
+      }
+    }
+  ],
+  "resource_mutations": [
+    {
+      "mode": "single",
+      "original_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+      "rebuilt_sha256": "68548b8a78092c85a70267303c6077553b7ff32257368942c5937bc8765d0e04",
+      "original_size": 1200660,
+      "rebuilt_size": 1200660,
+      "difference_count": 2,
+      "entry_id": 4164,
+      "entry_offset": 676832,
+      "original_entry_size": 260,
+      "rebuilt_entry_size": 260,
+      "size_delta": 0,
+      "changed_payload_ids": [
+        4164
+      ],
+      "changed_offset_count": 0,
+      "all_unmodified_payloads_identical": true,
+      "padding_changed": false,
+      "slot_count_changed": false
+    },
+    {
+      "mode": "two",
+      "original_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+      "rebuilt_sha256": "17554d48b036e1c8309e96195ac552c1e694cdd898a4fa9383fcbea244752e65",
+      "original_size": 1200660,
+      "rebuilt_size": 1200660,
+      "difference_count": 4,
+      "entry_id": 4164,
+      "entry_offset": 676832,
+      "original_entry_size": 260,
+      "rebuilt_entry_size": 260,
+      "size_delta": 0,
+      "changed_payload_ids": [
+        4164
+      ],
+      "changed_offset_count": 0,
+      "all_unmodified_payloads_identical": true,
+      "padding_changed": false,
+      "slot_count_changed": false
+    },
+    {
+      "mode": "mixed",
+      "original_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+      "rebuilt_sha256": "5bb0449a343ba472831514a979e81548a0567eb53aafed7f9fccd860e0a3b1d6",
+      "original_size": 1200660,
+      "rebuilt_size": 1200430,
+      "difference_count": 250894,
+      "entry_id": 4164,
+      "entry_offset": 676832,
+      "original_entry_size": 260,
+      "rebuilt_entry_size": 30,
+      "size_delta": -230,
+      "changed_payload_ids": [
+        4164
+      ],
+      "changed_offset_count": 3491,
+      "all_unmodified_payloads_identical": true,
+      "padding_changed": false,
+      "slot_count_changed": false
+    }
+  ],
+  "screenshots": [
+    {
+      "path": ".local/evidence/P5_1600_WINDOWED_20261030.png",
+      "sha256": "df1c1bf81c4fd460d72842d1bec804cca8650a5196d80d3acc30d66708ed730f",
+      "published": false
+    },
+    {
+      "path": ".local/evidence/P5_SINGLE_1600_20261030.png",
+      "sha256": "7bba634985deb789270ba94a15fd98af8ed0d91fafaf17bc1a50056cd5f26dae",
+      "published": false
+    },
+    {
+      "path": ".local/evidence/P5_TWO_1600_20261030.png",
+      "sha256": "de23aa5ac45c4d77ad96853d2079e868aedfb6076f6fdbae7e6802fe1cdf155d",
+      "published": false
+    },
+    {
+      "path": ".local/evidence/P5_MIXED_CLIP_1600_20261030.png",
+      "sha256": "854660b6c9e73719210541b63fc4f7ee6e4666b30ca6e191320777727d607aa9",
+      "published": false
+    },
+    {
+      "path": ".local/evidence/P5_MIXED_1600_20261030.png",
+      "sha256": "fae289d6e378a0e77c255fc7b853051637ad973f21b45cd35544fbad3fe8d9b6",
+      "published": false
+    },
+    {
+      "path": ".local/evidence/P5_MIXED_800_20261030.png",
+      "sha256": "8dd2287a4c7a210bb82b3d8488aaf9d0d2d22204359bf7e1540a3f504d652c02",
+      "published": false
+    }
+  ],
+  "tests": {
+    "before": {
+      "run": 55,
+      "passed": 55,
+      "skipped": 0
+    },
+    "after": {
+      "run": 65,
+      "passed": 65,
+      "skipped": 0
+    },
+    "ordinary_without_assets": {
+      "run": 65,
+      "passed": 64,
+      "skipped": 1
+    },
+    "command": "python -m unittest discover -s tests -v"
+  },
+  "rollback": {
+    "status": "RESTORED",
+    "protected_assets": [
+      {
+        "filename": "u9.exe",
+        "sha256": "83915175abaf8a65dab96fc42f1feed24a78f55dc8b28a736b61ffa83314b545",
+        "matches_p0": true
+      },
+      {
+        "filename": "static/BOOKS-EN.FLX",
+        "sha256": "a0653ef3608537575e707faa56aca6f24efc2eddaab554d49279d6c1c1a8858b",
+        "matches_p0": true
+      },
+      {
+        "filename": "static/TYPENAME.FLX",
+        "sha256": "26c9042d2e8f0f55559c84c22113ae62348ed0694375ad02b4fe65fea9e3f4ca",
+        "matches_p0": true
+      },
+      {
+        "filename": "static/misctext.flx",
+        "sha256": "3c5bb8845ff101bfba87f38dcb253d81eb9bee6580d18c22a1649179e5e9b570",
+        "matches_p0": true
+      },
+      {
+        "filename": "static/text.flx",
+        "sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+        "matches_p0": true
+      }
+    ],
+    "private_configuration_restored_to_starting_800_windowed": true,
+    "original_installation_written": false
+  }
+}
