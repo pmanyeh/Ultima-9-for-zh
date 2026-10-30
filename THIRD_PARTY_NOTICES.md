@@ -17,3 +17,17 @@ its BSD-style license (installed LICENSE.TXT). Distribution metadata reports
 5.0.9; the imported module reports 5.0.7. No Capstone source/binary is vendored,
 and it is an optional local dependency of the experimental trace script, not of
 the normal text tools or unit suite. No package was installed during this batch.
+
+P5-0 adds an optional, isolated `tools/OctodiffProbe` project using **Octodiff
+1.3.23** (assembly 1.3.23.0), Apache License 2.0. This exact historical version
+matches UltimaPatcher's dependency and retains its original target-hash check.
+It is a private executable-reconstruction research dependency, not a dependency
+of the Python FLX tools or ordinary unit tests. No Octodiff binary is vendored.
+NuGet package SHA-256:
+`ecd44c02fdfe1730fca5ea091e4b7a409380adf994f03923fb11718076f86bf3`.
+The package includes `LICENSE.txt`; source reference tag 1.3.23 resolves to
+`bc821c41cb3a497e16229c1e81b7a51146abab7e` in
+[OctopusDeploy/Octodiff](https://github.com/OctopusDeploy/Octodiff/tree/bc821c41cb3a497e16229c1e81b7a51146abab7e).
+The package is deprecated upstream; using its pinned applier here reproduces
+the patcher's behavior rather than upgrading an experimental protocol client.
+The small Python metadata inspectors are project-written and are not appliers.

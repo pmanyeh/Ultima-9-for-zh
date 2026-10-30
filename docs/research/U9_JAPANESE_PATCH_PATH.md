@@ -59,3 +59,13 @@ Launcher-script SHA-256:
 `aaf2071f1a5124ff63b1527f194da8bb60adc86ebb6c00ace7c70c7d3835bfa9`.
 Actual English/Japanese binary differential remains NOT EXECUTED because no
 lawful local Japanese oracle is available. This batch does not acquire one.
+
+## P5-0 continuation — 2026-10-30
+
+The source-only boundary above describes the historical P4 batch. The human later
+explicitly authorized private acquisition of the pinned delta/signature and local
+reconstruction. It succeeded with the original target-hash validation enabled;
+no Japanese language-pack assets were downloaded. See
+[P5-0 reconstruction](../../reports/P5_JP_PATCH_RECONSTRUCTION.md) and
+[CJK implementation](U9_JP_CJK_IMPLEMENTATION.md). These supersede P4's UNKNOWN
+executable-mechanism findings without retroactively changing its scope.

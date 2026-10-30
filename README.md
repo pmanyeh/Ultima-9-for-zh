@@ -1,8 +1,9 @@
 # U9-CHT — Ultima IX 繁體中文化
 
 執行依據為 [AGENTS.md](AGENTS.md) 與 [Master Plan](ULTIMA_IX_CHT_MASTER_PLAN.md)。
-初始批次為 P0、P1、P2（限 `text.flx`）；後續已明確授權 P3 診斷。
-各階段須通過 Gate；P4 以後仍需另行授權。
+初始批次為 P0、P1、P2（限 `text.flx`）；後續已明確授權 P3、P4 診斷及
+P5-0 日文執行檔重建／靜態差異研究。Unicode renderer 實作目前暫緩，
+P6 尚未授權，各階段須通過 Gate。
 
 目前狀態（2026-10-29）：P0～P2 **PASS WITH LIMITATIONS**。
 英文 `text.flx` 未修改往返為 **BYTE-PERFECT PASS**，獨立遊戲副本的開場
@@ -12,11 +13,18 @@ runtime 冒煙測試通過。後續 P3 已完成單筆 ASCII／BMP 診斷：ASCI
 詳見 [P0](reports/P0_PRECHECK.md)、[P1](reports/P1_ASSET_INVENTORY.md)、
 [P2](reports/P2_ROUNDTRIP_DIFF.md)、[P3 報告](reports/P3_FIRST_CHT_POC.md)。
 
-P4 已另獲診斷授權，目前仍為**未完成的進度快照**。已確認選定字串經過
-`WideCharToMultiByte(CP_ACP)`，輸出為 `A4 A4` 且回報緩衝區不足；排版與
-最終字形查找仍待追蹤。詳見 [P4 進度報告](reports/P4_RENDER_PATH.md)。
-私人資源副本已還原；下次啟動前必須先設定並確認視窗模式，現有追蹤工具
-尚未自動設定視窗模式。P5 未授權。
+P4-C2 已於 2026-10-30 完成：`WideCharToMultiByte(CP_ACP)` 的容量不足問題，
+以及後續將 `A4 A4` 分別做 byte-width／bitmap lookup 的路徑均已確認。
+詳見 [P4 報告](reports/P4_RENDER_PATH.md)。私人資源副本已還原，追蹤工具
+會檢查已驗證的視窗模式設定。
+
+P5-0 已完成 **JP CJK PATH CONFIRMED（靜態）**：固定版 Octodiff 在保留
+hash validation 下接受現有英文 basis，於忽略目錄重建日文執行檔。已定位
+容量查詢、Shift-JIS 配對、GDI 字形快取及原生 bitmap 分流；分類為 J2，
+不能只改 CP932→CP950。未啟動日文執行檔、下載語言包或實作 renderer。
+詳見 [重建報告](reports/P5_JP_PATCH_RECONSTRUCTION.md)、
+[差異報告](reports/P5_JP_BINARY_DIFF.md)、
+[CJK 機制](docs/research/U9_JP_CJK_IMPLEMENTATION.md)。
 
 需要 Python 3.12 以上與 Git。工具使用 Python 標準函式庫及一份附 MIT 授權的
 TITAN reader 原始碼，不需安裝 TITAN 的其他套件。
