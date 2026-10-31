@@ -1,0 +1,51 @@
+#pragma once
+#include "hook_manager.h"
+#include "identity.h"
+#include "platform.h"
+#include <atomic>
+
+namespace u9cht {
+struct EntryStats {
+    uint64_t wide = 0, cache = 0, copies = 0, layout = 0, bounds = 0, glyph = 0;
+    uint64_t raster = 0, queue = 0, submissions = 0, presentations = 0, freed = 0;
+};
+struct Placement { uint32_t offset = 0; int32_t x = 0, y = 0; };
+struct RasterBinding {
+    uintptr_t address = 0, pixels = 0;
+    uint32_t plan = 0, width = 0, height = 0, stride = 0, count = 0;
+    uint64_t generation = 0, hash = 0, paint_generation = 0;
+    std::array<Placement, MaxText> placements{};
+};
+struct QueueBinding {
+    uintptr_t address = 0, raster = 0;
+    uint32_t plan = 0;
+    uint64_t generation = 0, raster_generation = 0, last_frame = 0;
+};
+struct Engine {
+    Pack pack;
+    Registry registry;
+    HookManager hooks;
+    Logger* log = nullptr;
+    bool render = false;
+    SRWLOCK mutex = SRWLOCK_INIT;
+    SRWLOCK io_gate = SRWLOCK_INIT;
+    std::atomic<bool> accepting{false}, entered{false};
+    std::atomic<uint32_t> active{0}, errors{0}, first_error{0};
+    Handle worker, stop;
+    uint64_t started = 0, frame = 1, generations = 0, flips = 0;
+    uint32_t max_rasters = 0, max_queues = 0;
+    std::array<EntryStats, MaxPlans> stats{};
+    std::array<RasterBinding, 64> rasters{};
+    std::array<QueueBinding, 128> queues{};
+    bool begin() noexcept;
+    void fail(uint32_t code) noexcept;
+    void install(const Config& config, Logger& logger);
+    bool shutdown(bool explicit_unload) noexcept;
+    void snapshot(const char* event) noexcept;
+    Located locate(uintptr_t source) noexcept;
+    RasterBinding* raster(uintptr_t address) noexcept;
+    QueueBinding* queue(uintptr_t address) noexcept;
+    void retire(uintptr_t address) noexcept;
+};
+extern Engine* engine;
+}

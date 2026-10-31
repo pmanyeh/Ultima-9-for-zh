@@ -1,5 +1,5 @@
 {
-  "gate": "P5.1-A",
+  "gate": "P5.1-A/B",
   "status": "PASS WITH LIMITATIONS",
   "normal_no_debugger_3d": true,
   "ready_before_resume": true,
@@ -44,9 +44,9 @@
     "skipped": 0
   },
   "native_ctest": {
-    "executables": 1,
+    "executables": 3,
     "status": "PASS",
-    "checks": "8 bootstrap + loader/primary isolation integration"
+    "checks": "8 bootstrap + loader isolation; 10 hooks; 13 identities"
   },
   "phase": "P5.1",
   "overall_complete": false,
@@ -54,7 +54,6 @@
   "starting_head": "de789311e92f437060aef6d76ca3a6908a5b07d6",
   "documentation_checkpoint": "5a873fe",
   "remaining_gates": {
-    "B": "NOT EXECUTED",
     "C": "NOT EXECUTED",
     "D": "NOT EXECUTED",
     "E": "NOT EXECUTED",
@@ -75,6 +74,39 @@
     {
       "path": ".local/p5-1/evidence/forced-failure-03.jsonl",
       "sha256": "7f261ec2faa3ddaebe7b7b46aaad3920cf5e0fd6897323082a4ccaaecdd0774a"
+    },
+    {
+      "path": ".local/p5-1/evidence/observe-normal-01.jsonl",
+      "sha256": "e775b254e040374a87d678a2546a33d5ee89942afda3abf21c5d1c74a836bc15"
+    },
+    {
+      "path": ".local/p5-1/evidence/observe-force-01.jsonl",
+      "sha256": "cc2fa0f602926f24a5a5c8096590c271e7d7c42aa629e0b4fc84680f3a5d2b09"
     }
-  ]
+  ],
+  "gate_b": "PASS",
+  "gate_b_evidence": {
+    "duration_ms": 117203,
+    "hooks": 13,
+    "errors": 0,
+    "exit_code": 0,
+    "live_buffers_at_exit": 0,
+    "live_rasters_at_exit": 0,
+    "live_queues_at_exit": 0,
+    "restored": true,
+    "entries": [
+      4164,
+      4166,
+      4167,
+      4168,
+      4169
+    ],
+    "presentations": [
+      598,
+      428,
+      459,
+      202,
+      312
+    ]
+  }
 }

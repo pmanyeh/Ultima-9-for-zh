@@ -11,9 +11,9 @@ authorized. This document is an active checkpoint, not a completed P5.1 claim.
 
 # Status
 
-**PASS WITH LIMITATIONS — Gate A bootstrap checkpoint only.**
+**PASS WITH LIMITATIONS — Gates A and B checkpoint.**
 **P5.1 overall remains INCOMPLETE.** No persistent Unicode rendering or long-run
-result is claimed by the bootstrap tests. Gates B–I remain NOT EXECUTED here.
+result is claimed by these tests. Gates C–I remain incomplete here.
 
 # Environment
 
@@ -48,6 +48,15 @@ does not use a debugger, debug registers, breakpoints or EIP redirection.
 
 # Findings
 
+**CONFIRMED Gate B:** a117.203-second normal observer launch passed all13 hook
+baselines, retained native English visuals and exited0. All five locally selected
+subtitle entries4164/4166/4167/4168/4169 produced UTF-16/cache/copy/both-width/
+glyph/raster/queue/submission/presentation evidence. Per-entry presentations were
+598/428/459/202/312. Hook errors0; all live buffers/rasters/queues returned to0;
+maximum6 live buffers. Normal ExitProcess restored all full spans/pointers at
+active_calls0. An independent forced failure **after hook installation** verified
+full reverse restoration, unload and owned allocation release before resume.
+
 **CONFIRMED Gate A:** the normally loaded runtime reaches the native800×600 3D
 scene with unchanged English rendering, READY before resume and debugger=false;
 normal exit0. Explicit inert-runtime shutdown/unload is verified by a fresh
@@ -62,6 +71,11 @@ and an asset-free primary-isolation subprocess test resolve this without manual
 EIP changes or execution of the game's primary entry before READY.
 
 # Evidence
+
+Gate B private logs:`.local/p5-1/evidence/observe-normal-01.jsonl` and
+`observe-force-01.jsonl`; native-English screenshot
+`.local/evidence/P5_1_B_NATIVE_800.png`. The explicit private allowlist is built
+from the pristine legitimate archive by `scripts/build_p5_1_test_pack.py`.
 
 Private `.local/p5-1/evidence/bootstrap-normal-01.jsonl`,
 `bootstrap-unload-01.jsonl`, `forced-failure-03.jsonl`; `.local/p5-1/gate-a.json`
@@ -83,16 +97,18 @@ cmake --build .local/p5-1/build --config Release
 ctest --test-dir .local/p5-1/build -C Release --output-on-failure
 ```
 
-Build PASS with /W4 /WX. CTest **1/1 PASS**: eight bootstrap checks and asset-free
-loader/primary-isolation integration. PE headers confirm all targets x86.
+Build PASS with /W4 /WX. CTest **3/3 PASS**: eight bootstrap checks plus asset-free
+loader/primary isolation, ten hook/gateway/rollback checks and13 identity checks.
+PE headers confirm all targets x86.
 Baseline-only launcher validation creates no game. Forced failure exits2 as
-expected; loaded/unloaded normal launches exit0. No original code was patched.
+expected; loaded/unloaded/observer normal launches exit0. Observer patches only
+live process memory and verifies original-byte restoration; disk code is intact.
 
 # Results
 
-Gate A PASS. Pristine text export/import remains BYTE-PERFECT PASS via the local
+Gates A and B PASS. Pristine text export/import remains BYTE-PERFECT PASS via the local
 integration test. Protected assets and private Options.ini/dxcfg.ini are unchanged.
-This checkpoint does not establish persistent hooks, Unicode composition,
+This checkpoint establishes persistent observe hooks, but not Unicode composition,
 multi-entry lifecycle, fullscreen/device recovery or soak stability.
 
 # Files Changed
@@ -121,5 +137,5 @@ No previous phase was redone or reclassified. P6 remains unauthorized.
 
 # Recommendation
 
-Continue authorized P5.1 with observe/pass-through hook equivalence, then the
-remaining lifecycle/rendering gates. **DO NOT AUTHORIZE P6 on this checkpoint.**
+Continue authorized P5.1 with the remaining lifecycle/rendering gates.
+**DO NOT AUTHORIZE P6 on this checkpoint.**
