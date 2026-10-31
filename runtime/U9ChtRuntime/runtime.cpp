@@ -37,8 +37,7 @@ extern "C" DWORD WINAPI U9ChtInitialize(void* argument) noexcept {
                            "unexpected loaded wrapper");
         }
         config->error = u9cht::Error::UnsupportedMode;
-        u9cht::require(config->mode != u9cht::Mode::Render, "render gate requires observed equivalence first");
-        if (config->mode == u9cht::Mode::Observe) {
+        if (config->mode != u9cht::Mode::Bootstrap) {
             config->error = u9cht::Error::Initialization;
             u9cht::engine = new u9cht::Engine;
             u9cht::engine->install(*config, log_file);

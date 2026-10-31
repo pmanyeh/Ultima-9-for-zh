@@ -2,19 +2,22 @@
 #include "hook_manager.h"
 #include "identity.h"
 #include "platform.h"
+#include "compositor.h"
 #include <atomic>
 
 namespace u9cht {
 struct EntryStats {
     uint64_t wide = 0, cache = 0, copies = 0, layout = 0, bounds = 0, glyph = 0;
     uint64_t raster = 0, queue = 0, submissions = 0, presentations = 0, freed = 0;
+    uint64_t width_overrides = 0, unicode_draws = 0, composites = 0, cache_hits = 0, cache_misses = 0;
 };
 struct Placement { uint32_t offset = 0; int32_t x = 0, y = 0; };
 struct RasterBinding {
     uintptr_t address = 0, pixels = 0;
     uint32_t plan = 0, width = 0, height = 0, stride = 0, count = 0;
-    uint64_t generation = 0, hash = 0, paint_generation = 0;
+    uint64_t generation = 0, hash = 0, paint_generation = 0, identity = 0;
     std::array<Placement, MaxText> placements{};
+    std::array<uint8_t,3> rgb{181,132,239};
 };
 struct QueueBinding {
     uintptr_t address = 0, raster = 0;
@@ -32,8 +35,16 @@ struct Engine {
     std::atomic<bool> accepting{false}, entered{false};
     std::atomic<uint32_t> active{0}, errors{0}, first_error{0};
     Handle worker, stop;
+    GlyphCache glyphs;
+    FrameList draw_list;
+    SurfaceTracker surface;
+    std::array<uint32_t,32768> colors{};
     uint64_t started = 0, frame = 1, generations = 0, flips = 0;
     uint32_t max_rasters = 0, max_queues = 0;
+    uint64_t composite_count = 0, unicode_runs = 0, pixel_writes = 0, lock_failures = 0, unlock_failures = 0;
+    uint64_t skipped_frames = 0, compositor_ticks = 0, compositor_max_ticks = 0;
+    uint32_t max_frame_records = 0;
+    std::atomic<DWORD> render_thread{0};
     std::array<EntryStats, MaxPlans> stats{};
     std::array<RasterBinding, 64> rasters{};
     std::array<QueueBinding, 128> queues{};
@@ -46,6 +57,7 @@ struct Engine {
     RasterBinding* raster(uintptr_t address) noexcept;
     QueueBinding* queue(uintptr_t address) noexcept;
     void retire(uintptr_t address) noexcept;
+    void compose(uintptr_t backend) noexcept;
 };
 extern Engine* engine;
 }

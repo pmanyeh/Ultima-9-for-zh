@@ -1,5 +1,5 @@
 {
-  "gate": "P5.1-A/B",
+  "gate": "P5.1 active integration checkpoint",
   "status": "PASS WITH LIMITATIONS",
   "normal_no_debugger_3d": true,
   "ready_before_resume": true,
@@ -44,9 +44,9 @@
     "skipped": 0
   },
   "native_ctest": {
-    "executables": 3,
+    "executables": 5,
     "status": "PASS",
-    "checks": "8 bootstrap + loader isolation; 10 hooks; 13 identities"
+    "checks": "bootstrap; hooks; identities/allowlist/malformed; pixel/surface helper; shutdown"
   },
   "phase": "P5.1",
   "overall_complete": false,
@@ -82,6 +82,22 @@
     {
       "path": ".local/p5-1/evidence/observe-force-01.jsonl",
       "sha256": "cc2fa0f602926f24a5a5c8096590c271e7d7c42aa629e0b4fc84680f3a5d2b09"
+    },
+    {
+      "path": ".local/p5-1/evidence/render-force-final.jsonl",
+      "sha256": "49633d0fef8c5d99a16394b404c021c7b971bd6d47eebc574ad07becdb26adc4"
+    },
+    {
+      "path": ".local/p5-1/evidence/render-800-02.jsonl",
+      "sha256": "72fcca9359cd1989052ae287e9c71b40c78255738e40a796867050f650caacdd"
+    },
+    {
+      "path": ".local/p5-1/evidence/render-800-03.jsonl",
+      "sha256": "adb2b6dcd0bb5eab7a830573be41ec0b33e599827d78fa12e51fcc7c96eded51"
+    },
+    {
+      "path": ".local/p5-1/evidence/render-1600-01-soak.jsonl",
+      "sha256": "0aa03352557a921ffbacc3c7b6d46bccd41637bed364e209d3ed381a2329cbc6"
     }
   ],
   "gate_b": "PASS",
@@ -108,5 +124,25 @@
       202,
       312
     ]
+  },
+  "development_renderer": {
+    "status": "PASS WITH LIMITATIONS",
+    "800_composite_frames": 2263,
+    "1600_composite_frames": 1853,
+    "cache_entries": 4,
+    "errors": 0,
+    "entry_ids": [
+      4164,
+      4166,
+      4167,
+      4168,
+      4169,
+      4170
+    ],
+    "all_exits": 0,
+    "long_run_pass": false,
+    "repetition_matrix_complete": false,
+    "fullscreen": "NOT EXECUTED",
+    "true_surface_lost": "NOT OBSERVED"
   }
 }

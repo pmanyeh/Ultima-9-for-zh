@@ -11,9 +11,10 @@ authorized. This document is an active checkpoint, not a completed P5.1 claim.
 
 # Status
 
-**PASS WITH LIMITATIONS — Gates A and B checkpoint.**
+**PASS WITH LIMITATIONS — active integration checkpoint.**
 **P5.1 overall remains INCOMPLETE.** No persistent Unicode rendering or long-run
-result is claimed by these tests. Gates C–I remain incomplete here.
+result is claimed from the short development runs. A/B pass; C/D/E/G mechanisms
+are implemented and validated in short runs. F/H/I final matrix remains pending.
 
 # Environment
 
@@ -47,6 +48,22 @@ DllMain, validates READY and only then resumes the primary. Runtime normal launc
 does not use a debugger, debug registers, breakpoints or EIP redirection.
 
 # Findings
+
+**CONFIRMED short renderer runs:**800×6002263 custom frames;1600×12001853;
+both exited0 with full restoration/font removal. Six locally observed entries
+4164/4166/4167/4168/4169/4170 routed. 4170 was selected after two native ankh
+interactions plus a unique archive match; its test target is distinct to avoid
+ambiguous UTF-16 matching. Private resource mutations preserve other payloads,
+padding and unknown header bytes. Final protected-file restoration follows tests.
+
+Direct20/40em raster hashes match the approved mechanism. Cache4 entries,4 warm-up
+misses, thousands of hits; native Latin stays native. Alt-Tab/minimize recovery
+observed:800×600 skipped233 native-inhibited presentation frames,3 surface
+generations, zero hook/Lock/Unlock errors. Bed rest/awake and ankh interaction
+completed at1600×1200. Fullscreen and actual lost HRESULT remain unestablished.
+An initial validation failure safely quit before Lock:root+0xC was dereferenced
+twice. Existing P5 evidence corrected it. This failed run is retained, not counted
+as success. Long-run tests will restart on the final instrumented build.
 
 **CONFIRMED Gate B:** a117.203-second normal observer launch passed all13 hook
 baselines, retained native English visuals and exited0. All five locally selected
@@ -104,12 +121,23 @@ Baseline-only launcher validation creates no game. Forced failure exits2 as
 expected; loaded/unloaded/observer normal launches exit0. Observer patches only
 live process memory and verifies original-byte restoration; disk code is intact.
 
+Renderer integration:CTest **5/5 PASS** (bootstrap, hooks, identity/strict
+allowlist/malformed inputs, actual pixel/surface helper, quiescent shutdown).
+Python regression **65/65 PASS, zero skips**, pristine text restored for the local
+baseline suite. Native integration checks actual font/face/coverage hashes;
+synthetic tests require no game or font assets.
+
 # Results
 
 Gates A and B PASS. Pristine text export/import remains BYTE-PERFECT PASS via the local
 integration test. Protected assets and private Options.ini/dxcfg.ini are unchanged.
 This checkpoint establishes persistent observe hooks, but not Unicode composition,
 multi-entry lifecycle, fullscreen/device recovery or soak stability.
+
+Short-run private evidence:`render-800-02.jsonl`, `render-800-03.jsonl`,
+`render-1600-01-soak.jsonl` (6.4-minute development run, **not** soak PASS),
+`render-force-final.jsonl` under `.local/p5-1/evidence/`. Repetition and timed
+tests remain outstanding and will use a frozen build with lifetime diagnostics.
 
 # Files Changed
 

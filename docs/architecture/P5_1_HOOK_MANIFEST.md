@@ -56,6 +56,7 @@ No copied span contains a relative/control-transfer instruction.
 | bounds width `5c5f5b` (`1c5f5b`) | `8b84c210ffffff`; 7 | interior MOV, EDI source, EDX font, ECX font record. Execute original MOV; continuation `5c5f62`. |
 | glyph `5c5a80` (`1c5a80`) | `8b54240c80fa20`; 4,3 | thiscall, three stack args x/y/byte, RET12; selected caller `5c5d09`, source at entry ESP+36. Observe native raster global `133393c`; original draws/return preserved. |
 | paint cache `5cfce0` (`1cfce0`) | `64a100000000`; 6 | thiscall ECX cache owner, one widget stack argument; raw original EAX retained. TLS paint generation bounds repaint/raster lifetime. |
+| actual raster repaint `5cfd50` (`1cfd50`) | `891d3c393301`; 6 | interior MOV global133393c=EBX; continuation5cfd56. Retire previous cache/queue generation only after allocation and early-return branches, before actual widget draw. Also invalidates metadata when replacement text is outside the allowlist. |
 | raster/queue `508d50` (`108d50`) | `8a44241053`; 4,1 | thiscall manager, five stack DWORDs: raster, float x/y bits, flags. Selected caller `5cfdbb`. Original completes raster and queue first; inspect bounded lists manager+4/+10, node+8 raster. Original EAX unchanged. |
 | queue destruction `5083f0` (`1083f0`) | `6aff68a8e37200`; 2,5 | thiscall ECX node, no arguments; retire binding before original destructor, raw EAX retained. |
 | native free `7108e0` (`3108e0`) | `8b44240450`; 4,1 | cdecl one pointer; retire exact buffer/raster/queue metadata before original free. |
@@ -92,3 +93,30 @@ No copied span contains a relative/control-transfer instruction.
   `docs/research/U9_TEXT_SURFACE_PIPELINE.md`, offline instruction inspection,
   pinned byte verification and upcoming normal-launch Gate B private counters.
   Gate B is not declared passed by this implementation manifest alone.
+
+## Render activation following Gate B
+
+Gate B13-hook observer passed normal exit with five complete native subtitle
+lifecycles and zero errors. Render integration adds the actual-repaint boundary
+above (14 hooks total) to reject stale cache identity even for non-allowlisted
+repaint. Render mode changes only explicitly associated scalars U+4E2D/U+6587:
+
+- Conversion returns one opaque7f slot per CJK scalar, retains UTF-16 metadata.
+  Native ASCII slots are copied exactly. No legacy code page identifies CJK.
+- Both width callbacks replace only EAX's font-relative metric-header offset;
+  TLS stable32-byte header begins with16 minus verified native spacing. All
+  saved registers/flags/FP state are otherwise restored. Native Latin unchanged.
+- Glyph interception returns that header with RET12 for registered7f CJK slots;
+  it captures logical placement and skips only the low-resolution native draw.
+  Other glyph calls tail-jump to the original gateway. The branch occurs before
+  POPFD, so no test/branch flags escape to the caller.
+- Queue completion verifies expected Unicode-placement count, hashes the native
+  raster and binds generation. Submission validates raster/queue generations,
+  exact cache hash, selected caller, native scale, backend and current backbuffer.
+- Pre-Flip accepts only the observed inactive-scene XRGB8888 target. Current
+  surface is locked/unlocked on the native thread each applicable frame; no
+  cached pixel pointer survives. Glyph cache is prewarmed at20/40em beforeREADY.
+- Fatal association/format/Unlock errors suppress further composition and post
+  a normal WM_QUIT request after leaving any Lock interval. Native unrelated
+  calls remain delegated. Lost/failed Lock skips the frame, invalidates surface
+  generation and permits only a freshly revalidated subsequent surface.

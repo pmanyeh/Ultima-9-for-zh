@@ -9,7 +9,7 @@ cmake --build .local/p5-1/build --config Release
 ctest --test-dir .local/p5-1/build -C Release --output-on-failure
 ```
 
-Gates A/B expose `bootstrap` and `observe`; `render` is not yet enabled.
+`bootstrap`, `observe` and explicitly allowlisted `render` are implemented.
 The launcher requires
 `--game-dir` and a fresh `--log` JSONL path; `--runtime` defaults to the sibling
 U9ChtRuntime.dll. All paths are CLI configuration, never embedded user paths.
@@ -27,4 +27,7 @@ Runtime builds, logs, fonts, allowlists, test resources and gameplay evidence
 remain private. Normal process exit owns final DLL lifetime; general hot-unload
 is not promised. Observe requires an explicit private `--allowlist` pack bound to
 the exact resource hash. It delegates original text/glyph/metrics/pixels unchanged.
-See the hook manifest for all13 reviewed boundaries, ABI and rollback contract.
+Render adds `--font` with the pinned local Noto font, prewarms20/40em CPU glyphs
+and composites only registered CJK at native800×600/1600×1200 output. See the hook
+manifest for all14 reviewed boundaries, ABI and rollback contract. Other target
+resolutions fail closed in this bounded phase. Long-run validation is pending.

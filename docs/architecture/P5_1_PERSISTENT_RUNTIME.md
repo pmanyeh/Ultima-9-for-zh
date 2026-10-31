@@ -68,6 +68,55 @@ is permitted while the backbuffer is locked. Multi-entry, focus/fullscreen,
 repeated launch/exit,15-minute persistence and approximately60-minute soak evidence
 remain required; none is implied by the current bootstrap checks.
 
+## Persistent implementation after observe equivalence
+
+Gate B passed native English with13 hooks and five complete subtitle lifecycles.
+Render uses14 reviewed boundaries, including actual-repaint invalidation after
+native allocation/early returns. Constructor instances receive monotonic identity
+IDs; verified complete copies inherit the ID with a new buffer generation.
+Overlap rejects; free/overwrite/repaint retire bindings. Raster identity includes
+its originating instance and repaint generation. Queue/frame records retain both
+raster and queue generations. Unknown text always remains native.
+
+Only explicit private allowlist UTF-16 matches enter the Unicode route. One7f
+slot represents one supported BMP CJK scalar. Both width consumers use the same
+16-unit logical metric through stable TLS headers. Latin delegates unchanged.
+No legacy encoding identifies a Unicode run.
+
+The font file is hash-verified, registered FR_PRIVATE, exact face name and
+GetFontData bytes checked. GetGlyphIndicesW/GGO_GRAY8_BITMAP|GGO_GLYPH_INDEX
+produce direct20/40em coverage before READY. DC/font objects are created/deleted
+in that initializer thread; only CPU glyphs survive. Cache capacity64, current
+corpus4 keys including full font hash/scalar/em/mode. Missing glyph/key rejects.
+
+Each frame holds up to64 unique queue records and512 glyph commands. Submission
+deduplicates within the presentation and checks raster hash/generations/backend/
+dimensions/scale. Pre-Flip validates inactive scene, current backbuffer and stale
+records, computes bounded clips, locks, blends grayscale into BGRX preserving X,
+then unlocks before native Flip. Frame commands clear after return even on failure.
+No pixel pointer survives Lock. CPU glyphs are never enlarged.
+
+The actual locked helper is shared by native synthetic tests. It allocates
+nothing and calls no GDI/logging. An I/O gate acquired before Lock excludes the
+diagnostics worker's disk writes. Failed/lost Lock skips the frame and invalidates
+surface generation; next valid surface is rechecked. Failed Unlock or identity/
+format faults request normal quit after leaving Lock. Existing opaque slots
+remain suppressed rather than interpreted as ANSI.
+
+ExitProcess disables admission, joins diagnostics and quiesces owned calls before
+full byte/pointer restoration, private-font removal and handle closure. Gateways
+and the small Engine shell remain until OS teardown because late rejected callers
+can still be in gateways. Live hot-unload is refused. Startup rollback restores,
+verifies, frees gateways and unloads before primary resume.
+
+Short development runs confirmed800×6002263 custom frames and1600×12001853,
+all six selected subtitles, zero hook/Lock/Unlock errors and4 cache entries.
+Focus/minimize and rest/awake transitions were observed. A first compositor
+attempt safely quit before Lock because the integration check dereferenced the
+inner interface twice; existing P5 evidence establishes root+0xC is the interface
+itself. Corrected validation passed. These runs do not establish15/60-minute
+stability or the final repetition matrix.
+
 Primary API references:
 [process creation flags](https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags),
 [LoadLibraryW](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryw),
