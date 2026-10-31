@@ -2,14 +2,25 @@
 
 執行依據為 [AGENTS.md](AGENTS.md) 與 [Master Plan](ULTIMA_IX_CHT_MASTER_PLAN.md)。
 初始批次為 P0、P1、P2（限 `text.flx`）；後續已明確授權 P3、P4 診斷及
-P5-0 日文執行檔重建／靜態差異研究。Unicode renderer 實作目前暫緩，
-P6 尚未授權，各階段須通過 Gate。
+P5-0 日文執行檔重建／靜態差異研究，以及 P5 高解析度 Unicode PoC。
+2026-10-31 已明確授權 **P5.1 — Persistent High-Resolution Unicode Renderer
+Integration**；**P6 仍未授權**，各階段須通過 Gate。
 
-目前狀態（2026-10-29）：P0～P2 **PASS WITH LIMITATIONS**。
+目前狀態：**P5-0 PASS（靜態 CJK 機制確認；原報告為 PASS WITH LIMITATIONS）**，
+**P5 HIGH-RES UNICODE POC PASS（受控單幀）**。P5 已驗證保留 UTF-16 身分、
+原生英文與高解析度中文字形混排，並完成 800×600／1600×1200 比較；它仍是
+debugger-driven、有界單幀實驗，**不是持續執行的可遊玩 renderer**。
+P5.1 的工作是將既有成果整合為正常啟動、持續運作、可還原的 x86 runtime，
+不重做 P0～P5 研究，也不展開中文換行、排版或翻譯覆蓋。
+詳見 [P5 報告](reports/P5_HIGHRES_UNICODE_POC.md) 與
+[P5.1 Gate](ULTIMA_IX_CHT_MASTER_PLAN.md#121-p51--persistent-high-resolution-unicode-renderer-integration)。
+
+初始批次狀態（2026-10-29）：P0～P2 **PASS WITH LIMITATIONS**。
 英文 `text.flx` 未修改往返為 **BYTE-PERFECT PASS**，獨立遊戲副本的開場
 runtime 冒煙測試通過。後續 P3 已完成單筆 ASCII／BMP 診斷：ASCII `TEST!!`
 正常顯示；U+4E2D「中」顯示錯誤符號，分類為 **ENCODING / MAPPING FAILURE**。
-依停止條件未執行 changed-length runtime 測試，也未進入 P4。私人副本已還原。
+該 P3 批次依停止條件未執行 changed-length runtime 測試，也未進入 P4。
+私人副本已還原。
 詳見 [P0](reports/P0_PRECHECK.md)、[P1](reports/P1_ASSET_INVENTORY.md)、
 [P2](reports/P2_ROUNDTRIP_DIFF.md)、[P3 報告](reports/P3_FIRST_CHT_POC.md)。
 
@@ -21,7 +32,7 @@ P4-C2 已於 2026-10-30 完成：`WideCharToMultiByte(CP_ACP)` 的容量不足�
 P5-0 已完成 **JP CJK PATH CONFIRMED（靜態）**：固定版 Octodiff 在保留
 hash validation 下接受現有英文 basis，於忽略目錄重建日文執行檔。已定位
 容量查詢、Shift-JIS 配對、GDI 字形快取及原生 bitmap 分流；分類為 J2，
-不能只改 CP932→CP950。未啟動日文執行檔、下載語言包或實作 renderer。
+不能只改 CP932→CP950。該批次未啟動日文執行檔、下載語言包或實作 renderer。
 詳見 [重建報告](reports/P5_JP_PATCH_RECONSTRUCTION.md)、
 [差異報告](reports/P5_JP_BINARY_DIFF.md)、
 [CJK 機制](docs/research/U9_JP_CJK_IMPLEMENTATION.md)。
