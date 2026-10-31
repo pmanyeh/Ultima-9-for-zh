@@ -1,0 +1,4 @@
+LIBRARY U9ChtRuntime
+EXPORTS
+    U9ChtInitialize=_U9ChtInitialize@4
+    U9ChtShutdown=_U9ChtShutdown@4

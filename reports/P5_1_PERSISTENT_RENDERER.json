@@ -1,0 +1,80 @@
+{
+  "gate": "P5.1-A",
+  "status": "PASS WITH LIMITATIONS",
+  "normal_no_debugger_3d": true,
+  "ready_before_resume": true,
+  "explicit_unload_before_resume_verified": true,
+  "normal_exit_codes": [
+    0,
+    0
+  ],
+  "forced_failure_before_resume": true,
+  "rollback_allocation_released": true,
+  "protected_assets": [
+    {
+      "filename": "u9.exe",
+      "sha256": "83915175abaf8a65dab96fc42f1feed24a78f55dc8b28a736b61ffa83314b545",
+      "matches_p0": true
+    },
+    {
+      "filename": "static/BOOKS-EN.FLX",
+      "sha256": "a0653ef3608537575e707faa56aca6f24efc2eddaab554d49279d6c1c1a8858b",
+      "matches_p0": true
+    },
+    {
+      "filename": "static/TYPENAME.FLX",
+      "sha256": "26c9042d2e8f0f55559c84c22113ae62348ed0694375ad02b4fe65fea9e3f4ca",
+      "matches_p0": true
+    },
+    {
+      "filename": "static/misctext.flx",
+      "sha256": "3c5bb8845ff101bfba87f38dcb253d81eb9bee6580d18c22a1649179e5e9b570",
+      "matches_p0": true
+    },
+    {
+      "filename": "static/text.flx",
+      "sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+      "matches_p0": true
+    }
+  ],
+  "configuration_unchanged": true,
+  "python_tests": {
+    "run": 65,
+    "passed": 65,
+    "skipped": 0
+  },
+  "native_ctest": {
+    "executables": 1,
+    "status": "PASS",
+    "checks": "8 bootstrap + loader/primary isolation integration"
+  },
+  "phase": "P5.1",
+  "overall_complete": false,
+  "gate_a": "PASS",
+  "starting_head": "de789311e92f437060aef6d76ca3a6908a5b07d6",
+  "documentation_checkpoint": "5a873fe",
+  "remaining_gates": {
+    "B": "NOT EXECUTED",
+    "C": "NOT EXECUTED",
+    "D": "NOT EXECUTED",
+    "E": "NOT EXECUTED",
+    "F": "NOT EXECUTED",
+    "G": "NOT EXECUTED",
+    "H": "NOT EXECUTED",
+    "I": "NOT EXECUTED"
+  },
+  "evidence": [
+    {
+      "path": ".local/p5-1/evidence/bootstrap-normal-01.jsonl",
+      "sha256": "1fa17a27ed65731e94f30a8c7b5e02a4091c7a02384320e70134702294c6fbab"
+    },
+    {
+      "path": ".local/p5-1/evidence/bootstrap-unload-01.jsonl",
+      "sha256": "d30dca52a6fa7a2d2d9895225cf0bc1a76e07fa08b7e0655a878e393de5878ff"
+    },
+    {
+      "path": ".local/p5-1/evidence/forced-failure-03.jsonl",
+      "sha256": "7f261ec2faa3ddaebe7b7b46aaad3920cf5e0fd6897323082a4ccaaecdd0774a"
+    }
+  ]
+}

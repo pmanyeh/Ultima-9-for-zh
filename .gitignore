@@ -30,3 +30,13 @@ __pycache__/
 .venv/
 bin/
 obj/
+
+# Native runtime build products (use .local/p5-1/build)
+runtime/build/
+CMakeFiles/
+CMakeCache.txt
+*.obj
+*.pdb
+*.lib
+*.exp
+*.ilk
