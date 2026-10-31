@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <string>
+#include <span>
 
 namespace u9cht {
 inline constexpr size_t MaxPlans = 16, MaxText = 512;
@@ -34,6 +35,7 @@ public:
     Located locate(uintptr_t address) noexcept;
     bool retire(uintptr_t address) noexcept;
     uint32_t count() const noexcept;
+    std::span<const Binding> bindings() const noexcept { return buffers_; }
     void clear() noexcept { for (auto& b : buffers_) b = {}; }
 };
 }

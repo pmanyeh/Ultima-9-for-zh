@@ -47,7 +47,7 @@ protected files and private configurations remain unchanged. Private evidence:
 `bootstrap-normal-01.jsonl`, `bootstrap-unload-01.jsonl`,
 `forced-failure-03.jsonl` and `gate-a.json` under `.local/p5-1/`.
 
-## Validation recorded so far
+## Gate A validation (historical checkpoint)
 
 - Original Python baseline:65/65 PASS with local assets, zero skips.
 - MSVC19.51.36252.0, toolset14.51.36231, Windows SDK10.0.26100.0;
@@ -58,7 +58,7 @@ protected files and private configurations remain unchanged. Private evidence:
 - Forced initialization rejection:FAIL handshake as intended, shutdown and
   unload verified, game primary never resumed, no remaining game process.
 
-## Remaining integration gates
+## Initial integration checklist (implementation recorded below)
 
 Observe/pass-through hooks precede Unicode activation. The implementation must
 keep explicit subtitle allowlisting, generalized identity generations, both width
@@ -121,3 +121,35 @@ Primary API references:
 [process creation flags](https://learn.microsoft.com/en-us/windows/win32/procthread/process-creation-flags),
 [LoadLibraryW](https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryw),
 [DllMain constraints](https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-best-practices).
+
+## Version0.1.1 lifetime diagnostics and deferred validation
+
+The fixed0.1.1 build retains bounded lifecycle events in own memory; callbacks
+never write logs. The worker serializes events while excluded from the Lock
+interval. Sequence/tick/entry/address/identity/generation fields prove inheritance
+and retirement. Event kinds:1 cache,2 full copy,3 buffer end,4 raster begin,
+5 raster ready,6 queue begin,7 queue end,8 raster end,9 shutdown marker.
+Raster-ready events include dimensions/stride and the FNV-1a64 cache fingerprint;
+file/font/coverage baselines remain SHA-256. Events after marker9 retire only
+runtime metadata, not native allocations. Capacity4096 per worker interval;
+overflow or diagnostic-write failure rejects continued custom operation.
+
+The strict verifier checks lifecycle/counter agreement, source inheritance,
+generation reuse, READY ordering, fixed cache size, frame activity and clean exit.
+Its15-minute threshold uses a conservative lower bound from actual increments
+in composite counters, rather than elapsed idle time or raster preparation.
+Seven synthetic verifier tests supplement the65 existing Python tests.
+
+On2026-11-01 the user explicitly deferred remaining runtime tests. Last collected
+fixed-build data:1375.203 seconds,3832 custom frames,1035.141-second conservative
+activity span, errors0, glyph cache4, no Lock/Unlock failures or dropped events.
+This is **not** a60-minute PASS.
+Desktop recovery alternated between minimized-window and detected-user-input
+errors, so the agent stopped only its own verified-path test process at the
+user's request (exit0xffffffff). This does not verify0.1.1 normal shutdown or
+hook restoration. Earlier development clean exits and startup rollback remain
+separate evidence. Native memory/private fonts were reclaimed by process teardown.
+Pristine text and original private800×600 configuration were restored afterward.
+
+Remaining final-build cycles, fullscreen and approximate60-minute test are
+DEFERRED BY USER. No P6 authorization follows from this checkpoint.

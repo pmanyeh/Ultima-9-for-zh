@@ -17,7 +17,7 @@ extern "C" DWORD WINAPI U9ChtInitialize(void* argument) noexcept {
         u9cht::require(!initialized, "runtime already initialized");
         const auto game = u9cht::config_path(config->game_dir);
         log_file.open(u9cht::config_path(config->log_path), false);
-        log_file.event("runtime_initializing", "\"version\":\"U9ChtRuntime/0.1.0-p5.1\",\"hooks\":0");
+        log_file.event("runtime_initializing", "\"version\":\""+std::string(u9cht::RuntimeName)+"\",\"hooks\":0");
         config->process_id = GetCurrentProcessId();
         config->image_base = reinterpret_cast<uint32_t>(GetModuleHandleW(nullptr));
         config->error = u9cht::Error::ImageBase;
@@ -45,6 +45,7 @@ extern "C" DWORD WINAPI U9ChtInitialize(void* argument) noexcept {
         }
         config->error = u9cht::Error::ForcedFailure;
         u9cht::require(!(config->flags & u9cht::ForceFailure), "requested initialization failure test");
+        u9cht::require(log_file.failures() == 0,"initialization diagnostic write failed");
         initialized = true;
         config->state = u9cht::State::Ready; config->error = u9cht::Error::None;
         log_file.event("runtime_ready", "\"hooks\":"+std::to_string(config->hooks_installed)+

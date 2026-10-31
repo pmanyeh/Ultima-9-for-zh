@@ -6,7 +6,7 @@
 namespace u9cht {
 inline constexpr uint32_t ProtocolMagic = 0x31484355;
 inline constexpr uint32_t ProtocolVersion = 1;
-inline constexpr uint32_t RuntimeVersion = 0x00010000;
+inline constexpr uint32_t RuntimeVersion = 0x00010100;
 enum class Mode : uint32_t { Bootstrap, Observe, Render };
 enum class State : uint32_t { Empty, Initializing, Ready, Fail, Stopped };
 enum class Error : uint32_t {

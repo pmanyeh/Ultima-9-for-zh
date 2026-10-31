@@ -1,7 +1,8 @@
 # P5.1 runtime hook manifest
 
-Current stage:Gate B observe/pass-through implementation under validation.
-Chinese rendering remains disabled until equivalence has passed.
+Current stage:persistent render implementation0.1.1. Gate B observe equivalence
+passed before render activation. Final repetition/fullscreen/60-minute validation
+is deferred at the user's request; no complete P5.1 certification is claimed.
 P5 debugger evidence addresses are retained as anchors, not automatic JMP sites.
 The game file on disk is never patched. Later gates must document each selected
 persistent boundary here before enabling it, including full original-byte spans,

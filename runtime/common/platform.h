@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <string>
 #include <vector>
+#include <atomic>
 #include "protocol.h"
 
 namespace u9cht {
@@ -31,9 +32,11 @@ void copy_path(char16_t (&out)[PathCapacity], const std::filesystem::path& path)
 std::filesystem::path config_path(const char16_t (&path)[PathCapacity]);
 class Logger {
     Handle file_;
+    mutable std::atomic<uint32_t> failures_{0};
 public:
     void open(const std::filesystem::path& path, bool create);
     void event(const char* event, const std::string& fields = "") const noexcept;
+    uint32_t failures() const noexcept { return failures_.load(); }
     void close() { file_.reset(); }
 };
 }

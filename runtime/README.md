@@ -30,4 +30,10 @@ the exact resource hash. It delegates original text/glyph/metrics/pixels unchang
 Render adds `--font` with the pinned local Noto font, prewarms20/40em CPU glyphs
 and composites only registered CJK at native800×600/1600×1200 output. See the hook
 manifest for all14 reviewed boundaries, ABI and rollback contract. Other target
-resolutions fail closed in this bounded phase. Long-run validation is pending.
+resolutions fail closed in this bounded phase. Remaining repetition/fullscreen/
+60-minute validation was deferred by the user; P5.1 is not fully certified.
+
+Version0.1.1 has bounded lifetime diagnostics. With a running private session,
+`scripts/verify_p5_1_runtime.py LOG --live` gives provisional evidence only.
+Closed-session verification requires normal exit and restored hooks/font/handles.
+Use `--minimum-seconds 3600 --minimum-active-span 900` for the complete timed gate.

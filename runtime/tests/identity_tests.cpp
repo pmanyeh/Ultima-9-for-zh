@@ -44,7 +44,8 @@ int main() {
         check(pack.match(L"A中B") == 0 && pack.plans[0].slots[1] == 0x7F && pack.plans[0].slots[0] == 'A');
         check(pack.match(L"unknown") == -1 && pack.plans[1].slots[1] == 0x7F);
         auto rejected = [&](const std::string& bad, bool render = true) {
-            write(bad); try { Pack p; p.load(temp_file,render); return false; } catch (...) { return true; }
+            write(bad); Pack p;
+            try { p.load(temp_file,render); return false; } catch (...) { return p.count == 0; }
         };
         check(rejected(bytes,false)); // Observe cannot carry opaque Unicode.
         check(rejected(bytes.substr(0,bytes.size()-1)) && rejected(bytes+"x"));

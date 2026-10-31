@@ -120,6 +120,7 @@ std::filesystem::path config_path(const char16_t (&path)[PathCapacity]) {
     return std::wstring(reinterpret_cast<const wchar_t*>(path), static_cast<size_t>(end - std::begin(path)));
 }
 void Logger::open(const std::filesystem::path& path, bool create) {
+    failures_.store(0);
     file_.reset(CreateFileW(path.c_str(), FILE_APPEND_DATA, FILE_SHARE_READ | FILE_SHARE_WRITE,
                              nullptr, create ? CREATE_NEW : OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr));
     require(static_cast<bool>(file_), "cannot open fresh local log");
@@ -131,7 +132,8 @@ void Logger::event(const char* name, const std::string& fields) const noexcept {
             std::to_string(GetCurrentProcessId()) + ",\"tick_ms\":" + std::to_string(GetTickCount64()) +
             (fields.empty() ? "" : "," + fields) + "}\n";
         DWORD written = 0;
-        WriteFile(file_.get(), line.data(), static_cast<DWORD>(line.size()), &written, nullptr);
-    } catch (...) { /* Diagnostics must never throw across an engine boundary. */ }
+        if (!WriteFile(file_.get(), line.data(), static_cast<DWORD>(line.size()), &written, nullptr) || written != line.size())
+            failures_.fetch_add(1);
+    } catch (...) { failures_.fetch_add(1); /* Never throw across an engine boundary. */ }
 }
 }

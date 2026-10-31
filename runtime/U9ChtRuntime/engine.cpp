@@ -82,7 +82,7 @@ uintptr_t __fastcall ctor_hook(uintptr_t self, void*, uintptr_t a, uintptr_t b, 
         if (wide != reinterpret_cast<uintptr_t>(current.wide) ||
             std::memcmp(reinterpret_cast<void*>(wide), p.wide.data(), (p.length+1)*2) != 0 ||
             !cache || std::memcmp(reinterpret_cast<void*>(cache), p.slots.data(), p.length+1) != 0 ||
-            !e.registry.bind(cache, p.length+1, uint32_t(current.plan))) e.fail(3);
+            !e.bind_buffer(cache, p.length+1, uint32_t(current.plan),0,Life::Cache,wide)) e.fail(3);
         else ++e.stats[size_t(current.plan)].cache;
     }
     return result;
@@ -120,6 +120,9 @@ uintptr_t __fastcall queue_hook(uintptr_t self, void*, uintptr_t raster, uintptr
                     if (r->count != expected) e.fail(14);
                 }
                 ++e.stats[r->plan].raster;
+                if (auto* v = e.trace(Life::RasterReady,r->plan,r->address,r->identity,r->generation,r->pixels)) {
+                    v->raster_hash = r->hash; v->width = r->width; v->height = r->height; v->stride = r->stride;
+                }
                 uintptr_t found = 0;
                 for (auto offset : {4, 0x10}) {
                     auto node = word(self+offset);
@@ -140,6 +143,8 @@ uintptr_t __fastcall queue_hook(uintptr_t self, void*, uintptr_t raster, uintptr
                     if (!q) e.fail(8);
                     else {
                         *q = {found, raster, r->plan, ++e.generations, r->generation, 0};
+                        q->identity = r->identity;
+                        e.trace(Life::QueueBegin,q->plan,q->address,q->identity,q->generation,raster);
                         ++e.stats[r->plan].queue;
                         uint32_t live = 0; for (const auto& item : e.queues) live += item.address != 0;
                         e.max_queues = std::max(e.max_queues,live);
@@ -200,12 +205,12 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
         auto m = e.locate(source);
         const Binding inherited = m.binding ? *m.binding : Binding{};
         // Even a non-allowlisted complete overwrite retires the old destination.
-        e.registry.retire(dest);
+        e.retire_buffer(dest);
         if (m.binding && m.offset == 0) {
             auto b = inherited; const auto& p = e.pack.plans[b.plan];
             if (f->eax != b.length || word(f->ebp+0xEC) != dest ||
                 std::memcmp(reinterpret_cast<void*>(dest), p.slots.data(), b.length) != 0 ||
-                !e.registry.bind(dest, b.length, b.plan, b.identity)) e.fail(9);
+                !e.bind_buffer(dest, b.length, b.plan, b.identity,Life::Copy,source)) e.fail(9);
             else ++e.stats[b.plan].copies;
         }
     } else if (stage == 1 || stage == 2) {
@@ -234,12 +239,12 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
             const auto address = word(0x133393C);
             auto* r = e.raster(address);
             if (r && paint_generation && r->paint_generation != paint_generation) {
-                *r = {}; r->address = address; r->plan = plan; r->generation = ++e.generations;
-                r->paint_generation = paint_generation; r->identity = m.binding->identity;
+                e.retire(address); r = nullptr;
             }
             if (!r) for (auto& item : e.rasters) if (!item.address) {
                 r = &item; *r = {}; r->address = address; r->plan = plan;
-                r->generation = ++e.generations; r->identity = m.binding->identity; break;
+                r->generation = ++e.generations; r->identity = m.binding->identity;
+                e.trace(Life::RasterBegin,plan,address,r->identity,r->generation,m.binding->base); break;
             }
             if (r) r->paint_generation = paint_generation;
             uint32_t live = 0; for (const auto& item : e.rasters) live += item.address != 0;
@@ -363,7 +368,7 @@ Located Engine::locate(uintptr_t source) noexcept {
     if (found.binding) {
         auto& b = *found.binding;
         if (std::memcmp(reinterpret_cast<void*>(b.base), pack.plans[b.plan].slots.data(), b.length) != 0) {
-            registry.retire(b.base); fail(12); return {};
+            retire_buffer(b.base); fail(12); return {};
         }
     }
     return found;
@@ -378,12 +383,39 @@ QueueBinding* Engine::queue(uintptr_t address) noexcept {
 }
 void Engine::retire(uintptr_t address) noexcept {
     const auto found = registry.locate(address);
-    if (found.binding && found.offset == 0) { ++stats[found.binding->plan].freed; registry.retire(address); }
-    if (auto* q = queue(address)) *q = {};
+    if (found.binding && found.offset == 0) { ++stats[found.binding->plan].freed; retire_buffer(address); }
+    if (auto* q = queue(address)) {
+        trace(Life::QueueEnd,q->plan,q->address,q->identity,q->generation,q->raster);
+        ++stats[q->plan].queue_retired; *q = {};
+    }
     if (auto* r = raster(address)) {
-        for (auto& q : queues) if (q.raster == address) q = {};
+        for (auto& q : queues) if (q.address && q.raster == address) {
+            trace(Life::QueueEnd,q.plan,q.address,q.identity,q.generation,q.raster);
+            ++stats[q.plan].queue_retired; q = {};
+        }
+        trace(Life::RasterEnd,r->plan,address,r->identity,r->generation,r->pixels);
+        ++stats[r->plan].raster_retired;
         *r = {};
     }
+}
+LifeEvent* Engine::trace(Life kind, uint32_t plan, uintptr_t address, uint64_t identity, uint64_t generation, uintptr_t related) noexcept {
+    if (life_count >= life_events.size()) { ++life_dropped; fail(27); return nullptr; }
+    life_events[life_count++] = {++life_sequence,GetTickCount64(),identity,generation,address,related,plan,kind};
+    return &life_events[life_count-1];
+}
+void Engine::retire_buffer(uintptr_t address) noexcept {
+    const auto located = registry.locate(address);
+    if (located.binding && located.offset == 0) {
+        const auto b = *located.binding;
+        trace(Life::BufferEnd,b.plan,address,b.identity,b.generation);
+        registry.retire(address);
+    }
+}
+Binding* Engine::bind_buffer(uintptr_t address, uint32_t length, uint32_t plan, uint64_t identity, Life kind, uintptr_t related) noexcept {
+    retire_buffer(address);
+    auto* b = registry.bind(address,length,plan,identity);
+    if (b) trace(kind,plan,address,b->identity,b->generation,related);
+    return b;
 }
 void Engine::compose(uintptr_t backend) noexcept {
     auto& list = draw_list;
@@ -536,12 +568,25 @@ void Engine::snapshot(const char* event) noexcept {
               FIELD(wide); FIELD(cache); FIELD(copies); FIELD(layout); FIELD(bounds); FIELD(glyph);
               FIELD(raster); FIELD(queue); FIELD(submissions); FIELD(presentations); FIELD(freed);
               FIELD(width_overrides); FIELD(unicode_draws); FIELD(composites); FIELD(cache_hits); FIELD(cache_misses);
+              FIELD(raster_retired); FIELD(queue_retired);
 #undef FIELD
               fields += '}';
           }
-          fields += ']';
+          fields += "],\"lifecycle_dropped\":"+std::to_string(life_dropped)+",\"lifecycle\":[";
+          for (uint32_t i = 0; i < life_count; ++i) {
+              const auto& v = life_events[i]; if (i) fields += ',';
+              fields += "{\"seq\":"+std::to_string(v.sequence)+",\"tick_ms\":"+std::to_string(v.tick)+
+                  ",\"kind\":"+std::to_string(static_cast<uint32_t>(v.kind))+
+                  ",\"entry\":"+std::to_string(pack.plans[v.plan].entry)+",\"address\":"+std::to_string(v.address)+
+                  ",\"related\":"+std::to_string(v.related)+",\"identity\":"+std::to_string(v.identity)+
+                  ",\"generation\":"+std::to_string(v.generation)+",\"raster_hash_fnv1a64\":"+std::to_string(v.raster_hash)+
+                  ",\"width\":"+std::to_string(v.width)+",\"height\":"+std::to_string(v.height)+
+                  ",\"stride_pixels\":"+std::to_string(v.stride)+"}";
+          }
+          fields += ']'; life_count = 0;
         }
         Exclusive io(io_gate); log->event(event,fields);
+        if (log->failures()) fail(28);
     } catch (...) { fail(13); }
 }
 bool Engine::shutdown(bool explicit_unload) noexcept {
@@ -553,6 +598,13 @@ bool Engine::shutdown(bool explicit_unload) noexcept {
     const auto deadline = GetTickCount64()+10000;
     while (active.load() && GetTickCount64() < deadline) Sleep(1);
     if (active.load()) return false;
+    trace(Life::Shutdown,0,0,0,0);
+    // Retire only our metadata; native allocations are still owned by U9.
+    // Shutdown event distinguishes this cleanup from native lifetime endings.
+    for (const auto& r : rasters) if (r.address) retire(r.address);
+    for (const auto& q : queues) if (q.address) retire(q.address);
+    for (const auto& b : registry.bindings()) if (b.base) retire_buffer(b.base);
+    draw_list.clear(frame);
     const bool restored = hooks.restore(explicit_unload);
     if (log) snapshot(restored ? "runtime_hooks_restored" : "runtime_restore_failed");
     const bool font_removed = glyphs.close();

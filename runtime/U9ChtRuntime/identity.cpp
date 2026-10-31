@@ -6,15 +6,16 @@
 
 namespace u9cht {
 void Pack::load(const std::filesystem::path& path, bool render) {
+    count = 0; plans = {};
     std::ifstream in(path, std::ios::binary);
     require(bool(in), "allowlist open failed");
     auto read = [&](void* out, size_t size) {
         in.read(static_cast<char*>(out), static_cast<std::streamsize>(size));
         require(bool(in), "truncated allowlist");
     };
-    char magic[8]{}; uint32_t version = 0;
-    read(magic, 8); read(&version, 4); read(&count, 4);
-    require(std::memcmp(magic, "U9CTP51\0", 8) == 0 && version == 1 && count && count <= MaxPlans,
+    char magic[8]{}; uint32_t version = 0, requested = 0;
+    read(magic, 8); read(&version, 4); read(&requested, 4);
+    require(std::memcmp(magic, "U9CTP51\0", 8) == 0 && version == 1 && requested && requested <= MaxPlans,
             "invalid allowlist header");
     char hash[64]; read(hash, 64);
     resource_hash.clear();
@@ -22,7 +23,7 @@ void Pack::load(const std::filesystem::path& path, bool render) {
         require((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'), "invalid resource hash");
         resource_hash += static_cast<wchar_t>(c);
     }
-    for (uint32_t i = 0; i < count; ++i) {
+    for (uint32_t i = 0; i < requested; ++i) {
         auto& p = plans[i]; read(&p.entry, 4); read(&p.length, 4);
         require(p.length && p.length <= MaxText, "invalid allowlist text length");
         for (uint32_t j = 0; j < i; ++j) require(plans[j].entry != p.entry, "duplicate allowlist entry");
@@ -38,6 +39,7 @@ void Pack::load(const std::filesystem::path& path, bool render) {
                     "ambiguous allowlist identity");
     }
     require(in.peek() == std::char_traits<char>::eof(), "trailing allowlist bytes");
+    count = requested;
 }
 int Pack::match(const wchar_t* text) const noexcept {
     if (!text) return -1;

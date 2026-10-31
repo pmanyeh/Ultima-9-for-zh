@@ -92,7 +92,8 @@ int wmain(int argc, wchar_t** argv) {
         const auto init_rva = export_rva(dll, "U9ChtInitialize");
         const auto shutdown_rva = export_rva(dll, "U9ChtShutdown");
         log.open(log_path, true);
-        log.event("launcher_validated", "\"runtime_version\":65536,\"bits\":32,\"debugger\":false");
+        log.event("launcher_validated", "\"runtime_version\":"+std::to_string(RuntimeVersion)+
+            ",\"bits\":32,\"debugger\":false,\"runtime_sha256\":\""+utf8(sha256(dll))+"\"");
         if (validate) { log.event("validation_only"); return 0; }
         STARTUPINFOW startup{}; startup.cb = sizeof(startup);
         PROCESS_INFORMATION info{};
