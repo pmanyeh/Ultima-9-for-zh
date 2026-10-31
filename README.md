@@ -15,6 +15,12 @@ P5.1 的工作是將既有成果整合為正常啟動、持續運作、可還原
 詳見 [P5 報告](reports/P5_HIGHRES_UNICODE_POC.md) 與
 [P5.1 Gate](ULTIMA_IX_CHT_MASTER_PLAN.md#121-p51--persistent-high-resolution-unicode-renderer-integration)。
 
+2026-11-01 P5.1 checkpoint：持續 renderer 已實作，Python72/72、native5/5
+通過；六筆字幕、兩種解析度與超過15分鐘的實際合成活動已有證據。
+依使用者指示暫緩其餘長測、完整啟閉輪次及全螢幕驗證，狀態為
+**PASS WITH LIMITATIONS；Gate 尚未完整通過，P6 未授權**。
+詳見 [P5.1 實作及驗證報告](reports/P5_1_PERSISTENT_RENDERER.md)。
+
 初始批次狀態（2026-10-29）：P0～P2 **PASS WITH LIMITATIONS**。
 英文 `text.flx` 未修改往返為 **BYTE-PERFECT PASS**，獨立遊戲副本的開場
 runtime 冒煙測試通過。後續 P3 已完成單筆 ASCII／BMP 診斷：ASCII `TEST!!`

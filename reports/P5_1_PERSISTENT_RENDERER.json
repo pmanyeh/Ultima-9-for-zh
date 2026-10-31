@@ -1,15 +1,346 @@
 {
-  "gate": "P5.1 active integration checkpoint",
+  "phase": "P5.1",
+  "date": "2026-11-01",
   "status": "PASS WITH LIMITATIONS",
-  "normal_no_debugger_3d": true,
-  "ready_before_resume": true,
-  "explicit_unload_before_resume_verified": true,
-  "normal_exit_codes": [
-    0,
-    0
+  "phase_gate_passed": false,
+  "reason": "Remaining runtime tests deferred at explicit user request",
+  "starting_head": "de789311e92f437060aef6d76ca3a6908a5b07d6",
+  "implementation_head": "3a99b45ab7e7de28e8d8a7a42a23f2940aa49465",
+  "runtime_version": "0.1.1",
+  "runtime_binaries": {
+    "U9ChtRuntime.dll": "2e893bda781860455eacc33099ca0c9a334021d59c8880b728cabc4314e89b72",
+    "U9ChtLauncher.exe": "a5a111f679b412a0288eb3740eacb2619098630ab8a9190b9098c75d3b1e5790"
+  },
+  "on_disk_executable_modified": false,
+  "debugger_required": false,
+  "overall_complete": false,
+  "p6_authorized": false,
+  "gates": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "FUNCTIONAL PASS",
+    "D": "FUNCTIONAL PASS",
+    "E": "FUNCTIONAL PASS; 800 development and 1600 fixed-build evidence",
+    "F": "PARTIAL; focus/minimize observed; fullscreen deferred; actual lost HRESULT unobserved",
+    "G": "PASS; six explicitly selected subtitle entries",
+    "H": "PARTIAL; startup rollback and native quiescence pass; development normal exits pass; fixed-build normal exit unverified",
+    "I": "PARTIAL; 15-minute activity span observed; final repetition/fullscreen/60-minute tests deferred"
+  },
+  "python_tests": {
+    "run": 72,
+    "passed": 72,
+    "skipped": 0,
+    "original_tests_retained": 65,
+    "new_evidence_tests": 7
+  },
+  "native_ctest": {
+    "executables": 5,
+    "passed": 5,
+    "failed": 0,
+    "configuration": "Release Win32"
+  },
+  "last_collected_fixed_run": {
+    "status": "USER INTERRUPTED; NOT A COMPLETE SESSION PASS",
+    "runtime_sha256": "2e893bda781860455eacc33099ca0c9a334021d59c8880b728cabc4314e89b72",
+    "duration_ms": 1375203,
+    "unicode_appearance_span_ms": 1035141,
+    "raster_creation_span_ms": 1031828,
+    "composite_frames": 3832,
+    "glyph_cache_entries": 4,
+    "cache_hits": 7560,
+    "cache_misses": 4,
+    "lifecycle_events": 119,
+    "address_reuses": {
+      "buffer": 0,
+      "raster": 5,
+      "queue": 8
+    },
+    "live_domains": {
+      "buffer": 0,
+      "raster": 0,
+      "queue": 0
+    },
+    "surface_generation": 3,
+    "lock_failures": 0,
+    "unlock_failures": 0,
+    "skipped_frames": 0,
+    "private_bytes_after_2min_min_max": [
+      387166208,
+      626503680
+    ],
+    "entries": [
+      {
+        "id": 4164,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 1,
+        "bounds": 1,
+        "glyph": 1,
+        "raster": 1,
+        "queue": 1,
+        "submissions": 371,
+        "presentations": 371,
+        "freed": 2,
+        "width_overrides": 2,
+        "unicode_draws": 1,
+        "composites": 371,
+        "cache_hits": 371,
+        "cache_misses": 0,
+        "raster_retired": 1,
+        "queue_retired": 1
+      },
+      {
+        "id": 4166,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 2,
+        "bounds": 2,
+        "glyph": 2,
+        "raster": 1,
+        "queue": 1,
+        "submissions": 282,
+        "presentations": 282,
+        "freed": 2,
+        "width_overrides": 4,
+        "unicode_draws": 2,
+        "composites": 282,
+        "cache_hits": 564,
+        "cache_misses": 0,
+        "raster_retired": 1,
+        "queue_retired": 1
+      },
+      {
+        "id": 4167,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 14,
+        "bounds": 14,
+        "glyph": 14,
+        "raster": 1,
+        "queue": 1,
+        "submissions": 320,
+        "presentations": 320,
+        "freed": 2,
+        "width_overrides": 4,
+        "unicode_draws": 2,
+        "composites": 320,
+        "cache_hits": 640,
+        "cache_misses": 0,
+        "raster_retired": 1,
+        "queue_retired": 1
+      },
+      {
+        "id": 4168,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 2,
+        "bounds": 2,
+        "glyph": 2,
+        "raster": 1,
+        "queue": 1,
+        "submissions": 141,
+        "presentations": 141,
+        "freed": 2,
+        "width_overrides": 4,
+        "unicode_draws": 2,
+        "composites": 141,
+        "cache_hits": 282,
+        "cache_misses": 0,
+        "raster_retired": 1,
+        "queue_retired": 1
+      },
+      {
+        "id": 4169,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 3,
+        "bounds": 3,
+        "glyph": 3,
+        "raster": 1,
+        "queue": 1,
+        "submissions": 243,
+        "presentations": 243,
+        "freed": 2,
+        "width_overrides": 6,
+        "unicode_draws": 3,
+        "composites": 243,
+        "cache_hits": 729,
+        "cache_misses": 0,
+        "raster_retired": 1,
+        "queue_retired": 1
+      },
+      {
+        "id": 4170,
+        "wide": 9,
+        "cache": 9,
+        "copies": 8,
+        "layout": 56,
+        "bounds": 56,
+        "glyph": 56,
+        "raster": 8,
+        "queue": 8,
+        "submissions": 2475,
+        "presentations": 2475,
+        "freed": 17,
+        "width_overrides": 32,
+        "unicode_draws": 16,
+        "composites": 2475,
+        "cache_hits": 4950,
+        "cache_misses": 0,
+        "raster_retired": 8,
+        "queue_retired": 8
+      }
+    ],
+    "lifetimes": [
+      {
+        "entry": 4164,
+        "domain": "buffer",
+        "count": 2,
+        "min_ms": 11282,
+        "max_ms": 42953
+      },
+      {
+        "entry": 4164,
+        "domain": "queue",
+        "count": 1,
+        "min_ms": 11266,
+        "max_ms": 11266
+      },
+      {
+        "entry": 4164,
+        "domain": "raster",
+        "count": 1,
+        "min_ms": 11266,
+        "max_ms": 11266
+      },
+      {
+        "entry": 4166,
+        "domain": "buffer",
+        "count": 2,
+        "min_ms": 9297,
+        "max_ms": 42953
+      },
+      {
+        "entry": 4166,
+        "domain": "queue",
+        "count": 1,
+        "min_ms": 9281,
+        "max_ms": 9281
+      },
+      {
+        "entry": 4166,
+        "domain": "raster",
+        "count": 1,
+        "min_ms": 9281,
+        "max_ms": 9281
+      },
+      {
+        "entry": 4167,
+        "domain": "buffer",
+        "count": 2,
+        "min_ms": 10296,
+        "max_ms": 42953
+      },
+      {
+        "entry": 4167,
+        "domain": "queue",
+        "count": 1,
+        "min_ms": 10265,
+        "max_ms": 10265
+      },
+      {
+        "entry": 4167,
+        "domain": "raster",
+        "count": 1,
+        "min_ms": 10265,
+        "max_ms": 10265
+      },
+      {
+        "entry": 4168,
+        "domain": "buffer",
+        "count": 2,
+        "min_ms": 4516,
+        "max_ms": 42953
+      },
+      {
+        "entry": 4168,
+        "domain": "queue",
+        "count": 1,
+        "min_ms": 4500,
+        "max_ms": 4500
+      },
+      {
+        "entry": 4168,
+        "domain": "raster",
+        "count": 1,
+        "min_ms": 4500,
+        "max_ms": 4500
+      },
+      {
+        "entry": 4169,
+        "domain": "buffer",
+        "count": 2,
+        "min_ms": 7156,
+        "max_ms": 42953
+      },
+      {
+        "entry": 4169,
+        "domain": "queue",
+        "count": 1,
+        "min_ms": 7141,
+        "max_ms": 7141
+      },
+      {
+        "entry": 4169,
+        "domain": "raster",
+        "count": 1,
+        "min_ms": 7141,
+        "max_ms": 7141
+      },
+      {
+        "entry": 4170,
+        "domain": "buffer",
+        "count": 17,
+        "min_ms": 78,
+        "max_ms": 35906
+      },
+      {
+        "entry": 4170,
+        "domain": "queue",
+        "count": 8,
+        "min_ms": 8687,
+        "max_ms": 8719
+      },
+      {
+        "entry": 4170,
+        "domain": "raster",
+        "count": 8,
+        "min_ms": 8687,
+        "max_ms": 8719
+      }
+    ],
+    "exit_code": 4294967295,
+    "normal_shutdown_verified": false
+  },
+  "process_resumed_to_exit_ms": 1378625,
+  "termination": {
+    "user_requested_defer": true,
+    "method": "Stopped only launcher-owned PID after exact executable path verification; computer-use minimize/input recovery failed",
+    "exit_code": 4294967295,
+    "clean_exit_pass": false,
+    "crash_inferred": false
+  },
+  "deferred_tests": [
+    "approximately 60-minute session",
+    "three final-build launch/play/exit cycles per windowed resolution",
+    "fullscreen",
+    "fixed-build normal exit"
   ],
-  "forced_failure_before_resume": true,
-  "rollback_allocation_released": true,
   "protected_assets": [
     {
       "filename": "u9.exe",
@@ -37,31 +368,18 @@
       "matches_p0": true
     }
   ],
-  "configuration_unchanged": true,
-  "python_tests": {
-    "run": 65,
-    "passed": 65,
-    "skipped": 0
+  "wrapper_unchanged": true,
+  "configuration": {
+    "Options.ini": {
+      "restored": true,
+      "sha256": "a27aae90f71379577eaa453eb742bfb02e94a13aeca94c45946770ad08f461fa"
+    },
+    "dxcfg.ini": {
+      "restored": true,
+      "sha256": "8d8205706681446766de9530d7b895baae9ffa5f72b4202090d0acbab50f4f1b"
+    }
   },
-  "native_ctest": {
-    "executables": 5,
-    "status": "PASS",
-    "checks": "bootstrap; hooks; identities/allowlist/malformed; pixel/surface helper; shutdown"
-  },
-  "phase": "P5.1",
-  "overall_complete": false,
-  "gate_a": "PASS",
-  "starting_head": "de789311e92f437060aef6d76ca3a6908a5b07d6",
-  "documentation_checkpoint": "5a873fe",
-  "remaining_gates": {
-    "C": "NOT EXECUTED",
-    "D": "NOT EXECUTED",
-    "E": "NOT EXECUTED",
-    "F": "NOT EXECUTED",
-    "G": "NOT EXECUTED",
-    "H": "NOT EXECUTED",
-    "I": "NOT EXECUTED"
-  },
+  "private_game_assets_remain_ignored": true,
   "evidence": [
     {
       "path": ".local/p5-1/evidence/bootstrap-normal-01.jsonl",
@@ -72,20 +390,12 @@
       "sha256": "d30dca52a6fa7a2d2d9895225cf0bc1a76e07fa08b7e0655a878e393de5878ff"
     },
     {
-      "path": ".local/p5-1/evidence/forced-failure-03.jsonl",
-      "sha256": "7f261ec2faa3ddaebe7b7b46aaad3920cf5e0fd6897323082a4ccaaecdd0774a"
-    },
-    {
       "path": ".local/p5-1/evidence/observe-normal-01.jsonl",
       "sha256": "e775b254e040374a87d678a2546a33d5ee89942afda3abf21c5d1c74a836bc15"
     },
     {
       "path": ".local/p5-1/evidence/observe-force-01.jsonl",
       "sha256": "cc2fa0f602926f24a5a5c8096590c271e7d7c42aa629e0b4fc84680f3a5d2b09"
-    },
-    {
-      "path": ".local/p5-1/evidence/render-force-final.jsonl",
-      "sha256": "49633d0fef8c5d99a16394b404c021c7b971bd6d47eebc574ad07becdb26adc4"
     },
     {
       "path": ".local/p5-1/evidence/render-800-02.jsonl",
@@ -98,51 +408,19 @@
     {
       "path": ".local/p5-1/evidence/render-1600-01-soak.jsonl",
       "sha256": "0aa03352557a921ffbacc3c7b6d46bccd41637bed364e209d3ed381a2329cbc6"
+    },
+    {
+      "path": ".local/p5-1/evidence/final-force-01.jsonl",
+      "sha256": "f7223647f9d8d3a9bfe36c1b175e702784b4bfa8e9b8dcbd033d46a65466f61d"
+    },
+    {
+      "path": ".local/p5-1/evidence/final-malformed-01.jsonl",
+      "sha256": "251f617a8cb0a0cc1922c67c5dc705349cbf98467e036bb703cb63bff31b8ae4"
+    },
+    {
+      "path": ".local/p5-1/evidence/final-1600-01-soak.jsonl",
+      "sha256": "0cead1e1e7cff0635a49ae0e0f9930386eb69c945153e0a54e305c28b425c3db"
     }
   ],
-  "gate_b": "PASS",
-  "gate_b_evidence": {
-    "duration_ms": 117203,
-    "hooks": 13,
-    "errors": 0,
-    "exit_code": 0,
-    "live_buffers_at_exit": 0,
-    "live_rasters_at_exit": 0,
-    "live_queues_at_exit": 0,
-    "restored": true,
-    "entries": [
-      4164,
-      4166,
-      4167,
-      4168,
-      4169
-    ],
-    "presentations": [
-      598,
-      428,
-      459,
-      202,
-      312
-    ]
-  },
-  "development_renderer": {
-    "status": "PASS WITH LIMITATIONS",
-    "800_composite_frames": 2263,
-    "1600_composite_frames": 1853,
-    "cache_entries": 4,
-    "errors": 0,
-    "entry_ids": [
-      4164,
-      4166,
-      4167,
-      4168,
-      4169,
-      4170
-    ],
-    "all_exits": 0,
-    "long_run_pass": false,
-    "repetition_matrix_complete": false,
-    "fullscreen": "NOT EXECUTED",
-    "true_surface_lost": "NOT OBSERVED"
-  }
+  "recommendation": "DO NOT AUTHORIZE P6 until deferred P5.1 gate validation is completed"
 }

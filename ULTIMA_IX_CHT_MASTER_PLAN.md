@@ -990,6 +990,11 @@ surface／device 變化處理、focus／fullscreen 行為、正常退出與重�
 若生命週期或穩定性尚未通過，標記 PASS WITH LIMITATIONS／BLOCKED 並保留
 未驗證項目。**P6 不在本次授權範圍；不得自動進入換行、禁則、排版或資源擴張。**
 
+2026-11-01 checkpoint：依使用者指示暫緩剩餘 runtime 驗證。
+P5.1 為 **PASS WITH LIMITATIONS，Gate 尚未完整通過**；保留上述通過標準，
+不將未完成的約60分鐘長測、完整啟閉輪次或全螢幕測試列為 PASS。
+證據與限制見 `reports/P5_1_PERSISTENT_RENDERER.md`。P6 仍未授權。
+
 ---
 
 # 13. P6 — Chinese Layout & Word-Wrap
