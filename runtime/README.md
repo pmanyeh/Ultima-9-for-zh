@@ -1,5 +1,20 @@
 # U9Cht native runtime — P5.1
 
+P6-S checkpoint:version0.2.0 extends the same14 hook sites to bounded v2 packs:
+64 plans,512 BMP scalars,1024 fixed cache entries. The selected39-entry scene
+uses288 scalars/576 direct20/40px rasters. Actual scalable advances feed both
+width consumers and suppressed CJK draw; native Latin and authored LF retain
+the native path. Legacy v1 packs keep their old restrictions. Historical P5.1
+results remain separate. P6-S continuation now verifies9 opening subtitle routes,
+6 inspected captures and clean normal exit with the unchanged frozen build;
+30 selected entries remain unobserved, so the full showcase is still PARTIAL. See
+[P6-S checkpoint](../reports/P6S_SHOWCASE_POC.md).
+
+Build in `.local/p6s/build` to preserve prior frozen binaries. Optional offline
+`U9ChtShowcaseCheck PACK FONT FRESH_JSONL` validates the pack, pinned font,
+prewarm/reuse and cleanup without launching/attaching to the game. It cannot
+substitute for game screenshots or runtime exit evidence.
+
 MSVC Win32/x86, C++20, static CRT; no generic hook framework. Build outside
 tracked paths (Visual Studio C++ desktop tools and Windows SDK required):
 

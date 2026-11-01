@@ -1022,6 +1022,28 @@ tests，完成後依新事件式 Gate 重新判定 P5.1。舊中止紀錄保留�
 
 ---
 
+## 12.2 P6-S — Traditional Chinese Showcase PoC
+
+2026-11-01 使用者明確授權獨立 Showcase 範圍，即使 P5.1 仍為
+PASS WITH LIMITATIONS，也可執行1600×1200視窗展示；不回溯改列 P5.1 PASS。
+只處理 Hawkwind 地球住家／戶外教學：4164、4166–4203，共39筆草稿字幕，
+不含4165日誌摘要或4204起的 Stonegate 場景。保留英文專有名詞待審，
+不宣稱官方譯名，不開展完整 P6/P7/P8 或其他資源家族，不進行時間型 soak。
+
+目前完成受限 glyph allowlist、288個非 ASCII 碼位、576份直接20／40px
+字形預熱、15筆明確換行與私有資源 mutation audit。Python86/86、native5/5
+及576份 native／Python 字形雜湊比較通過。續作已恢復 Computer Use 連線，
+沿用相同凍結建置，以1600×1200視窗設定完成開場實機驗證：9筆字幕實際合成、
+6張個別字幕截圖，無觀察到缺字／裁切；2560個合成畫面、cache576固定、錯誤0。
+正常退出 exit0、hooks／私有字型／worker／live metadata 清理及資源設定還原通過。
+截圖由桌面控制擷取，為1069×826含視窗框影像，不是1600×1200原始像素輸出。
+後續4174–4203共30筆尚未觸發，本輪短按操作未能可靠完成後續移動。
+**Showcase 仍為 PARTIAL；已證實開場子集，完整所選場景尚未完成。**
+續作／限制見 `reports/P6S_SHOWCASE_POC.md`；P5.1 fullscreen／replay 不阻擋
+本視窗範圍，亦不得藉本次工作宣稱它們通過。
+
+---
+
 # 13. P6 — Chinese Layout & Word-Wrap
 
 ## Goal
