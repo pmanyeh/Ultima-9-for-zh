@@ -222,9 +222,10 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                 const auto font = stage == 1 ? f->ecx : f->edx;
                 const auto record = stage == 1 ? f->esi : f->ecx;
                 const auto spacing = word(record+4);
-                if (spacing >= 16) e.fail(16);
+                const auto advance = e.pack.plans[m.binding->plan].advances[m.offset];
+                if (!logical_metric(spacing,advance)) e.fail(16);
                 else {
-                    metric_header[0] = logical_metric(spacing);
+                    metric_header[0] = logical_metric(spacing,advance);
                     f->eax = reinterpret_cast<uintptr_t>(metric_header.data())-font;
                     ++stats.width_overrides;
                 }
@@ -252,11 +253,12 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
             if (!r || r->plan != plan || r->identity != m.binding->identity) e.fail(10);
             else if (e.render && e.pack.plans[plan].wide[m.offset] >= 128) {
                 const auto spacing = word(f->ecx+4);
-                if ((s[3]&255) != 0x7F || spacing >= 16 || r->count >= r->placements.size()) e.fail(17);
+                const auto advance = e.pack.plans[plan].advances[m.offset];
+                if ((s[3]&255) != 0x7F || !logical_metric(spacing,advance) || r->count >= r->placements.size()) e.fail(17);
                 else {
                     r->placements[r->count++] = {m.offset,int32_t(s[1]),int32_t(s[2])};
                     ++e.stats[plan].unicode_draws;
-                    metric_header[0] = logical_metric(spacing);
+                    metric_header[0] = logical_metric(spacing,advance);
                     f->eax = reinterpret_cast<uintptr_t>(metric_header.data());
                     return f->eax;
                 }
@@ -486,13 +488,34 @@ void Engine::install(const Config& config, Logger& logger) {
         "\",\"resource_sha256\":\""+utf8(pack.resource_hash)+"\",\"entries\":"+std::to_string(pack.count));
     if (render) {
         glyphs.open(config_path(config.font_path));
-        for (uint32_t i = 0; i < pack.count; ++i) for (uint32_t j = 0; j < pack.plans[i].length; ++j)
-            if (pack.plans[i].wide[j] >= 128) for (auto em : {20U,40U}) glyphs.warm(pack.plans[i].wide[j],em);
-        for (auto scalar : {0x4E2DU,0x6587U}) for (auto em : {20U,40U}) if (const auto* g = glyphs.get(scalar,em))
+        // v1 historical packs carry no explicit glyph list. v2 lists are exact
+        // and validated by Pack::load. In either case prewarm before hooks/READY.
+        if (!pack.glyph_count) {
+            for (uint32_t i = 0; i < pack.count; ++i) for (uint32_t j = 0; j < pack.plans[i].length; ++j) {
+                const uint32_t s = pack.plans[i].wide[j];
+                if (s >= 128 && std::find(pack.scalars.begin(),pack.scalars.begin()+pack.glyph_count,s) ==
+                    pack.scalars.begin()+pack.glyph_count) {
+                    require(pack.glyph_count < MaxGlyphScalars,"glyph scalar capacity");
+                    pack.scalars[pack.glyph_count++] = s;
+                }
+            }
+        }
+        require(pack.glyph_count*2 <= GlyphCacheCapacity,"prewarm capacity exceeded");
+        for (uint32_t i = 0; i < pack.glyph_count; ++i) for (auto em : {20U,40U}) glyphs.warm(pack.scalars[i],em);
+        for (uint32_t i = 0; i < pack.count; ++i) for (uint32_t j = 0; j < pack.plans[i].length; ++j) {
+            const uint32_t s = pack.plans[i].wide[j];
+            if (s < 128) continue;
+            const auto* a = glyphs.get(s,20); const auto* b = glyphs.get(s,40);
+            require(a && b && a->advance*16/20 == b->advance*16/40,"inconsistent engine advances");
+            pack.plans[i].advances[j] = uint16_t(b->advance*16/40);
+        }
+        for (uint32_t i = 0; i < pack.glyph_count; ++i) for (auto em : {20U,40U}) if (const auto* g = glyphs.get(pack.scalars[i],em))
+        { const auto scalar = pack.scalars[i];
             log->event("glyph_cache_warm", "\"scalar\":"+std::to_string(scalar)+",\"em\":"+std::to_string(em)+
                 ",\"index\":"+std::to_string(g->index)+",\"width\":"+std::to_string(g->width)+
                 ",\"height\":"+std::to_string(g->height)+",\"advance\":"+std::to_string(g->advance)+
                 ",\"coverage_sha256\":\""+utf8(sha256_bytes(g->alpha.data(),g->alpha.size()))+"\"");
+        }
     }
     draw_list.clear(frame);
     auto prepare = [&](const char* name, uintptr_t address, void* target,

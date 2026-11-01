@@ -46,11 +46,14 @@ void GlyphCache::warm(uint32_t scalar, uint32_t em) {
     require(c.previous && c.previous != HGDI_ERROR, "GDI font selection failed");
     wchar_t face[128]{};
     require(GetTextFaceW(c.dc,128,face) && std::wstring(face) == L"Noto Sans CJK TC", "font substitution detected");
+    if (!verified_em_[em]) {
     const auto font_size = GetFontData(c.dc,0,0,nullptr,0);
     require(font_size && font_size != GDI_ERROR && font_size <= 32*1024*1024, "selected font data unavailable");
     std::vector<uint8_t> selected(font_size);
     require(GetFontData(c.dc,0,0,selected.data(),font_size) == font_size &&
         sha256_bytes(selected.data(),selected.size()) == FontHash, "selected face differs from explicit font file");
+    verified_em_[em] = true;
+    }
     wchar_t text[] = {static_cast<wchar_t>(scalar),0}; WORD index = 0xFFFF;
     require(GetGlyphIndicesW(c.dc,text,1,&index,GGI_MARK_NONEXISTING_GLYPHS) == 1 && index != 0xFFFF,
         "unsupported Unicode glyph");
@@ -74,7 +77,8 @@ void GlyphCache::warm(uint32_t scalar, uint32_t em) {
         require(coverage <= 64, "invalid gray8 coverage");
         g.alpha[size_t(y)*g.width+x] = static_cast<uint8_t>((coverage*255+32)/64);
     }
-    require(g.advance == int(em), "non-integral P5 logical metric");
+    require(g.advance > 0 && g.advance*16%int(em) == 0 && g.advance*16/int(em) <= 255,
+        "non-integral engine logical metric");
     entries_[size_++] = std::move(g);
 }
 bool GlyphCache::close() noexcept {
@@ -84,7 +88,7 @@ bool GlyphCache::close() noexcept {
         if (removed) registered_ = false;
     }
     for (auto& g : entries_) { std::vector<uint8_t> empty; g.alpha.swap(empty); }
-    size_ = 0;
+    size_ = 0; verified_em_.fill(false);
     return removed;
 }
 }

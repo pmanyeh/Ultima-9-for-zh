@@ -6,6 +6,7 @@
 #include <span>
 
 namespace u9cht {
+inline constexpr size_t GlyphCacheCapacity = 1024;
 struct GlyphKey {
     std::array<wchar_t,65> font{};
     uint32_t scalar = 0, em = 0, mode = 0;
@@ -21,7 +22,8 @@ const Glyph* find_glyph(std::span<const Glyph> cache, const GlyphKey& key) noexc
 class GlyphCache {
     std::filesystem::path path_;
     bool registered_ = false;
-    std::array<Glyph,64> entries_;
+    std::array<Glyph,GlyphCacheCapacity> entries_;
+    std::array<bool,257> verified_em_{};
     uint32_t size_ = 0;
 public:
     uint64_t hits = 0, misses = 0;

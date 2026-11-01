@@ -1,6 +1,7 @@
 #include "identity.h"
 #include "platform.h"
 #include <fstream>
+#include <cstring>
 #include <iostream>
 #include <stdexcept>
 
@@ -54,6 +55,24 @@ int main() {
         auto invalid = fixture(1); append_plan(invalid,1,std::u16string(1,0xD800)); check(rejected(invalid));
         invalid = fixture(1); append_plan(invalid,1,u"你"); check(rejected(invalid));
         check(rejected(fixture(17)) && rejected(fixture(0)));
+        auto showcase = [&]() {
+            auto out = fixture(2); uint32_t v = 2;
+            std::memcpy(out.data()+8,&v,4);
+            const uint32_t glyphs[] = {2,0x4E2D,0x6587};
+            out.append(reinterpret_cast<const char*>(glyphs),sizeof(glyphs));
+            append_plan(out,1,u"A\u4E2D\n\u6587"); append_plan(out,2,u"\u6587\u4E2D");
+            return out;
+        };
+        auto s = showcase(); write(s); pack.load(temp_file,true);
+        check(pack.count == 2 && pack.glyph_count == 2 && pack.plans[0].slots[2] == '\n');
+        check(pack.match(L"A\u4E2D\n\u6587") == 0 && rejected(s,false));
+        check(rejected(s.substr(0,s.size()-1)) && rejected(s+"x"));
+        auto bad = s; uint32_t value = 513;
+        std::memcpy(bad.data()+80,&value,4); check(rejected(bad));
+        bad = s; value = 0xD800; std::memcpy(bad.data()+84,&value,4); check(rejected(bad));
+        bad = s; value = 0x4E2D; std::memcpy(bad.data()+88,&value,4); check(rejected(bad));
+        bad = s; value = 0x6588; std::memcpy(bad.data()+88,&value,4); check(rejected(bad));
+        bad = s; value = 65; std::memcpy(bad.data()+12,&value,4); check(rejected(bad));
         std::cout << "PASS: 22 multi-identity/lifetime/allowlist/malformed-input checks\n";
         return 0;
     } catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }

@@ -6,16 +6,19 @@
 #include <span>
 
 namespace u9cht {
-inline constexpr size_t MaxPlans = 16, MaxText = 512;
+inline constexpr size_t MaxPlans = 64, MaxText = 512, MaxGlyphScalars = 512;
 struct Plan {
     uint32_t entry = 0, length = 0;
     std::array<char16_t, MaxText+1> wide{};
     std::array<uint8_t, MaxText+1> slots{};
+    std::array<uint16_t, MaxText+1> advances{};
 };
 struct Pack {
     uint32_t count = 0;
     std::wstring resource_hash;
     std::array<Plan, MaxPlans> plans{};
+    uint32_t glyph_count = 0;
+    std::array<uint32_t, MaxGlyphScalars> scalars{};
     void load(const std::filesystem::path& path, bool render);
     int match(const wchar_t* text) const noexcept;
 };

@@ -66,6 +66,7 @@ int main() {
         auto clipped = intersect({-2,-3,5,6},{0,0,4,4}); check(clipped.left == 0 && clipped.bottom == 4);
         check(empty(intersect({0,0,1,1},{1,1,2,2})));
         check(logical_metric(0) == 16 && logical_metric(3)+3 == 16 && logical_metric(16) == 0);
+        check(logical_metric(2,8) == 6 && logical_metric(8,8) == 0 && logical_metric(0,256) == 0);
         GlyphKey k; k.scalar = 0x4E2D; k.em = 20; k.mode = GGO_GRAY8_BITMAP|GGO_GLYPH_INDEX;
         auto changed = k; changed.em = 40; check(!(k == changed));
         changed = k; changed.font[0] = L'x'; check(!(k == changed));

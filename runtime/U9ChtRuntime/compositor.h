@@ -8,7 +8,7 @@ namespace u9cht {
 struct Rect { int32_t left = 0, top = 0, right = 0, bottom = 0; };
 Rect intersect(Rect a, Rect b) noexcept;
 bool empty(Rect r) noexcept;
-uint8_t logical_metric(uint32_t spacing) noexcept;
+uint8_t logical_metric(uint32_t spacing, uint32_t advance = 16) noexcept;
 struct DrawCommand {
     const Glyph* glyph = nullptr;
     int32_t left = 0, top = 0;

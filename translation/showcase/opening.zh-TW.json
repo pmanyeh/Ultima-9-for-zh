@@ -1,0 +1,405 @@
+{
+  "schema": "u9cht-showcase-v1",
+  "scene": "Hawkwind: Earth home and outdoor training, before Stonegate",
+  "source_archive_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+  "status": "showcase-draft",
+  "terminology_review": [
+    "Avatar",
+    "Guardian",
+    "Britannia",
+    "Lord British",
+    "Ankh"
+  ],
+  "entries": [
+    {
+      "key": "text.flx:4164",
+      "target": "Avatar，醒醒！Guardian 已入侵 Britannia。\nLord British 正召喚你，展開最後的冒險！",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "8850732093f0d0f7ff7cc3ecc77abade7dc2a60e02b8fda757b3587c55dd4077",
+      "source_utf16_units": 129,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4166",
+      "target": "移動滑鼠就能環顧四周。想要走動時，按住滑鼠右鍵即可。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "1dd6f8c6ede472d829e2926a7693d697156d0e9fe60be361c8da9c17ed868b9c",
+      "source_utf16_units": 119,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4167",
+      "target": "你也能用游標與物品互動。\n靠得夠近時，把游標移到可使用的物品上，游標就會變成綠色。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "70dc371898c7e94c5d230f02719c654da9e0d7f98057a2719bdec29ed52a51cf",
+      "source_utf16_units": 152,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4168",
+      "target": "想使用物品，只要按一下滑鼠左鍵。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "58a5b50dd22ec56669ca1a675646f817da2e1c08059e2e378a782e37c8ebb0ed",
+      "source_utf16_units": 59,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4169",
+      "target": "接下來，請用滑鼠左鍵點一下\n床邊出現的金色 Ankh，我會繼續指引你。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "82b5b97b1b89eb8c0d4797a90917874c39c8d54452612c9d802c3bd4c525f70a",
+      "source_utf16_units": 89,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4170",
+      "target": "首先，做好冒險的準備。離家之前，別忘了帶齊所有用品。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "5eb5f96dce768598eca5f2c25543ac5377da8633fabead102d3d0b517b8171cd",
+      "source_utf16_units": 122,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4171",
+      "target": "許多物品都能操作，不妨多試試。先試著打開房裡的燈吧。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "d283321cf09ee3b2df4778893b84dad208c454a9eea34bccbbcde065d2aa327d",
+      "source_utf16_units": 127,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4172",
+      "target": "走近電燈開關，把游標移到開關上，直到游標變綠。\n再按一下滑鼠左鍵，就能開燈或關燈。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "6f6558f0da56dac1d71a86ab4515b5dd22755ba07e5f4d35384e9cebc2e72f2d",
+      "source_utf16_units": 165,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4173",
+      "target": "我已標出幾樣值得留意的物品，記得仔細看看。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "575cab4c749da2fe79532d3d9dda7696e75b4e0c868e1d3ed5d48430887f2b6b",
+      "source_utf16_units": 69,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4174",
+      "target": "有了背包或工具腰帶，你就能把那件東西帶走了。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "ac73346d37f621bba1c3a873225b71b7a431e30851d708c84ffe725bae56afdb",
+      "source_utf16_units": 76,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4175",
+      "target": "總不能不穿衣服就出門冒險吧。你的衣服應該在另一扇門後的浴室裡。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "c88531ee70224521e848e61bd3d4fc34a7a4ea7a527312f1c2e8208f54ffa479",
+      "source_utf16_units": 117,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4176",
+      "target": "要穿上衣服，按住滑鼠左鍵，把衣服拖到自己身上，再放開按鍵就行了。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "586ff2ba73aa0e5e6aeb66fba27b9f5f5885722e933ec44705c0cc45b9440a05",
+      "source_utf16_units": 130,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4177",
+      "target": "Avatar，聽我的勸，帶上身旁桌上的工具腰帶吧！你會用得上的。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "d3dc7b28ca4c64fbe95a487d84697018815493e369abb8d5e1286ab7aa6d495c",
+      "source_utf16_units": 78,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4178",
+      "target": "看看畫面下方的工具腰帶。\n放在這裡的物品，可以用滑鼠左鍵點選圖示，或按對應的功能鍵來使用。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "11671b9984dcefeb63f47abf4b52132ac756c68e7af2bec4d4458693f03e3166",
+      "source_utf16_units": 180,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4179",
+      "target": "要把物品放進工具腰帶，按住滑鼠左鍵，將物品拖到想放的欄位即可。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "dc9e883dac5e2b5bd463ecc265dc83031c72a12645365aba24c72d328550f58a",
+      "source_utf16_units": 83,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4180",
+      "target": "要取下工具腰帶上的物品，先按 Q 鍵，讓游標離開畫面中央，\n再把物品從腰帶上拖出來。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "3cf92c14c7f8611df7f3f3f6c75995869472667dc6214927a7db5712af87491e",
+      "source_utf16_units": 151,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4181",
+      "target": "完成後，別忘了再按一次 Q 鍵，將游標固定回畫面中央。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "dd6fd11ef8bc1442420bc5cc3fae32ab45a917cb1a4c0280e6b326087cb462df",
+      "source_utf16_units": 94,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4182",
+      "target": "按住滑鼠左鍵，把物品拖到背包圖示上，就能收進背包。\n按 B 鍵可查看背包裡的物品。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "4c2edff29d00c10367b9cae122a1aa3e0c6f44f425edfe2e427d007581746c65",
+      "source_utf16_units": 140,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4183",
+      "target": "打開背包後，可以把裡面的物品拖出來，放到地上。\n對著背包按滑鼠右鍵，就能關閉背包。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "7532db201900a739e6b83d48b6112e6ec0bdb8b5efe66f8306aa80c0ff76b1a1",
+      "source_utf16_units": 136,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4184",
+      "target": "Avatar，你可以坐在椅子上，也能躺在床上。\n用滑鼠左鍵點椅子或沙發的座位就能坐下，床也是一樣。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "f0eb343c2ee1f0fe1cf589250f30fc18daf2c7fe5e4c04172c8f54b2ab5d3141",
+      "source_utf16_units": 147,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4185",
+      "target": "Avatar，別忘了帶工具腰帶再出門。到樓上的走廊找找吧。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "671f636b35ff3679418182e7943eddee7e34bca64f5e76cbdf24453f32f1597e",
+      "source_utf16_units": 86,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4186",
+      "target": "Avatar，別忘了帶背包再出門。我想你把它留在電腦房了。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "1e5dc75c628fb7d215a02d6cc1d400d8de405fb841219914d76d6c319051df0b",
+      "source_utf16_units": 88,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4187",
+      "target": "Avatar，別忘了帶指南針再出門。到壁爐附近找找吧。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "5f6e4f119c904ceb6ab88ef82f4b1838621eab376598a0fc17b0185ff9a3beea",
+      "source_utf16_units": 79,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4188",
+      "target": "Avatar，別忘了你的日誌。它就在客廳裡。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "32323844836b5ef80f9a4d54908f2a987f8310d0b9d20d0e6bc4c4b00a678b70",
+      "source_utf16_units": 71,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4189",
+      "target": "前往 Britannia 之前，你還有許多事要學。\n先到屋子西北邊的訓練區去吧。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "05280f8120f1c7e94bd71cb21443ecad84d1a253fe3c62735e68e90926ed0e43",
+      "source_utf16_units": 123,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4190",
+      "target": "還記得跳房子嗎？你可能比自己想的更靈活。試著往各個方向移動吧。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "0eb7ccbd8de0ce3ff015e4109f2ed044bc4d8f6297bd9dd66d826dea0dbf7681",
+      "source_utf16_units": 108,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4191",
+      "target": "按住滑鼠右鍵，同時按 Ctrl 或 Alt 鍵，\n試著走過跳房子的格子。三個按鍵一起按住，就能往後退。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "9c810274e6f3830d0f0462d400bafff96346a9382986d14ba342ca8bc2e259b7",
+      "source_utf16_units": 165,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4192",
+      "target": "把游標移到想跳過去的位置，再按空白鍵，就能跳躍。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "ea76da20b9dbe96756353c23ae69c2ce2b6af856de88f10fa9fbdfdb18ffc14e",
+      "source_utf16_units": 101,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4193",
+      "target": "跳之前，先估量距離。準星是綠色時，就能輕鬆跳到指定位置；\n否則可能太遠，無法順利跳過去。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "759fe7855d6c728e7deb2dbcdcae306752d8c61389c0378d50d6c34ff4b116ce",
+      "source_utf16_units": 204,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4194",
+      "target": "把劍拖到自己身上就能裝備。\n按 Tab 鍵進入戰鬥模式，你就會拔出劍。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "5ddc56d39861ce8c4cecaf93c5299a4160b8e8c4f64ed5f36372d9d7ff448e60",
+      "source_utf16_units": 126,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4195",
+      "target": "拔劍後，按滑鼠左鍵就能用劍刺擊。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "94de952c3fa7d97a5776442254e805eed1b25f74b79b87ab94071b887eedf463",
+      "source_utf16_units": 95,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4196",
+      "target": "再按一次 Tab 鍵，就能收起武器。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "f82a08ac014bc5fb6c72858cb57609a054370cafabe5ed2dc94a8f56c535cc6e",
+      "source_utf16_units": 46,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4197",
+      "target": "把弓拖到自己身上就能裝備。別忘了撿起旁邊的箭。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "dc9887b79c86e8dc2a4a15b51d97888fab637b5ad2f665c999f2dddc00818934",
+      "source_utf16_units": 93,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4198",
+      "target": "按 Tab 鍵進入戰鬥模式，準備好弓。\n按住滑鼠左鍵拉弓，放開按鍵就能射箭。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "d8cb13590cbfb8366bb53bebc8b52d6a60c33533b93d84a8143179414b2134d4",
+      "source_utf16_units": 174,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4199",
+      "target": "再按一次 Tab 鍵，就能解除備戰。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "e77247e164957db8f32c0ef30f640c0ef38b4147f5198adf7947dea0e9defb7f",
+      "source_utf16_units": 47,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4200",
+      "target": "帶上書桌上的鑰匙了嗎？只要持有正確的鑰匙，就能自動打開上鎖的門。\n用過的鑰匙會留在鎖上。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "158779e11b15dc5af7c8d4a55e3656621d31f59c7645762d3f53186019ae13f6",
+      "source_utf16_units": 159,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4201",
+      "target": "許多物體都能攀爬，像這根倒木就是。靠近後按 C 鍵，就能爬上去。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "3ae04b9eaa07a9881da255b83de6d5e49af318e683e12f20ddef78bbb2afac56",
+      "source_utf16_units": 101,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4202",
+      "target": "游泳並不難。移動時往下看，就能下潛；往上看，就會游回水面。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "cba1d11234225009d471fea0fac8abff9d06dd1da0acf61555f25bcc9eb8849f",
+      "source_utf16_units": 114,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4203",
+      "target": "游泳時按住 Ctrl 或 Alt 鍵，就能側泳，甚至仰泳。",
+      "status": "showcase-draft",
+      "speaker": "Hawkwind",
+      "context": "Earth home / outdoor tutorial",
+      "source_sha256": "dce3717ac9fda06a21778f5b6f007b356ef33aa9946d5fdb01e853ca2138a7f9",
+      "source_utf16_units": 111,
+      "runtime_observed": false
+    }
+  ]
+}

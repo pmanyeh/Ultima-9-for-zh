@@ -6,7 +6,9 @@ Rect intersect(Rect a, Rect b) noexcept {
     return {std::max(a.left,b.left),std::max(a.top,b.top),std::min(a.right,b.right),std::min(a.bottom,b.bottom)};
 }
 bool empty(Rect r) noexcept { return r.left >= r.right || r.top >= r.bottom; }
-uint8_t logical_metric(uint32_t spacing) noexcept { return spacing < 16 ? static_cast<uint8_t>(16-spacing) : 0; }
+uint8_t logical_metric(uint32_t spacing, uint32_t advance) noexcept {
+    return advance <= 255 && spacing < advance ? static_cast<uint8_t>(advance-spacing) : 0;
+}
 bool FrameList::add_record(const DrawRecord& record) noexcept {
     if (records >= sources.size()) return false;
     for (uint32_t i = 0; i < records; ++i) if (sources[i].node == record.node) return false;
