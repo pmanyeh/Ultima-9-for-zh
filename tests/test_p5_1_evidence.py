@@ -65,6 +65,7 @@ class EvidenceTests(unittest.TestCase):
         rows = fixture()[:5]
         self.assertEqual(self.verify(rows,live=True)['status'], 'PROVISIONAL LIVE')
         with self.assertRaises(ValueError): self.verify(rows)
+        with self.assertRaises(ValueError): self.verify(fixture(),live=True)
 
     def test_duration_and_real_composite_activity_required(self):
         with self.assertRaises(ValueError): self.verify(fixture(), minimum_seconds=3)

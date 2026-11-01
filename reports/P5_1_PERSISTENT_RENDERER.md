@@ -12,7 +12,15 @@ wrapping/typography, other resource families and translation coverage are exclud
 
 **PASS WITH LIMITATIONS. P5.1 gate is NOT fully passed.**
 
-The user explicitly requested skipping remaining runtime tests. The approximate
+Current continuation (2026-11-01):the user replaced time-based soak with the
+event-driven gate in `docs/architecture/P5_1_EVENT_VALIDATION.md`. Reassessment
+is IN PROGRESS. Frozen0.1.1 completed the800x600 short cycle with normal exit0,
+2339 custom frames, full hook/font/handle cleanup and naturally retired bindings.
+The1600x1200 cycle and fullscreen smoke are pending completion. Current automated
+regression is78/78 Python and5/5 native PASS. The earlier interruption below is
+historical and is not retrospectively promoted to a clean exit or soak PASS.
+
+At the earlier checkpoint, the user explicitly requested skipping remaining runtime tests. The approximate
 60-minute session, complete final-build repetition matrix, fullscreen and final-build
 normal exit are **DEFERRED BY USER**, not PASS. Gate criteria remain unchanged.
 No additional game tests were launched after that instruction. P6 is unauthorized.

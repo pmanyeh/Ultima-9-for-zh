@@ -30,10 +30,13 @@ the exact resource hash. It delegates original text/glyph/metrics/pixels unchang
 Render adds `--font` with the pinned local Noto font, prewarms20/40em CPU glyphs
 and composites only registered CJK at native800×600/1600×1200 output. See the hook
 manifest for all14 reviewed boundaries, ABI and rollback contract. Other target
-resolutions fail closed in this bounded phase. Remaining repetition/fullscreen/
-60-minute validation was deferred by the user; P5.1 is not fully certified.
+resolutions fail closed in this bounded phase. The user now authorized the
+[event-driven gate](../docs/architecture/P5_1_EVENT_VALIDATION.md) in place of
+time-based soak. Reassessment is in progress; P5.1 is not yet fully certified.
 
 Version0.1.1 has bounded lifetime diagnostics. With a running private session,
 `scripts/verify_p5_1_runtime.py LOG --live` gives provisional evidence only.
 Closed-session verification requires normal exit and restored hooks/font/handles.
-Use `--minimum-seconds 3600 --minimum-active-span 900` for the complete timed gate.
+Use `--event-config PRIVATE_RECEIPT.json` for a closed event-gate cycle and
+`--repeat-entry 4170` for the repeat-lifecycle case. Historical time options are
+retained for analyzing old evidence; they are not the current gate.

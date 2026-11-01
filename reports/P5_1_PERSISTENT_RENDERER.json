@@ -422,5 +422,297 @@
       "sha256": "0cead1e1e7cff0635a49ae0e0f9930386eb69c945153e0a54e305c28b425c3db"
     }
   ],
-  "recommendation": "DO NOT AUTHORIZE P6 until deferred P5.1 gate validation is completed"
+  "recommendation": "DO NOT AUTHORIZE P6 until deferred P5.1 gate validation is completed",
+  "event_driven_reassessment": {
+    "status": "IN PROGRESS",
+    "authorization_date": "2026-11-01",
+    "gate_document": "docs/architecture/P5_1_EVENT_VALIDATION.md",
+    "time_threshold_required": false,
+    "windowed_800": {
+      "status": "PASS",
+      "runtime_sha256": "2e893bda781860455eacc33099ca0c9a334021d59c8880b728cabc4314e89b72",
+      "duration_ms": 147485,
+      "unicode_appearance_span_ms": 35000,
+      "raster_creation_span_ms": 35531,
+      "composite_frames": 2339,
+      "glyph_cache_entries": 4,
+      "cache_hits": 4364,
+      "cache_misses": 4,
+      "lifecycle_events": 46,
+      "address_reuses": {
+        "buffer": 0,
+        "raster": 4,
+        "queue": 4
+      },
+      "live_domains": {
+        "buffer": 0,
+        "raster": 0,
+        "queue": 0
+      },
+      "surface_generation": 1,
+      "lock_failures": 0,
+      "unlock_failures": 0,
+      "skipped_frames": 0,
+      "private_bytes_after_2min_min_max": [
+        371236864,
+        554254336
+      ],
+      "entries": [
+        {
+          "id": 4164,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 1,
+          "bounds": 1,
+          "glyph": 1,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 704,
+          "presentations": 704,
+          "freed": 2,
+          "width_overrides": 2,
+          "unicode_draws": 1,
+          "composites": 704,
+          "cache_hits": 704,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4166,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 2,
+          "bounds": 2,
+          "glyph": 2,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 511,
+          "presentations": 511,
+          "freed": 2,
+          "width_overrides": 4,
+          "unicode_draws": 2,
+          "composites": 511,
+          "cache_hits": 1022,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4167,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 14,
+          "bounds": 14,
+          "glyph": 14,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 532,
+          "presentations": 532,
+          "freed": 2,
+          "width_overrides": 4,
+          "unicode_draws": 2,
+          "composites": 532,
+          "cache_hits": 1064,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4168,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 2,
+          "bounds": 2,
+          "glyph": 2,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 226,
+          "presentations": 226,
+          "freed": 2,
+          "width_overrides": 4,
+          "unicode_draws": 2,
+          "composites": 226,
+          "cache_hits": 452,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4169,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 3,
+          "bounds": 3,
+          "glyph": 3,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 366,
+          "presentations": 366,
+          "freed": 2,
+          "width_overrides": 6,
+          "unicode_draws": 3,
+          "composites": 366,
+          "cache_hits": 1098,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4170,
+          "wide": 0,
+          "cache": 0,
+          "copies": 0,
+          "layout": 0,
+          "bounds": 0,
+          "glyph": 0,
+          "raster": 0,
+          "queue": 0,
+          "submissions": 0,
+          "presentations": 0,
+          "freed": 0,
+          "width_overrides": 0,
+          "unicode_draws": 0,
+          "composites": 0,
+          "cache_hits": 0,
+          "cache_misses": 0,
+          "raster_retired": 0,
+          "queue_retired": 0
+        }
+      ],
+      "lifetimes": [
+        {
+          "entry": 4164,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 11219,
+          "max_ms": 42500
+        },
+        {
+          "entry": 4164,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 11219,
+          "max_ms": 11219
+        },
+        {
+          "entry": 4164,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 11219,
+          "max_ms": 11219
+        },
+        {
+          "entry": 4166,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 9281,
+          "max_ms": 42485
+        },
+        {
+          "entry": 4166,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 9265,
+          "max_ms": 9265
+        },
+        {
+          "entry": 4166,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 9265,
+          "max_ms": 9265
+        },
+        {
+          "entry": 4167,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 10281,
+          "max_ms": 42485
+        },
+        {
+          "entry": 4167,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 10265,
+          "max_ms": 10265
+        },
+        {
+          "entry": 4167,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 10265,
+          "max_ms": 10265
+        },
+        {
+          "entry": 4168,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 4485,
+          "max_ms": 42485
+        },
+        {
+          "entry": 4168,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 4469,
+          "max_ms": 4469
+        },
+        {
+          "entry": 4168,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 4469,
+          "max_ms": 4469
+        },
+        {
+          "entry": 4169,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 6906,
+          "max_ms": 42485
+        },
+        {
+          "entry": 4169,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 6906,
+          "max_ms": 6906
+        },
+        {
+          "entry": 4169,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 6906,
+          "max_ms": 6906
+        }
+      ],
+      "gate": "P5.1 event-driven v1",
+      "cycle": "windowed-800",
+      "width": 800,
+      "height": 600,
+      "presentation": "windowed",
+      "normal_exit": true,
+      "natural_lifetimes_verified": true,
+      "repeated_entry": null,
+      "event_gate_pass": true,
+      "evidence_sha256": "5903bf55e3fd5bc53ea8f12481d0d98aa788a0c0f3c1525ab970e6782fa95721"
+    },
+    "windowed_1600": "IN PROGRESS",
+    "fullscreen": "PENDING",
+    "python_tests": {
+      "run": 78,
+      "passed": 78,
+      "skipped": 0
+    },
+    "native_ctest": {
+      "passed": 5,
+      "failed": 0
+    }
+  }
 }

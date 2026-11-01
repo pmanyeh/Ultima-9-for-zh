@@ -983,17 +983,42 @@ runtime hooks 保留 UTF-16 身分、原生 Latin、字形快取及最終 backbu
 多個字幕身分及世代失效、兩條一致的字寬路徑、持續中文與原生英文分流、
 800×600／1600×1200 直接對應輸出尺寸的灰階字形快取、逐次 Lock 的安全合成、
 surface／device 變化處理、focus／fullscreen 行為、正常退出與重複啟動、
-至少五個受控字幕案例、15 分鐘持續測試及約 60 分鐘長時間測試。
+至少五個受控字幕案例，以及下列事件式驗證。2026-11-01 依使用者明確指示，
+事件式驗證取代原有15／60分鐘時間型 soak 與每解析度三輪的門檻；時間僅作
+診斷資料，不以等待經過時間作為 PASS。
 原有 65 個測試及新增 native／synthetic 測試必須全數通過。
+
+事件式驗證使用同一份 hash 固定的 final build，必須完成：
+
+1. 兩次短啟動→操作→正常退出，分別覆蓋800×600及1600×1200視窗模式。
+   READY 先於 resume；六筆 allowlist 中至少五筆各自完成 Unicode／native
+   分流、兩條字寬路徑、raster／queue 建立、實際合成與退役事件。
+2. 至少一輪讓可重複的字幕顯示、結束、再次顯示，證明新 identity／generation、
+   copy 繼承、cache 重用及退役後 live bindings 歸零。地址重用如未自然發生，
+   必須保留 native synthetic 的確切地址重用／stale generation 拒絕證據。
+3. lifecycle smoke 包含原生 UI 開啟／取消、場景或原生互動，以及 focus loss／
+   minimize→恢復後再次合成。不可把新出現的 glyph-cache entry 當成 cache hit。
+4. 一次1600×1200全螢幕啟動 smoke：實際中文字形、必要焦點恢復及正常退出。
+   如 wrapper／環境阻擋，須附具體證據並保留限制，不能把未測列為 PASS。
+5. final-build normal exit 必須有 active_calls=0、所有 hook 原始 bytes／pointers
+   還原、私有字型移除、worker handles 關閉、live metadata 清空及 process exit0。
+   強制終止與先前被中止的長測不能替代此項。
+6. 全程 hook errors、failed Unlock、遺失 lifecycle events 為0；cache 保持選定
+   corpus 的固定規模。Lock／surface-loss 模擬失敗與恢復由共享 native helper
+   測試驗證；真實 device-lost 若無法觸發，明列 NOT OBSERVED，避免宣稱 reset。
 
 遊戲資產、字型、截圖、產生的 runtime binaries 與本機路徑均不得提交。
 若生命週期或穩定性尚未通過，標記 PASS WITH LIMITATIONS／BLOCKED 並保留
 未驗證項目。**P6 不在本次授權範圍；不得自動進入換行、禁則、排版或資源擴張。**
 
-2026-11-01 checkpoint：依使用者指示暫緩剩餘 runtime 驗證。
+2026-11-01 earlier checkpoint：依使用者指示暫緩剩餘 runtime 驗證。
 P5.1 為 **PASS WITH LIMITATIONS，Gate 尚未完整通過**；保留上述通過標準，
 不將未完成的約60分鐘長測、完整啟閉輪次或全螢幕測試列為 PASS。
 證據與限制見 `reports/P5_1_PERSISTENT_RENDERER.md`。P6 仍未授權。
+
+2026-11-01 event-driven continuation：使用者重新授權上述短啟閉及必要 smoke
+tests，完成後依新事件式 Gate 重新判定 P5.1。舊中止紀錄保留為歷史證據，
+不回溯改列成功。此次仍不執行 P6。
 
 ---
 

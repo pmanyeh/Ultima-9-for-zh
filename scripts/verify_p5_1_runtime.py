@@ -2,7 +2,9 @@
 
 This reads the runtime's own diagnostics, never game-process memory. Live output
 is explicitly provisional; complete shutdown and duration gates require a closed
-session. No copyrighted text or pixel data is included in the summary.
+session. Event-driven gates impose no duration threshold. Historical duration
+options remain available for analyzing the earlier batch. No copyrighted text
+or pixel data is included in the summary.
 """
 import argparse
 from collections import defaultdict
@@ -12,6 +14,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CORE = (4164, 4166, 4167, 4168, 4169)
+FINAL_RUNTIME = '2e893bda781860455eacc33099ca0c9a334021d59c8880b728cabc4314e89b72'
+TEST_RESOURCE = '138495860ff5804b19b9f413a2b6416fd5345e1adab7d8bd5dcb7f3353359842'
 
 
 def verify_rows(rows, *, live=False, minimum_seconds=0, minimum_active_span=0, required=CORE):
@@ -19,6 +23,7 @@ def verify_rows(rows, *, live=False, minimum_seconds=0, minimum_active_span=0, r
         if not value:
             raise ValueError(message)
     names = [r['event'] for r in rows]
+    need(not live or 'game_exited' not in names, 'closed/interrupted session cannot be labelled live')
     need('runtime_ready' in names and 'game_resumed' in names, 'missing normal launch handshake')
     need(names.index('runtime_ready') < names.index('handshake_ready') < names.index('game_resumed'), 'READY order')
     need(not any(n in names for n in ('runtime_fail', 'launcher_fail', 'runtime_restore_failed')), 'failed session')
@@ -141,6 +146,86 @@ def verify_rows(rows, *, live=False, minimum_seconds=0, minimum_active_span=0, r
                            'min_ms': min(values), 'max_ms': max(values)} for (entry, domain), values in lifetimes.items()]}
 
 
+def verify_event_cycle(rows, receipt, *, repeated_entry=None, required=CORE):
+    """Final-build normal exit and natural lifecycle events, without a clock gate."""
+    def need(value, message):
+        if not value: raise ValueError(message)
+    result = verify_rows(rows, required=required)
+    need(result['runtime_sha256'] == receipt['runtime_sha256'] == FINAL_RUNTIME, 'final runtime hash mismatch')
+    need((receipt['width'], receipt['height']) in ((800,600),(1600,1200)), 'unsupported receipt resolution')
+    need(receipt['presentation'] in ('windowed','fullscreen'), 'unsupported presentation')
+    corpus = next((r for r in rows if r['event'] == 'runtime_corpus'), {})
+    need(corpus.get('mode') == 'render' and corpus.get('resource_sha256') == receipt['resource_sha256'] == TEST_RESOURCE,
+         'corpus hash/mode mismatch')
+    counters = [r for r in rows if r['event'] in ('runtime_counters','runtime_hooks_restored')]
+    need(counters[-1]['active_calls'] == 0, 'active hook during restoration')
+    cleanup = next(r for r in rows if r['event'] == 'runtime_cleanup')
+    need(cleanup.get('gateways_retained') is True, 'normal process-exit cleanup not established')
+    events = [v for r in counters for v in r['lifecycle']]
+    natural = []
+    for e in events:
+        if e['kind'] == 9: break
+        natural.append(e)
+    for entry in required:
+        need(all(any(e['entry'] == entry and e['kind'] == kind for e in natural) for kind in (5,7,8)),
+             'missing natural pre-shutdown raster/queue lifetime: '+str(entry))
+    need(any(r['event'] == 'runtime_counters' and r['live_buffers'] == r['live_rasters'] == r['live_queues'] == 0
+             and r['composite_frames'] > 0 for r in counters), 'missing post-render empty-binding event')
+    warm = {(r['scalar'],r['em']):r for r in rows if r['event'] == 'glyph_cache_warm'}
+    expected = {(20013,20):(9544,16,19,20),(20013,40):(9544,32,37,40),
+                (25991,20):(20036,19,19,20),(25991,40):(20036,38,38,40)}
+    need(set(warm) == set(expected), 'missing/extra physical glyph keys')
+    for key, metrics in expected.items():
+        need(tuple(warm[key][k] for k in ('index','width','height','advance')) == metrics
+             and len(warm[key].get('coverage_sha256','')) == 64, 'unexpected direct glyph metrics')
+    if repeated_entry is not None:
+        for kind in (5,7,8):
+            need(sum(e['kind'] == kind and e['entry'] == repeated_entry for e in natural) >= 2,
+                 'repeat subtitle did not complete two natural lifetimes')
+        epochs = set(); previous = 0
+        for r in counters:
+            stat = next((s for s in r['entries'] if s['id'] == repeated_entry), {})
+            if stat.get('composites',0) > previous: epochs.add(stat.get('raster',0))
+            previous = stat.get('composites',0)
+        need(len(epochs) >= 2 and 0 not in epochs, 'repeat lifetimes lack compositor activity')
+    result.update(gate='P5.1 event-driven v1',cycle=receipt['cycle'],width=receipt['width'],height=receipt['height'],
+                  presentation=receipt['presentation'],normal_exit=True,natural_lifetimes_verified=True,
+                  repeated_entry=repeated_entry,event_gate_pass=True)
+    return result
+
+
+def verify_event_matrix(cycles, observations, *, native_tests_passed, assets_restored):
+    """Aggregate native log results plus separately recorded UI observations."""
+    def need(value, message):
+        if not value: raise ValueError(message)
+    need(native_tests_passed and assets_restored, 'native regression/restoration incomplete')
+    need(len(cycles) == 3 and len({c['cycle'] for c in cycles}) == 3, 'expected two short cycles and one fullscreen smoke')
+    need(all(c.get('event_gate_pass') and c.get('normal_exit') and c.get('runtime_sha256') == FINAL_RUNTIME
+             for c in cycles), 'unclean or mixed final builds')
+    windowed = [c for c in cycles if c['presentation'] == 'windowed']
+    need({(c['width'],c['height']) for c in windowed} == {(800,600),(1600,1200)} and len(windowed) == 2,
+         'missing two windowed resolution cycles')
+    full = [c for c in cycles if c['presentation'] == 'fullscreen']
+    need(len(full) == 1 and (full[0]['width'],full[0]['height']) == (1600,1200), 'fullscreen smoke incomplete')
+    need(any(c.get('repeated_entry') == 4170 for c in windowed), 'repeat lifecycle evidence missing')
+    def observed(kind, cycle=None):
+        return [o for o in observations if o['kind'] == kind and (cycle is None or o['cycle'] == cycle)]
+    for c in cycles:
+        need(observed('cjk_visible',c['cycle']), 'missing visual CJK observation')
+    need(observed('native_ui_open') and observed('native_ui_cancel') and observed('interaction'), 'native UI/interaction smoke incomplete')
+    for kind in ('fullscreen_visible','focus_loss','focus_restored','recovered_cjk'):
+        need(observed(kind,full[0]['cycle']), 'fullscreen lifecycle observation missing: '+kind)
+    losses = observed('focus_loss',full[0]['cycle'])
+    need(any(o.get('anchor') and full[0]['composite_frames'] > o['anchor']['composite_frames'] for o in losses),
+         'no new composition after fullscreen focus event')
+    need(all(o.get('screenshot') and len(o.get('screenshot_sha256','')) == 64
+             for o in observations if o['kind'] in ('cjk_visible','fullscreen_visible','recovered_cjk')),
+         'missing visual artifact hashes')
+    return {'status':'PASS','gate':'P5.1 event-driven v1','normal_cycles':2,'fullscreen_smokes':1,
+            'runtime_sha256':FINAL_RUNTIME,'time_threshold_required':False,'actual_device_lost':'NOT OBSERVED',
+            'scope':'selected subtitle corpus and pinned native/wrapper build; no P6 execution'}
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('log', type=Path)
@@ -150,12 +235,19 @@ def main():
     p.add_argument('--require-entry', type=int, action='append')
     p.add_argument('--output', type=Path)
     p.add_argument('--brief', action='store_true')
+    p.add_argument('--event-config', type=Path, help='Use the event gate with this private launch receipt')
+    p.add_argument('--repeat-entry', type=int, help='Require two natural display/retirement epochs for this entry')
     a = p.parse_args()
     data = a.log.read_bytes(); lines = data.splitlines()
     if a.live and data and not data.endswith(b'\n'): lines.pop()
     rows = [json.loads(line) for line in lines]
-    result = verify_rows(rows, live=a.live, minimum_seconds=a.minimum_seconds,
-                         minimum_active_span=a.minimum_active_span, required=a.require_entry or CORE)
+    if a.event_config:
+        if a.live or a.minimum_seconds or a.minimum_active_span: p.error('event gate requires a closed session and no time threshold')
+        result = verify_event_cycle(rows,json.loads(a.event_config.read_text()),
+                                    repeated_entry=a.repeat_entry,required=a.require_entry or CORE)
+    else:
+        result = verify_rows(rows, live=a.live, minimum_seconds=a.minimum_seconds,
+                             minimum_active_span=a.minimum_active_span, required=a.require_entry or CORE)
     result['evidence_sha256'] = hashlib.sha256(data).hexdigest()
     encoded = json.dumps(result, indent=2)+'\n'
     if a.output:
