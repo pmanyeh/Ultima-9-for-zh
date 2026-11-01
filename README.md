@@ -22,8 +22,10 @@ P5.1 的工作是將既有成果整合為正常啟動、持續運作、可還原
 詳見 [P5.1 實作及驗證報告](reports/P5_1_PERSISTENT_RENDERER.md)。
 
 後續已重新授權 event-driven validation，取代時間型 soak：兩次短啟閉覆蓋
-800×600／1600×1200，另加必要 lifecycle／fullscreen smoke。重判正在進行；
-目前 final-build 800×600 正常退出通過，Python78/78、native5/5 通過。
+800×600／1600×1200，另加必要 lifecycle／fullscreen smoke。
+目前兩個解析度的 final-build 正常退出及清理皆通過，Python78/78、native5/5
+通過；剩餘本輪第二次字幕重現及 fullscreen lifecycle smoke 受桌面連線失效
+阻擋。本機測試資源與設定已還原；時間型 soak 不再是待補項。
 完整事件矩陣通過前，仍不將 P5.1 列為完整 PASS，也不執行 P6。
 
 初始批次狀態（2026-10-29）：P0～P2 **PASS WITH LIMITATIONS**。

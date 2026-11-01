@@ -14,11 +14,19 @@ wrapping/typography, other resource families and translation coverage are exclud
 
 Current continuation (2026-11-01):the user replaced time-based soak with the
 event-driven gate in `docs/architecture/P5_1_EVENT_VALIDATION.md`. Reassessment
-is IN PROGRESS. Frozen0.1.1 completed the800x600 short cycle with normal exit0,
-2339 custom frames, full hook/font/handle cleanup and naturally retired bindings.
-The1600x1200 cycle and fullscreen smoke are pending completion. Current automated
-regression is78/78 Python and5/5 native PASS. The earlier interruption below is
+is BLOCKED by unavailable desktop control. Frozen0.1.1 completed both windowed
+launch/normal-exit runs:800x600 produced2339 custom frames;1600x1200 produced2060.
+Both restored all hooks at active_calls0, removed the private font, closed worker
+handles and ended with empty binding domains and exit0. The second run required
+user-assisted normal exit after control failed; its long idle interval is not a
+deliberate soak result. Fresh4170 replay was observed once, not the required twice;
+fullscreen/focus-recovery smoke remains unexecuted. Current automated regression
+is78/78 Python and5/5 native PASS. The earlier interruption below is
 historical and is not retrospectively promoted to a clean exit or soak PASS.
+
+All five P0 assets and both current-batch configuration backups were restored
+after the user's normal exit. No game remains open for this batch. The15/60-minute
+thresholds are superseded; they are not current pending requirements.
 
 At the earlier checkpoint, the user explicitly requested skipping remaining runtime tests. The approximate
 60-minute session, complete final-build repetition matrix, fullscreen and final-build
@@ -86,6 +94,13 @@ UI dialogs opened/cancelled during the fixed run.
 
 # Evidence
 
+Current event-driven evidence is private under `.local/p5-1-event/`:
+`evidence/windowed-800.jsonl`, `evidence/windowed-1600.jsonl`, matching launch
+receipts, visual/action artifacts and `restoration-after-user-exit.json`.
+The second normal exit proves cleanup but does not fill the missing second4170
+display or any fullscreen observation. Desktop inventory and a fresh JS kernel
+both failed with `Computer Use native pipe is unavailable (os error2)`.
+
 Private log hashes and per-entry counts/lifetimes are in the companion JSON.
 Under `.local/p5-1/evidence/`:
 
@@ -101,6 +116,12 @@ Private screenshots include `P5_1_800_SINGLE.png`, `P5_1_800_FOCUS_RECOVER.png`,
 `P5_1_1600_MIXED.png`, `P5_1_FINAL_1600_MIXED.png`. None are published.
 
 # Tests
+
+Current event-driven regression:Python **78/78 PASS,0 skipped**, native CTest
+**5/5 PASS,0 failed**. This retains65 original tests plus7 earlier evidence tests
+and6 event-gate tests. The latter reject wrong builds, shutdown-only retirement,
+missing second display epoch, missing fullscreen/focus observations and unclean
+exits. A complete synthetic event sequence can pass with zero elapsed time.
 
 Completed before the runtime deferral:
 
@@ -120,6 +141,23 @@ No expectations were weakened. Forced initialization/malformed-input launchers
 exit1 intentionally without primary resume and with verified rollback.
 
 # Results
+
+Current event-driven matrix:
+
+| Requirement | Current result |
+| --- | --- |
+| Same frozen final build, both windowed outputs | PASS |
+| Two launches and normal exits | PASS; second exit user-assisted |
+| All hook/font/worker cleanup, empty metadata, exit0 | PASS in both runs |
+| Core subtitle routing, direct20/40em, stable cache | PASS |
+| Current4170 natural display/retirement replay twice | INCOMPLETE:one observed |
+| Fullscreen launch/CJK/focus recovery/normal exit | NOT EXECUTED:desktop control unavailable |
+| Real device loss/reset | NOT OBSERVED; synthetic failure/recovery PASS |
+| In-session resolution switch / concurrent runtime CJK records | NOT OBSERVED; relevant synthetic logic tested |
+| Assets/configurations restored | PASS |
+| Complete event-driven P5.1 gate | NOT PASSED; two pending event groups |
+
+## Earlier interrupted checkpoint (historical)
 
 | Requirement | Result |
 | --- | --- |
@@ -160,6 +198,13 @@ also includes native game allocations and alone cannot rule out every leak.
 
 # Blockers
 
+Current blocker:the Computer Use native pipe remains unavailable after inventory
+retry and kernel reinitialization. Do not launch another unclosable test process.
+Remaining required events are fullscreen lifecycle smoke and a second fresh4170
+display/retirement epoch. Windowed normal exit and restoration are now complete.
+
+Historical interruption:
+
 Remaining validation was explicitly deferred. Desktop recovery alternated between
 `window is minimized` and `user input was detected`. Only the agent-created PID
 was stopped after exact executable-path verification; exit0xffffffff is intentional
@@ -169,8 +214,11 @@ restoration. Earlier clean development exits/startup rollback remain separate.
 
 # Deviations From Master Plan
 
-Explicit P5.1 authorization permits the own DLL/minimal hooks. Later user deferral
-stops tests without changing gate criteria. Disproven integration assumptions:
+Explicit P5.1 authorization permits the own DLL/minimal hooks. The earlier user
+deferral stopped tests without changing the then-current gate. The subsequent
+explicit authorization replaces timed soak with event-driven validation; the
+current missing events remain required despite the external control blocker.
+Disproven integration assumptions:
 Toolhelp before loader initialization; an extra dereference of the proven
 root+0xC inner interface. Both are documented; the latter caused a controlled
 pre-Lock quit before correction. No unexplained crash or earlier-phase
@@ -179,4 +227,4 @@ reclassification is concealed.
 # Recommendation
 
 Preserve this implemented but incompletely validated P5.1 checkpoint.
-**DO NOT AUTHORIZE P6** until the deferred validation is completed.
+**DO NOT AUTHORIZE P6** until the remaining event-driven validation is completed.

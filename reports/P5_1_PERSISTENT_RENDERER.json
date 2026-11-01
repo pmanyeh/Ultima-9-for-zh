@@ -3,7 +3,7 @@
   "date": "2026-11-01",
   "status": "PASS WITH LIMITATIONS",
   "phase_gate_passed": false,
-  "reason": "Remaining runtime tests deferred at explicit user request",
+  "reason": "Event-driven reassessment incomplete because desktop control is unavailable; current required replay/fullscreen events remain unexecuted.",
   "starting_head": "de789311e92f437060aef6d76ca3a6908a5b07d6",
   "implementation_head": "3a99b45ab7e7de28e8d8a7a42a23f2940aa49465",
   "runtime_version": "0.1.1",
@@ -20,18 +20,19 @@
     "B": "PASS",
     "C": "FUNCTIONAL PASS",
     "D": "FUNCTIONAL PASS",
-    "E": "FUNCTIONAL PASS; 800 development and 1600 fixed-build evidence",
-    "F": "PARTIAL; focus/minimize observed; fullscreen deferred; actual lost HRESULT unobserved",
+    "E": "PASS for selected corpus at both final-build windowed outputs",
+    "F": "PARTIAL; real device loss unobserved; fullscreen/focus smoke blocked by external control",
     "G": "PASS; six explicitly selected subtitle entries",
-    "H": "PARTIAL; startup rollback and native quiescence pass; development normal exits pass; fixed-build normal exit unverified",
-    "I": "PARTIAL; 15-minute activity span observed; final repetition/fullscreen/60-minute tests deferred"
+    "H": "PASS for initialization rollback, native quiescence and both final-build process-exit cleanups; no live hot-unload claim",
+    "I": "EVENT GATE INCOMPLETE: two windowed exits verified; current replay/fullscreen events pending"
   },
   "python_tests": {
-    "run": 72,
-    "passed": 72,
+    "run": 78,
+    "passed": 78,
     "skipped": 0,
     "original_tests_retained": 65,
-    "new_evidence_tests": 7
+    "new_evidence_tests": 7,
+    "new_event_gate_tests": 6
   },
   "native_ctest": {
     "executables": 5,
@@ -328,19 +329,6 @@
     "normal_shutdown_verified": false
   },
   "process_resumed_to_exit_ms": 1378625,
-  "termination": {
-    "user_requested_defer": true,
-    "method": "Stopped only launcher-owned PID after exact executable path verification; computer-use minimize/input recovery failed",
-    "exit_code": 4294967295,
-    "clean_exit_pass": false,
-    "crash_inferred": false
-  },
-  "deferred_tests": [
-    "approximately 60-minute session",
-    "three final-build launch/play/exit cycles per windowed resolution",
-    "fullscreen",
-    "fixed-build normal exit"
-  ],
   "protected_assets": [
     {
       "filename": "u9.exe",
@@ -422,9 +410,9 @@
       "sha256": "0cead1e1e7cff0635a49ae0e0f9930386eb69c945153e0a54e305c28b425c3db"
     }
   ],
-  "recommendation": "DO NOT AUTHORIZE P6 until deferred P5.1 gate validation is completed",
+  "recommendation": "DO NOT AUTHORIZE P6 until remaining event-driven P5.1 validation is completed",
   "event_driven_reassessment": {
-    "status": "IN PROGRESS",
+    "status": "EXTERNAL CONTROL BLOCKED; TWO WINDOWED NORMAL EXITS VERIFIED",
     "authorization_date": "2026-11-01",
     "gate_document": "docs/architecture/P5_1_EVENT_VALIDATION.md",
     "time_threshold_required": false,
@@ -703,8 +691,308 @@
       "event_gate_pass": true,
       "evidence_sha256": "5903bf55e3fd5bc53ea8f12481d0d98aa788a0c0f3c1525ab970e6782fa95721"
     },
-    "windowed_1600": "IN PROGRESS",
-    "fullscreen": "PENDING",
+    "windowed_1600": {
+      "status": "PARTIAL PROFILE: core routes and normal exit PASS",
+      "runtime_sha256": "2e893bda781860455eacc33099ca0c9a334021d59c8880b728cabc4314e89b72",
+      "duration_ms": 28219172,
+      "unicode_appearance_span_ms": 135016,
+      "raster_creation_span_ms": 133203,
+      "composite_frames": 2060,
+      "glyph_cache_entries": 4,
+      "cache_hits": 3951,
+      "cache_misses": 4,
+      "lifecycle_events": 55,
+      "address_reuses": {
+        "buffer": 0,
+        "raster": 4,
+        "queue": 4
+      },
+      "live_domains": {
+        "buffer": 0,
+        "raster": 0,
+        "queue": 0
+      },
+      "surface_generation": 1,
+      "lock_failures": 0,
+      "unlock_failures": 0,
+      "skipped_frames": 0,
+      "private_bytes_after_2min_min_max": [
+        333090816,
+        634044416
+      ],
+      "entries": [
+        {
+          "id": 4164,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 1,
+          "bounds": 1,
+          "glyph": 1,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 506,
+          "presentations": 506,
+          "freed": 2,
+          "width_overrides": 2,
+          "unicode_draws": 1,
+          "composites": 506,
+          "cache_hits": 506,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4166,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 2,
+          "bounds": 2,
+          "glyph": 2,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 342,
+          "presentations": 342,
+          "freed": 2,
+          "width_overrides": 4,
+          "unicode_draws": 2,
+          "composites": 342,
+          "cache_hits": 684,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4167,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 14,
+          "bounds": 14,
+          "glyph": 14,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 370,
+          "presentations": 370,
+          "freed": 2,
+          "width_overrides": 4,
+          "unicode_draws": 2,
+          "composites": 370,
+          "cache_hits": 740,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4168,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 2,
+          "bounds": 2,
+          "glyph": 2,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 185,
+          "presentations": 185,
+          "freed": 2,
+          "width_overrides": 4,
+          "unicode_draws": 2,
+          "composites": 185,
+          "cache_hits": 370,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4169,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 3,
+          "bounds": 3,
+          "glyph": 3,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 313,
+          "presentations": 313,
+          "freed": 2,
+          "width_overrides": 6,
+          "unicode_draws": 3,
+          "composites": 313,
+          "cache_hits": 939,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        },
+        {
+          "id": 4170,
+          "wide": 1,
+          "cache": 1,
+          "copies": 1,
+          "layout": 7,
+          "bounds": 7,
+          "glyph": 7,
+          "raster": 1,
+          "queue": 1,
+          "submissions": 344,
+          "presentations": 344,
+          "freed": 2,
+          "width_overrides": 4,
+          "unicode_draws": 2,
+          "composites": 344,
+          "cache_hits": 688,
+          "cache_misses": 0,
+          "raster_retired": 1,
+          "queue_retired": 1
+        }
+      ],
+      "lifetimes": [
+        {
+          "entry": 4164,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 11266,
+          "max_ms": 42609
+        },
+        {
+          "entry": 4164,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 11250,
+          "max_ms": 11250
+        },
+        {
+          "entry": 4164,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 11250,
+          "max_ms": 11250
+        },
+        {
+          "entry": 4166,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 9297,
+          "max_ms": 42609
+        },
+        {
+          "entry": 4166,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 9266,
+          "max_ms": 9266
+        },
+        {
+          "entry": 4166,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 9266,
+          "max_ms": 9266
+        },
+        {
+          "entry": 4167,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 10281,
+          "max_ms": 42609
+        },
+        {
+          "entry": 4167,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 10250,
+          "max_ms": 10250
+        },
+        {
+          "entry": 4167,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 10250,
+          "max_ms": 10250
+        },
+        {
+          "entry": 4168,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 4500,
+          "max_ms": 42609
+        },
+        {
+          "entry": 4168,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 4484,
+          "max_ms": 4484
+        },
+        {
+          "entry": 4168,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 4484,
+          "max_ms": 4484
+        },
+        {
+          "entry": 4169,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 6921,
+          "max_ms": 42609
+        },
+        {
+          "entry": 4169,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 6906,
+          "max_ms": 6906
+        },
+        {
+          "entry": 4169,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 6906,
+          "max_ms": 6906
+        },
+        {
+          "entry": 4170,
+          "domain": "buffer",
+          "count": 2,
+          "min_ms": 8735,
+          "max_ms": 36047
+        },
+        {
+          "entry": 4170,
+          "domain": "queue",
+          "count": 1,
+          "min_ms": 8719,
+          "max_ms": 8719
+        },
+        {
+          "entry": 4170,
+          "domain": "raster",
+          "count": 1,
+          "min_ms": 8719,
+          "max_ms": 8719
+        }
+      ],
+      "gate": "P5.1 event-driven v1",
+      "cycle": "windowed-1600",
+      "width": 1600,
+      "height": 1200,
+      "presentation": "windowed",
+      "normal_exit": true,
+      "natural_lifetimes_verified": true,
+      "repeated_entry": null,
+      "event_gate_pass": false,
+      "note": "Event cycle includes control-unavailable idle before user-assisted normal exit; elapsed time is not a soak claim.",
+      "core_route_exit_pass": true,
+      "required_profile_pending": [
+        "second natural4170 display/retirement epoch"
+      ],
+      "user_assisted_normal_exit": true
+    },
+    "fullscreen": "NOT EXECUTED: Computer Use native pipe unavailable",
     "python_tests": {
       "run": 78,
       "passed": 78,
@@ -713,6 +1001,43 @@
     "native_ctest": {
       "passed": 5,
       "failed": 0
-    }
-  }
+    },
+    "assets_restored": true,
+    "normal_exits_verified": 2,
+    "pending_required_events": [
+      "current second4170 display/retirement epoch",
+      "fullscreen launch/CJK/focus-recovery/normal-exit smoke"
+    ],
+    "unobserved_boundaries": [
+      "real DirectDraw device-lost/reset",
+      "in-session resolution switch",
+      "multiple simultaneous runtime CJK draw records"
+    ],
+    "evidence": [
+      {
+        "path": ".local/p5-1-event/evidence/windowed-800.jsonl",
+        "sha256": "5903bf55e3fd5bc53ea8f12481d0d98aa788a0c0f3c1525ab970e6782fa95721"
+      },
+      {
+        "path": ".local/p5-1-event/evidence/windowed-1600.jsonl",
+        "sha256": "8c55f639b1fc20c6b792efd5ba211770fdabbbaf3e945b8fd5f1ff82cdad2254"
+      }
+    ]
+  },
+  "gate_version": "P5.1 event-driven v1",
+  "time_threshold_required": false,
+  "historical_deferred_tests": [
+    "approximately 60-minute session",
+    "three final-build launch/play/exit cycles per windowed resolution",
+    "fullscreen",
+    "fixed-build normal exit"
+  ],
+  "historical_termination": {
+    "user_requested_defer": true,
+    "method": "Stopped only launcher-owned PID after exact executable path verification; computer-use minimize/input recovery failed",
+    "exit_code": 4294967295,
+    "clean_exit_pass": false,
+    "crash_inferred": false
+  },
+  "current_normal_exit_verified": true
 }
