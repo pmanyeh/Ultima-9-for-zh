@@ -1,0 +1,18 @@
+{
+  "schema": "u9cht-readable-showcase-draft-v1",
+  "status": "showcase-draft",
+  "source_archive_sha256": "a0653ef3608537575e707faa56aca6f24efc2eddaab554d49279d6c1c1a8858b",
+  "resource_provenance": "confirmed by native single-entry ASCII heading probe",
+  "unicode_route": "pending; this draft is not installed by the ASCII-only book writer",
+  "entries": [
+    {
+      "key": "BOOKS-EN.FLX:182",
+      "source_body_sha256": "b5a04c84c115a6fb062742df015035882ade1f7398eb04f39e85f4c9144dafb2",
+      "status": "showcase-draft",
+      "context": "Actual readable bedroom book; preserve original CRLF and page marker sequence",
+      "target": "閱讀書籍的方法\r\n\r\n讀書是充實自我、享受樂趣的消遣。閱讀得越多，你就越能了解這個世界、居民與歷史。\r\n`p\r\n書中也藏著你可能忽略的線索。開啟書本後，用滑鼠左鍵點一下右上角折起的頁角，就能翻到下一頁。若要回到第一頁，點一下書籤即可。\r\n`p\r\n用滑鼠左鍵點一下左上角折起的頁角，可以翻回上一頁。閱讀完畢後，按 Esc，或在書本上任意位置按滑鼠右鍵，就能關閉書本。",
+      "runtime_observed": false,
+      "layout_verified": false
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "schema": "u9cht-showcase-v1",
+  "scene": "Candidate Earth gypsy introductory/preparation conversation; runtime source confirmation pending",
+  "source_archive_sha256": "378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0",
+  "status": "showcase-draft",
+  "runtime_candidate": true,
+  "terminology_review": [
+    "Avatar",
+    "Britannia"
+  ],
+  "entries": [
+    {
+      "key": "text.flx:4030",
+      "target": "歡迎，旅人。請坐。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "80f42f7ca03239329d38085336aecb22317c8ca1860f52867e45d56ea72f8f7a",
+      "source_utf16_units": 37,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4032",
+      "target": "你好，Avatar；Britannia 正等著你。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "c48dc5be369c870bb6429117ebd5e14ec166818eda86e226dff3c68c0d6899b2",
+      "source_utf16_units": 36,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4033",
+      "target": "這將是你最艱鉅的挑戰：",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "f46f6c4fb6844f19d93b048ea522396cc8547738557f0c21738d4eaf4a515b29",
+      "source_utf16_units": 37,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4034",
+      "target": "為 Britannia 的命運而戰的最後一役。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "90182353c664b7a79fdd611307432de73af0fddbfb76d67fcf292dd846da2017",
+      "source_utf16_units": 46,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4035",
+      "target": "若你踏上這趟旅程，",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "0e647f5733f112df883031b5c854dbcf5e9ca85fc757571a232336c1c3b224ce",
+      "source_utf16_units": 25,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4036",
+      "target": "便再也回不了地球，也不會再回到 Britannia。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "e143eb40eabfa1b3ca76e5cb3c06b21aab751b22c03adfc30b15718f68017c85",
+      "source_utf16_units": 72,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4037",
+      "target": "你準備好迎接這項至關重要的使命了嗎？",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "77c9565dba1912fa1300211db4d2608e88b844a7a496dd2c2be47b1d318680ea",
+      "source_utf16_units": 51,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4038",
+      "target": "什麼旅程？",
+      "status": "showcase-draft",
+      "speaker": "Avatar",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "02074a5814bb3fe9761a8f6420878e361e2cd68bf1a23dec2452c9b4893febb0",
+      "source_utf16_units": 13,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4039",
+      "target": "我該做些什麼準備？",
+      "status": "showcase-draft",
+      "speaker": "Avatar",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "3df7657665894a779ce13ca313379cc864614048d69775888a85962bb30edf87",
+      "source_utf16_units": 28,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4040",
+      "target": "我準備好了！",
+      "status": "showcase-draft",
+      "speaker": "Avatar",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "c43f530ffab41b9f43ffe217dcf763d14266b7efa96609fa29607d801d77856c",
+      "source_utf16_units": 14,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4041",
+      "target": "長久以來，你一直是 Britannia 的救星。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "8eec940fa9550e05134977ab6031f505748c1f60dbc0e51ee1dc9eef166ce858",
+      "source_utf16_units": 43,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4042",
+      "target": "過去你曾八度踏上這趟旅程，讓 Britannia 免於毀滅。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "d0a6ddf0bbf0aceb45e2e202e4d3e13337a875e1e27a610f6e571cfc52f7516e",
+      "source_utf16_units": 87,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4043",
+      "target": "這一次，你必須徹底完成使命。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "d2307b67f068fe573b805abc454f60b6c510df217322ecb2e00ebd6832af4245",
+      "source_utf16_units": 35,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4044",
+      "target": "因為這趟旅程結束後，你將走向不同的未來。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "708ce3fa85a4846c384342e6bcd7ed0e9875d79423def03ff5eae202de7f8a70",
+      "source_utf16_units": 61,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4045",
+      "target": "你已熟練戰鬥、游泳，以及裝備的使用方法了嗎？",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "efd26a5347e5dc917d9725405a04de8cefc5c756c6c8903a0bbaba5a2ca81bfe",
+      "source_utf16_units": 66,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4046",
+      "target": "我還沒準備好。",
+      "status": "showcase-draft",
+      "speaker": "Avatar",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "b1ae012000e195aa706cbdc8528ab0d766c4d3f689a7d9b0df985ae2dadfe5aa",
+      "source_utf16_units": 19,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4048",
+      "target": "我已經準備好了！",
+      "status": "showcase-draft",
+      "speaker": "Avatar",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "0f44c1f91c9bdbf6c1360a18ce81c107361ac3a8b60c394ff45cba9a5d9a7556",
+      "source_utf16_units": 11,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4050",
+      "target": "準備好之後，再回來找我吧。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "01a9b3518bb767fb99e0b56d0eca0882367160bbbf582bee6f7f1314ee9e4d11",
+      "source_utf16_units": 32,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4051",
+      "target": "你得先探索這座森林。",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "1f17850ba6bb0d8c8688fec2581bd97099289a2441c84ebd1fa4ba63b60730d4",
+      "source_utf16_units": 34,
+      "runtime_observed": false
+    },
+    {
+      "key": "text.flx:4052",
+      "target": "這裡有許多知識能在旅途中幫助你。前往 Britannia 之前，先\n學會游泳與戰鬥吧！",
+      "status": "showcase-draft",
+      "speaker": "Gypsy",
+      "context": "Earth gypsy: greeting / journey / preparation / not-ready return branch",
+      "source_sha256": "d8b206c7ac1e2f69612751663dcfdc06c8cfd2e70604b97236aa9019baad3b47",
+      "source_utf16_units": 143,
+      "runtime_observed": false
+    }
+  ]
+}

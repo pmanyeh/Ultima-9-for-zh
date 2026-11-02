@@ -1,0 +1,793 @@
+{
+  "phase": "P6-S2",
+  "date": "2026-11-01",
+  "status": "PASS WITH LIMITATIONS",
+  "status_scope": "Human-requested stop: NPC complete; one actual Chinese inventory name confirmed, full inventory/readable categories incomplete",
+  "starting_head": "60575850a35f44443d76d0f12271e8cc61d6d7a0",
+  "authorized_surfaces": [
+    "interactive NPC conversation",
+    "inventory/equipment names",
+    "player-visible item information"
+  ],
+  "matrix": [
+    {
+      "surface": "NPC conversation",
+      "resource_source": "text.flx:4032-4046,4048,4050-4052 (19 observed selected entries;14 spoken,5 responses)",
+      "render_path": "Existing14 hooks; per-run identity in measured shared response raster caller0x5C4E6D",
+      "translation_count": 20,
+      "runtime": "PASS: NPC category;19 composited entries, natural retirement and normal exit",
+      "visual_evidence": [
+        {
+          "filename": "01-response-menu-4038-4040.jpg",
+          "sha256": "717e3ae7545a2340f7c43bb829d490ad08b6da0c23daf91384bf8727242ad12a",
+          "entry_ids": [
+            4040,
+            4039,
+            4038
+          ],
+          "description": "Three native Chinese response choices share one raster; no guard exit, native English Not yet remains",
+          "runtime_sha256": "f844f26b513ac5504ccf4067e33f2cd2f88829b3e4c7621fcef0c609331566e4",
+          "configured_resolution": [
+            1600,
+            1200
+          ],
+          "capture_resolution": [
+            1069,
+            826
+          ]
+        },
+        {
+          "filename": "02-gypsy-4041.jpg",
+          "sha256": "99fcd6927652bb702f9bdb62077e2ab9ae18a97e3e004f23af0f6e2878a797cc",
+          "entry_ids": [
+            4041
+          ],
+          "description": "Gypsy speaking Traditional Chinese with intact native Latin Britannia",
+          "runtime_sha256": "f844f26b513ac5504ccf4067e33f2cd2f88829b3e4c7621fcef0c609331566e4",
+          "configured_resolution": [
+            1600,
+            1200
+          ],
+          "capture_resolution": [
+            1069,
+            826
+          ]
+        },
+        {
+          "filename": "03-gypsy-4042.jpg",
+          "sha256": "f085cfb48415e50ba3f150c11ab99efd2e5123caa9d61a37aadd53541b5e855f",
+          "entry_ids": [
+            4042
+          ],
+          "description": "Consecutive long Chinese dialogue with punctuation, native Britannia and NPC animation; prior line replaced",
+          "runtime_sha256": "f844f26b513ac5504ccf4067e33f2cd2f88829b3e4c7621fcef0c609331566e4",
+          "configured_resolution": [
+            1600,
+            1200
+          ],
+          "capture_resolution": [
+            1069,
+            826
+          ]
+        },
+        {
+          "filename": "04-gypsy-4044.jpg",
+          "sha256": "d71fdc0cd4a457da8a442919cb34c61d2b5e0ed9b82949b43995b64c4d13509d",
+          "entry_ids": [
+            4044
+          ],
+          "description": "Next NPC Chinese sentence; animated camera changes, no stale previous subtitle",
+          "runtime_sha256": "f844f26b513ac5504ccf4067e33f2cd2f88829b3e4c7621fcef0c609331566e4",
+          "configured_resolution": [
+            1600,
+            1200
+          ],
+          "capture_resolution": [
+            1069,
+            826
+          ]
+        },
+        {
+          "filename": "05-second-menu-4046-4048.jpg",
+          "sha256": "688d13d9d834d38b2eb969ec7db756358a7aafc226a1f038a98833630b494510",
+          "entry_ids": [
+            4048,
+            4046
+          ],
+          "description": "Second native response menu after journey explanation; Chinese options use native orange style",
+          "runtime_sha256": "f844f26b513ac5504ccf4067e33f2cd2f88829b3e4c7621fcef0c609331566e4",
+          "configured_resolution": [
+            1600,
+            1200
+          ],
+          "capture_resolution": [
+            1069,
+            826
+          ]
+        },
+        {
+          "filename": "06-return-to-gameplay.jpg",
+          "sha256": "c6672a24266434ead1d23a872b31d64c6d7a84b8b23392cff7f54c486ce0ad63",
+          "entry_ids": [],
+          "description": "Conversation ended normally; native HUD and gameplay camera return with no stale Chinese subtitle",
+          "runtime_sha256": "f844f26b513ac5504ccf4067e33f2cd2f88829b3e4c7621fcef0c609331566e4",
+          "configured_resolution": [
+            1600,
+            1200
+          ],
+          "capture_resolution": [
+            1069,
+            826
+          ]
+        },
+        {
+          "filename": "07-gypsy-multiline-4052.jpg",
+          "sha256": "8452d45f80e8ab8ea141ea6b0a133f7abe7821611f8cb1e8bb8072a016153dee",
+          "entry_ids": [
+            4052
+          ],
+          "description": "Native NPC dialogue with authored LF, complete Traditional Chinese punctuation and Latin Britannia; no clipping",
+          "runtime_sha256": "f844f26b513ac5504ccf4067e33f2cd2f88829b3e4c7621fcef0c609331566e4",
+          "configured_resolution": [
+            1600,
+            1200
+          ],
+          "capture_resolution": [
+            1069,
+            826
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "Inventory/equipment",
+      "resource_source": "CONFIRMED TYPENAME.FLX:5290 by controlled single-entry ASCII marker; native held-X inventory label",
+      "render_path": "0x714CD0 caller0x41AD54 native copied label; existing widths/raster/queue/final-surface compositor; retirement0x41AE40",
+      "translation_count": 1,
+      "runtime": "PARTIAL:404 composites and four natural lifetimes; final exit1, cleanup unverified",
+      "visual_evidence": [],
+      "human_visual_confirmation": {
+        "date": "2026-11-02",
+        "confirmed_chinese_first_aid_label": true,
+        "tracked_target": "急救箱",
+        "saved_chinese_inventory_image": false
+      }
+    },
+    {
+      "surface": "Item information",
+      "resource_source": "CONFIRMED: BOOKS-EN.FLX:182 controlled single-entry runtime edit. Clock is a separate native executable-format source.",
+      "render_path": "UNKNOWN",
+      "translation_count": 1,
+      "runtime": "NOT EXECUTED for Chinese",
+      "visual_evidence": [],
+      "translation_note": "One confirmed-source draft, not installed; Chinese runtime pending"
+    }
+  ],
+  "roundtrips": {
+    "typename": {
+      "status": "BYTE-PERFECT PASS",
+      "source_sha256": "26c9042d2e8f0f55559c84c22113ae62348ed0694375ad02b4fe65fea9e3f4ca",
+      "rebuilt_sha256": "26c9042d2e8f0f55559c84c22113ae62348ed0694375ad02b4fe65fea9e3f4ca",
+      "size": 134200,
+      "slots": 8192,
+      "differences": 0,
+      "runtime": "NOT EXECUTED"
+    },
+    "books": {
+      "status": "BYTE-PERFECT PASS",
+      "source_sha256": "a0653ef3608537575e707faa56aca6f24efc2eddaab554d49279d6c1c1a8858b",
+      "rebuilt_sha256": "a0653ef3608537575e707faa56aca6f24efc2eddaab554d49279d6c1c1a8858b",
+      "size": 221316,
+      "slots": 4096,
+      "used": 460,
+      "difference_count": 0,
+      "runtime": "NOT EXECUTED"
+    }
+  },
+  "python_tests": {
+    "run": 102,
+    "passed": 102,
+    "skipped": 0
+  },
+  "npc_candidate": {
+    "entry_count": 20,
+    "entry_ids": [
+      4030,
+      4032,
+      4033,
+      4034,
+      4035,
+      4036,
+      4037,
+      4038,
+      4039,
+      4040,
+      4041,
+      4042,
+      4043,
+      4044,
+      4045,
+      4046,
+      4048,
+      4050,
+      4051,
+      4052
+    ],
+    "unique_custom_scalars": 136,
+    "unique_han_scalars": 129,
+    "cache_entries": 272,
+    "font_coverage": "PASS",
+    "resource_sha256": "1f72ff74dc3876b6cb16525381fa018535ec29d147ce33c6bbb5cef041c12191",
+    "translation_sha256": "f952063f5dc4270f58e862a82077552b0a7385a51cc308dd3352313623fb5a80",
+    "native_offline_prewarm": "PASS:272 native/Python coverage hashes identical; private font removed"
+  },
+  "private_evidence_directory": ".local/p6s2",
+  "read_only_trace": {
+    "instruction_bytes_patched": false,
+    "hits": 0,
+    "observations": 0,
+    "cleanup_errors": [],
+    "evidence_sha256": "4944ee5a1b0564e5adfb03b67a47afabc01408b27068b1e7c7fb4a1fbda6ac1e"
+  },
+  "control_note": "CORRECTION: user clarified the complaint is native game-window cursor locking, not Computer Use ownership. Existing manual-coordination policy does not solve that. Wrapper GUI has no cursor-unlock option; local DisableWinKey already0. Direct cursor escape is not fixed or runtime-tested.",
+  "timed_soak_performed": false,
+  "game_resources_installed": false,
+  "pending": [
+    "Deferred by user:5-10 inventory names and inventory/equipment screenshot requirements",
+    "Deferred by user:BOOKS Unicode route and Chinese readable-item runtime",
+    "Deferred by user:full three-category combined corpus/prewarm",
+    "Before inventory acceptance:explain/resolve exit1 and verify normal runtime shutdown"
+  ],
+  "manual_interaction_policy": {
+    "record_scope": "Historical coordination policy; later user-ready handoffs allowed targeted capture/input. Native cursor confinement remains unresolved.",
+    "automatic_computer_use_after_launch": false,
+    "automatic_window_activation": false,
+    "automatic_mouse_or_keyboard_input": false,
+    "capture_only_after_explicit_user_ready": true,
+    "manual_control_during_traversal": true,
+    "restore_original_keymap_before_next_launch": true,
+    "earth_ctrl_s_save_verified": false,
+    "reason": "User means native game-window cursor confinement that prevents switching between the game and Codex; prior attribution to Computer Use was a misunderstanding.",
+    "original_keymap_restored": true,
+    "clarification": "User means native game-window cursor confinement that prevents switching between the game and Codex; prior attribution to Computer Use was a misunderstanding.",
+    "requested_game_behavior": "Allow releasing the cursor outside the game window for desktop/Codex interaction",
+    "previous_no_takeover_interpretation_superseded": true
+  },
+  "books_single_entry_probe": {
+    "status": "RUNTIME PASS: single changed payload observed in native open book",
+    "entry_id": 182,
+    "source_sha256": "a0653ef3608537575e707faa56aca6f24efc2eddaab554d49279d6c1c1a8858b",
+    "rebuilt_sha256": "3dfb9e1ade6211f3fbf46e15f6edd71d38c74b33f85faf1f4e537bfdc1f5b073",
+    "original_size": 221316,
+    "rebuilt_size": 221305,
+    "changed_payload_ids": [
+      182
+    ],
+    "unselected_payloads_preserved": true,
+    "padding_preserved": true,
+    "unknown_header_preserved": true,
+    "replacement_heading": "U9_BOOK_0182",
+    "runtime": "PASS: U9_BOOK_0182 visible; Chinese pending"
+  },
+  "scout_normal_exit_restoration": {
+    "normal_exit": true,
+    "exit_code": 0,
+    "mode": "bootstrap; no rendering hooks installed",
+    "game_remaining_open": false,
+    "five_protected_assets_match_p0": true,
+    "options_restored_byte_for_byte": true,
+    "wrapper_config_restored_byte_for_byte": true,
+    "original_default_keymap_unchanged": true,
+    "current_keymap": "default.kmp",
+    "restored_sha256": {
+      "Options.ini": "a27aae90f71379577eaa453eb742bfb02e94a13aeca94c45946770ad08f461fa",
+      "dxcfg.ini": "8d8205706681446766de9530d7b895baae9ffa5f72b4202090d0acbab50f4f1b",
+      "Default.kmp": "2eb8193116329dc1e7895767725242941e5a562f4e1b0a88bd3f608b28370da1"
+    },
+    "game_resource_mutations_installed": false,
+    "computer_use_called_for_cleanup": false,
+    "next_launch_policy": "launch only; no activation, input or capture until explicit user ready"
+  },
+  "book182_runtime_provenance": {
+    "status": "RUNTIME PASS",
+    "entry_id": 182,
+    "probe": "U9_BOOK_0182",
+    "screenshot": {
+      "filename": "01-book182-ascii-probe.jpg",
+      "sha256": "3f5450dcac21587fb137b1bb38d822133c8af6767c83f718026935b7c66d1527",
+      "visible_resource_ids": [
+        "BOOKS-EN.FLX:182"
+      ],
+      "description": "Controlled single-entry ASCII heading visible in native open book; provenance confirmation, not Chinese evidence",
+      "runtime_sha256": "da959ad5bfe66a9b1806f1b802479074e07b3f55afcb915647bd46adcafc056d",
+      "configured_resolution": [
+        1600,
+        1200
+      ],
+      "capture_resolution": [
+        1069,
+        826
+      ]
+    },
+    "chinese_evidence": false
+  },
+  "native_tests": {
+    "run": 6,
+    "passed": 6,
+    "failures": 0
+  },
+  "current_runtime_note": "0.2.3 rendered real inventory5290 and naturally retired four name lifetimes; human confirmed Chinese. No saved Chinese inventory screenshot. Exit1, no runtime cleanup record; normal-exit acceptance not passed. Original assets/config restored. Earlier NPC0.2.2 normal exit remains independently valid.",
+  "book182_draft": {
+    "translation_file": "translation/showcase/reading-books.zh-TW.json",
+    "custom_scalars": 85,
+    "npc_plus_book_scalars": 190,
+    "pinned_font_coverage": "PASS",
+    "control_tokens_preserved": true,
+    "runtime_observed": false
+  },
+  "private_savepoint": {
+    "display_name": "p6s2",
+    "scene": "Gypsy before sitting",
+    "native_save_files_observed": true,
+    "private_backup": true,
+    "reload_verified": true
+  },
+  "last_session": "inventory-single-05",
+  "active_session": null,
+  "runtime_incident": {
+    "status": "FAIL: runtime guard triggered during full NPC conversation",
+    "user_report": "Game suddenly closed after sitting opposite Gypsy",
+    "first_error": 10,
+    "error_count": 14,
+    "exit_code": 0,
+    "exit_classification": "Guard-triggered quit; not a normal successful showcase exit",
+    "direct_code_path": "Engine::dispatch stage3 fail10: raster binding absent or plan/identity mismatch; Engine::fail posts WM_QUIT on first error",
+    "exact_offending_object": "UNKNOWN: no per-fault address/caller diagnostic in frozen build",
+    "correlation": "Last lifecycle before quit includes first plan4040 response raster; exact faulting plan not proven",
+    "runtime_log_sha256": "7a16af623464493389599be95edecfb5ba139ddc1462a97a251e2690dca55e4c",
+    "runtime_sha256": "da959ad5bfe66a9b1806f1b802479074e07b3f55afcb915647bd46adcafc056d",
+    "resource_sha256": "1f72ff74dc3876b6cb16525381fa018535ec29d147ce33c6bbb5cef041c12191",
+    "glyph_cache_entries": 272,
+    "cache_misses": 272,
+    "lock_failures": 0,
+    "unlock_failures": 0,
+    "skipped_frames": 898,
+    "lifecycle_dropped": 0,
+    "entries": [
+      {
+        "id": 4030,
+        "wide": 4,
+        "cache": 4,
+        "copies": 4,
+        "layout": 36,
+        "bounds": 36,
+        "glyph": 5166,
+        "raster": 574,
+        "queue": 574,
+        "submissions": 574,
+        "presentations": 574,
+        "freed": 8,
+        "width_overrides": 72,
+        "unicode_draws": 5166,
+        "composites": 573,
+        "cache_hits": 5166,
+        "cache_misses": 0,
+        "raster_retired": 574,
+        "queue_retired": 574
+      },
+      {
+        "id": 4032,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 25,
+        "bounds": 25,
+        "glyph": 3575,
+        "raster": 143,
+        "queue": 143,
+        "submissions": 143,
+        "presentations": 143,
+        "freed": 1,
+        "width_overrides": 18,
+        "unicode_draws": 1287,
+        "composites": 143,
+        "cache_hits": 1287,
+        "cache_misses": 0,
+        "raster_retired": 143,
+        "queue_retired": 143
+      },
+      {
+        "id": 4033,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 11,
+        "bounds": 11,
+        "glyph": 1287,
+        "raster": 117,
+        "queue": 117,
+        "submissions": 117,
+        "presentations": 117,
+        "freed": 1,
+        "width_overrides": 22,
+        "unicode_draws": 1287,
+        "composites": 6,
+        "cache_hits": 1287,
+        "cache_misses": 0,
+        "raster_retired": 117,
+        "queue_retired": 117
+      },
+      {
+        "id": 4034,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 23,
+        "bounds": 23,
+        "glyph": 4554,
+        "raster": 198,
+        "queue": 198,
+        "submissions": 198,
+        "presentations": 198,
+        "freed": 1,
+        "width_overrides": 24,
+        "unicode_draws": 2376,
+        "composites": 0,
+        "cache_hits": 2376,
+        "cache_misses": 0,
+        "raster_retired": 198,
+        "queue_retired": 198
+      },
+      {
+        "id": 4035,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 9,
+        "bounds": 9,
+        "glyph": 990,
+        "raster": 110,
+        "queue": 110,
+        "submissions": 110,
+        "presentations": 110,
+        "freed": 1,
+        "width_overrides": 18,
+        "unicode_draws": 990,
+        "composites": 0,
+        "cache_hits": 990,
+        "cache_misses": 0,
+        "raster_retired": 110,
+        "queue_retired": 110
+      },
+      {
+        "id": 4036,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 26,
+        "bounds": 26,
+        "glyph": 8502,
+        "raster": 327,
+        "queue": 327,
+        "submissions": 327,
+        "presentations": 327,
+        "freed": 1,
+        "width_overrides": 32,
+        "unicode_draws": 5232,
+        "composites": 0,
+        "cache_hits": 5232,
+        "cache_misses": 0,
+        "raster_retired": 327,
+        "queue_retired": 327
+      },
+      {
+        "id": 4037,
+        "wide": 1,
+        "cache": 1,
+        "copies": 1,
+        "layout": 18,
+        "bounds": 18,
+        "glyph": 3384,
+        "raster": 188,
+        "queue": 188,
+        "submissions": 188,
+        "presentations": 188,
+        "freed": 1,
+        "width_overrides": 36,
+        "unicode_draws": 3384,
+        "composites": 37,
+        "cache_hits": 3384,
+        "cache_misses": 0,
+        "raster_retired": 188,
+        "queue_retired": 188
+      },
+      {
+        "id": 4038,
+        "wide": 1,
+        "cache": 1,
+        "copies": 0,
+        "layout": 5,
+        "bounds": 5,
+        "glyph": 5,
+        "raster": 0,
+        "queue": 0,
+        "submissions": 0,
+        "presentations": 0,
+        "freed": 0,
+        "width_overrides": 10,
+        "unicode_draws": 0,
+        "composites": 0,
+        "cache_hits": 0,
+        "cache_misses": 0,
+        "raster_retired": 0,
+        "queue_retired": 0
+      },
+      {
+        "id": 4039,
+        "wide": 1,
+        "cache": 1,
+        "copies": 0,
+        "layout": 9,
+        "bounds": 9,
+        "glyph": 9,
+        "raster": 0,
+        "queue": 0,
+        "submissions": 0,
+        "presentations": 0,
+        "freed": 0,
+        "width_overrides": 18,
+        "unicode_draws": 0,
+        "composites": 0,
+        "cache_hits": 0,
+        "cache_misses": 0,
+        "raster_retired": 0,
+        "queue_retired": 0
+      },
+      {
+        "id": 4040,
+        "wide": 1,
+        "cache": 1,
+        "copies": 0,
+        "layout": 6,
+        "bounds": 6,
+        "glyph": 6,
+        "raster": 1,
+        "queue": 1,
+        "submissions": 1,
+        "presentations": 1,
+        "freed": 0,
+        "width_overrides": 12,
+        "unicode_draws": 6,
+        "composites": 0,
+        "cache_hits": 0,
+        "cache_misses": 0,
+        "raster_retired": 1,
+        "queue_retired": 1
+      }
+    ],
+    "cleanup": {
+      "event": "runtime_cleanup",
+      "pid": 53708,
+      "tick_ms": 818936781,
+      "hooks_restored": true,
+      "active_calls": 0,
+      "private_font_removed": true,
+      "worker_handles_closed": true,
+      "gateways_retained": true
+    },
+    "restoration": {
+      "five_protected_assets_match_p0": true,
+      "wrapper_baseline_unchanged": true,
+      "options_restored_byte_for_byte": true,
+      "wrapper_config_restored_byte_for_byte": true,
+      "original_default_keymap_unchanged": true,
+      "game_stopped": true,
+      "restored_sha256": {
+        "Options.ini": "a27aae90f71379577eaa453eb742bfb02e94a13aeca94c45946770ad08f461fa",
+        "dxcfg.ini": "8d8205706681446766de9530d7b895baae9ffa5f72b4202090d0acbab50f4f1b",
+        "Default.kmp": "2eb8193116329dc1e7895767725242941e5a562f4e1b0a88bd3f608b28370da1"
+      }
+    },
+    "savepoint_backup_preserved": true,
+    "restarted": false,
+    "native_sources_changed": false,
+    "scope": "Historical npc-01; later diagnosis/correction recorded separately"
+  },
+  "normal_successful_exit": false,
+  "closed_session_verifier": {
+    "status": "REJECTED FAILED SESSION",
+    "exit_code": 1,
+    "reason": "nonzero errors/first_error",
+    "session": "npc-01; historical failed session"
+  },
+  "showcase_classification": "PARTIAL: NPC category complete; single inventory-name proof only",
+  "npc_fixed_verification": {
+    "status": "PASS for selected NPC conversation only",
+    "runtime_log_sha256": "a7c600b55a88c374f5b909dd3d92e6c10536a5be23c62a44311157b45e2e49be",
+    "runtime_sha256": "f844f26b513ac5504ccf4067e33f2cd2f88829b3e4c7621fcef0c609331566e4",
+    "resource_sha256": "1f72ff74dc3876b6cb16525381fa018535ec29d147ce33c6bbb5cef041c12191",
+    "required_spoken_entries": [
+      4032,
+      4033,
+      4034,
+      4035,
+      4036,
+      4037,
+      4041,
+      4042,
+      4043,
+      4044,
+      4045,
+      4050
+    ],
+    "composited_entries": [
+      4032,
+      4033,
+      4034,
+      4035,
+      4036,
+      4037,
+      4038,
+      4039,
+      4040,
+      4041,
+      4042,
+      4043,
+      4044,
+      4045,
+      4046,
+      4048,
+      4050,
+      4051,
+      4052
+    ],
+    "shared_response_raster_groups": 4464,
+    "shared_response_entries": [
+      4038,
+      4039,
+      4040,
+      4046
+    ],
+    "inspected_screenshots": 7,
+    "lifecycle_events": 52850,
+    "zero_faults": true,
+    "natural_visible_raster_retirement": true,
+    "empty_live_domains_at_exit": true,
+    "cleanup": {
+      "event": "runtime_cleanup",
+      "pid": 49720,
+      "tick_ms": 821068796,
+      "hooks_restored": true,
+      "active_calls": 0,
+      "private_font_removed": true,
+      "worker_handles_closed": true,
+      "gateways_retained": true
+    },
+    "exit_code": 0,
+    "timed_soak_performed": false
+  },
+  "latest_checkpoint_date": "2026-11-02",
+  "work_stopped_by_user": {
+    "date": "2026-11-02",
+    "instruction": "Stop PoC here; commit and push",
+    "further_runtime_or_translation_performed": false
+  },
+  "npc_cleanup_restoration": {
+    "five_protected_assets_match_p0": true,
+    "config_restored": true,
+    "exit_code": 0,
+    "runtime_log_sha256": "a7c600b55a88c374f5b909dd3d92e6c10536a5be23c62a44311157b45e2e49be",
+    "cleanup": {
+      "event": "runtime_cleanup",
+      "pid": 49720,
+      "tick_ms": 821068796,
+      "hooks_restored": true,
+      "active_calls": 0,
+      "private_font_removed": true,
+      "worker_handles_closed": true,
+      "gateways_retained": true
+    }
+  },
+  "last_session_restoration": {
+    "five_protected_assets_match_p0": true,
+    "config_restored": true,
+    "exit_code": 1,
+    "runtime_log_sha256": "fd68fd3a1f8afec57d1f7d1e9dd632b8d8942b5f537439afece5019a4e5c103d",
+    "cleanup": null
+  },
+  "inventory_single_name_checkpoint": {
+    "runtime_log_sha256": "fd68fd3a1f8afec57d1f7d1e9dd632b8d8942b5f537439afece5019a4e5c103d",
+    "exit_code": 1,
+    "normal_exit_verified": false,
+    "runtime_cleanup_record_present": false,
+    "name_entry": {
+      "id": 268440746,
+      "wide": 0,
+      "cache": 4,
+      "copies": 0,
+      "layout": 0,
+      "bounds": 12,
+      "glyph": 12,
+      "raster": 4,
+      "queue": 4,
+      "submissions": 8178,
+      "presentations": 8178,
+      "freed": 4,
+      "width_overrides": 12,
+      "unicode_draws": 12,
+      "composites": 404,
+      "cache_hits": 24534,
+      "cache_misses": 0,
+      "raster_retired": 4,
+      "queue_retired": 4,
+      "shared_rasters": 0,
+      "name_copies": 4
+    },
+    "name_lifecycle_counts": {
+      "1": 4,
+      "4": 4,
+      "5": 4,
+      "6": 4,
+      "3": 4,
+      "7": 4,
+      "8": 4
+    },
+    "last_counters": {
+      "errors": 0,
+      "first_error": 0,
+      "lifecycle_dropped": 0,
+      "glyph_cache_entries": 276,
+      "cache_misses": 276,
+      "live_buffers": 0,
+      "live_rasters": 0,
+      "live_queues": 0,
+      "lock_failures": 0,
+      "unlock_failures": 0,
+      "skipped_frames": 38004
+    },
+    "human_visual_confirmation_date": "2026-11-02",
+    "chinese_inventory_screenshot_saved": false,
+    "status": "SINGLE NAME RUNTIME PROOF; CLOSED SESSION ACCEPTANCE NOT PASSED",
+    "runtime_sha256": "532ef1c916ceac215eb98cc03c5f2ada0b5ca4411cd4f9bb2a8a9e9f715a839f",
+    "launcher_sha256": "283130c7c7b8a890656dd84f28a8b2b5bbcdfd639c42e4c91e6e9674f4732414",
+    "resource_sha256": {
+      "text.flx": "1f72ff74dc3876b6cb16525381fa018535ec29d147ce33c6bbb5cef041c12191",
+      "TYPENAME.FLX": "7a765bf78a8dd6c9fd7812bb2c347208a5ae1e04d8eea8e6152b64aab606e432"
+    },
+    "allowlist_sha256": "54b07a817f6d2320b758bde77fcb5cc0a43ea8f35b57333039ebb86aa8b9f49c",
+    "hook_count": 16,
+    "ready_before_resume": true,
+    "prewarm_entries": 276,
+    "native_python_prewarm_hashes_match": 276,
+    "configured_resolution": [
+      1600,
+      1200
+    ],
+    "full_inventory_category_pass": false
+  },
+  "typename_ascii_provenance": {
+    "entry_id": 5290,
+    "status": "RUNTIME PASS",
+    "trace_cleanup_errors": [],
+    "screenshot": {
+      "filename": "01-firstaid-5290-ascii.jpg",
+      "sha256": "81a2ce2c2df8266a909f7a0e92566e43e6afa4cd6e557c2e447c7349283e1481",
+      "entry_ids": [
+        "TYPENAME.FLX:5290"
+      ],
+      "description": "Native held-X label on actual backpack first-aid object; single ASCII provenance probe",
+      "runtime_sha256": "f844f26b513ac5504ccf4067e33f2cd2f88829b3e4c7621fcef0c609331566e4",
+      "mode": "bootstrap",
+      "configured_resolution": [
+        1600,
+        1200
+      ],
+      "capture_resolution": [
+        1069,
+        826
+      ]
+    },
+    "normal_exit_code": 0,
+    "restored": true
+  }
+}

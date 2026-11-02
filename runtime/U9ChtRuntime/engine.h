@@ -3,6 +3,7 @@
 #include "identity.h"
 #include "platform.h"
 #include "compositor.h"
+#include "raster_runs.h"
 #include <atomic>
 
 namespace u9cht {
@@ -11,13 +12,16 @@ struct EntryStats {
     uint64_t raster = 0, queue = 0, submissions = 0, presentations = 0, freed = 0;
     uint64_t width_overrides = 0, unicode_draws = 0, composites = 0, cache_hits = 0, cache_misses = 0;
     uint64_t raster_retired = 0, queue_retired = 0;
+    uint64_t shared_rasters = 0;
+    uint64_t name_copies = 0;
 };
-struct Placement { uint32_t offset = 0; int32_t x = 0, y = 0; };
+struct Placement { uint32_t offset = 0; int32_t x = 0, y = 0; uint32_t run = 0; };
 struct RasterBinding {
     uintptr_t address = 0, pixels = 0;
     uint32_t plan = 0, width = 0, height = 0, stride = 0, count = 0;
     uint64_t generation = 0, hash = 0, paint_generation = 0, identity = 0;
     std::array<Placement, MaxText> placements{};
+    RasterRuns runs;
     std::array<uint8_t,3> rgb{181,132,239};
 };
 struct QueueBinding {
@@ -25,7 +29,7 @@ struct QueueBinding {
     uint32_t plan = 0;
     uint64_t generation = 0, raster_generation = 0, last_frame = 0, identity = 0;
 };
-enum class Life : uint32_t { Cache = 1, Copy, BufferEnd, RasterBegin, RasterReady, QueueBegin, QueueEnd, RasterEnd, Shutdown };
+enum class Life : uint32_t { Cache = 1, Copy, BufferEnd, RasterBegin, RasterReady, QueueBegin, QueueEnd, RasterEnd, Shutdown, RasterRunReady };
 struct LifeEvent {
     uint64_t sequence = 0, tick = 0, identity = 0, generation = 0;
     uintptr_t address = 0, related = 0;
@@ -33,6 +37,15 @@ struct LifeEvent {
     Life kind = Life::Cache;
     uint64_t raster_hash = 0;
     uint32_t width = 0, height = 0, stride = 0;
+    uint32_t glyph_count = 0;
+};
+struct RasterFault {
+    uint64_t tick = 0, frame = 0, paint = 0, identity = 0;
+    uintptr_t source = 0, raster = 0, paint_owner = 0, widget = 0, paint_caller = 0;
+    uint32_t plan = 0, offset = 0, native_width = 0, native_height = 0;
+    bool bound = false;
+    uint32_t prior_plan = 0, prior_count = 0;
+    uint64_t prior_identity = 0, prior_generation = 0, prior_paint = 0;
 };
 struct Engine {
     Pack pack;
@@ -58,6 +71,8 @@ struct Engine {
     std::array<LifeEvent,4096> life_events{};
     uint32_t life_count = 0, life_dropped = 0;
     uint64_t life_sequence = 0;
+    std::array<RasterFault,16> raster_faults{};
+    uint32_t raster_fault_count = 0;
     std::array<EntryStats, MaxPlans> stats{};
     std::array<RasterBinding, 64> rasters{};
     std::array<QueueBinding, 128> queues{};

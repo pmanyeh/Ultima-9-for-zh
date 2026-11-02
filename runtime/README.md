@@ -1,4 +1,27 @@
-# U9Cht native runtime — P5.1
+# U9Cht native runtime — P5.1 / bounded P6-S2
+
+P6-S2 checkpoint0.2.3: v3 packs bind both text.flx and TYPENAME SHA-256 hashes.
+Names use a separate0x10000000|typeID namespace and exact ASCII `U9Txxxx`
+markers; only the measured label-copy caller0x41AD54 routes those markers to
+Unicode slots before native width calculation. Two optional hooks at0x714CD0
+and0x41AE40 copy/retire names; v1/v2 packs keep the original14 hook sites.
+Build private combined resources with `scripts/build_p6s2_inventory.py` using
+explicit `--text-source`, `--typename-source`, `--font` and `.local` `--output`.
+The selected NPC-plus-one-name corpus prewarms276 rasters before READY.
+Python102/102 and native6/6 pass. Actual first-aid5290 reached final composition
+and natural retirement; human confirmed Chinese, but no Chinese inventory
+capture was saved and final exit1 has no cleanup record. This latest session
+does not pass normal-exit acceptance. The user stopped PoC work at this
+checkpoint; the full representative showcase remains PARTIAL.
+
+P6-S2 correction:0.2.2 retains the same14 hook sites and permits up to eight
+text identities inside one unsealed native repaint only at the measured shared
+response caller0x5C4E6D and identical scope/owner/widget. Per-run glyph counts,
+sources and retirement remain checked. Deterministic native regression6/6 and
+Python98/98 pass. The actual Gypsy conversation/response UI now passes with19
+composited selected entries,7 private captures and clean normal exit. Other
+P6-S2 full inventory/readable acceptance remains incomplete; full showcase is PARTIAL.
+See [P6-S2 report](../reports/P6S2_REPRESENTATIVE_SURFACES.md).
 
 P6-S checkpoint:version0.2.0 extends the same14 hook sites to bounded v2 packs:
 64 plans,512 BMP scalars,1024 fixed cache entries. The selected39-entry scene

@@ -19,6 +19,8 @@ void* raster_begin_after = reinterpret_cast<void*>(0x5CFD56);
 void* queue_gateway = nullptr;
 void* destroy_gateway = nullptr;
 void* free_gateway = nullptr;
+void* name_copy_gateway = nullptr;
+void* name_destroy_gateway = nullptr;
 void* flip_gateway = nullptr;
 void* triangle_original = reinterpret_cast<void*>(0x589F50);
 decltype(&WideCharToMultiByte) wide_original = nullptr;
@@ -27,6 +29,7 @@ struct Constructor { uintptr_t object = 0; int plan = -1; const wchar_t* wide = 
 thread_local std::array<Constructor, 16> constructors;
 thread_local uint32_t constructor_depth = 0;
 thread_local uint64_t paint_generation = 0;
+thread_local uintptr_t paint_owner = 0, paint_widget = 0, paint_caller = 0;
 alignas(16) thread_local std::array<uint8_t,32> metric_header;
 struct Guard {
     Engine* state;
@@ -114,14 +117,28 @@ uintptr_t __fastcall queue_hook(uintptr_t self, void*, uintptr_t raster, uintptr
                             }
                         }
                     }
-                    uint32_t expected = 0;
-                    for (uint32_t i = 0; i < e.pack.plans[r->plan].length; ++i)
-                        expected += e.pack.plans[r->plan].wide[i] >= 128;
-                    if (r->count != expected) e.fail(14);
+                    uint32_t expected_total = 0;
+                    for (const auto& run : r->runs.values()) {
+                        uint32_t expected = 0;
+                        const auto& p = e.pack.plans[run.plan];
+                        for (uint32_t i = 0; i < p.length; ++i) expected += p.wide[i] >= 128;
+                        if (run.drawn != expected) e.fail(14);
+                        expected_total += expected;
+                    }
+                    if (r->count != expected_total) e.fail(14);
                 }
+                r->runs.seal();
                 ++e.stats[r->plan].raster;
                 if (auto* v = e.trace(Life::RasterReady,r->plan,r->address,r->identity,r->generation,r->pixels)) {
                     v->raster_hash = r->hash; v->width = r->width; v->height = r->height; v->stride = r->stride;
+                }
+                for (uint32_t i = 0; i < r->runs.size(); ++i) {
+                    const auto& run = r->runs.at(i);
+                    if (r->runs.size() > 1) {
+                        if (auto* v = e.trace(Life::RasterRunReady,run.plan,r->address,run.identity,r->generation,run.source))
+                            v->glyph_count = run.drawn;
+                        if (i && r->runs.first_plan(i)) ++e.stats[run.plan].shared_rasters;
+                    }
                 }
                 uintptr_t found = 0;
                 for (auto offset : {4, 0x10}) {
@@ -158,9 +175,13 @@ uintptr_t __fastcall queue_hook(uintptr_t self, void*, uintptr_t raster, uintptr
 uintptr_t __fastcall paint_hook(uintptr_t self, void*, uintptr_t widget) {
     Guard guard;
     const auto previous = paint_generation;
+    const auto old_owner = paint_owner, old_widget = paint_widget, old_caller = paint_caller;
+    paint_owner = self; paint_widget = widget;
+    paint_caller = reinterpret_cast<uintptr_t>(_ReturnAddress());
     if (guard.state) { Exclusive lock(guard.state->mutex); paint_generation = ++guard.state->generations; }
     const auto result = reinterpret_cast<uintptr_t(__thiscall*)(uintptr_t,uintptr_t)>(paint_gateway)(self,widget);
     paint_generation = previous;
+    paint_owner = old_owner; paint_widget = old_widget; paint_caller = old_caller;
     return result;
 }
 uintptr_t __fastcall destroy_hook(uintptr_t self, void*) {
@@ -173,6 +194,35 @@ uintptr_t __cdecl free_hook(uintptr_t pointer) {
     if (guard.state) { Exclusive lock(guard.state->mutex); guard.state->retire(pointer); }
     return reinterpret_cast<uintptr_t(__cdecl*)(uintptr_t)>(free_gateway)(pointer);
 }
+uintptr_t __cdecl name_copy_hook(const char* text) {
+    Guard guard;
+    const auto fn = reinterpret_cast<uintptr_t(__cdecl*)(const char*)>(name_copy_gateway);
+    const auto caller = reinterpret_cast<uintptr_t>(_ReturnAddress());
+    const int plan = guard.state ? guard.state->pack.match_name(text,caller) : -1;
+    if (plan < 0) return fn(text);
+    auto& e = *guard.state;
+    const auto& p = e.pack.plans[size_t(plan)];
+    // The game still allocates/owns/frees the strdup result. Register before
+    // constructor0x41ACE0 measures its newly copied label, never after return.
+    const auto copy = fn(reinterpret_cast<const char*>(p.slots.data()));
+    Exclusive lock(e.mutex);
+    if (!copy || std::memcmp(reinterpret_cast<void*>(copy),p.slots.data(),p.length+1) != 0 ||
+        !e.bind_buffer(copy,p.length+1,uint32_t(plan),0,Life::Cache,reinterpret_cast<uintptr_t>(text))) e.fail(29);
+    else { ++e.stats[size_t(plan)].name_copies; ++e.stats[size_t(plan)].cache; }
+    return copy;
+}
+uintptr_t __fastcall name_destroy_hook(uintptr_t self, void*) {
+    Guard guard;
+    if (guard.state) {
+        auto& e = *guard.state; Exclusive lock(e.mutex);
+        const auto copy = word(self+0x6C);
+        const auto located = e.registry.locate(copy);
+        if (located.binding && located.offset == 0 && e.pack.plans[located.binding->plan].is_name()) {
+            ++e.stats[located.binding->plan].freed; e.retire_buffer(copy);
+        }
+    }
+    return reinterpret_cast<uintptr_t(__thiscall*)(uintptr_t)>(name_destroy_gateway)(self);
+}
 uintptr_t __fastcall flip_hook(uintptr_t self, void*) {
     Guard guard;
     if (guard.state) {
@@ -181,7 +231,9 @@ uintptr_t __fastcall flip_hook(uintptr_t self, void*) {
         if (e.render_thread.load() != GetCurrentThreadId()) e.fail(15);
         ++e.flips;
         if (e.render) e.compose(self);
-        for (const auto& q : e.queues) if (q.address && q.last_frame == e.frame) ++e.stats[q.plan].presentations;
+        for (const auto& q : e.queues) if (q.address && q.last_frame == e.frame)
+            if (const auto* r = e.raster(q.raster)) for (uint32_t i = 0; i < r->runs.size(); ++i)
+                if (r->runs.first_plan(i)) ++e.stats[r->runs.at(i).plan].presentations;
     }
     const auto result = reinterpret_cast<uintptr_t(__thiscall*)(uintptr_t)>(flip_gateway)(self);
     if (guard.state) {
@@ -250,13 +302,33 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
             if (r) r->paint_generation = paint_generation;
             uint32_t live = 0; for (const auto& item : e.rasters) live += item.address != 0;
             e.max_rasters = std::max(e.max_rasters,live);
-            if (!r || r->plan != plan || r->identity != m.binding->identity) e.fail(10);
+            auto* run = r ? r->runs.acquire({paint_generation,paint_owner,paint_widget,paint_caller},
+                                           plan,m.binding->identity,m.binding->base) : nullptr;
+            if (!r || !run) {
+                // Bounded CPU-only evidence; snapshot logs it outside the paint/Lock path.
+                if (e.raster_fault_count < e.raster_faults.size()) {
+                    auto& v = e.raster_faults[e.raster_fault_count++];
+                    v.tick = GetTickCount64(); v.frame = e.frame; v.paint = paint_generation;
+                    v.identity = m.binding->identity; v.source = m.binding->base;
+                    v.raster = address; v.paint_owner = paint_owner; v.widget = paint_widget;
+                    v.paint_caller = paint_caller; v.plan = plan; v.offset = m.offset;
+                    if (address) { v.native_width = word(address+0x14); v.native_height = word(address+0x18); }
+                    v.bound = r != nullptr;
+                    if (r) {
+                        v.prior_plan = r->plan; v.prior_count = r->count;
+                        v.prior_identity = r->identity; v.prior_generation = r->generation;
+                        v.prior_paint = r->paint_generation;
+                    }
+                }
+                e.fail(10);
+            }
             else if (e.render && e.pack.plans[plan].wide[m.offset] >= 128) {
                 const auto spacing = word(f->ecx+4);
                 const auto advance = e.pack.plans[plan].advances[m.offset];
                 if ((s[3]&255) != 0x7F || !logical_metric(spacing,advance) || r->count >= r->placements.size()) e.fail(17);
                 else {
-                    r->placements[r->count++] = {m.offset,int32_t(s[1]),int32_t(s[2])};
+                    r->placements[r->count++] = {m.offset,int32_t(s[1]),int32_t(s[2]),r->runs.index(run)};
+                    ++run->drawn;
                     ++e.stats[plan].unicode_draws;
                     metric_header[0] = logical_metric(spacing,advance);
                     f->eax = reinterpret_cast<uintptr_t>(metric_header.data());
@@ -273,7 +345,9 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                 if (!r || r->generation != q->raster_generation || word(q->address+8) != r->address ||
                     word(f->ecx) != 0x74FBB8 || raster_hash(*r) != r->hash) e.fail(11);
                 else {
-                    q->last_frame = e.frame; ++e.stats[q->plan].submissions;
+                    q->last_frame = e.frame;
+                    for (uint32_t i = 0; i < r->runs.size(); ++i) if (r->runs.first_plan(i))
+                        ++e.stats[r->runs.at(i).plan].submissions;
                     if (e.render && !e.errors.load()) {
                         const auto width = word(f->ecx+0x44), height = word(f->ecx+0x48);
                         const float sx = *reinterpret_cast<const float*>(f->ebp+0x18);
@@ -294,10 +368,11 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                             const auto clip = intersect({round(x*sx),round(y*sy),round((x+r->width)*sx),round((y+r->height)*sy)},
                                 {0,0,int32_t(width),int32_t(height)});
                             for (uint32_t i = 0; i < r->count; ++i) {
-                                const auto& p = r->placements[i]; const auto scalar = e.pack.plans[r->plan].wide[p.offset];
+                                const auto& p = r->placements[i]; const auto plan = r->runs.at(p.run).plan;
+                                const auto scalar = e.pack.plans[plan].wide[p.offset];
                                 const auto* g = e.glyphs.get(scalar,em);
-                                if (!g) { ++e.stats[r->plan].cache_misses; e.fail(20); break; }
-                                ++e.stats[r->plan].cache_hits;
+                                if (!g) { ++e.stats[plan].cache_misses; e.fail(20); break; }
+                                ++e.stats[plan].cache_hits;
                                 const int32_t left = round((x+p.x)*sx)+g->bearing_x;
                                 const int32_t top = round((y+p.y)*sy)-g->bearing_y;
                                 const auto bounds = intersect(clip,{left,top,left+int32_t(g->width),top+int32_t(g->height)});
@@ -475,7 +550,9 @@ void Engine::compose(uintptr_t backend) noexcept {
     compositor_ticks += ticks; compositor_max_ticks = std::max(compositor_max_ticks,ticks);
     if (composed) {
         ++composite_count; unicode_runs += list.records;
-        for (uint32_t i = 0; i < list.records; ++i) ++stats[list.sources[i].plan].composites;
+        for (uint32_t i = 0; i < list.records; ++i) if (const auto* r = raster(list.sources[i].raster))
+            for (uint32_t j = 0; j < r->runs.size(); ++j) if (r->runs.first_plan(j))
+                ++stats[r->runs.at(j).plan].composites;
     }
     if (error) fail(error); // Controlled quit only AFTER Unlock and log-gate release.
 }
@@ -484,6 +561,8 @@ void Engine::install(const Config& config, Logger& logger) {
     pack.load(config_path(config.allowlist_path), render);
     require(sha256(config_path(config.game_dir)/L"static"/L"text.flx") == pack.resource_hash,
             "allowlist resource hash mismatch");
+    if (pack.has_names) require(sha256(config_path(config.game_dir)/L"static"/L"TYPENAME.FLX") == pack.typename_hash,
+                                "allowlist typename hash mismatch");
     log->event("runtime_corpus", "\"mode\":\""+std::string(render?"render":"observe")+
         "\",\"resource_sha256\":\""+utf8(pack.resource_hash)+"\",\"entries\":"+std::to_string(pack.count));
     if (render) {
@@ -533,6 +612,10 @@ void Engine::install(const Config& config, Logger& logger) {
     queue_gateway = prepare("raster_queue",0x508D50,queue_hook,{0x8A,0x44,0x24,0x10,0x53},{4,1});
     destroy_gateway = prepare("queue_destroy",0x5083F0,destroy_hook,{0x6A,0xFF,0x68,0xA8,0xE3,0x72,0},{2,5});
     free_gateway = prepare("engine_free",0x7108E0,free_hook,{0x8B,0x44,0x24,4,0x50},{4,1});
+    if (pack.has_names) {
+        name_copy_gateway = prepare("name_copy",0x714CD0,name_copy_hook,{0x53,0x56,0x8B,0x74,0x24,0x0C},{1,1,4});
+        name_destroy_gateway = prepare("name_destroy",0x41AE40,name_destroy_hook,{0x56,0x8B,0xF1,0x8B,0x46,0x6C},{1,2,3});
+    }
     flip_gateway = prepare("pre_flip",0x597B00,flip_hook,{0x56,0x8B,0xF1,0x8A,0x86,9,0xC5,0x3F,0},{1,2,6});
     wide_original = &WideCharToMultiByte;
     exit_original = &ExitProcess;
@@ -592,6 +675,7 @@ void Engine::snapshot(const char* event) noexcept {
               FIELD(raster); FIELD(queue); FIELD(submissions); FIELD(presentations); FIELD(freed);
               FIELD(width_overrides); FIELD(unicode_draws); FIELD(composites); FIELD(cache_hits); FIELD(cache_misses);
               FIELD(raster_retired); FIELD(queue_retired);
+              FIELD(shared_rasters); FIELD(name_copies);
 #undef FIELD
               fields += '}';
           }
@@ -604,9 +688,23 @@ void Engine::snapshot(const char* event) noexcept {
                   ",\"related\":"+std::to_string(v.related)+",\"identity\":"+std::to_string(v.identity)+
                   ",\"generation\":"+std::to_string(v.generation)+",\"raster_hash_fnv1a64\":"+std::to_string(v.raster_hash)+
                   ",\"width\":"+std::to_string(v.width)+",\"height\":"+std::to_string(v.height)+
-                  ",\"stride_pixels\":"+std::to_string(v.stride)+"}";
+                  ",\"stride_pixels\":"+std::to_string(v.stride)+",\"glyph_count\":"+std::to_string(v.glyph_count)+"}";
           }
-          fields += ']'; life_count = 0;
+          fields += "],\"raster_faults\":[";
+          for (uint32_t i = 0; i < raster_fault_count; ++i) {
+              const auto& v = raster_faults[i]; if (i) fields += ',';
+              fields += "{\"entry\":"+std::to_string(pack.plans[v.plan].entry);
+#define FAULT_FIELD(name) fields += ",\"" #name "\":"+std::to_string(v.name)
+              FAULT_FIELD(tick); FAULT_FIELD(frame); FAULT_FIELD(paint); FAULT_FIELD(identity);
+              FAULT_FIELD(source); FAULT_FIELD(raster); FAULT_FIELD(paint_owner);
+              FAULT_FIELD(widget); FAULT_FIELD(paint_caller); FAULT_FIELD(offset);
+              FAULT_FIELD(native_width); FAULT_FIELD(native_height); FAULT_FIELD(prior_count);
+              FAULT_FIELD(prior_identity); FAULT_FIELD(prior_generation); FAULT_FIELD(prior_paint);
+#undef FAULT_FIELD
+              fields += ",\"bound\":"+std::string(v.bound?"true":"false")+
+                  ",\"prior_entry\":"+std::to_string(v.bound?pack.plans[v.prior_plan].entry:0)+"}";
+          }
+          fields += ']'; life_count = 0; raster_fault_count = 0;
         }
         Exclusive io(io_gate); log->event(event,fields);
         if (log->failures()) fail(28);

@@ -73,7 +73,31 @@ int main() {
         bad = s; value = 0x4E2D; std::memcpy(bad.data()+88,&value,4); check(rejected(bad));
         bad = s; value = 0x6588; std::memcpy(bad.data()+88,&value,4); check(rejected(bad));
         bad = s; value = 65; std::memcpy(bad.data()+12,&value,4); check(rejected(bad));
-        std::cout << "PASS: 22 multi-identity/lifetime/allowlist/malformed-input checks\n";
+        auto names = fixture(3); value = 3; std::memcpy(names.data()+8,&value,4);
+        names.append(64,'b');
+        const uint32_t name_glyphs[] = {2,0x4E2D,0x6587};
+        names.append(reinterpret_cast<const char*>(name_glyphs),sizeof(name_glyphs));
+        append_plan(names,4,u"\u4E2D");
+        append_plan(names,NameDomain|5290,u"\u6587\u4E2D");
+        append_plan(names,NameDomain|826,u"\u6587\u4E2D"); // Same label, distinct resource identities.
+        write(names); pack.load(temp_file,true);
+        check(pack.has_names && pack.typename_hash == std::wstring(64,L'b'));
+        check(pack.match(L"\u4E2D") == 0 && pack.match(L"\u6587\u4E2D") == -1);
+        check(pack.match_name("U9T14AA",NameCopyCaller) == 1);
+        check(pack.match_name("U9T033A",NameCopyCaller) == 2);
+        check(pack.match_name("U9T14AA",NameCopyCaller+1) == -1);
+        check(pack.match_name("U9T14AAx",NameCopyCaller) == -1);
+        check(pack.match_name("U9T14aa",NameCopyCaller) == -1);
+        check(pack.match_name("U9T14A",NameCopyCaller) == -1);
+        check(pack.match_name(nullptr,NameCopyCaller) == -1 && rejected(names,false));
+        check(rejected(names.substr(0,names.size()-1)) && rejected(names+"x"));
+        bad = names; value = NameDomain|8192;
+        const size_t name_start = 144+sizeof(name_glyphs)+8+2;
+        std::memcpy(bad.data()+name_start,&value,4); check(rejected(bad));
+        bad = names; bad[80] = 'z'; check(rejected(bad));
+        bad = names; const char16_t lf = u'\n';
+        std::memcpy(bad.data()+name_start+8,&lf,2); check(rejected(bad));
+        std::cout << "PASS: identity/lifetime, v1/v2/v3 packs, resource-marker scope and malformed-input checks\n";
         return 0;
     } catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }
 }
