@@ -55,6 +55,34 @@ class Archive:
         chunks.append(self.data[cursor:])
         return chunks
 
+    def _rebuild_regions(self, replacements):
+        """Preserve this verified container; payload validation is family-specific."""
+        if set(replacements) != set(self.regions) or any(
+                not isinstance(raw, bytes) or not raw for raw in replacements.values()):
+            raise FormatError("incomplete or invalid physical payload replacements")
+        parts, positions, cursor, size = [], {}, 0, 0
+        for region in self.regions:
+            offset, length = region
+            gap = self.data[cursor:offset]
+            parts.append(gap); size += len(gap)
+            raw = replacements[region]
+            positions[region] = (size, len(raw))
+            parts.append(raw); size += len(raw)
+            cursor = offset+length
+        parts.append(self.data[cursor:])
+        output = bytearray(b"".join(parts))
+        if len(output) > 0xFFFFFFFF:
+            raise FormatError("rebuilt file exceeds u32 size")
+        for entry in self.entries:
+            if entry.is_used:
+                struct.pack_into("<II", output, 0x80+entry.index*8,
+                                 *positions[(entry.offset, entry.length)])
+        struct.pack_into("<II", output, 0x58, len(output), len(output))
+        after = Archive(output)
+        if self.padding() != after.padding():
+            raise FormatError("container padding changed")
+        return bytes(output)
+
 
 class TextArchive(Archive):
     def __init__(self, data):
