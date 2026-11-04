@@ -1,0 +1,15 @@
+source,target,category,status,enforcement,reference,notes
+Ankh,Ankh,item,review,informational,P6-S corpus terminology_review (retained English),Retained in English pending terminology decision; no official translation claimed
+Avatar,Avatar,person,review,informational,P6-S/P6-S2 corpus terminology_review (retained English),Retained in English pending terminology decision; no official translation claimed
+Britannia,Britannia,place,review,informational,P6-S/P6-S2 corpus terminology_review (retained English),Corpus retains English; Master Plan P5 render sample used 不列顛尼亞; undecided
+Compassion,慈悲,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
+First Aid Kit,急救箱,item,draft,recommended,TYPENAME.FLX:5290 (P6-S2 single-item proof),Taiwan Traditional Chinese draft for the native examine label
+Guardian,Guardian,person,review,informational,P6-S corpus terminology_review (retained English),Retained in English pending terminology decision; no official translation claimed
+Honesty,誠實,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
+Honor,榮譽,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
+Humility,謙遜,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
+Justice,正義,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
+Lord British,Lord British,person,review,informational,P6-S corpus terminology_review (retained English),Retained in English pending terminology decision; no official translation claimed
+Sacrifice,犧牲,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
+Spirituality,靈性,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
+Valor,英勇,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)

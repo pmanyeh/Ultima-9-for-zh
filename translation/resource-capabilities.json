@@ -1,0 +1,75 @@
+{
+  "schema": "u9cht-resource-capabilities-v2",
+  "description": "Machine-readable capability matrix. Values reflect recorded evidence only; UNKNOWN is never promoted by assumption.",
+  "evidence_levels": ["CONFIRMED", "STRONG EVIDENCE", "HYPOTHESIS", "UNKNOWN"],
+  "resources": {
+    "text.flx": {
+      "adapter": "u9cht.l10n.adapters.TextAdapter",
+      "source_unit": "UTF-16LE code units of the entry text, excluding one NUL terminator",
+      "decode": {"value": true, "status": "CONFIRMED", "evidence": "reports/P2_ROUNDTRIP_DIFF.md"},
+      "roundtrip": {"value": "byte-perfect", "status": "CONFIRMED", "evidence": "reports/P2_ROUNDTRIP_DIFF.md"},
+      "translate_build": {"value": true, "status": "CONFIRMED", "evidence": "reports/P6S_SHOWCASE_POC.md; reports/P6S2_REPRESENTATIVE_SURFACES.md (scoped mutation audits)"},
+      "unicode_runtime": {"value": "bounded", "status": "CONFIRMED", "evidence": "reports/P6S_SHOWCASE_POC.md (9 subtitles composited); reports/P6S2_REPRESENTATIVE_SURFACES.md (19 NPC lines/responses, normal exit)", "limits": "U9ChtRuntime allowlist pack: max 64 plans, 512 custom BMP scalars, 512 UTF-16 units per plan, 1024 cache rasters; requires the U9ChtRuntime launcher"},
+      "notes": "Subtitles, NPC dialogue and player-response menus are runtime-confirmed. Journal/UI uses of text.flx have no measured layout."
+    },
+    "TYPENAME.FLX": {
+      "adapter": "u9cht.l10n.adapters.TypeNameAdapter",
+      "source_unit": "ASCII bytes of the display label, excluding its NUL terminator",
+      "decode": {"value": true, "status": "CONFIRMED", "evidence": "docs/formats/U9-TYPENAME-NOTES.md"},
+      "roundtrip": {"value": "byte-perfect", "status": "CONFIRMED", "evidence": "reports/P6S2_REPRESENTATIVE_SURFACES.md (134200 bytes, 0 differences)"},
+      "translate_build": {"value": "ascii-marker", "status": "CONFIRMED", "evidence": "reports/P6S2_REPRESENTATIVE_SURFACES.md (U9Txxxx marker bridge; opaque bytes preserved)"},
+      "unicode_runtime": {"value": "bounded", "status": "CONFIRMED", "evidence": "reports/P6S2_REPRESENTATIVE_SURFACES.md (TYPENAME:5290, 404 composites, human-confirmed)", "limits": "One item proven. Last single-name session ended exit1 without a cleanup record (cause UNKNOWN). Shares the 64-plan pack capacity; entry IDs < 8192."},
+      "notes": "Chinese is never written into TYPENAME. The archive receives an ASCII marker; the runtime pack carries the Unicode label."
+    },
+    "BOOKS-EN.FLX": {
+      "adapter": "u9cht.l10n.adapters.BooksAdapter",
+      "source_unit": "raw body bytes after the title and body-length fields",
+      "decode": {"value": true, "status": "CONFIRMED", "evidence": "docs/formats/U9-BOOKS-NOTES.md"},
+      "roundtrip": {"value": "byte-perfect", "status": "CONFIRMED", "evidence": "reports/P6S2_REPRESENTATIVE_SURFACES.md (221316 bytes, 0 differences)"},
+      "translate_build": {"value": "ascii-only", "status": "CONFIRMED", "evidence": "reports/P6S2_REPRESENTATIVE_SURFACES.md (BOOKS-EN:182 ASCII single edit RUNTIME PASS)"},
+      "unicode_runtime": {"value": false, "status": "UNKNOWN", "evidence": "reports/P6S2_REPRESENTATIVE_SURFACES.md (book Unicode render path UNKNOWN; Chinese NOT EXECUTED)"},
+      "notes": "Chinese book records stay in the canonical store with runtime_supported=false and are excluded from every runtime build."
+    },
+    "misctext.flx": {
+      "adapter": null,
+      "decode": {"value": false, "status": "UNKNOWN", "evidence": "reports/P1_ASSET_INVENTORY.md (STRONG EVIDENCE of short UI/system strings; payload not round-tripped)"},
+      "roundtrip": {"value": false, "status": "UNKNOWN", "evidence": "reports/P1_ASSET_INVENTORY.md"},
+      "translate_build": {"value": false, "status": "UNKNOWN", "evidence": "no adapter"},
+      "unicode_runtime": {"value": false, "status": "UNKNOWN", "evidence": "no runtime route investigated"},
+      "notes": "Not a canonical store resource until independently decoded and round-tripped."
+    }
+  },
+  "layout_profiles": [
+    {
+      "resource": "text.flx",
+      "categories": ["subtitle", "dialogue", "response"],
+      "budget_logical": 528,
+      "native_ascii_estimate": 16,
+      "native_ascii_estimate_measured": false,
+      "multiline": true,
+      "observed_max_lines": 2,
+      "evidence": "reports/P6S_SHOWCASE_POC.md (528-unit authoring budget below observed 595-unit raster width; 2-line subtitles visually confirmed); reports/P6S2_REPRESENTATIVE_SURFACES.md"
+    },
+    {
+      "resource": "TYPENAME.FLX",
+      "categories": ["item-name"],
+      "budget_logical": 192,
+      "native_ascii_estimate": 16,
+      "native_ascii_estimate_measured": false,
+      "multiline": false,
+      "observed_max_lines": 1,
+      "evidence": "scripts/build_p6s2_inventory.py limit; reports/P6S2_REPRESENTATIVE_SURFACES.md (48x20 label rasters)"
+    }
+  ],
+  "runtime": {
+    "contract": "u9cht/l10n/runtime_pack.py RUNTIME_CONTRACT (mirrors runtime/U9ChtRuntime/identity.h)",
+    "font": {
+      "family": "Noto Sans CJK TC",
+      "file": "NotoSansCJKtc-Regular.otf",
+      "version": "2.004",
+      "license": "SIL OFL 1.1",
+      "sha256": "dce08bd4fd91aa8aa76ed8fea4b694c2dfb8550f67871e326843212ddbeb88b4",
+      "tracked": false
+    }
+  }
+}

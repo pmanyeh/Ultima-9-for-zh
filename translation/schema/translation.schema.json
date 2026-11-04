@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://u9-cht.invalid/translation.schema.json",
+  "title": "U9-CHT canonical translation record (one JSONL line)",
+  "description": "Canonical records identify the original text by resource, entry ID, exact source SHA-256 and unit count. They never contain the original English text or FLX layout details. Enforced by u9cht/l10n/store.py, which additionally requires the deterministic serialization (fixed field order, sorted by resource then entry_id, UTF-8, LF).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["key", "resource", "entry_id", "status", "category", "target", "source_sha256", "source_units", "review"],
+  "properties": {
+    "key": {"type": "string", "pattern": "^(text\\.flx|TYPENAME\\.FLX|BOOKS-EN\\.FLX):(0|[1-9][0-9]{0,5})$", "description": "resource:entry_id; must agree with resource and entry_id"},
+    "resource": {"enum": ["text.flx", "TYPENAME.FLX", "BOOKS-EN.FLX"]},
+    "entry_id": {"type": "integer", "minimum": 0},
+    "status": {"enum": ["untranslated", "draft", "review", "approved", "blocked", "showcase-draft"], "description": "showcase-draft is accepted only for migrated P6-S/P6-S2 work and ranks as draft"},
+    "category": {"enum": ["subtitle", "dialogue", "response", "item-name", "book", "journal", "ui", "system", "other"]},
+    "speaker": {"type": ["string", "null"]},
+    "context": {"type": ["string", "null"], "description": "short non-substantial context; never a source-text copy"},
+    "notes": {"type": ["string", "null"]},
+    "terms": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true, "description": "sorted glossary source terms this record is expected to render (exact tagged terms)"},
+    "target": {"type": "string", "description": "Traditional Chinese target. Authored line breaks are explicit \\n (books: \\r\\n). Empty only when untranslated."},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "SHA-256 of the exact source unit (text.flx: UTF-16LE text without terminator; TYPENAME: ASCII label; BOOKS: raw body bytes)"},
+    "source_units": {"type": "integer", "minimum": 0, "description": "text.flx: UTF-16 code units; TYPENAME: ASCII bytes; BOOKS: body bytes"},
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["terminology", "language", "runtime"],
+      "properties": {"terminology": {"type": "boolean"}, "language": {"type": "boolean"}, "runtime": {"type": "boolean"}}
+    },
+    "runtime_supported": {"type": ["boolean", "null"], "description": "false keeps the record out of runtime builds; null defers to resource-capabilities.json"},
+    "runtime_evidence": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true, "description": "sorted references to recorded runtime observations (phase:kind)"},
+    "migrated_from": {"type": ["string", "null"], "description": "frozen showcase snapshot this record was migrated from"}
+  }
+}
