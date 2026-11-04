@@ -1,4 +1,8 @@
-"""Build private P6-S2 NPC/name resources; no installation or game launch."""
+"""Build private P6-S2 NPC/name resources; no installation or game launch.
+
+HISTORICAL (P6): reads the frozen translation/showcase snapshots so P6 evidence
+stays reproducible. Production builds use scripts/build_localization.py (P7).
+"""
 import argparse
 import json
 from pathlib import Path

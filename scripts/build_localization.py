@@ -1,0 +1,9 @@
+"""P7 localization pipeline: `build` (see translation/qa/README.md)."""
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from u9cht.l10n.cli import main
+
+if __name__ == "__main__":
+    sys.exit(main(["build"] + sys.argv[1:]))

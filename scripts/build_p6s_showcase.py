@@ -1,4 +1,8 @@
-"""Build a private showcase resource and validate the explicit pinned font."""
+"""Build a private showcase resource and validate the explicit pinned font.
+
+HISTORICAL (P6): reads the frozen translation/showcase snapshots so P6 evidence
+stays reproducible. Production builds use scripts/build_localization.py (P7).
+"""
 import argparse
 import json
 from pathlib import Path
