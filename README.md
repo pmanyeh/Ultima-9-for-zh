@@ -6,6 +6,18 @@ P5-0 日文執行檔重建／靜態差異研究，以及 P5 高解析度 Unicode
 2026-10-31 已明確授權 **P5.1 — Persistent High-Resolution Unicode Renderer
 Integration**；**P6 仍未授權**，各階段須通過 Gate。
 
+**最新：P7 — Localization Data Pipeline 為 PASS WITH LIMITATIONS（2026-11-03）。**
+唯一翻譯主檔為 `translation/zh-TW/*.jsonl`，流程與指令見
+[translation/qa/README.md](translation/qa/README.md)，結果見
+[P7 報告](reports/P7_LOCALIZATION_PIPELINE.md)。P8 大量翻譯尚未授權。
+
+```powershell
+python scripts/validate_translation.py --game-dir $env:U9_GAME_DIR --font $env:U9_CJK_FONT
+python scripts/build_localization.py --game-dir $env:U9_GAME_DIR --font $env:U9_CJK_FONT --output .local/build/zh-TW
+```
+
+以下為較早階段的歷史狀態。
+
 目前狀態：**P5-0 PASS（靜態 CJK 機制確認；原報告為 PASS WITH LIMITATIONS）**，
 **P5 HIGH-RES UNICODE POC PASS（受控單幀）**。P5 已驗證保留 UTF-16 身分、
 原生英文與高解析度中文字形混排，並完成 800×600／1600×1200 比較；它仍是

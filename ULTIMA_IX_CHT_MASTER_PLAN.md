@@ -1253,6 +1253,35 @@ FLX importer
 output resources
 ```
 
+## 14.1 P7 執行結果（2026-11-03）
+
+2026-11-03 使用者明確授權 P7（不含 P8 大量翻譯、不做時間型 soak）。
+**P7 為 PASS WITH LIMITATIONS**：對話／物品名稱可進入正式資料流程，
+不支援的資源家族已明確隔離。P5.1、P6、P6-S、P6-S2 的歷史分類不變。
+
+- 唯一可編輯主檔：`translation/zh-TW/{text,typename,books}.jsonl`。
+  紀錄只含譯文、鍵、來源 SHA-256 與長度，不含英文原文。
+  `translation/showcase/` 改為以雜湊鎖定的凍結 P6 證據。
+- 確定性遷移61筆 showcase 草稿（39字幕、15對話、5回答、TYPENAME:5290、
+  BOOKS-EN:182）。保留 `showcase-draft`，不提升任何狀態。
+- 指令：`validate_translation`、`build_localization`、
+  `export_translation_workset`／`import_translation_workset`（僅限本機，
+  遇衝突整批中止）、`migrate_showcase_store`。
+- 資源雜湊與逐筆來源雜湊都會檢查，SOURCE DRIFT 直接失敗。
+  術語表14列，無 approved、無官方譯名宣稱。
+  排版預檢（528／192 logical）與最小禁則只回報，不自動改寫。
+  字型覆蓋與 glyph manifest 由現行譯文自動產生，不手寫清單。
+- 只從主檔重建時，P6-S／P6-S2 的 text.flx、TYPENAME 及 v2／v3 pack
+  共5個產物與歷史雜湊**逐位元組相同**。完整 development 建置兩次結果相同，
+  mutation audit 通過。合併60 plans pack 已通過原生離線 parser／prewarm，
+  694份 raster 雜湊一致；**尚未在遊戲內實機執行**。
+- Python 138/138、native 6/6。
+
+**大量 P8 前的阻礙**：原生 pack 容量64 plans／512字元，現已用60 plans；
+BOOKS 中文路徑 UNKNOWN；misctext 尚無 adapter；尚無 approved 術語。
+建議先授權有界的 runtime 容量工作，再執行第一批約100～200筆 text.flx
+對話／字幕。詳見 `reports/P7_LOCALIZATION_PIPELINE.md`。**P8 尚未授權。**
+
 ---
 
 # 15. P8 — Coverage Expansion

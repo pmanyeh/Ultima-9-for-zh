@@ -1,0 +1,93 @@
+{
+  "phase": "P7",
+  "title": "Localization Data Pipeline",
+  "date": "2026-11-03",
+  "status": "PASS WITH LIMITATIONS",
+  "starting_head": "bb310b424285d9d44ad65eb193abbe57933cfa0e",
+  "ending_head": "the commit containing this report",
+  "branch": "p7-localization-pipeline",
+  "committed": true,
+  "historical_classifications_changed": false,
+  "p8_authorized": false,
+  "timed_soak_performed": false,
+  "new_translations_written": 0,
+  "dependencies_added": [],
+  "canonical_store": {
+    "path": "translation/zh-TW",
+    "format": "JSONL, sorted by (resource, entry_id), fixed field order, UTF-8, LF",
+    "schema": "translation/schema/translation.schema.json",
+    "sha256": "4388434575d63a5c6e564647a93f8552ba0763b7583e4ffa63e64f763d1d9a3f",
+    "files": {
+      "text.jsonl": "83bc00b46b192c745cc57bb4a54fbbaa78356151195f13da45b9ffb5cccf25f4",
+      "typename.jsonl": "06230607c2964052130adff65fffea4dbd71544755c81645a23ebb9da8cf2ed9",
+      "books.jsonl": "23f66e013d275a1ac12cb7dbeac636a061b23aabd933eadd5ffebc96b1697965"
+    },
+    "single_source_of_truth": true,
+    "frozen_snapshots": "translation/showcase/*.json (LF-normalized SHA-256 locked)"
+  },
+  "migration": {
+    "total": 61,
+    "text_subtitle": 39,
+    "text_dialogue": 15,
+    "text_response": 5,
+    "typename": 1,
+    "books": 1,
+    "status_preserved": "showcase-draft",
+    "statuses_promoted": 0,
+    "deterministic_check": "matches",
+    "runtime_evidence_tags": {"P6-S:composited": 9, "P6-S:screenshot": 6, "P6-S2:composited": 21, "P6-S2:screenshot": 9}
+  },
+  "capabilities": {
+    "text.flx": {"decode": "CONFIRMED", "roundtrip": "byte-perfect", "translate_build": true, "unicode_runtime": "bounded"},
+    "TYPENAME.FLX": {"decode": "CONFIRMED", "roundtrip": "byte-perfect", "translate_build": "ascii-marker", "unicode_runtime": "bounded (one item; exit1 cause UNKNOWN)"},
+    "BOOKS-EN.FLX": {"decode": "CONFIRMED", "roundtrip": "byte-perfect", "translate_build": "ascii-only", "unicode_runtime": "false (UNKNOWN)"},
+    "misctext.flx": {"decode": "UNKNOWN", "roundtrip": "UNKNOWN", "translate_build": false, "unicode_runtime": "UNKNOWN"}
+  },
+  "glossary": {"path": "translation/glossary/U9_TERMS.csv", "rows": 14, "approved": 0, "review": 5, "draft": 9, "official_claims": 0},
+  "qa": {
+    "development_validation": {"errors": 0, "warnings": 0, "info": 0},
+    "layout": {"PASS": 60, "WARNING": 0, "OVERFLOW": 0, "UNKNOWN-LAYOUT": 0},
+    "excluded": [{"key": "BOOKS-EN.FLX:182", "reason": "runtime_supported=false"}],
+    "approved_profile_selected": 0
+  },
+  "glyph_manifest": {
+    "unique_scalars": 347, "han": 340, "punctuation": 7, "latin_native": 22, "missing": 0,
+    "cache_requirement": 694, "cache_capacity": 1024, "runtime_plans": 60, "plan_capacity": 64,
+    "pack_sha256": "043795b2ba245cd2182c891d39d4ca76c362bb87def28076b6de6854dc39a0ed",
+    "pack_version": 3
+  },
+  "deterministic_build": "PASS (two full development builds produced identical trees)",
+  "mutation_audit": {
+    "status": "PASS",
+    "text.flx": {"output_sha256": "d45449077dedc19b37beaf5dd0b86075cf5adf3bd34b008d5cffcd8918726893", "changed": 59, "unchanged": 7597, "unexpected": []},
+    "TYPENAME.FLX": {"output_sha256": "7a765bf78a8dd6c9fd7812bb2c347208a5ae1e04d8eea8e6152b64aab606e432", "changed": 1, "unchanged": 8191, "unexpected": []}
+  },
+  "showcase_regression": {
+    "status": "BYTE-EXACT PASS",
+    "p6s_text_flx": "71eea15597f45a1cfb280a5bab1239665cf1f14cc53f7968a6327e02f7de4d47",
+    "p6s_pack_v2": "3163a669749dc94ad7573bf3b2dd7cdedbac9648c64e9c374a0412bd3ff4d1dd",
+    "p6s2_text_flx": "1f72ff74dc3876b6cb16525381fa018535ec29d147ce33c6bbb5cef041c12191",
+    "p6s2_typename": "7a765bf78a8dd6c9fd7812bb2c347208a5ae1e04d8eea8e6152b64aab606e432",
+    "p6s2_pack_v3": "54b07a817f6d2320b758bde77fcb5cc0a43ea8f35b57333039ebb86aa8b9f49c",
+    "combined_pack_native_offline": "PASS (60 plans, 347 glyphs, 694/694 native/Python raster hashes equal)",
+    "combined_pack_in_game": "NOT EXECUTED"
+  },
+  "drift_demonstration": {
+    "resource_drift_strict": "FAIL (resource-drift)",
+    "entry_drift": {"key": "text.flx:4164", "expected": "8850732093f0d0f7ff7cc3ecc77abade7dc2a60e02b8fda757b3587c55dd4077", "observed": "85b4381c763539437964d16d490550f0fe9f823f5984c282cb0e1b157bcee8e5"},
+    "build": "REFUSED, no output written"
+  },
+  "tests": {
+    "python": {"run": 138, "passed": 138, "skipped": 0, "new": 36, "local_only_executed": 2},
+    "native": {"run": 6, "passed": 6}
+  },
+  "blockers_before_broad_p8": [
+    "runtime pack capacity 64 plans / 512 scalars (60 plans used)",
+    "BOOKS Unicode render path UNKNOWN",
+    "misctext.flx has no adapter",
+    "no approved terminology",
+    "TYPENAME single-name session exit1 cause UNKNOWN",
+    "P6-S entries 4174-4203 runtime-unobserved"
+  ],
+  "recommendation": "Authorize a scoped runtime-capacity task (P8-0) before a first P8 batch of ~100-200 text.flx dialogue/subtitle entries; keep books excluded."
+}
