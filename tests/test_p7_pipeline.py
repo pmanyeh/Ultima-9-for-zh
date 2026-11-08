@@ -284,6 +284,20 @@ class WorksetTests(unittest.TestCase):
         self.assertEqual(report["status"], "OK")
         self.assertEqual(next(r for r in new if r["key"] == "text.flx:1")["status"], "review")
 
+    def test_target_change_clears_runtime_evidence(self):
+        self.store[0]["runtime_evidence"] = ["P6-S:screenshot"]
+        self.store[1]["runtime_evidence"] = ["P6-S:composited"]
+        rows = {r["key"]: r for r in self.rows()}
+        retext = rows["text.flx:1"]
+        retext["target"] = "第二行（修訂）"
+        recontext = rows["text.flx:2"]
+        recontext["context"] = "same text, new note"
+        new, report = import_workset(self.store, [retext, recontext], self.game)
+        self.assertEqual(report["status"], "OK")
+        by = {r["key"]: r for r in new}
+        self.assertEqual(by["text.flx:1"]["runtime_evidence"], [])
+        self.assertEqual(by["text.flx:2"]["runtime_evidence"], ["P6-S:composited"])
+
     def test_conflicts_are_reported_and_nothing_applied(self):
         rows = {r["key"]: r for r in self.rows()}
         cases = []
@@ -706,8 +720,14 @@ class PackAndMigrationTests(unittest.TestCase):
                 r["entry_id"], None, r["source_sha256"], r["source_units"], True)
         first, second = migrate(ROOT, units), migrate(ROOT, units)
         self.assertEqual(dumps_jsonl(first), dumps_jsonl(second))
-        self.assertEqual(dumps_jsonl(first), b"".join(
-            (ROOT / "translation/zh-TW" / f).read_bytes() for f in ("text.jsonl", "typename.jsonl", "books.jsonl")))
+        # The live store has moved on (P8 translation); migrated identity must still line up.
+        by = {r["key"]: r for r in records}
+        for m in first:
+            live = by[m["key"]]
+            self.assertEqual((live["migrated_from"], live["source_sha256"]),
+                             (m["migrated_from"], m["source_sha256"]), m["key"])
+            if live["status"] == "showcase-draft":
+                self.assertEqual(live, m, m["key"])
         self.assertEqual(len(first), 61)
         statuses = {r["status"] for r in first}
         self.assertEqual(statuses, {"showcase-draft"})
@@ -781,31 +801,47 @@ class LocalShowcaseRegressionTests(unittest.TestCase):
         meta = load_json(CAPS)["runtime"]["font"]
         return lambda scalars: metrics_from_font(FONT, meta, sorted(scalars))
 
+    def migrated_store(self, tmp):
+        """The P6 showcase data as migrated in P7 (the live store is now being translated)."""
+        from u9cht.l10n.adapters import ADAPTERS as A
+        from u9cht.l10n.pipeline import load_json, read_game
+        from u9cht.l10n.store import RESOURCE_FILES
+        game = read_game(GAME, load_json(ROOT / "translation/sources.json"), [])
+        records = migrate(ROOT, {r: A[r].units(d) for r, d in game.items()})
+        store = Path(tmp) / "store"
+        store.mkdir()
+        for resource, name in RESOURCE_FILES.items():
+            (store / name).write_bytes(dumps_jsonl([r for r in records if r["resource"] == resource]))
+        return records, Paths(store=store)
+
     def test_canonical_store_rebuilds_exact_historical_showcase_artifacts(self):
         for name, (only, expected) in self.LEGACY.items():
             with tempfile.TemporaryDirectory() as tmp:
-                a = analyze(game_dir=GAME, metrics_provider=self.provider(), selection=parse_selection(only))
+                _, paths = self.migrated_store(tmp)
+                a = analyze(paths=paths, game_dir=GAME, metrics_provider=self.provider(),
+                            selection=parse_selection(only))
                 self.assertEqual(a.errors, [], name)
                 manifest = build(a, Path(tmp) / "out", GAME)
                 for path, sha in expected.items():
                     self.assertEqual(manifest["files"][path], sha, (name, path))
 
     def test_full_development_build_and_migration_check(self):
-        from u9cht.l10n.adapters import ADAPTERS as A
-        from u9cht.l10n.pipeline import load_json, read_game
-        game = read_game(GAME, load_json(ROOT / "translation/sources.json"), [])
-        units = {r: A[r].units(d) for r, d in game.items()}
-        self.assertEqual(dumps_jsonl(migrate(ROOT, units)), b"".join(
-            (ROOT / "translation/zh-TW" / f).read_bytes() for f in ("text.jsonl", "typename.jsonl", "books.jsonl")))
-        a = analyze(game_dir=GAME, metrics_provider=self.provider())
-        self.assertEqual(a.errors, [])
-        self.assertEqual((len(a.runtime), a.glyphs["unique_scalar_count"], a.glyphs["missing_glyph_count"]),
-                         (60, 347, 0))
-        self.assertEqual([e["key"] for e in a.excluded], ["BOOKS-EN.FLX:182"])
         with tempfile.TemporaryDirectory() as tmp:
+            records, paths = self.migrated_store(tmp)
+            self.assertEqual(len(records), 61)
+            a = analyze(paths=paths, game_dir=GAME, metrics_provider=self.provider())
+            self.assertEqual(a.errors, [])
+            self.assertEqual((len(a.runtime), a.glyphs["unique_scalar_count"], a.glyphs["missing_glyph_count"]),
+                             (60, 347, 0))
+            self.assertEqual([e["key"] for e in a.excluded], ["BOOKS-EN.FLX:182"])
             manifest = build(a, Path(tmp) / "out", GAME)
             self.assertEqual(manifest["mutation_audit_status"], "PASS")
             self.assertEqual(manifest["runtime_pack_version"], 3)
+        # The live store must also validate and build.
+        a = analyze(game_dir=GAME, metrics_provider=self.provider())
+        self.assertEqual(a.errors, [])
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(build(a, Path(tmp) / "out", GAME)["mutation_audit_status"], "PASS")
 
 
 if __name__ == "__main__":

@@ -123,6 +123,8 @@ def import_workset(records, work_rows, game=None, create=False, allow_status_reg
                 continue
             candidate = dict(base)
             candidate.update({k: row.get(k) for k in EDITABLE})
+            if candidate["target"] != current["target"] and candidate.get("runtime_evidence"):
+                candidate["runtime_evidence"] = []     # evidence was recorded for the previous text
         problems = [i for i in validate_record(candidate, resource) if i.level == "error"]
         if problems:
             conflicts.append({"key": key, "reason": "invalid record: " + "; ".join(p.message for p in problems)})

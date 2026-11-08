@@ -1350,6 +1350,15 @@ pack 格式不變。
 - **PASS WITH LIMITATIONS**：工具、規範與權威檔完成並經核准；台灣官方手冊尚待比對。
   詳見 `reports/P8A_TERMINOLOGY_AUTHORITY.md`。
 
+## 15.3 P8 第一波 — 地球開場（2026-11-08）
+
+使用者授權第一波翻譯。範圍：`MiscNPC/gypsy`、`MiscNPC/Hawkwind`（`text.flx` 4028–4300，272 句），
+含改寫 59 句展示草稿。全部為 `draft`；`validate` PASS；實機 exit 0、57 句合成、雜湊與離線相同。
+
+- CONFIRMED：runtime 不支援 `…`、`—`；規範改為改寫停頓。擴充字元範圍需另行授權。
+- CONFIRMED：日誌條目不經過 runtime 繪字路徑，中文不顯示。研究日誌路徑需另行授權。
+- **PASS WITH LIMITATIONS**。詳見 `reports/P8_W1_OPENING.md`。
+
 ---
 
 # 16. P9 — Translation QA
