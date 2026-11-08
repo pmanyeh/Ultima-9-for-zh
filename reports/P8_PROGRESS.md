@@ -32,6 +32,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W7a | Moonglow/Batista, Byron, Duncan, Ella, hairam | 190 | 190 | PASS, 0 errors | not yet |
 | W7b | Moonglow/hairam (end), Janus, Joshua, Kyra, Leeland, Linda, Mariah, MariahGhost, Markus | 192 | 192 | PASS, 0 errors | not yet |
 | W7c | Moonglow/Markus (end), Marna, generic, Oracle, Phillipa, Randolas, ShrineHonesty, Tommy, Tydus | 188 | 186 | PASS, 0 errors | not yet |
+| W8a | Minoc/Alara, Algar, Dayla, Elena, GenericMinocGuard | 182 | 182 | PASS, 0 errors | not yet |
 
 Notes:
 
