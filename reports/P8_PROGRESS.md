@@ -20,6 +20,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W4b | MiscNPC/Calan, Ciara, CircleStones, Cleo, Colando, Elizabeth, Eve | 186 | 186 | PASS, 0 errors | not yet |
 | W4c | MiscNPC generic NPCs, Geoffrey, GeoffreyGhost, Groldek, Guardian | 169 | 169 | PASS, 0 errors | not yet |
 | W4d | MiscNPC/Jaana, JaanaGhost, Julia, JuliaGhost, Khelereth, Lothar, Lyssa, Malchir | 182 | 182 | PASS, 0 errors | not yet |
+| W4e | MiscNPC/Marek, Maria, Mathis, questions, Rand | 178 | 173 | PASS, 0 errors | not yet |
 
 Notes:
 
@@ -29,3 +30,4 @@ Notes:
   an approved term (`Feeling better?`); validate then skips that term's target and annotation checks
   for the record. Tested in `tests/test_p8a_terms.py`.
 - W4a: 3606 (Blackthorn's incantation) stays in English.
+- W4e: typed answers 4651, 4654, 4657, 4660, 4662 (mantra, Word of Power, password, incantations) stay in English.
