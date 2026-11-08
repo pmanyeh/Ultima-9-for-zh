@@ -14,6 +14,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W2e | Britain/Jared, Jarlath, Jastral, Keller, Killigan | 192 | 192 | PASS, 0 errors | not yet |
 | W2f | Britain/Kimberly, Laurana, Leon | 174 | 174 | PASS, 0 errors | not yet |
 | W2g | Britain/Lydia, Margery, Meribeth, Nicodemus, Nimrond, Olsen, Olwyn, Ooli, Orson | 247 | 247 | PASS, 0 errors | not yet |
+| W2h | Britain/Peiter, Renald, Richard, Robison, Roprick, Sarah, Siona, Skeleton1, Thadious, Tyson | 222 | 222 | PASS, 0 errors | not yet |
 
 Notes:
 
