@@ -43,6 +43,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W10c | Trinsic/Rupert (end), Salvador, Sergio, ShrineHonor, Synnovea, generic, Vidos, Virgil | 143 | 141 | PASS, 0 errors | not yet |
 | W11a | Valoria/DemonTriumvirate, Liselle, Meranthon, OldJak, SgtLambert | 166 | 166 | PASS, 0 errors | not yet |
 | W11b | Valoria/SgtLambert (end), ShrineValor, SirArtos, SirEris, SirReynald, SirRobin | 162 | 160 | PASS, 0 errors | not yet |
+| W12a | Ambrosia (all 11 files) | 234 | 233 (+229 earlier) | PASS, 0 errors | not yet |
 
 Notes:
 
