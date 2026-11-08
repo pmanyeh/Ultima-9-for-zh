@@ -12,6 +12,7 @@ int wmain(int argc, wchar_t** argv) {
         require(pack->glyph_count && pack->glyph_count*2 <= GlyphCacheCapacity,"showcase cache capacity");
         auto cache = std::make_unique<GlyphCache>(); cache->open(argv[2]);
         Logger log; log.open(argv[3],true);
+        const auto started = GetTickCount64();
         for (uint32_t i = 0; i < pack->glyph_count; ++i) {
             const auto scalar = pack->scalars[i];
             for (auto em : {20U,40U}) {
@@ -32,10 +33,13 @@ int wmain(int argc, wchar_t** argv) {
             require(cache->get(pack->scalars[i],em) == first,"cache entry not reused");
         }
         require(cache->misses == expected && cache->size() == expected,"cache grew on reuse");
+        const auto alpha_bytes = cache->alpha_bytes();
+        const auto prewarm_ms = GetTickCount64()-started;
         require(cache->close() && cache->size() == 0,"private font/cache cleanup failed");
         log.event("offline_pass","\"plans\":"+std::to_string(pack->count)+
             ",\"glyphs\":"+std::to_string(pack->glyph_count)+",\"cache_entries\":"+
             std::to_string(expected)+",\"capacity\":"+std::to_string(GlyphCacheCapacity)+
+            ",\"alpha_bytes\":"+std::to_string(alpha_bytes)+",\"prewarm_ms\":"+std::to_string(prewarm_ms)+
             ",\"private_font_removed\":true,\"game_launched\":false");
         require(!log.failures(),"offline evidence write failed");
         std::cout << "PASS: offline selected-pack/font/advances/prewarm/reuse/cleanup; no game launched\n";

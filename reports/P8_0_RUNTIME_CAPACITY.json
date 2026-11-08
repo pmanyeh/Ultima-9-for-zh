@@ -1,0 +1,241 @@
+{
+  "phase": "P8-0",
+  "title": "Runtime Capacity",
+  "date": "2026-11-04",
+  "status": "PASS WITH LIMITATIONS",
+  "starting_head": "3a351750ff3d5228084917919c4f6f716bc06273",
+  "committed": false,
+  "new_translations_written": 0,
+  "executable_patched": false,
+  "pack_format_changed": false,
+  "runtime": {
+    "name": "U9ChtRuntime/0.2.4-p8-0",
+    "dll_sha256": "d0e40368d5152862a1176b0d07fc9abc28180eba9fa6dbd9ad8ff86d763876b3"
+  },
+  "limits": {
+    "before": {
+      "plans": 64,
+      "glyph_scalars": 512,
+      "glyph_rasters": 1024,
+      "lifecycle_per_snapshot": 4096
+    },
+    "after": {
+      "plans": 16384,
+      "glyph_scalars": 8192,
+      "glyph_rasters": 16384,
+      "lifecycle_per_snapshot": 16384
+    },
+    "full_corpus_plan_need": {
+      "text_editable": 7390,
+      "text_unique_sources": 7212,
+      "typename_editable": 2032
+    }
+  },
+  "sessions": {
+    "combined_60_plans": {
+      "load_prewarm_ms": 516,
+      "alpha_bytes": 582351,
+      "private_mib_30s": 515,
+      "flips_30s": 2000,
+      "exit_code": 0,
+      "fault_counters": 0,
+      "raster_hashes_equal": 694
+    },
+    "full_capacity": {
+      "load_prewarm_ms": 7047,
+      "alpha_bytes": 14244886,
+      "private_mib_30s": 540,
+      "flips_30s": 1944,
+      "exit_code": 0,
+      "fault_counters": 0,
+      "raster_hashes_equal": 16384,
+      "synthetic_filler": true
+    },
+    "launcher_timeout_ms": 30000,
+    "input_sent": false,
+    "translated_text_drawn": false
+  },
+  "combined_pack": {
+    "sha256": "043795b2ba245cd2182c891d39d4ca76c362bb87def28076b6de6854dc39a0ed",
+    "same_as_p7": true,
+    "shared_targets": 0
+  },
+  "rollback": {
+    "truncated_pack": "verified",
+    "text_hash_mismatch": "verified",
+    "game_resumed": false
+  },
+  "historical_packs_offline": {
+    "copies": 6,
+    "distinct": 4,
+    "passed": 6
+  },
+  "tests": {
+    "python": {
+      "run": 141,
+      "passed": 141,
+      "skipped": 0
+    },
+    "native": {
+      "run": 6,
+      "passed": 6
+    }
+  },
+  "in_game_rendering": "RUNTIME PASS for 33 of 60 plans (60-plan pack); renderer defects fixed in 0.2.8",
+  "blockers": [],
+  "recommendation": "Authorize the first P8 translation batch.",
+  "human_playthroughs": {
+    "session-play": {
+      "route": "existing save",
+      "flips": 12813,
+      "composite_frames": 4494
+    },
+    "session-opening": {
+      "route": "journal New Game",
+      "flips": 33047,
+      "composite_frames": 3681
+    },
+    "session-fresh": {
+      "route": "empty save directory",
+      "flips": 18447,
+      "composite_frames": 1867
+    },
+    "all": {
+      "exit_code": 0,
+      "fault_counters": 0,
+      "raster_faults": 0,
+      "cache_misses": 0,
+      "raster_hashes_equal": 694,
+      "assets_match_p0": true,
+      "saves_unchanged_after": true
+    },
+    "peak_private_bytes": 723550208,
+    "human_report": "New Game test OK"
+  },
+  "never_drawn_entries": [
+    4174,
+    4177,
+    4178,
+    4179,
+    4180,
+    4181,
+    4182,
+    4183,
+    4184,
+    4185,
+    4186,
+    4187,
+    4188,
+    4190,
+    4191,
+    4192,
+    4193,
+    4194,
+    4195,
+    4196,
+    4197,
+    4198,
+    4199,
+    4200,
+    4201,
+    4202,
+    4203
+  ],
+  "renderer_defects": [
+    {
+      "id": "cursor-covered",
+      "level": "CONFIRMED",
+      "caused_by_p8_0": false,
+      "fixed_in": "0.2.8",
+      "human_confirmed": true
+    },
+    {
+      "id": "no-hover-highlight",
+      "level": "STRONG EVIDENCE",
+      "caused_by_p8_0": false,
+      "fixed_in": "0.2.8",
+      "human_confirmed": true
+    },
+    {
+      "id": "unstable-option-colour",
+      "level": "STRONG EVIDENCE",
+      "caused_by_p8_0": false,
+      "fixed_in": "0.2.8",
+      "human_confirmed": true
+    }
+  ],
+  "runtime_final": {
+    "name": "U9ChtRuntime/0.2.8-p8-0a",
+    "dll_sha256": "fc22c7a6c81f59d136e7a82fe9cf9a630f3bb00f7f66c5993523cda15e938c7c"
+  },
+  "renderer_fix": {
+    "new_hook_sites": 0,
+    "executable_patched": false,
+    "font_colors_sampled": [
+      [
+        173,
+        206,
+        222
+      ],
+      [
+        255,
+        230,
+        148
+      ]
+    ],
+    "hover_is_font_switch": "CONFIRMED",
+    "cursor_raster": {
+      "width": 128,
+      "height": 128,
+      "format": "ARGB1555",
+      "type": 2,
+      "opaque_texels": 595
+    },
+    "rejected_attempts": [
+      {
+        "runtime": "0.2.5",
+        "approach": "mid-frame flush",
+        "result": "AppHang exit 0xCFFFFFFF"
+      },
+      {
+        "runtime": "0.2.6",
+        "approach": "mid-frame flush, mutex released",
+        "result": "text vanished near cursor"
+      },
+      {
+        "runtime": "0.2.7",
+        "approach": "cursor mask, RGB555 key",
+        "result": "mask rejected, all texels opaque"
+      }
+    ],
+    "sessions": {
+      "session-defects-1": {
+        "runtime": "0.2.5",
+        "exit_code": "0xCFFFFFFF"
+      },
+      "session-defects-2": {
+        "runtime": "0.2.6",
+        "exit_code": 0,
+        "occlusion_flushes": 717
+      },
+      "session-defects-3": {
+        "runtime": "0.2.7",
+        "exit_code": 0,
+        "device_lost_skips": 1631
+      },
+      "session-defects-4": {
+        "runtime": "0.2.8",
+        "exit_code": 0,
+        "frames": 10007,
+        "composite_frames": 7041,
+        "occluder_masks": 1349,
+        "occluder_rejects": 0,
+        "skipped_frames": 0,
+        "fault_counters": 0,
+        "raster_hashes_equal": 694,
+        "assets_match_p0": true,
+        "human_report": "confirmed normal"
+      }
+    }
+  }
+}

@@ -16,6 +16,11 @@ python scripts/validate_translation.py --game-dir $env:U9_GAME_DIR --font $env:U
 python scripts/build_localization.py --game-dir $env:U9_GAME_DIR --font $env:U9_CJK_FONT --output .local/build/zh-TW
 ```
 
+**P8-0 — Runtime Capacity 為 PASS WITH LIMITATIONS（2026-11-04）**：容量已放寬至
+16,384 plans／8,192 字元；人工實玩三輪皆正常結束，已繪製 33／60 筆。三個既有顯示問題
+（游標被蓋住、無 hover 效果、選項顏色不固定）已於 runtime 0.2.8 修正並經實機確認。P8 翻譯批次尚未授權。
+見 [P8-0 報告](reports/P8_0_RUNTIME_CAPACITY.md)。
+
 以下為較早階段的歷史狀態。
 
 目前狀態：**P5-0 PASS（靜態 CJK 機制確認；原報告為 PASS WITH LIMITATIONS）**，

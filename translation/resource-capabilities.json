@@ -9,7 +9,7 @@
       "decode": {"value": true, "status": "CONFIRMED", "evidence": "reports/P2_ROUNDTRIP_DIFF.md"},
       "roundtrip": {"value": "byte-perfect", "status": "CONFIRMED", "evidence": "reports/P2_ROUNDTRIP_DIFF.md"},
       "translate_build": {"value": true, "status": "CONFIRMED", "evidence": "reports/P6S_SHOWCASE_POC.md; reports/P6S2_REPRESENTATIVE_SURFACES.md (scoped mutation audits)"},
-      "unicode_runtime": {"value": "bounded", "status": "CONFIRMED", "evidence": "reports/P6S_SHOWCASE_POC.md (9 subtitles composited); reports/P6S2_REPRESENTATIVE_SURFACES.md (19 NPC lines/responses, normal exit)", "limits": "U9ChtRuntime allowlist pack: max 64 plans, 512 custom BMP scalars, 512 UTF-16 units per plan, 1024 cache rasters; requires the U9ChtRuntime launcher"},
+      "unicode_runtime": {"value": "bounded", "status": "CONFIRMED", "evidence": "reports/P6S_SHOWCASE_POC.md (9 subtitles composited); reports/P6S2_REPRESENTATIVE_SURFACES.md (19 NPC lines/responses, normal exit)", "limits": "U9ChtRuntime allowlist pack: max 16384 plans, 8192 custom BMP scalars, 512 UTF-16 units per plan, 16384 cache rasters (P8-0); requires the U9ChtRuntime launcher"},
       "notes": "Subtitles, NPC dialogue and player-response menus are runtime-confirmed. Journal/UI uses of text.flx have no measured layout."
     },
     "TYPENAME.FLX": {

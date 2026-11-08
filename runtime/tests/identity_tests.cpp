@@ -1,6 +1,8 @@
 #include "identity.h"
 #include "platform.h"
 #include <fstream>
+#include <memory>
+#include <string>
 #include <cstring>
 #include <iostream>
 #include <stdexcept>
@@ -67,12 +69,12 @@ int main() {
         check(pack.count == 2 && pack.glyph_count == 2 && pack.plans[0].slots[2] == '\n');
         check(pack.match(L"A\u4E2D\n\u6587") == 0 && rejected(s,false));
         check(rejected(s.substr(0,s.size()-1)) && rejected(s+"x"));
-        auto bad = s; uint32_t value = 513;
+        auto bad = s; uint32_t value = MaxGlyphScalars+1;
         std::memcpy(bad.data()+80,&value,4); check(rejected(bad));
         bad = s; value = 0xD800; std::memcpy(bad.data()+84,&value,4); check(rejected(bad));
         bad = s; value = 0x4E2D; std::memcpy(bad.data()+88,&value,4); check(rejected(bad));
         bad = s; value = 0x6588; std::memcpy(bad.data()+88,&value,4); check(rejected(bad));
-        bad = s; value = 65; std::memcpy(bad.data()+12,&value,4); check(rejected(bad));
+        bad = s; value = MaxPlans+1; std::memcpy(bad.data()+12,&value,4); check(rejected(bad));
         auto names = fixture(3); value = 3; std::memcpy(names.data()+8,&value,4);
         names.append(64,'b');
         const uint32_t name_glyphs[] = {2,0x4E2D,0x6587};
@@ -97,6 +99,37 @@ int main() {
         bad = names; bad[80] = 'z'; check(rejected(bad));
         bad = names; const char16_t lf = u'\n';
         std::memcpy(bad.data()+name_start+8,&lf,2); check(rejected(bad));
+        // Text length boundary and over-long lookups.
+        auto longest = fixture(1); append_plan(longest,1,std::u16string(MaxText,u'A')); write(longest); pack.load(temp_file,true);
+        check(pack.match(std::wstring(MaxText,L'A').c_str()) == 0);
+        check(pack.match(std::wstring(MaxText+1,L'A').c_str()) == -1 && pack.match(std::wstring(MaxText-1,L'A').c_str()) == -1);
+        auto too_long = fixture(1); append_plan(too_long,1,std::u16string(MaxText+1,u'A')); check(rejected(too_long));
+        // Maximum-capacity v3 pack: half text plans, half name plans, all scalars used.
+        const auto full_pack = [&](uint32_t last_id, char16_t last_second) {
+            std::string out("U9CTP51\0",8);
+            auto u32 = [&](uint32_t v) { out.append(reinterpret_cast<const char*>(&v),4); };
+            u32(3); u32(uint32_t(MaxPlans)); out.append(64,'a'); out.append(64,'b');
+            u32(uint32_t(MaxGlyphScalars));
+            for (uint32_t i = 0; i < MaxGlyphScalars; ++i) u32(0x4E00+i);
+            for (uint32_t i = 0; i < MaxPlans; ++i) {
+                const bool name = i >= MaxPlans/2;
+                const auto slot = name ? i-uint32_t(MaxPlans/2) : i;
+                std::u16string text{char16_t(0x4E00+slot),char16_t(name ? 0x4E01 : 0x4E00)};
+                if (!name && i == MaxPlans/2-1) { text[1] = last_second; }
+                append_plan(out,name ? (NameDomain|slot) : (i == MaxPlans/2-1 ? last_id : i),text);
+            }
+            return out;
+        };
+        const auto last_text = uint32_t(MaxPlans/2-1);
+        write(full_pack(last_text,0x4E00)); auto big = std::make_unique<Pack>(); big->load(temp_file,true);
+        check(big->count == MaxPlans && big->glyph_count == MaxGlyphScalars);
+        const wchar_t first_text[] = {0x4E00,0x4E00,0}, final_text[] = {wchar_t(0x4E00+last_text),0x4E00,0}, absent[] = {0x4E00,0x4E02,0};
+        check(big->match(first_text) == 0 && big->match(final_text) == int(last_text) && big->match(absent) == -1);
+        check(big->match_name("U9T0000",NameCopyCaller) == int(MaxPlans/2));
+        check(big->match_name("U9T1FFF",NameCopyCaller) == int(MaxPlans-1));
+        check(big->match_name("U9T2000",NameCopyCaller) == -1 && big->match_name("U9T1fff",NameCopyCaller) == -1);
+        check(rejected(full_pack(0,0x4E00))); // Duplicate entry at capacity.
+        auto twin = fixture(2); append_plan(twin,1,u"\u4E2D"); append_plan(twin,2,u"\u4E2D"); check(rejected(twin)); // Same text is still ambiguous natively.
         std::cout << "PASS: identity/lifetime, v1/v2/v3 packs, resource-marker scope and malformed-input checks\n";
         return 0;
     } catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }

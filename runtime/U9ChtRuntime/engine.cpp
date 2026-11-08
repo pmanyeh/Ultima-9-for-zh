@@ -105,18 +105,6 @@ uintptr_t __fastcall queue_hook(uintptr_t self, void*, uintptr_t raster, uintptr
             else {
                 r->width = w; r->height = h; r->pixels = pixels; r->stride = stride; r->hash = raster_hash(*r);
                 if (e.render) {
-                    e.colors.fill(0); uint32_t most = 0;
-                    const auto* data = reinterpret_cast<const uint16_t*>(pixels);
-                    for (size_t i = 0; i < size_t(stride)*h; ++i) {
-                        const uint16_t value = data[i]&0x7FFF;
-                        if (value != 0 && value != 0x7C1F &&
-                            std::max({(value>>10)&31,(value>>5)&31,value&31}) >= 16) {
-                            const auto n = ++e.colors[value]; if (n > most) {
-                                most = n; r->rgb = {uint8_t((((value>>10)&31)*255+15)/31),
-                                    uint8_t((((value>>5)&31)*255+15)/31),uint8_t(((value&31)*255+15)/31)};
-                            }
-                        }
-                    }
                     uint32_t expected_total = 0;
                     for (const auto& run : r->runs.values()) {
                         uint32_t expected = 0;
@@ -327,7 +315,8 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                 const auto advance = e.pack.plans[plan].advances[m.offset];
                 if ((s[3]&255) != 0x7F || !logical_metric(spacing,advance) || r->count >= r->placements.size()) e.fail(17);
                 else {
-                    r->placements[r->count++] = {m.offset,int32_t(s[1]),int32_t(s[2]),r->runs.index(run)};
+                    // The font in use, not the raster, decides color: labels sharing a raster stay independent.
+                    r->placements[r->count++] = {m.offset,int32_t(s[1]),int32_t(s[2]),r->runs.index(run),e.font_style(f->ecx).rgb};
                     ++run->drawn;
                     ++e.stats[plan].unicode_draws;
                     metric_header[0] = logical_metric(spacing,advance);
@@ -340,6 +329,23 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
         const auto caller = word(f->esp+4);
         if (caller == 0x50913D || caller == 0x50915E || caller == 0x50917B || caller == 0x509193) {
             auto* q = e.queue(f->ebx);
+            if (!q && e.render && !e.errors.load() && e.draw_list.count && word(f->ecx) == 0x74FBB8) {
+                // Painter's order: native UI drawn over pending Chinese must land above it (cursor, panels).
+                const auto* a = reinterpret_cast<const uint32_t*>(f->esp+8);
+                float left = 1e9f, top = 1e9f, right = -1e9f, bottom = -1e9f;
+                bool valid = true;
+                for (uint32_t i = 0; i < 3; ++i) {
+                    const float vx = *reinterpret_cast<const float*>(a[i]), vy = *reinterpret_cast<const float*>(a[i]+8);
+                    if (!std::isfinite(vx) || !std::isfinite(vy)) { valid = false; break; }
+                    left = std::min(left,vx); right = std::max(right,vx);
+                    top = std::min(top,vy); bottom = std::max(bottom,vy);
+                }
+                if (valid && std::abs(left) < 10000 && std::abs(right) < 10000 && std::abs(top) < 10000 && std::abs(bottom) < 10000) {
+                    const Rect area{int32_t(std::floor(left)),int32_t(std::floor(top)),int32_t(std::ceil(right)),int32_t(std::ceil(bottom))};
+                    if (e.draw_list.overlaps(area))
+                        e.add_occluder(f->ebx,area,caller,*reinterpret_cast<const float*>(f->ebp+0x18),*reinterpret_cast<const float*>(f->ebp+0x1C));
+                }
+            }
             if (q && q->last_frame != e.frame) {
                 const auto* r = e.raster(q->raster);
                 if (!r || r->generation != q->raster_generation || word(q->address+8) != r->address ||
@@ -376,7 +382,7 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                                 const int32_t left = round((x+p.x)*sx)+g->bearing_x;
                                 const int32_t top = round((y+p.y)*sy)-g->bearing_y;
                                 const auto bounds = intersect(clip,{left,top,left+int32_t(g->width),top+int32_t(g->height)});
-                                if (!empty(bounds) && !list.add({g,left,top,bounds,r->rgb})) e.fail(21);
+                                if (!empty(bounds) && !list.add({g,left,top,bounds,p.rgb})) e.fail(21);
                             }
                         }
                     }
@@ -500,16 +506,16 @@ void Engine::compose(uintptr_t backend) noexcept {
     max_frame_records = std::max(max_frame_records,list.records);
     if (errors.load()) { ++skipped_frames; return; }
     if (!list.current(frame,backend,word(backend+0x3FC3C4))) {
-        ++skipped_frames; surface.invalidate(); return;
+        ++skipped_frames; ++skip_reasons[0]; surface.invalidate(); return;
     }
     if (word(backend) != 0x74FBB8 ||
         word(backend+0x44) != list.width || word(backend+0x48) != list.height ||
         word(backend+0x4C) != 32 || *reinterpret_cast<const uint8_t*>(backend+0x3FC508)) {
         ++skipped_frames; fail(22); return;
     }
-    if (*reinterpret_cast<const uint8_t*>(backend+0x3FC509)) { ++skipped_frames; surface.invalidate(); return; }
+    if (*reinterpret_cast<const uint8_t*>(backend+0x3FC509)) { ++skipped_frames; ++skip_reasons[1]; surface.invalidate(); return; }
     const auto back = word(backend+0x3FC3C4);
-    if (back != list.backbuffer) { ++skipped_frames; surface.invalidate(); return; }
+    if (back != list.backbuffer) { ++skipped_frames; ++skip_reasons[2]; surface.invalidate(); return; }
     if (!back || word(back) != 0x18153838) { ++skipped_frames; fail(23); return; }
     const auto root = word(back+8), inner = root ? root+0xC : 0;
     if (!inner || word(inner) != 0x18152DF4) { ++skipped_frames; fail(24); return; }
@@ -517,7 +523,7 @@ void Engine::compose(uintptr_t backend) noexcept {
         const auto& source = list.sources[i]; const auto* q = queue(source.node); const auto* r = raster(source.raster);
         if (!q || !r || q->generation != source.queue_generation || r->generation != source.raster_generation ||
             q->last_frame != frame || q->raster_generation != r->generation || raster_hash(*r) != r->hash) {
-            ++skipped_frames; return; // A verified native repaint/free made the command stale.
+            ++skipped_frames; ++skip_reasons[3]; return; // A verified native repaint/free made the command stale.
         }
     }
     Rect locked = list.commands[0].clip;
@@ -527,7 +533,7 @@ void Engine::compose(uintptr_t backend) noexcept {
             std::max(locked.right,r.right),std::max(locked.bottom,r.bottom)};
     }
     locked = intersect(locked,{0,0,int32_t(list.width),int32_t(list.height)});
-    if (empty(locked)) { ++skipped_frames; return; }
+    if (empty(locked)) { ++skipped_frames; ++skip_reasons[4]; return; }
     auto lock = reinterpret_cast<SurfaceLock>(word(word(back)+0x64));
     auto unlock = reinterpret_cast<SurfaceUnlock>(word(word(back)+0x80));
     LARGE_INTEGER begin{},end{};
@@ -556,8 +562,100 @@ void Engine::compose(uintptr_t backend) noexcept {
     }
     if (error) fail(error); // Controlled quit only AFTER Unlock and log-gate release.
 }
+// Text stays composed at flip: in session-defects-2 text painted by a mid-frame Lock vanished once
+// later native draws ran. So an occluder is read, never drawn out of order. A node's raster is
+// not tracked by us and may be stale, hence the fault guard and field checks.
+namespace {
+struct OccluderProbe {
+    std::array<uint32_t,5> fields{}; // tiles, width, height, bits, stride
+    uint32_t type = 0, opaque = 0, rule = 0, corner = 0, alpha1555 = 0, alpha4444 = 0;
+    bool usable = false;
+};
+// The first rule leaving between 1/256 and 3/5 of the texels opaque wins; a cursor is mostly clear.
+bool read_occluder(uintptr_t raster, OccluderMask& mask, OccluderProbe& p) noexcept {
+    __try {
+        p.fields[1] = word(raster+0x14); p.fields[2] = word(raster+0x18); p.fields[3] = word(raster+0x1C); p.fields[4] = word(raster+0x448);
+        p.type = word(raster+0x20);
+        const auto pixels = reinterpret_cast<const uint16_t*>(word(raster+0x43C));
+        const auto w = p.fields[1], h = p.fields[2], stride = p.fields[4];
+        p.usable = p.fields[3] == 16 && w && w <= MaskMaxSide && h && h <= MaskMaxSide && w <= stride && stride <= 2048 && pixels;
+        if (!p.usable) return true;
+        const auto corner = pixels[size_t(h-1)*stride+w-1];
+        p.corner = corner;
+        for (uint32_t y = 0; y < h; ++y) for (uint32_t x = 0; x < w; ++x) {
+            const auto t = pixels[size_t(y)*stride+x];
+            p.alpha1555 += (t&0x8000) != 0; p.alpha4444 += (t>>12) >= 8;
+        }
+        for (const auto rule : {MaskRule::Key,MaskRule::Alpha1555,MaskRule::Alpha4444,MaskRule::Corner}) {
+            p.opaque = build_mask(mask,pixels,stride,w,h,rule,corner);
+            p.rule = uint32_t(rule);
+            if (uint64_t(p.opaque)*256 >= uint64_t(w)*h && uint64_t(p.opaque)*5 <= uint64_t(w)*h*3) break;
+        }
+        return true;
+    } __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+}
+}
+void Engine::add_occluder(uintptr_t node, Rect area, uint32_t caller, float sx, float sy) noexcept {
+    auto& list = draw_list;
+    for (uint32_t i = 0; i < list.mask_count; ++i) if (list.masks[i].node == node) return;
+    last_occluder = area; last_occluder_caller = caller;
+    if (list.mask_count == list.masks.size()) { ++occluder_rejects[0]; return; }
+    last_occluder_raster = {}; last_occluder_opaque = last_occluder_rule = last_occluder_corner = 0;
+    last_occluder_type = last_occluder_alpha1555 = last_occluder_alpha4444 = 0;
+    const auto tiles = word(node+0x10);
+    last_occluder_raster[0] = tiles;
+    if (tiles != 1) { ++occluder_rejects[1]; return; }
+    auto& mask = list.masks[list.mask_count];
+    OccluderProbe probe;
+    const bool read = read_occluder(word(node+8),mask,probe);
+    last_occluder_raster = probe.fields; last_occluder_raster[0] = tiles;
+    last_occluder_type = probe.type; last_occluder_rule = probe.rule; last_occluder_corner = probe.corner;
+    last_occluder_alpha1555 = probe.alpha1555; last_occluder_alpha4444 = probe.alpha4444;
+    if (!read) { ++occluder_rejects[4]; return; }
+    if (!probe.usable) { ++occluder_rejects[2]; return; }
+    const auto opaque = probe.opaque;
+    last_occluder_opaque = opaque;
+    const auto w = mask.width, h = mask.height;
+    if (std::abs(float(area.right-area.left)-float(w)*sx) > 2*sx || std::abs(float(area.bottom-area.top)-float(h)*sy) > 2*sy) { ++occluder_rejects[3]; return; }
+    if (uint64_t(opaque)*5 > uint64_t(w)*h*3) { ++occluder_rejects[5]; return; } // A panel, not a cursor.
+    mask.node = node; mask.area = area; mask.covers = list.count;
+    ++list.mask_count; ++occluder_masks;
+}
+const FontStyle& Engine::font_style(uintptr_t record) noexcept {
+    static const FontStyle fallback{};
+    const auto blob = word(record);
+    if (!blob) return fallback;
+    for (uint32_t i = 0; i < font_count; ++i) if (fonts[i].blob == blob) { ++fonts[i].uses; return fonts[i]; }
+    if (font_count == fonts.size()) { ++font_overflow; return fallback; }
+    auto& style = fonts[font_count++];
+    style.blob = blob; style.uses = 1;
+    const auto live = word(0x133393C);
+    // Run the native glyph blit on a private copy of the live raster descriptor.
+    if (live && word(live+0x1C) == 16) {
+        std::array<uint8_t,0x44C> fake;
+        std::memcpy(fake.data(),reinterpret_cast<const void*>(live),fake.size());
+        const auto set = [&](size_t at, uintptr_t value) { std::memcpy(fake.data()+at,&value,4); };
+        const auto address = reinterpret_cast<uintptr_t>(fake.data());
+        set(4,0); set(8,0); set(0xC,SampleSize-1); set(0x10,SampleSize-1);
+        set(0x14,SampleSize); set(0x18,SampleSize);
+        set(0x43C,reinterpret_cast<uintptr_t>(sample.data())); set(0x448,SampleSize);
+        if (word(live+0x444)) set(0x444,reinterpret_cast<uintptr_t>(sample_aux.data()));
+        using Blit = uintptr_t(__thiscall*)(uintptr_t,uintptr_t,int32_t,int32_t);
+        for (const uint32_t c : {'E','H','A','M','O'}) {
+            const auto offset = word(blob+c*8-0xF0);
+            if (!offset) continue;
+            const auto glyph = blob+offset;
+            if (!word(glyph+4) || word(glyph+4) > SampleSize || !word(glyph+8) || word(glyph+8) > SampleSize) continue;
+            sample.fill(SampleTransparent); sample_aux.fill(0);
+            reinterpret_cast<Blit>(0x5E20E0)(address,glyph,int32_t(word(glyph+0xC)),int32_t(word(glyph+0x10)));
+            if (dominant_color(sample,style.rgb)) { style.sampled = true; style.reference = c; break; }
+        }
+    }
+    return style;
+}
 void Engine::install(const Config& config, Logger& logger) {
     log = &logger; render = config.mode == Mode::Render;
+    const auto load_started = GetTickCount64();
     pack.load(config_path(config.allowlist_path), render);
     require(sha256(config_path(config.game_dir)/L"static"/L"text.flx") == pack.resource_hash,
             "allowlist resource hash mismatch");
@@ -596,6 +694,9 @@ void Engine::install(const Config& config, Logger& logger) {
                 ",\"coverage_sha256\":\""+utf8(sha256_bytes(g->alpha.data(),g->alpha.size()))+"\"");
         }
     }
+    log->event("runtime_capacity", "\"plans\":"+std::to_string(pack.count)+",\"glyphs\":"+std::to_string(pack.glyph_count)+
+        ",\"rasters\":"+std::to_string(glyphs.size())+",\"alpha_bytes\":"+std::to_string(glyphs.alpha_bytes())+
+        ",\"load_prewarm_ms\":"+std::to_string(GetTickCount64()-load_started));
     draw_list.clear(frame);
     auto prepare = [&](const char* name, uintptr_t address, void* target,
                        std::initializer_list<uint8_t> bytes, std::initializer_list<uint8_t> lengths) {
@@ -646,6 +747,9 @@ void Engine::snapshot(const char* event) noexcept {
         PROCESS_MEMORY_COUNTERS_EX memory{}; memory.cb = sizeof(memory);
         const bool memory_known = GetProcessMemoryInfo(GetCurrentProcess(),reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&memory),sizeof(memory)) != FALSE;
         LARGE_INTEGER frequency{}; QueryPerformanceFrequency(&frequency);
+        // A failed pack load rolls back through here with no plans loaded.
+        const auto entry_of = [&](uint32_t plan) { return plan < pack.plans.size() ? pack.plans[plan].entry : 0U; };
+        const EntryStats untouched{};
         { Exclusive lock(mutex);
           uint32_t live_rasters = 0, live_queues = 0;
           for (const auto& r : rasters) live_rasters += r.address != 0;
@@ -666,9 +770,30 @@ void Engine::snapshot(const char* event) noexcept {
             ",\"unlock_failures\":"+std::to_string(unlock_failures)+",\"skipped_frames\":"+std::to_string(skipped_frames)+
             ",\"max_frame_records\":"+std::to_string(max_frame_records)+",\"pixel_writes\":"+std::to_string(pixel_writes)+
             ",\"compositor_ticks\":"+std::to_string(compositor_ticks)+",\"compositor_max_ticks\":"+std::to_string(compositor_max_ticks)+
-            ",\"entries\":[";
+            ",\"occluder_masks\":"+std::to_string(occluder_masks)+",\"occluder_rejects\":["+std::to_string(occluder_rejects[0])+","+std::to_string(occluder_rejects[1])+","+
+            std::to_string(occluder_rejects[2])+","+std::to_string(occluder_rejects[3])+","+std::to_string(occluder_rejects[4])+","+std::to_string(occluder_rejects[5])+
+            "],\"skip_reasons\":["+std::to_string(skip_reasons[0])+","+std::to_string(skip_reasons[1])+","+std::to_string(skip_reasons[2])+","+std::to_string(skip_reasons[3])+","+std::to_string(skip_reasons[4])+
+            "],\"last_occluder_opaque\":"+std::to_string(last_occluder_opaque)+",\"last_occluder_rule\":"+std::to_string(last_occluder_rule)+
+            ",\"last_occluder_corner\":"+std::to_string(last_occluder_corner)+",\"last_occluder_type\":"+std::to_string(last_occluder_type)+
+            ",\"last_occluder_alpha1555\":"+std::to_string(last_occluder_alpha1555)+",\"last_occluder_alpha4444\":"+std::to_string(last_occluder_alpha4444)+",\"last_occluder_raster\":["+std::to_string(last_occluder_raster[0])+","+std::to_string(last_occluder_raster[1])+","+
+            std::to_string(last_occluder_raster[2])+","+std::to_string(last_occluder_raster[3])+","+std::to_string(last_occluder_raster[4])+
+            "],\"last_occluder_caller\":"+std::to_string(last_occluder_caller)+
+            ",\"last_occluder\":["+std::to_string(last_occluder.left)+","+std::to_string(last_occluder.top)+","+
+            std::to_string(last_occluder.right)+","+std::to_string(last_occluder.bottom)+"],\"font_overflow\":"+std::to_string(font_overflow)+
+            ",\"font_styles\":[";
+          for (uint32_t i = 0; i < font_count; ++i) {
+              const auto& v = fonts[i]; if (i) fields += ',';
+              fields += "{\"blob\":"+std::to_string(v.blob)+",\"rgb\":["+std::to_string(v.rgb[0])+","+std::to_string(v.rgb[1])+","+std::to_string(v.rgb[2])+
+                  "],\"sampled\":"+(v.sampled?"true":"false")+",\"reference\":"+std::to_string(v.reference)+",\"uses\":"+std::to_string(v.uses)+"}";
+          }
+          fields += "],\"plans\":"+std::to_string(pack.count)+",\"entries\":[";
+          // Only plans with activity: a full corpus would otherwise log megabytes every 5s.
+          bool first_entry = true;
           for (uint32_t i = 0; i < pack.count; ++i) {
-              if (i) fields += ','; const auto& s = stats[i];
+              const auto& s = stats[i];
+              if (std::memcmp(&s,&untouched,sizeof(EntryStats)) == 0) continue;
+              if (!first_entry) fields += ',';
+              first_entry = false;
               fields += "{\"id\":"+std::to_string(pack.plans[i].entry);
 #define FIELD(name) fields += ",\"" #name "\":"+std::to_string(s.name)
               FIELD(wide); FIELD(cache); FIELD(copies); FIELD(layout); FIELD(bounds); FIELD(glyph);
@@ -684,7 +809,7 @@ void Engine::snapshot(const char* event) noexcept {
               const auto& v = life_events[i]; if (i) fields += ',';
               fields += "{\"seq\":"+std::to_string(v.sequence)+",\"tick_ms\":"+std::to_string(v.tick)+
                   ",\"kind\":"+std::to_string(static_cast<uint32_t>(v.kind))+
-                  ",\"entry\":"+std::to_string(pack.plans[v.plan].entry)+",\"address\":"+std::to_string(v.address)+
+                  ",\"entry\":"+std::to_string(entry_of(v.plan))+",\"address\":"+std::to_string(v.address)+
                   ",\"related\":"+std::to_string(v.related)+",\"identity\":"+std::to_string(v.identity)+
                   ",\"generation\":"+std::to_string(v.generation)+",\"raster_hash_fnv1a64\":"+std::to_string(v.raster_hash)+
                   ",\"width\":"+std::to_string(v.width)+",\"height\":"+std::to_string(v.height)+
@@ -693,7 +818,7 @@ void Engine::snapshot(const char* event) noexcept {
           fields += "],\"raster_faults\":[";
           for (uint32_t i = 0; i < raster_fault_count; ++i) {
               const auto& v = raster_faults[i]; if (i) fields += ',';
-              fields += "{\"entry\":"+std::to_string(pack.plans[v.plan].entry);
+              fields += "{\"entry\":"+std::to_string(entry_of(v.plan));
 #define FAULT_FIELD(name) fields += ",\"" #name "\":"+std::to_string(v.name)
               FAULT_FIELD(tick); FAULT_FIELD(frame); FAULT_FIELD(paint); FAULT_FIELD(identity);
               FAULT_FIELD(source); FAULT_FIELD(raster); FAULT_FIELD(paint_owner);
@@ -702,7 +827,7 @@ void Engine::snapshot(const char* event) noexcept {
               FAULT_FIELD(prior_identity); FAULT_FIELD(prior_generation); FAULT_FIELD(prior_paint);
 #undef FAULT_FIELD
               fields += ",\"bound\":"+std::string(v.bound?"true":"false")+
-                  ",\"prior_entry\":"+std::to_string(v.bound?pack.plans[v.prior_plan].entry:0)+"}";
+                  ",\"prior_entry\":"+std::to_string(v.bound?entry_of(v.prior_plan):0)+"}";
           }
           fields += ']'; life_count = 0; raster_fault_count = 0;
         }

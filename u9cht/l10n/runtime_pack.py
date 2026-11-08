@@ -1,24 +1,25 @@
 """Generated runtime glyph/translation pack (existing U9CTP51 v2/v3 format).
 
-The native runtime (``runtime/U9ChtRuntime/identity.cpp``) is unchanged; this
-module only produces the byte format it already consumes. Capacity limits are
-the current bounded native limits and are enforced, never silently raised.
+This module produces the byte format ``runtime/U9ChtRuntime/identity.cpp``
+consumes. Capacity limits mirror the native limits and are enforced here, so a
+pack the runtime would refuse is never built.
 """
 import hashlib
 import json
+import random
 import struct
 from fractions import Fraction
 
 from ..flx import digest
 
 RUNTIME_CONTRACT = {
-    "runtime": "U9ChtRuntime/0.2.3-p6s2",
+    "runtime": "U9ChtRuntime/0.2.8-p8-0a",
     "magic": "U9CTP51",
     "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans"},
-    "max_plans": 64,
+    "max_plans": 16384,
     "max_plan_utf16_units": 512,
-    "max_glyph_scalars": 512,
-    "glyph_cache_capacity": 1024,
+    "max_glyph_scalars": 8192,
+    "glyph_cache_capacity": 16384,
     "raster_sizes_px": [20, 40],
     "logical_units_per_em": 16,
     "custom_scalar_ranges": [[0x3000, 0x303F], [0x3400, 0x9FFF], [0xFF01, 0xFF60]],
@@ -27,12 +28,16 @@ RUNTIME_CONTRACT = {
     "name_domain": 0x10000000,
     "name_entry_max": 8191,
     "name_marker": "U9T%04X",
-    "unique_text_plan_targets": True,
+    "identical_text_targets_share_one_plan": True,
 }
 
 
 def contract_sha256(contract=RUNTIME_CONTRACT):
     return hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+# Above every text.flx slot and below the v3 limit of 65536 text entries.
+FILLER_ENTRY_BASE = 40000
 
 
 def is_custom(scalar):
@@ -97,11 +102,26 @@ def plan_entry(record):
     raise ValueError(f"{record['key']}: resource has no runtime pack domain")
 
 
+def shared_text_targets(records):
+    """Map each text record sharing a target -> the lowest entry's key.
+
+    The engine identifies text only by its exact wide string, so entries with
+    identical targets are indistinguishable at runtime and share one plan.
+    """
+    first, shared = {}, {}
+    for record in sorted((r for r in records if r["resource"] == "text.flx"), key=lambda r: r["entry_id"]):
+        owner = first.setdefault(record["target"], record["key"])
+        if owner != record["key"]:
+            shared[record["key"]] = owner
+    return shared
+
+
 def capacity_issues(records, scalars):
     c = RUNTIME_CONTRACT
     problems = []
-    if len(records) > c["max_plans"]:
-        problems.append(f"{len(records)} runtime plans exceed bounded capacity {c['max_plans']}")
+    plans = len(records) - len(shared_text_targets(records))
+    if plans > c["max_plans"]:
+        problems.append(f"{plans} runtime plans exceed bounded capacity {c['max_plans']}")
     if len(scalars) > c["max_glyph_scalars"]:
         problems.append(f"{len(scalars)} glyph scalars exceed bounded capacity {c['max_glyph_scalars']}")
     rasters = len(scalars) * len(c["raster_sizes_px"])
@@ -111,19 +131,14 @@ def capacity_issues(records, scalars):
         units = len(record["target"].encode("utf-16-le")) // 2
         if units > c["max_plan_utf16_units"]:
             problems.append(f"{record['key']}: {units} UTF-16 units exceed plan limit")
-    texts = {}
-    for record in records:
-        if record["resource"] == "text.flx":
-            if record["target"] in texts:
-                problems.append(f"{record['key']}: identical runtime target to {texts[record['target']]} "
-                                "(native identity would be ambiguous)")
-            texts.setdefault(record["target"], record["key"])
     return problems
 
 
 def encode_pack(records, text_sha256, typename_sha256=None):
     """Encode the existing v2 (text only) or v3 (text + names) pack format."""
-    plans = sorted(((plan_entry(r), r["target"]) for r in records), key=lambda p: p[0])
+    shared = shared_text_targets(records)
+    plans = sorted(((plan_entry(r), r["target"]) for r in records if r["key"] not in shared),
+                   key=lambda p: p[0])
     has_names = any(e & RUNTIME_CONTRACT["name_domain"] for e, _ in plans)
     scalars = sorted({ord(ch) for _, t in plans for ch in t if ord(ch) >= 128})
     problems = capacity_issues(records, scalars)
@@ -183,6 +198,67 @@ def glyph_manifest(records, metrics=None):
         "runtime_contract_sha256": contract_sha256(),
         "glyphs": rows,
     }
+
+
+def decode_pack(pack):
+    """Parse a v2/v3 pack into (text_sha256, typename_sha256, scalars, plans)."""
+    if pack[:8] != b"U9CTP51\0":
+        raise ValueError("not a U9CTP51 pack")
+    version, count = struct.unpack_from("<II", pack, 8)
+    if version not in (2, 3):
+        raise ValueError(f"unsupported pack version {version}")
+    text_hash = pack[16:80].decode("ascii")
+    at, name_hash = 80, None
+    if version == 3:
+        name_hash, at = pack[80:144].decode("ascii"), 144
+    glyphs = struct.unpack_from("<I", pack, at)[0]
+    scalars = list(struct.unpack_from(f"<{glyphs}I", pack, at + 4))
+    at += 4 + glyphs * 4
+    plans = []
+    for _ in range(count):
+        entry, units = struct.unpack_from("<II", pack, at)
+        plans.append((entry, pack[at + 8:at + 8 + units * 2].decode("utf-16-le")))
+        at += 8 + units * 2
+    if at != len(pack):
+        raise ValueError("trailing pack bytes")
+    return text_hash, name_hash, scalars, plans
+
+
+def capacity_stress_pack(pack, han, plan_total=None, glyph_total=None, units=40, seed=0x8000):
+    """Grow a real pack to capacity with synthetic plans the game can never draw.
+
+    Filler uses entry IDs outside every text.flx slot and text that exists in no
+    game resource, so it exercises load, prewarm and lookup only. Local diagnostic
+    output; never a translation.
+    """
+    plan_total = plan_total or RUNTIME_CONTRACT["max_plans"]
+    glyph_total = glyph_total or RUNTIME_CONTRACT["max_glyph_scalars"]
+    text_hash, name_hash, scalars, plans = decode_pack(pack)
+    fill = plan_total - len(plans)
+    extra = [ord(c) for c in han if ord(c) not in set(scalars)][:glyph_total - len(scalars)]
+    if fill < 0 or len(scalars) + len(extra) != glyph_total or fill < len(extra):
+        raise ValueError("cannot reach the requested capacity from these inputs")
+    existing = {t for _, t in plans}
+    rng = random.Random(seed)
+    every = sorted(set(scalars) | set(extra))
+    filler = []
+    for i in range(fill):
+        # Index digits keep every filler text distinct; the first scalars cover all extras.
+        lead = extra[i] if i < len(extra) else every[i % len(every)]
+        body = "".join(chr(rng.choice(every)) for _ in range(units - 3))
+        text = chr(lead) + chr(every[i // len(every)]) + chr(every[i % len(every)]) + body
+        if text in existing:
+            raise ValueError("filler collided with a real plan")
+        existing.add(text)
+        filler.append((FILLER_ENTRY_BASE + i, text))
+    out = sorted(plans + filler, key=lambda p: p[0])
+    data = bytearray(b"U9CTP51\0" + struct.pack("<II", 3 if name_hash else 2, len(out)))
+    data += text_hash.encode("ascii") + (name_hash.encode("ascii") if name_hash else b"")
+    data += struct.pack("<I", len(every)) + struct.pack(f"<{len(every)}I", *every)
+    for entry, target in out:
+        raw = target.encode("utf-16-le")
+        data += struct.pack("<II", entry, len(raw) // 2) + raw
+    return bytes(data)
 
 
 def pack_sha256(pack):

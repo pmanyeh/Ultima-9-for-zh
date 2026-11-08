@@ -1,5 +1,6 @@
 #include "compositor.h"
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 
 using namespace u9cht;
@@ -72,10 +73,63 @@ int main() {
         changed = k; changed.font[0] = L'x'; check(!(k == changed));
         changed = k; changed.scalar = 0x6587; check(!(k == changed));
         changed = k; changed.mode = 1; check(!(k == changed));
-        std::array<Glyph,2> cache; cache[0].key = k; cache[1].key = k; cache[1].key.em = 40;
-        check(find_glyph(cache,k) == &cache[0] && find_glyph(cache,k) == find_glyph(cache,k));
-        changed = k; changed.em = 40; check(find_glyph(cache,changed) == &cache[1]);
-        changed.em = 80; check(!find_glyph(cache,changed));
+        // Full-capacity lookup: every scalar/em pair resolves to its own slot.
+        auto keys = std::make_unique<std::array<GlyphKey,GlyphCacheCapacity>>();
+        auto table = std::make_unique<GlyphIndex>();
+        check(table->find(0x4E2D,20,*keys) == -1);
+        for (uint32_t i = 0; i < GlyphCacheCapacity; ++i) {
+            auto& key = (*keys)[i]; key.scalar = 0x4E00+i/2; key.em = i%2 ? 40 : 20;
+            table->insert(key.scalar,key.em,i);
+        }
+        for (uint32_t i = 0; i < GlyphCacheCapacity; ++i)
+            check(table->find(0x4E00+i/2,i%2 ? 40 : 20,*keys) == int(i));
+        check(table->find(0x4E00+GlyphCacheCapacity,20,*keys) == -1 && table->find(0x4E00,80,*keys) == -1);
+        table->clear(); check(table->find(0x4E00,20,*keys) == -1);
+        // Occlusion bounds follow pending commands and reset with the frame.
+        FrameList pending; pending.width = pending.height = 64;
+        check(!pending.overlaps({0,0,64,64}));
+        pending.add({&g,0,0,{10,10,20,20},{1,2,3}});
+        pending.add({&g,0,0,{30,5,40,15},{1,2,3}});
+        check(pending.bounds.left == 10 && pending.bounds.top == 5 && pending.bounds.right == 40 && pending.bounds.bottom == 20);
+        check(pending.overlaps({39,19,50,50}) && !pending.overlaps({40,0,50,50}) && !pending.overlaps({0,20,64,64}));
+        pending.clear(2); check(!pending.overlaps({0,0,64,64}) && pending.count == 0);
+        // Occluder mask: opaque texels stay on top of earlier text only; key texels and later text paint.
+        {
+            auto occluded = std::make_unique<FrameList>();
+            occluded->width = occluded->height = 8;
+            Glyph solid; solid.width = 8; solid.height = 1; solid.alpha.assign(8,255);
+            occluded->add({&solid,0,0,{0,0,8,1},{255,255,255}});
+            auto& m = occluded->masks[0];
+            const std::array<uint16_t,4> texels{0x1234,SampleTransparent,uint16_t(SampleTransparent|0x8000),0};
+            check(build_mask(m,texels.data(),4,4,1) == 2);
+            m.area = {0,0,8,8}; m.covers = 1; occluded->mask_count = 1;
+            occluded->add({&solid,0,1,{0,1,8,2},{255,255,255}});
+            check(m.hides(0,0) && m.hides(1,7) && !m.hides(2,0) && !m.hides(5,0) && m.hides(6,0) && !m.hides(8,0) && !m.hides(0,8));
+            std::array<uint32_t,64> screen{};
+            check(blend(reinterpret_cast<uint8_t*>(screen.data()),32,{0,0,8,8},*occluded) == 12);
+            check(screen[0] == 0 && screen[1] == 0 && (screen[2]&0xFFFFFF) == 0xFFFFFF && (screen[5]&0xFFFFFF) == 0xFFFFFF && screen[6] == 0);
+            for (uint32_t x = 0; x < 8; ++x) check((screen[8+x]&0xFFFFFF) == 0xFFFFFF);
+            occluded->clear(3); check(occluded->mask_count == 0);
+            check(texel_opaque(0x8000,MaskRule::Alpha1555,0) && !texel_opaque(0x7FFF,MaskRule::Alpha1555,0));
+            check(texel_opaque(0x8000,MaskRule::Alpha4444,0) && !texel_opaque(0x7FFF,MaskRule::Alpha4444,0));
+            check(texel_opaque(5,MaskRule::Corner,4) && !texel_opaque(4,MaskRule::Corner,4));
+            const std::array<uint16_t,4> argb{0x0FFF,0xF000,0x7000,0x8123};
+            check(build_mask(m,argb.data(),4,4,1,MaskRule::Alpha4444) == 2 && !m.opaque[0] && m.opaque[1] && !m.opaque[2] && m.opaque[3]);
+        }
+        // Font color: most frequent bright value; transparent key, black and dim shadow never win.
+        const auto rgb555 = [](uint16_t r, uint16_t g, uint16_t b) { return uint16_t(r<<10|g<<5|b); };
+        std::array<uint16_t,10> shaded{SampleTransparent,0,rgb555(3,3,3),rgb555(3,3,3),rgb555(3,3,3),rgb555(31,16,0),rgb555(31,16,0),rgb555(0,0,31),0x8000,SampleTransparent};
+        std::array<uint8_t,3> found{9,9,9};
+        check(dominant_color(shaded,found) && found[0] == 255 && found[1] == 132 && found[2] == 0);
+        std::array<uint16_t,3> blank{SampleTransparent,0,rgb555(2,2,2)};
+        found = {9,9,9}; check(!dominant_color(blank,found) && found[0] == 9);
+        // Colors are carried per command, so labels in one raster stay independent.
+        FakeSurface two; SurfaceTracker tt;
+        FrameList split; split.width = split.height = 4;
+        split.add({&g,0,0,{0,0,2,2},{255,0,0}});
+        split.add({&g,2,2,{2,2,4,4},{0,0,255}});
+        check(paint_surface({&two,9,FakeSurface::lock,FakeSurface::unlock},{0,0,4,4},split,tt).pixels == 6);
+        check(two.pixels[2] == 255 && two.pixels[0] == 0 && two.pixels[40] == 255 && two.pixels[42] == 0);
         FakeSurface multiple; SurfaceTracker mt;
         FrameList multi; multi.width = multi.height = 4;
         multi.add({&g,0,0,{0,0,2,2},{255,255,255}});

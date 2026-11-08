@@ -24,12 +24,9 @@ void GlyphCache::open(const std::filesystem::path& font) {
     require(AddFontResourceExW(path_.c_str(),FR_PRIVATE,nullptr) > 0, "private font registration failed");
     registered_ = true;
 }
-const Glyph* find_glyph(std::span<const Glyph> cache, const GlyphKey& k) noexcept {
-    for (const auto& g : cache) if (g.key == k) return &g;
-    return nullptr;
-}
 const Glyph* GlyphCache::get(uint32_t scalar, uint32_t em) noexcept {
-    if (const auto* g = find_glyph({entries_.data(),size_},key(scalar,em))) { ++hits; return g; }
+    const int slot = index_.find(scalar,em,KeyView{entries_});
+    if (slot >= 0) { ++hits; return &entries_[size_t(slot)]; }
     ++misses; return nullptr;
 }
 void GlyphCache::warm(uint32_t scalar, uint32_t em) {
@@ -79,6 +76,8 @@ void GlyphCache::warm(uint32_t scalar, uint32_t em) {
     }
     require(g.advance > 0 && g.advance*16%int(em) == 0 && g.advance*16/int(em) <= 255,
         "non-integral engine logical metric");
+    alpha_bytes_ += g.alpha.size();
+    index_.insert(scalar,em,size_);
     entries_[size_++] = std::move(g);
 }
 bool GlyphCache::close() noexcept {
@@ -88,7 +87,7 @@ bool GlyphCache::close() noexcept {
         if (removed) registered_ = false;
     }
     for (auto& g : entries_) { std::vector<uint8_t> empty; g.alpha.swap(empty); }
-    size_ = 0; verified_em_.fill(false);
+    size_ = 0; alpha_bytes_ = 0; index_.clear(); verified_em_.fill(false);
     return removed;
 }
 }

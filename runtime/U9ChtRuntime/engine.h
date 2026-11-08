@@ -15,14 +15,21 @@ struct EntryStats {
     uint64_t shared_rasters = 0;
     uint64_t name_copies = 0;
 };
-struct Placement { uint32_t offset = 0; int32_t x = 0, y = 0; uint32_t run = 0; };
+struct Placement { uint32_t offset = 0; int32_t x = 0, y = 0; uint32_t run = 0; std::array<uint8_t,3> rgb{181,132,239}; };
+// One native font's displayed color, learned once by drawing a reference glyph privately.
+struct FontStyle {
+    uintptr_t blob = 0;
+    std::array<uint8_t,3> rgb{181,132,239};
+    bool sampled = false;
+    uint32_t reference = 0;
+    uint64_t uses = 0;
+};
 struct RasterBinding {
     uintptr_t address = 0, pixels = 0;
     uint32_t plan = 0, width = 0, height = 0, stride = 0, count = 0;
     uint64_t generation = 0, hash = 0, paint_generation = 0, identity = 0;
     std::array<Placement, MaxText> placements{};
     RasterRuns runs;
-    std::array<uint8_t,3> rgb{181,132,239};
 };
 struct QueueBinding {
     uintptr_t address = 0, raster = 0;
@@ -61,14 +68,26 @@ struct Engine {
     GlyphCache glyphs;
     FrameList draw_list;
     SurfaceTracker surface;
-    std::array<uint32_t,32768> colors{};
+    std::array<FontStyle,64> fonts{};
+    uint32_t font_count = 0;
+    uint64_t font_overflow = 0;
+    static constexpr uint32_t SampleSize = 128;
+    std::array<uint16_t,SampleSize*SampleSize> sample{};
+    std::array<uint16_t,SampleSize*SampleSize*2> sample_aux{};
+    uint64_t occluder_masks = 0;
+    std::array<uint64_t,6> occluder_rejects{}; // masks full, tiles, raster fields, size, fault, mostly opaque
+    std::array<uint64_t,5> skip_reasons{};     // not current, device lost, backbuffer, stale source, empty
+    Rect last_occluder{};
+    uint32_t last_occluder_caller = 0, last_occluder_opaque = 0, last_occluder_rule = 0, last_occluder_corner = 0;
+    uint32_t last_occluder_type = 0, last_occluder_alpha1555 = 0, last_occluder_alpha4444 = 0;
+    std::array<uint32_t,5> last_occluder_raster{}; // tiles, width, height, bits, stride
     uint64_t started = 0, frame = 1, generations = 0, flips = 0;
     uint32_t max_rasters = 0, max_queues = 0;
     uint64_t composite_count = 0, unicode_runs = 0, pixel_writes = 0, lock_failures = 0, unlock_failures = 0;
     uint64_t skipped_frames = 0, compositor_ticks = 0, compositor_max_ticks = 0;
     uint32_t max_frame_records = 0;
     std::atomic<DWORD> render_thread{0};
-    std::array<LifeEvent,4096> life_events{};
+    std::array<LifeEvent,16384> life_events{}; // Peak observed: 2560 in one 5s snapshot.
     uint32_t life_count = 0, life_dropped = 0;
     uint64_t life_sequence = 0;
     std::array<RasterFault,16> raster_faults{};
@@ -89,6 +108,8 @@ struct Engine {
     Binding* bind_buffer(uintptr_t address, uint32_t length, uint32_t plan, uint64_t identity, Life kind, uintptr_t related) noexcept;
     LifeEvent* trace(Life kind, uint32_t plan, uintptr_t address, uint64_t identity, uint64_t generation, uintptr_t related = 0) noexcept;
     void compose(uintptr_t backend) noexcept;
+    void add_occluder(uintptr_t node, Rect area, uint32_t caller, float sx, float sy) noexcept;
+    const FontStyle& font_style(uintptr_t record) noexcept;
 };
 extern Engine* engine;
 }

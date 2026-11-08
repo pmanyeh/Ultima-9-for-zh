@@ -23,8 +23,9 @@ from u9cht.l10n import glossary as gl
 from u9cht.l10n.adapters import ADAPTERS, SourceUnit, mutation_audit
 from u9cht.l10n.migrate import FROZEN_SHA256, frozen_issues, migrate
 from u9cht.l10n.pipeline import Paths, analyze, build, parse_selection
-from u9cht.l10n.runtime_pack import (RUNTIME_CONTRACT, contract_sha256, encode_pack,
-                                     glyph_manifest)
+from u9cht.l10n.runtime_pack import (FILLER_ENTRY_BASE, RUNTIME_CONTRACT, capacity_stress_pack,
+                                     contract_sha256, decode_pack, encode_pack, glyph_manifest,
+                                     shared_text_targets)
 from u9cht.l10n.store import (FIELDS, REQUIRED, STATUSES, CATEGORIES, dumps_jsonl, load_store,
                               parse_jsonl, parse_key, record_revision, validate_record,
                               write_store)
@@ -511,8 +512,9 @@ class CapabilityAndBuildTests(unittest.TestCase):
             a = env.analyze()
             bad = next(i for i in a.issues if i.code == "runtime-unsupported-scalar")
             self.assertEqual(bad.data["scalars"], ["U+2014"])
-            self.assertIn("identical runtime target", " ".join(i.message for i in a.issues
-                                                              if i.code == "runtime-capacity"))
+            shared = next(i for i in a.issues if i.code == "runtime-shared-target")
+            self.assertEqual((shared.level, shared.key), ("info", "text.flx:3"))
+            self.assertNotIn("runtime-capacity", codes(a))
         finally:
             env.close()
 
@@ -624,12 +626,54 @@ class PackAndMigrationTests(unittest.TestCase):
         self.assertEqual(encode_pack(rows + [name_row], digest(new_text), digest(new_names)), legacy_v3)
 
     def test_pack_capacity_rejected_not_raised(self):
-        rows = [rec("text.flx", i, f"測{i}", "x") for i in range(65)]
-        with self.assertRaisesRegex(ValueError, "65 runtime plans exceed bounded capacity 64"):
+        limit = RUNTIME_CONTRACT["max_plans"]
+        rows = [rec("text.flx", i, f"測{i}", "x") for i in range(limit + 1)]
+        with self.assertRaisesRegex(ValueError, f"{limit + 1} runtime plans exceed bounded capacity {limit}"):
             encode_pack(rows, "0" * 64)
-        many = [rec("text.flx", 0, "".join(chr(0x4E00 + i) for i in range(513)), "x")]
+        scalars = RUNTIME_CONTRACT["max_glyph_scalars"] + 1
+        many = [rec("text.flx", i, chr(0x4E00 + i), "x") for i in range(scalars)]
         with self.assertRaisesRegex(ValueError, "glyph scalars exceed"):
             encode_pack(many, "0" * 64)
+
+    def test_identical_text_targets_share_lowest_entry_plan(self):
+        rows = [rec("text.flx", 9, "是。", "x"), rec("text.flx", 2, "是。", "y"), rec("text.flx", 5, "否。", "z")]
+        self.assertEqual(shared_text_targets(rows), {"text.flx:9": "text.flx:2"})
+        self.assertEqual(decode_pack(encode_pack(rows, "0" * 64))[3], [(2, "是。"), (5, "否。")])
+        # Shared targets do not consume plan capacity.
+        limit = RUNTIME_CONTRACT["max_plans"]
+        same = [rec("text.flx", i, "同", "x") for i in range(limit + 1)]
+        self.assertEqual(len(decode_pack(encode_pack(same, "0" * 64))[3]), 1)
+        # Names stay separate: each is reached through its own resource marker.
+        names = [rec("TYPENAME.FLX", i, "工具", "tool", category="item-name") for i in (1, 2)]
+        self.assertEqual(shared_text_targets(names), {})
+        self.assertEqual(len(decode_pack(encode_pack(names, "0" * 64, "1" * 64))[3]), 2)
+
+    def test_pack_decode_round_trip(self):
+        rows = [rec("text.flx", 7, "測試", "x"), rec("TYPENAME.FLX", 3, "工具", "tool", category="item-name")]
+        pack = encode_pack(rows, "a" * 64, "b" * 64)
+        text_hash, name_hash, scalars, plans = decode_pack(pack)
+        self.assertEqual((text_hash, name_hash), ("a" * 64, "b" * 64))
+        self.assertEqual(scalars, sorted(ord(c) for c in "測試工具"))
+        self.assertEqual(plans, [(7, "測試"), (0x10000003, "工具")])
+        with self.assertRaisesRegex(ValueError, "trailing"):
+            decode_pack(pack + b"x")
+        with self.assertRaisesRegex(ValueError, "not a U9CTP51"):
+            decode_pack(b"x" + pack)
+
+    def test_capacity_stress_pack_reaches_limits_without_touching_real_plans(self):
+        real = encode_pack([rec("text.flx", 7, "測試", "x")], "a" * 64)
+        han = [chr(0x4E00 + i) for i in range(9000)]
+        stress = capacity_stress_pack(real, han, plan_total=500, glyph_total=300, units=12)
+        _, _, scalars, plans = decode_pack(stress)
+        self.assertEqual((len(plans), len(scalars)), (500, 300))
+        self.assertEqual(scalars, sorted(set(scalars)))
+        self.assertEqual(len({t for _, t in plans}), 500)
+        self.assertIn((7, "測試"), plans)
+        self.assertEqual({ord(c) for _, t in plans for c in t}, set(scalars))
+        self.assertTrue(all(e >= FILLER_ENTRY_BASE for e, _ in plans if e != 7))
+        self.assertEqual(stress, capacity_stress_pack(real, han, plan_total=500, glyph_total=300, units=12))
+        with self.assertRaisesRegex(ValueError, "cannot reach"):
+            capacity_stress_pack(real, han[:5], plan_total=500, glyph_total=300)
 
     def test_frozen_snapshots_and_single_source_of_truth(self):
         self.assertEqual(frozen_issues(ROOT), [])
@@ -694,9 +738,9 @@ class ThroughputTests(unittest.TestCase):
             self.assertEqual(len(a.included["text.flx"]), n)
             self.assertEqual(sum(row["status"] == "PASS" for row in a.layout), n)
             self.assertEqual(a.glyphs["unique_scalar_count"], len(set("合成譯文第號。")))
-            self.assertEqual(codes(a, "error"), ["runtime-capacity"])
-            self.assertIn("1000 runtime plans exceed bounded capacity 64",
-                          [i.message for i in a.issues if i.code == "runtime-capacity"])
+            self.assertEqual(codes(a, "error"), [])
+            pack = encode_pack(a.runtime, "0" * 64)
+            self.assertEqual(len(decode_pack(pack)[3]), n)
             out, audit = ADAPTERS["text.flx"].build(env.files["text.flx"],
                                                     {r["entry_id"]: r["target"] for r in loaded})
             self.assertEqual((audit["status"], audit["changed_entry_count"]), ("PASS", n))

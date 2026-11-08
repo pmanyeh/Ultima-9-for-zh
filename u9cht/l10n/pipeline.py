@@ -15,7 +15,8 @@ from .glossary import glossary_issues, parse_glossary, terminology_issues
 from .qa import (alias_issues, check_layout, font_issues, layout_summary, source_issues,
                  token_issues)
 from .runtime_pack import (RUNTIME_CONTRACT, capacity_issues, collect_scalars, contract_sha256,
-                           encode_pack, glyph_manifest, runtime_scalar_issues)
+                           encode_pack, glyph_manifest, runtime_scalar_issues,
+                           shared_text_targets)
 from .store import RESOURCE_FILES, STATUSES, Issue, load_store, parse_key, sort_key, store_digest
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -195,6 +196,9 @@ def analyze(paths=None, game_dir=None, metrics_provider=None, profile="developme
     usage = collect_scalars(a.runtime)
     for problem in capacity_issues(a.runtime, list(usage)):
         a.issues.append(Issue("error", "runtime-capacity", None, problem))
+    for key, owner in sorted(shared_text_targets(a.runtime).items()):
+        a.issues.append(Issue("info", "runtime-shared-target", key,
+                              f"identical target to {owner}; shares its runtime plan and its evidence counters"))
     metrics = None
     if metrics_provider is not None and usage:
         metrics = metrics_provider(list(usage))
@@ -245,6 +249,7 @@ def qa_report(a):
         "records_by_resource": counts(a.records, "resource"),
         "included_by_resource": {r: len(v) for r, v in sorted(a.included.items())},
         "runtime_plan_count": len(a.runtime),
+        "runtime_shared_target_count": len(shared_text_targets(a.runtime)),
         "excluded": a.excluded,
         "layout_counts": layout_summary(a.layout),
     }
@@ -326,6 +331,7 @@ def build(a, output, game_dir=None):
         "translation_counts_by_resource": report["records_by_resource"],
         "included_by_resource": report["included_by_resource"],
         "runtime_plan_count": len(a.runtime),
+        "runtime_shared_target_count": report["runtime_shared_target_count"],
         "excluded_count": len(a.excluded),
         "glyph_counts": {k: v for k, v in a.glyphs.items() if k not in ("glyphs",)},
         "layout_qa_counts": report["layout_counts"],

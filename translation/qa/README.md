@@ -77,7 +77,7 @@ python scripts/build_localization.py --profile development --output .local/build
 | 語言 | U+FFFD、私用區字元、控制字元；簡體字形**僅作診斷**，不自動轉換 |
 | 術語 | 同一來源多個 approved 譯名、同一 approved 譯名對應多個來源、blocked 詞出現、標記術語未使用 approved 譯名 |
 | 字型 | 每個自訂字元都必須存在於固定雜湊的字型，否則列出 `U+XXXX`、字元、紀錄鍵 |
-| 執行期能力 | 原生 pack 無法攜帶的字元、容量（64 plans／512 字元／1024 cache）、重複譯文造成的身分歧義、資源家族不支援 Unicode |
+| 執行期能力 | 原生 pack 無法攜帶的字元、容量（16384 plans／8192 字元／16384 cache）、相同譯文共用同一 plan（僅提示）、資源家族不支援 Unicode |
 | 排版 | 已量測幾何的表面計算行寬；結果為 PASS／WARNING／OVERFLOW／UNKNOWN-LAYOUT；最小禁則 |
 
 建置設定檔：

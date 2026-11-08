@@ -5,8 +5,24 @@
 #include <fstream>
 
 namespace u9cht {
+namespace {
+uint32_t fnv1a(const void* data, size_t bytes) noexcept {
+    uint32_t h = 2166136261U;
+    const auto* p = static_cast<const uint8_t*>(data);
+    for (size_t i = 0; i < bytes; ++i) { h ^= p[i]; h *= 16777619U; }
+    return h;
+}
+template <class Equal>
+int find_indexed(const std::vector<PlanIndex>& index, uint32_t hash, Equal equal) noexcept {
+    auto it = std::lower_bound(index.begin(),index.end(),hash,
+        [](const PlanIndex& a, uint32_t b) { return a.hash < b; });
+    for (; it != index.end() && it->hash == hash; ++it) if (equal(it->plan)) return int(it->plan);
+    return -1;
+}
+}
 void Pack::load(const std::filesystem::path& path, bool render) {
-    count = glyph_count = 0; plans = {}; scalars = {}; has_names = false;
+    count = glyph_count = 0; plans.clear(); scalars = {}; has_names = false;
+    text_index_.clear(); name_index_.clear();
     resource_hash.clear(); typename_hash.clear();
     std::ifstream in(path, std::ios::binary);
     require(bool(in), "allowlist open failed");
@@ -41,7 +57,8 @@ void Pack::load(const std::filesystem::path& path, bool render) {
                 (s >= 0xFF01 && s <= 0xFF60)) && (!i || s > scalars[i-1]), "invalid/unsorted glyph scalar");
         }
     }
-    std::array<bool,MaxGlyphScalars> used{};
+    std::vector<bool> used(MaxGlyphScalars);
+    plans.resize(requested);
     for (uint32_t i = 0; i < requested; ++i) {
         auto& p = plans[i]; read(&p.entry, 4); read(&p.length, 4);
         if (version == 3) {
@@ -54,7 +71,7 @@ void Pack::load(const std::filesystem::path& path, bool render) {
             }
         }
         require(p.length && p.length <= MaxText, "invalid allowlist text length");
-        for (uint32_t j = 0; j < i; ++j) require(plans[j].entry != p.entry, "duplicate allowlist entry");
+        p.wide.assign(size_t(p.length)+1,0); p.slots.assign(size_t(p.length)+1,0); p.advances.assign(size_t(p.length)+1,0);
         read(p.wide.data(), size_t(p.length)*2);
         for (uint32_t j = 0; j < p.length; ++j) {
             auto c = p.wide[j];
@@ -67,29 +84,48 @@ void Pack::load(const std::filesystem::path& path, bool render) {
             if (listed) used[size_t(it-begin)] = true;
             p.slots[j] = c < 128 ? static_cast<uint8_t>(c) : 0x7F;
         }
-        for (uint32_t j = 0; j < i; ++j)
-            require(p.is_name() || plans[j].is_name() || plans[j].length != p.length || std::memcmp(plans[j].wide.data(), p.wide.data(), p.length*2) != 0,
-                    "ambiguous allowlist identity");
     }
     require(version == 1 || std::all_of(used.begin(),used.begin()+glyph_count,[](bool b) { return b; }),
             "unused glyph allowlist entry");
+    std::vector<uint32_t> entries; entries.reserve(requested);
+    std::vector<PlanIndex> text_index, name_index;
+    for (uint32_t i = 0; i < requested; ++i) {
+        const auto& p = plans[i]; entries.push_back(p.entry);
+        if (!p.is_name()) text_index.push_back({fnv1a(p.wide.data(),size_t(p.length)*2),i});
+        else if (version == 3) name_index.push_back({fnv1a(p.marker.data(),7),i});
+    }
+    std::sort(entries.begin(),entries.end());
+    require(std::adjacent_find(entries.begin(),entries.end()) == entries.end(), "duplicate allowlist entry");
+    const auto by_hash = [](const PlanIndex& a, const PlanIndex& b) { return a.hash != b.hash ? a.hash < b.hash : a.plan < b.plan; };
+    std::sort(text_index.begin(),text_index.end(),by_hash);
+    std::sort(name_index.begin(),name_index.end(),by_hash);
+    // Identical text always shares a hash, so only equal-hash neighbours can collide.
+    for (size_t i = 0; i < text_index.size(); ++i)
+        for (size_t j = i+1; j < text_index.size() && text_index[j].hash == text_index[i].hash; ++j) {
+            const auto& a = plans[text_index[i].plan]; const auto& b = plans[text_index[j].plan];
+            require(a.length != b.length || std::memcmp(a.wide.data(), b.wide.data(), size_t(a.length)*2) != 0,
+                    "ambiguous allowlist identity");
+        }
     require(in.peek() == std::char_traits<char>::eof(), "trailing allowlist bytes");
     require(version != 3 || has_names, "name pack has no selected names");
+    text_index_ = std::move(text_index); name_index_ = std::move(name_index);
     count = requested;
 }
 int Pack::match(const wchar_t* text) const noexcept {
     if (!text) return -1;
     size_t length = 0;
     while (length <= MaxText && text[length]) ++length;
-    for (uint32_t i = 0; i < count; ++i)
-        if (!plans[i].is_name() && length == plans[i].length && std::memcmp(text, plans[i].wide.data(), length*2) == 0) return int(i);
-    return -1;
+    if (length > MaxText) return -1;
+    return find_indexed(text_index_,fnv1a(text,length*2),[&](uint32_t i) {
+        return length == plans[i].length && std::memcmp(text, plans[i].wide.data(), length*2) == 0;
+    });
 }
 int Pack::match_name(const char* text, uintptr_t caller) const noexcept {
     if (!has_names || !text || caller != NameCopyCaller) return -1;
-    for (uint32_t i = 0; i < count; ++i)
-        if (plans[i].is_name() && std::strncmp(text,plans[i].marker.data(),plans[i].marker.size()) == 0) return int(i);
-    return -1;
+    if (strnlen(text,8) != 7) return -1;
+    return find_indexed(name_index_,fnv1a(text,7),[&](uint32_t i) {
+        return std::memcmp(text,plans[i].marker.data(),7) == 0;
+    });
 }
 Binding* Registry::bind(uintptr_t address, uint32_t length, uint32_t plan, uint64_t identity) noexcept {
     if (!address || !length || address+length < address || plan >= MaxPlans) return nullptr;
