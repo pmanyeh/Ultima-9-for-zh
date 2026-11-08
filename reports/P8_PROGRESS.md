@@ -17,6 +17,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W2h | Britain/Peiter, Renald, Richard, Robison, Roprick, Sarah, Siona, Skeleton1, Thadious, Tyson | 222 | 222 | PASS, 0 errors | not yet |
 | W3a | Paws (all 9 files) | 181 | 181 | PASS, 0 errors | not yet |
 | W4a | MiscNPC/Agmar, Ailuj, Anaaj, Bakura, Blackthorn, Brock | 211 | 210 | PASS, 0 errors | not yet |
+| W4b | MiscNPC/Calan, Ciara, CircleStones, Cleo, Colando, Elizabeth, Eve | 186 | 186 | PASS, 0 errors | not yet |
 
 Notes:
 
