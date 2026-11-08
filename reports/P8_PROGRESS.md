@@ -27,6 +27,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W4i | MiscNPC/Shamino, ShaminoVoice, ShrineSpirituality, Stephen, Umberto, travelers, WyrmguardDamon, Yerffoeg | 235 | 233 | PASS, 0 errors | not yet |
 | W5a | BuccaneersDen/Aneassa to Herzog | 179 | 179 | PASS, 0 errors | not yet |
 | W5b | BuccaneersDen/Herzog (end), Jade, Jonah, Katie, Keagan, Linus, Montego, Omar | 183 | 183 | PASS, 0 errors | not yet |
+| W5c | BuccaneersDen/Omar (end), Pearli, Phineus, Samhayne, Sasha, Warrick | 181 | 181 | PASS, 0 errors | not yet |
 
 Notes:
 
