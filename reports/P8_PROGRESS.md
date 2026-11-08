@@ -21,6 +21,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W4c | MiscNPC generic NPCs, Geoffrey, GeoffreyGhost, Groldek, Guardian | 169 | 169 | PASS, 0 errors | not yet |
 | W4d | MiscNPC/Jaana, JaanaGhost, Julia, JuliaGhost, Khelereth, Lothar, Lyssa, Malchir | 182 | 182 | PASS, 0 errors | not yet |
 | W4e | MiscNPC/Marek, Maria, Mathis, questions, Rand | 178 | 173 | PASS, 0 errors | not yet |
+| W4f | MiscNPC/Raven (4677-4870) | 194 | 194 | PASS, 0 errors | not yet |
 
 Notes:
 
