@@ -35,6 +35,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W8a | Minoc/Alara, Algar, Dayla, Elena, GenericMinocGuard | 182 | 182 | PASS, 0 errors | not yet |
 | W8b | Minoc/guard (end), Irene, Irina, Laszlo | 167 | 167 | PASS, 0 errors | not yet |
 | W8c | Minoc/Laszlo (end), gypsies, Morganna, Raxos, ShrineSacrifice, Vaclav | 161 | 159 | PASS, 0 errors | not yet |
+| W9a | Yew/Desbet, Elaina, Eustus, Grey, Harrison | 180 | 180 | PASS, 0 errors | not yet |
 
 Notes:
 
@@ -49,3 +50,7 @@ Notes:
 - W6a: typed answers 6118 (lum) and 6128 (vas mani corp) stay in English.
 - W7c: typed answers 5951 (ahm) and 5964 (vas mani corp) stay in English.
 - W8c: typed answers 3375 (cah) and 3387 (vas mani corp) stay in English.
+- After W9a: the batch runner printed only the first 40 validate issues, which hid 4 warnings and
+  11 infos from W4i, W7a-W7c and W8b (a missed approved target such as Karma 業力, extra or missing
+  annotations). Fixed in 12 records; the runner now passes `--max-issues 100000`. Full validate:
+  0 errors, only layout warnings and shared-plan infos remain.
