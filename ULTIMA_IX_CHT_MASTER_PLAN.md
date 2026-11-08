@@ -1357,6 +1357,10 @@ pack 格式不變。
 
 - CONFIRMED：runtime 不支援 `…`、`—`；規範改為改寫停頓。擴充字元範圍需另行授權。
 - CONFIRMED：日誌條目不經過 runtime 繪字路徑，中文不顯示。研究日誌路徑需另行授權。
+- P8-1（已授權）：日誌條目會以系統 code page 重新轉碼，附加寫入 `savegame/diary.txt`，日誌頁再讀回顯示。
+  原生緩衝區只有 `wcslen+1` 位元組，CJK 會被截斷或變成 `?`。詳見 `docs/research/U9_JOURNAL_PATH.md`；
+  實作方案 J1（UTF-8）／J2（標記）待負責人決定。
+- P8-1：runtime 0.2.9 支援 `…`（U+2026）與 `―`（U+2015），192 句已補回刪節號（`reports/P8_1_PUNCTUATION.md`）。
 - **PASS WITH LIMITATIONS**。詳見 `reports/P8_W1_OPENING.md`。
 
 ## 15.4 P8 全量對話翻譯（2026-11-08）
