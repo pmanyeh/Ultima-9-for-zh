@@ -31,6 +31,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W6a | NewMagencia/Katrina, ShrineHumility | 80 | 78 | PASS, 0 errors | not yet |
 | W7a | Moonglow/Batista, Byron, Duncan, Ella, hairam | 190 | 190 | PASS, 0 errors | not yet |
 | W7b | Moonglow/hairam (end), Janus, Joshua, Kyra, Leeland, Linda, Mariah, MariahGhost, Markus | 192 | 192 | PASS, 0 errors | not yet |
+| W7c | Moonglow/Markus (end), Marna, generic, Oracle, Phillipa, Randolas, ShrineHonesty, Tommy, Tydus | 188 | 186 | PASS, 0 errors | not yet |
 
 Notes:
 
@@ -43,3 +44,4 @@ Notes:
 - W4e: typed answers 4651, 4654, 4657, 4660, 4662 (mantra, Word of Power, password, incantations) stay in English.
 - W4i: typed answers 5317 (om) and 5328 (vas mani corp) stay in English.
 - W6a: typed answers 6118 (lum) and 6128 (vas mani corp) stay in English.
+- W7c: typed answers 5951 (ahm) and 5964 (vas mani corp) stay in English.
