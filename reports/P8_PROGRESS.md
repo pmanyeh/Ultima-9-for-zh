@@ -40,6 +40,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W9c | Yew/Raliegh (end), ShrineJustice, Sven, Teresa, Vassgralem, generic | 147 | 145 | PASS, 0 errors | not yet |
 | W10a | Trinsic/Amande, Dupre, DupreGhost, Emile, Landis, Lindonia, Lorence, Lucero (part) | 159 | 159 | PASS, 0 errors | not yet |
 | W10b | Trinsic/Lucero (end), Lucian, Myrea, Raphael, Rupert (part) | 156 | 156 | PASS, 0 errors | not yet |
+| W10c | Trinsic/Rupert (end), Salvador, Sergio, ShrineHonor, Synnovea, generic, Vidos, Virgil | 143 | 141 | PASS, 0 errors | not yet |
 
 Notes:
 
@@ -59,3 +60,4 @@ Notes:
   annotations). Fixed in 12 records; the runner now passes `--max-issues 100000`. Full validate:
   0 errors, only layout warnings and shared-plan infos remain.
 - W9c: typed answers 7527 (beh) and 7537 (vas mani corp) stay in English.
+- W10c: typed answers 6682 (summ) and 6698 (vas mani corp) stay in English.
