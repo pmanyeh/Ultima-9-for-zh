@@ -41,6 +41,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W10a | Trinsic/Amande, Dupre, DupreGhost, Emile, Landis, Lindonia, Lorence, Lucero (part) | 159 | 159 | PASS, 0 errors | not yet |
 | W10b | Trinsic/Lucero (end), Lucian, Myrea, Raphael, Rupert (part) | 156 | 156 | PASS, 0 errors | not yet |
 | W10c | Trinsic/Rupert (end), Salvador, Sergio, ShrineHonor, Synnovea, generic, Vidos, Virgil | 143 | 141 | PASS, 0 errors | not yet |
+| W11a | Valoria/DemonTriumvirate, Liselle, Meranthon, OldJak, SgtLambert | 166 | 166 | PASS, 0 errors | not yet |
 
 Notes:
 
