@@ -29,6 +29,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W5b | BuccaneersDen/Herzog (end), Jade, Jonah, Katie, Keagan, Linus, Montego, Omar | 183 | 183 | PASS, 0 errors | not yet |
 | W5c | BuccaneersDen/Omar (end), Pearli, Phineus, Samhayne, Sasha, Warrick | 181 | 181 | PASS, 0 errors | not yet |
 | W6a | NewMagencia/Katrina, ShrineHumility | 80 | 78 | PASS, 0 errors | not yet |
+| W7a | Moonglow/Batista, Byron, Duncan, Ella, hairam | 190 | 190 | PASS, 0 errors | not yet |
 
 Notes:
 
