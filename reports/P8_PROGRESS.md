@@ -37,6 +37,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W8c | Minoc/Laszlo (end), gypsies, Morganna, Raxos, ShrineSacrifice, Vaclav | 161 | 159 | PASS, 0 errors | not yet |
 | W9a | Yew/Desbet, Elaina, Eustus, Grey, Harrison | 180 | 180 | PASS, 0 errors | not yet |
 | W9b | Yew/Harrison (end), James, JeanPaul, Luc, Lucy, Raliegh | 165 | 165 | PASS, 0 errors | not yet |
+| W9c | Yew/Raliegh (end), ShrineJustice, Sven, Teresa, Vassgralem, generic | 147 | 145 | PASS, 0 errors | not yet |
 
 Notes:
 
@@ -55,3 +56,4 @@ Notes:
   11 infos from W4i, W7a-W7c and W8b (a missed approved target such as Karma 業力, extra or missing
   annotations). Fixed in 12 records; the runner now passes `--max-issues 100000`. Full validate:
   0 errors, only layout warnings and shared-plan infos remain.
+- W9c: typed answers 7527 (beh) and 7537 (vas mani corp) stay in English.
