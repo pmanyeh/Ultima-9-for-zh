@@ -39,6 +39,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W9b | Yew/Harrison (end), James, JeanPaul, Luc, Lucy, Raliegh | 165 | 165 | PASS, 0 errors | not yet |
 | W9c | Yew/Raliegh (end), ShrineJustice, Sven, Teresa, Vassgralem, generic | 147 | 145 | PASS, 0 errors | not yet |
 | W10a | Trinsic/Amande, Dupre, DupreGhost, Emile, Landis, Lindonia, Lorence, Lucero (part) | 159 | 159 | PASS, 0 errors | not yet |
+| W10b | Trinsic/Lucero (end), Lucian, Myrea, Raphael, Rupert (part) | 156 | 156 | PASS, 0 errors | not yet |
 
 Notes:
 
