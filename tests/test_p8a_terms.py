@@ -148,6 +148,19 @@ class AnnotationTests(unittest.TestCase):
                          [("text.flx:10", "annotation-missing")])
 
 
+class StandaloneTermTests(unittest.TestCase):
+    def test_term_inside_a_longer_term_does_not_count(self):
+        vocab = ["Shrine", "Shrine of Compassion", "Codex", "Codex of Ultimate Wisdom"]
+        self.assertFalse(gl.contains_standalone("The Shrine of Compassion is clean.", "Shrine", vocab))
+        self.assertTrue(gl.contains_standalone("The Shrine of Compassion is a Shrine.", "Shrine", vocab))
+        self.assertTrue(gl.contains_standalone("The Shrine is clean.", "Shrine", vocab))
+        self.assertTrue(gl.contains_standalone("The Shrine of Compassion is clean.", "Shrine"))
+        units = {0: unit(0, "\\u9\\Source\\Usecode\\ConvoLib\\Britain\\LordBritish.cpp : BEGIN FILE", False),
+                 1: unit(1, "Consult the Codex of Ultimate Wisdom."), 2: unit(2, "Read the Codex.")}
+        first = gl.first_occurrences(["Codex"], {"text.flx": units}, tm.text_sections(units), vocab)
+        self.assertEqual(first, {"Codex": {"text.flx:2"}})
+
+
 class VariantTests(unittest.TestCase):
     HEADER = ",".join(gl.COLUMNS) + "\n"
 

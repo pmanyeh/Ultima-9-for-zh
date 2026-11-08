@@ -160,6 +160,8 @@ python scripts/update_terms.py --game-dir <U9 遊戲目錄> --u8-authority <U8 a
 ### 4.6 真言與咒語
 
 - 八美德的真言（例如 Ahm、Mu、Summ、Om、Lum、Cah、Beh）與魔法咒語**保留英文**，用「」括住，例如「Ahm」（沿用 U7 第 2、6 條）。U9 文字中這類詞很少（各 1–2 句）。
+- 單獨成一條的真言或咒語答案（例如聖壇的 `mu`、`vas mani corp`）**不翻譯，保持 `untranslated`**：
+  HYPOTHESIS：遊戲可能拿這些條目比對玩家輸入，翻譯後可能無法過關。驗證前一律保留英文。
 
 ### 4.7 專有名詞加註英文（負責人決定，2026-11-08）
 

@@ -137,6 +137,19 @@ def _contains_term(source_text, term):
     return re.search(r"(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])", source_text) is not None
 
 
+def contains_standalone(source_text, term, vocabulary=()):
+    """True when ``term`` occurs outside every longer vocabulary term that contains it.
+
+    "Shrine" inside "Shrine of Compassion" names the longer term, not "Shrine" on its own.
+    """
+    if term not in source_text or not _contains_term(source_text, term):
+        return False
+    candidates = (v for v in vocabulary if v != term and term in v and v in source_text)
+    for longer in sorted((v for v in candidates if _contains_term(v, term)), key=len, reverse=True):
+        source_text = re.sub(r"(?<![A-Za-z0-9])" + re.escape(longer) + r"(?![A-Za-z0-9])", " ", source_text)
+    return _contains_term(source_text, term)
+
+
 def terminology_issues(records, rows, sources=None):
     """Record-level terminology checks.
 
@@ -147,6 +160,7 @@ def terminology_issues(records, rows, sources=None):
     for row in rows:
         by_source.setdefault(row["source"], []).append(row)
     blocked = sorted({r["target"] for r in rows if r["status"] == "blocked"})
+    vocabulary = [r["source"] for r in rows if r["status"] in ("approved", "keep")]
     for record in records:
         key, target = record["key"], record["target"]
         if record["status"] in ("untranslated", "blocked"):
@@ -176,7 +190,7 @@ def terminology_issues(records, rows, sources=None):
                 approved = [e for e in entries if e["status"] in ("approved", "keep")]
                 if not approved or term in record.get("terms", []):
                     continue
-                if _contains_term(sources[key], term) and approved[0]["target"] not in target:
+                if contains_standalone(sources[key], term, vocabulary) and approved[0]["target"] not in target:
                     issues.append(Issue("warning" if approved[0]["enforcement"] == "mandatory" else "info",
                                         "term-possibly-untagged", key,
                                         f"source contains {term!r}; approved target {approved[0]['target']!r} absent "
@@ -184,7 +198,7 @@ def terminology_issues(records, rows, sources=None):
     return issues
 
 
-def first_occurrences(terms, units_by_resource, sections):
+def first_occurrences(terms, units_by_resource, sections, vocabulary=()):
     """{term: set(keys)} where a ``first`` term must be annotated.
 
     text.flx: the lowest entry ID per conversation file whose source contains the term.
@@ -199,7 +213,7 @@ def first_occurrences(terms, units_by_resource, sections):
                 continue
             group = sections.get(entry_id) if resource == "text.flx" else (resource, entry_id)
             for term in terms:
-                if (group, term) not in seen and _contains_term(unit.text, term):
+                if (group, term) not in seen and contains_standalone(unit.text, term, vocabulary):
                     seen.add((group, term))
                     out[term].add(f"{resource}:{entry_id}")
     return out
@@ -209,6 +223,7 @@ def annotation_issues(records, rows, sources=None, first=None):
     """Check 譯名(English) against each approved, translated term's annotate mode."""
     issues = []
     decided = [r for r in rows if r["status"] == "approved" and r["target"] != r["source"]]
+    vocabulary = [r["source"] for r in rows if r["status"] in ("approved", "keep")]
     level = {"mandatory": "error", "recommended": "warning"}
     for record in records:
         if record["status"] in ("untranslated", "blocked"):
@@ -216,7 +231,7 @@ def annotation_issues(records, rows, sources=None, first=None):
         key, target, source = record["key"], record["target"], (sources or {}).get(record["key"])
         for row in decided:
             term = row["source"]
-            if term not in record.get("terms", []) and not (source and _contains_term(source, term)):
+            if term not in record.get("terms", []) and not (source and contains_standalone(source, term, vocabulary)):
                 continue
             mode, form = annotation_mode(row), annotated(row)
             if mode == "first" and first is None:

@@ -166,7 +166,8 @@ def analyze(paths=None, game_dir=None, metrics_provider=None, profile="developme
         first_terms = sorted(r["source"] for r in rows if r["status"] == "approved" and
                              r["target"] != r["source"] and annotation_mode(r) == "first")
         sections = text_sections(all_units["text.flx"]) if "text.flx" in all_units else {}
-        first = first_occurrences(first_terms, all_units, sections)
+        vocabulary = [r["source"] for r in rows if r["status"] in ("approved", "keep")]
+        first = first_occurrences(first_terms, all_units, sections, vocabulary)
     a.issues += annotation_issues(records, rows, local_sources or None, first)
 
     # Selection by profile, request, runtime capability.
