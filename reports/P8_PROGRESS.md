@@ -16,6 +16,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W2g | Britain/Lydia, Margery, Meribeth, Nicodemus, Nimrond, Olsen, Olwyn, Ooli, Orson | 247 | 247 | PASS, 0 errors | not yet |
 | W2h | Britain/Peiter, Renald, Richard, Robison, Roprick, Sarah, Siona, Skeleton1, Thadious, Tyson | 222 | 222 | PASS, 0 errors | not yet |
 | W3a | Paws (all 9 files) | 181 | 181 | PASS, 0 errors | not yet |
+| W4a | MiscNPC/Agmar, Ailuj, Anaaj, Bakura, Blackthorn, Brock | 211 | 210 | PASS, 0 errors | not yet |
 
 Notes:
 
@@ -24,3 +25,4 @@ Notes:
 - W2g tool change: a record may declare `not a term: X` in `notes` when a source word only looks like
   an approved term (`Feeling better?`); validate then skips that term's target and annotation checks
   for the record. Tested in `tests/test_p8a_terms.py`.
+- W4a: 3606 (Blackthorn's incantation) stays in English.
