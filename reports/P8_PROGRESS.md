@@ -23,6 +23,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W4e | MiscNPC/Marek, Maria, Mathis, questions, Rand | 178 | 173 | PASS, 0 errors | not yet |
 | W4f | MiscNPC/Raven (4677-4870) | 194 | 194 | PASS, 0 errors | not yet |
 | W4g | MiscNPC/Raven (4871-5040) | 170 | 170 | PASS, 0 errors | not yet |
+| W4h | MiscNPC/Raven (5041-5146), RavenCourt, RavenDress, RestlessSpirit, Sentinel | 167 | 167 | PASS, 0 errors | not yet |
 
 Notes:
 
