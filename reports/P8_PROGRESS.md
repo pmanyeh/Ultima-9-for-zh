@@ -25,6 +25,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W4g | MiscNPC/Raven (4871-5040) | 170 | 170 | PASS, 0 errors | not yet |
 | W4h | MiscNPC/Raven (5041-5146), RavenCourt, RavenDress, RestlessSpirit, Sentinel | 167 | 167 | PASS, 0 errors | not yet |
 | W4i | MiscNPC/Shamino, ShaminoVoice, ShrineSpirituality, Stephen, Umberto, travelers, WyrmguardDamon, Yerffoeg | 235 | 233 | PASS, 0 errors | not yet |
+| W5a | BuccaneersDen/Aneassa to Herzog | 179 | 179 | PASS, 0 errors | not yet |
 
 Notes:
 
