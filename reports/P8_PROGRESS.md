@@ -19,6 +19,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W4a | MiscNPC/Agmar, Ailuj, Anaaj, Bakura, Blackthorn, Brock | 211 | 210 | PASS, 0 errors | not yet |
 | W4b | MiscNPC/Calan, Ciara, CircleStones, Cleo, Colando, Elizabeth, Eve | 186 | 186 | PASS, 0 errors | not yet |
 | W4c | MiscNPC generic NPCs, Geoffrey, GeoffreyGhost, Groldek, Guardian | 169 | 169 | PASS, 0 errors | not yet |
+| W4d | MiscNPC/Jaana, JaanaGhost, Julia, JuliaGhost, Khelereth, Lothar, Lyssa, Malchir | 182 | 182 | PASS, 0 errors | not yet |
 
 Notes:
 
