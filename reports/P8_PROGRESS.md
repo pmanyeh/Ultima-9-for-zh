@@ -11,6 +11,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W2b | Britain/Aidon, Aleena, Altara, Altomar | 297 | 297 | PASS, 0 errors | not yet |
 | W2c | Britain/Amoranth, Angus, Bailey, Cameron, CaptainBill, Castro, Dara | 200 | 200 | PASS, 0 errors | not yet |
 | W2d | Britain/Dermot, Elva, Evidious, FarmerBob, Flann, Giovanni, Gwenno, Hans, Hennington | 271 | 271 | PASS, 0 errors | not yet |
+| W2e | Britain/Jared, Jarlath, Jastral, Keller, Killigan | 192 | 192 | PASS, 0 errors | not yet |
 
 Notes:
 
