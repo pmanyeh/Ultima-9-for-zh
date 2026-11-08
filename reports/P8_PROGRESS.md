@@ -18,6 +18,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W3a | Paws (all 9 files) | 181 | 181 | PASS, 0 errors | not yet |
 | W4a | MiscNPC/Agmar, Ailuj, Anaaj, Bakura, Blackthorn, Brock | 211 | 210 | PASS, 0 errors | not yet |
 | W4b | MiscNPC/Calan, Ciara, CircleStones, Cleo, Colando, Elizabeth, Eve | 186 | 186 | PASS, 0 errors | not yet |
+| W4c | MiscNPC generic NPCs, Geoffrey, GeoffreyGhost, Groldek, Guardian | 169 | 169 | PASS, 0 errors | not yet |
 
 Notes:
 
