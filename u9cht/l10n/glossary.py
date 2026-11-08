@@ -137,6 +137,11 @@ def _contains_term(source_text, term):
     return re.search(r"(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])", source_text) is not None
 
 
+def declared_not_terms(record):
+    """Terms the translator marked as ordinary words here: notes "not a term: X"."""
+    return set(re.findall(r"not a term: ([^;]+?)\s*(?:;|$)", record.get("notes") or ""))
+
+
 def contains_standalone(source_text, term, vocabulary=()):
     """True when ``term`` occurs outside every longer vocabulary term that contains it.
 
@@ -188,7 +193,7 @@ def terminology_issues(records, rows, sources=None):
         if sources and key in sources:
             for term, entries in sorted(by_source.items()):
                 approved = [e for e in entries if e["status"] in ("approved", "keep")]
-                if not approved or term in record.get("terms", []):
+                if not approved or term in record.get("terms", []) or term in declared_not_terms(record):
                     continue
                 if contains_standalone(sources[key], term, vocabulary) and approved[0]["target"] not in target:
                     issues.append(Issue("warning" if approved[0]["enforcement"] == "mandatory" else "info",
@@ -231,6 +236,8 @@ def annotation_issues(records, rows, sources=None, first=None):
         key, target, source = record["key"], record["target"], (sources or {}).get(record["key"])
         for row in decided:
             term = row["source"]
+            if term in declared_not_terms(record):
+                continue
             if term not in record.get("terms", []) and not (source and contains_standalone(source, term, vocabulary)):
                 continue
             mode, form = annotation_mode(row), annotated(row)

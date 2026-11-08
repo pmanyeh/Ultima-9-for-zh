@@ -84,6 +84,7 @@ python scripts/update_terms.py --game-dir <U9 遊戲目錄> --u8-authority <U8 a
 
 翻譯紀錄（`translation/zh-TW/*.jsonl`）的 `terms` 欄列出該句用到的專有名詞英文，例如 `["Avatar", "Britannia"]`。
 `validate` 會檢查譯文是否用到核准譯名，並依 `enforcement` 回報。
+- 原文的詞剛好和專有名詞同形、但在這句只是一般用語時（例如 `Feeling better?` 的 Feeling），不要放進 `terms`，並在 `notes` 寫 `not a term: Feeling`。`validate` 會略過這個詞的譯名與加註檢查，理由留在紀錄裡。
 
 ---
 

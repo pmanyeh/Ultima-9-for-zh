@@ -160,6 +160,21 @@ class StandaloneTermTests(unittest.TestCase):
         first = gl.first_occurrences(["Codex"], {"text.flx": units}, tm.text_sections(units), vocab)
         self.assertEqual(first, {"Codex": {"text.flx:2"}})
 
+    def test_declared_ordinary_word_is_not_checked(self):
+        header = ",".join(gl.COLUMNS) + "\n"
+        rows, _ = gl.parse_glossary((header + "Feeling,感應,other,approved,recommended,,,ref,,first\n").encode())
+        units = {0: unit(0, "\\u9\\Source\\Usecode\\ConvoLib\\Britain\\Meribeth.cpp : BEGIN FILE", False),
+                 1: unit(1, "Feeling better?")}
+        sources = {"text.flx:1": "Feeling better?"}
+        first = gl.first_occurrences(["Feeling"], {"text.flx": units}, tm.text_sections(units))
+        record = {"key": "text.flx:1", "status": "draft", "target": "好點了嗎？", "terms": [], "notes": None}
+        self.assertEqual([i.code for i in gl.annotation_issues([record], rows, sources, first)],
+                         ["annotation-missing"])
+        record["notes"] = "not a term: Feeling"
+        self.assertEqual(gl.declared_not_terms(record), {"Feeling"})
+        self.assertEqual(gl.annotation_issues([record], rows, sources, first), [])
+        self.assertEqual(gl.terminology_issues([record], rows, sources), [])
+
 
 class VariantTests(unittest.TestCase):
     HEADER = ",".join(gl.COLUMNS) + "\n"
