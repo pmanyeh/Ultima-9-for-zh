@@ -66,3 +66,17 @@ Notes:
 - W9c: typed answers 7527 (beh) and 7537 (vas mani corp) stay in English.
 - W10c: typed answers 6682 (summ) and 6698 (vas mani corp) stay in English.
 - W11b: typed answers 6991 (ra) and 7000 (vas mani corp) stay in English.
+
+## Status after W13a (all conversation regions)
+
+- `text.flx`: 7,368 of 7,390 editable entries translated as `draft`. The 22 left in English are
+  typed answers the game may compare with player input (shrine mantras such as `mu`, `ahm`,
+  `cah`; `vas mani corp`; `inopia`; `keelhaul`; the two Codex incantations) and one spell
+  incantation (3606). HYPOTHESIS: translating them could make the puzzles unsolvable.
+- Full validate (development profile, `--max-issues 100000`): PASS, 0 errors; 69 layout warnings
+  (3- or 4-line texts, above the 2 lines confirmed in game; 4164 at 3 lines was confirmed to fit),
+  278 shared-plan infos, 374 journal lines with unknown layout (the journal is not drawn by the runtime).
+- Runtime pack: 7,369 plans of 16,384; 2,291 glyph scalars of 8,192; 4,582 cache rasters of 16,384.
+- Unit tests: OK (3 skipped).
+- Not yet done: an in-game check of the new waves; human language review (all records are `draft`);
+  the `…`/`—` runtime extension and the journal path (both need authorization).

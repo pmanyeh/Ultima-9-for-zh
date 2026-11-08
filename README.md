@@ -27,6 +27,8 @@ python scripts/build_localization.py --game-dir $env:U9_GAME_DIR --font $env:U9_
 專有名詞以「譯名(English)」加註；稱呼用你／妳／您。見
 [P8-A 報告](reports/P8A_TERMINOLOGY_AUTHORITY.md)。
 
+**P8 對話翻譯（2026-11-08）**：`text.flx` 7,368／7,390 句已譯為草稿（22 句玩家輸入的真言與口令保留英文），`validate` 0 錯誤。見 [P8 進度](reports/P8_PROGRESS.md)。
+
 以下為較早階段的歷史狀態。
 
 目前狀態：**P5-0 PASS（靜態 CJK 機制確認；原報告為 PASS WITH LIMITATIONS）**，

@@ -1359,6 +1359,13 @@ pack 格式不變。
 - CONFIRMED：日誌條目不經過 runtime 繪字路徑，中文不顯示。研究日誌路徑需另行授權。
 - **PASS WITH LIMITATIONS**。詳見 `reports/P8_W1_OPENING.md`。
 
+## 15.4 P8 全量對話翻譯（2026-11-08）
+
+使用者授權持續翻譯。`text.flx` 7,390 句中 7,368 句已譯為 `draft`；22 句（玩家輸入的真言、咒語、口令）
+保留英文。完整 `validate`：0 錯誤，69 個排版警告（3–4 行）。runtime 容量：7,369／16,384 plans、
+2,291／8,192 字元。尚待：新譯文實機測試、人工語言審閱、`…`／`—` 與日誌路徑（需另行授權）。
+詳見 `reports/P8_PROGRESS.md`。
+
 ---
 
 # 16. P9 — Translation QA
