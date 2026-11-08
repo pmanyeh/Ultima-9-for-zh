@@ -52,6 +52,10 @@ with `export_translation_workset.py --only text.flx:4027-4300` (LOCAL ONLY, cont
   text path. The 54 `journal` records stay in the store and pack (harmless) but have no runtime
   evidence. Whether the history timeline (4216–4242) is journal text stays a HYPOTHESIS.
 - English width inside annotations is still the unmeasured estimate (16 units per ASCII character).
+- The human saw an English "Not yet" response in the gypsy menu. The only `text.flx` entry with that
+  text is 229 (`Ambrosia/Yastar`). STRONG EVIDENCE: responses can reuse entries from other
+  conversation files. Entry 229 was translated as a follow-up (not tested in game). The tools
+  cannot yet list which entries a conversation uses, so such gaps surface only in play.
 
 # Evidence
 
