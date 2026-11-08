@@ -36,6 +36,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W8b | Minoc/guard (end), Irene, Irina, Laszlo | 167 | 167 | PASS, 0 errors | not yet |
 | W8c | Minoc/Laszlo (end), gypsies, Morganna, Raxos, ShrineSacrifice, Vaclav | 161 | 159 | PASS, 0 errors | not yet |
 | W9a | Yew/Desbet, Elaina, Eustus, Grey, Harrison | 180 | 180 | PASS, 0 errors | not yet |
+| W9b | Yew/Harrison (end), James, JeanPaul, Luc, Lucy, Raliegh | 165 | 165 | PASS, 0 errors | not yet |
 
 Notes:
 
