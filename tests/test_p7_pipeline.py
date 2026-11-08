@@ -451,9 +451,13 @@ class FontGlyphLayoutTests(unittest.TestCase):
         env = Env([rec("text.flx", 1, "開始「\n內容」。", TEXTS[1]),
                    rec("text.flx", 2, "說明\n）結束", TEXTS[2]),
                    rec("text.flx", 3, "（括號內）\n正常。", TEXTS[3]),
-                   rec("text.flx", 4, "一\n二\n三", TEXTS[4])])
+                   rec("text.flx", 4, "一\n二\n三", TEXTS[4]),
+                   rec("text.flx", 5, "……接著說", TEXTS[5]),
+                   rec("text.flx", 0, "說明\n……結束", TEXTS[0])])
         try:
             rows = {r["key"]: r for r in env.analyze().layout}
+            self.assertEqual(rows["text.flx:5"]["status"], "PASS")  # an ellipsis may open the text
+            self.assertIn("starts with prohibited punctuation '…'", " ".join(rows["text.flx:0"]["issues"]))
             self.assertIn("ends with opening punctuation", " ".join(rows["text.flx:1"]["issues"]))
             self.assertIn("starts with prohibited punctuation", " ".join(rows["text.flx:2"]["issues"]))
             self.assertEqual(rows["text.flx:3"]["status"], "PASS")
@@ -534,6 +538,9 @@ class CapabilityAndBuildTests(unittest.TestCase):
             a = env.analyze()
             bad = next(i for i in a.issues if i.code == "runtime-unsupported-scalar")
             self.assertEqual(bad.data["scalars"], ["U+2014"])
+            from u9cht.l10n.runtime_pack import runtime_scalar_issues
+            self.assertEqual(runtime_scalar_issues("text.flx", "等等……然後――走"), [])
+            self.assertEqual(runtime_scalar_issues("text.flx", "破折號—"), [0x2014])
             shared = next(i for i in a.issues if i.code == "runtime-shared-target")
             self.assertEqual((shared.level, shared.key), ("info", "text.flx:3"))
             self.assertNotIn("runtime-capacity", codes(a))

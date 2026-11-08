@@ -13,7 +13,7 @@ from fractions import Fraction
 from ..flx import digest
 
 RUNTIME_CONTRACT = {
-    "runtime": "U9ChtRuntime/0.2.8-p8-0a",
+    "runtime": "U9ChtRuntime/0.2.9-p8-1",
     "magic": "U9CTP51",
     "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans"},
     "max_plans": 16384,
@@ -22,7 +22,7 @@ RUNTIME_CONTRACT = {
     "glyph_cache_capacity": 16384,
     "raster_sizes_px": [20, 40],
     "logical_units_per_em": 16,
-    "custom_scalar_ranges": [[0x3000, 0x303F], [0x3400, 0x9FFF], [0xFF01, 0xFF60]],
+    "custom_scalar_ranges": [[0x2015, 0x2015], [0x2026, 0x2026], [0x3000, 0x303F], [0x3400, 0x9FFF], [0xFF01, 0xFF60]],
     "native_ascii_range": [32, 126],
     "newline_allowed": {"text.flx": True, "TYPENAME.FLX": False},
     "name_domain": 0x10000000,
@@ -47,7 +47,7 @@ def is_custom(scalar):
 def scalar_class(scalar):
     if 0x3400 <= scalar <= 0x9FFF or 0x20000 <= scalar <= 0x3FFFF or 0xF900 <= scalar <= 0xFAFF:
         return "han"
-    if 0x3000 <= scalar <= 0x303F or 0xFF01 <= scalar <= 0xFF60:
+    if scalar in (0x2015, 0x2026) or 0x3000 <= scalar <= 0x303F or 0xFF01 <= scalar <= 0xFF60:
         return "punctuation"
     if 32 <= scalar <= 126 or scalar == 10:
         return "native"

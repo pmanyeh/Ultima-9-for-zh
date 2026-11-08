@@ -75,6 +75,17 @@ int main() {
         bad = s; value = 0x4E2D; std::memcpy(bad.data()+88,&value,4); check(rejected(bad));
         bad = s; value = 0x6588; std::memcpy(bad.data()+88,&value,4); check(rejected(bad));
         bad = s; value = MaxPlans+1; std::memcpy(bad.data()+12,&value,4); check(rejected(bad));
+        auto punctuation = [&](uint32_t first) {
+            auto out = fixture(1); uint32_t v = 2;
+            std::memcpy(out.data()+8,&v,4);
+            const uint32_t glyphs[] = {2,first,0x2026};
+            out.append(reinterpret_cast<const char*>(glyphs),sizeof(glyphs));
+            append_plan(out,1,std::u16string(u"A") + char16_t(first) + u"…");
+            return out;
+        };
+        auto dash = punctuation(0x2015); write(dash); pack.load(temp_file,true); // Full-width bar and ellipsis.
+        check(pack.count == 1 && pack.glyph_count == 2 && pack.plans[0].slots[1] == 0x7F);
+        check(rejected(punctuation(0x2014))); // 0.9 em dash has no exact logical advance.
         auto names = fixture(3); value = 3; std::memcpy(names.data()+8,&value,4);
         names.append(64,'b');
         const uint32_t name_glyphs[] = {2,0x4E2D,0x6587};

@@ -8,8 +8,10 @@ import re
 from .runtime_pack import logical_advance
 from .store import Issue
 
-FORBID_START = frozenset("，。、！？；：）》」』】〕〉")
+FORBID_START = frozenset("，。、！？；：）》」』】〕〉…―")
 FORBID_END = frozenset("（《「『【〔〈")
+# Ellipsis and dash may open the whole text (a sentence trailing on from before), never a wrapped line.
+TEXT_START_OK = frozenset("…―")
 PLACEHOLDER = re.compile(r"%[-+ #0-9.]*[a-zA-Z]")
 LAYOUT_STATES = ("PASS", "WARNING", "OVERFLOW", "UNKNOWN-LAYOUT")
 
@@ -119,7 +121,7 @@ def check_layout(record, profiles, metrics):
             continue
         if line != line.strip():
             warnings.append(f"line {number} has leading/trailing whitespace")
-        if line[0] in FORBID_START:
+        if line[0] in FORBID_START and not (number == 1 and line[0] in TEXT_START_OK):
             warnings.append(f"line {number} starts with prohibited punctuation {line[0]!r}")
         if line[-1] in FORBID_END and number < len(lines):
             warnings.append(f"line {number} ends with opening punctuation {line[-1]!r}")

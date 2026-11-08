@@ -53,7 +53,7 @@ void Pack::load(const std::filesystem::path& path, bool render) {
         require(glyph_count && glyph_count <= MaxGlyphScalars, "invalid glyph allowlist capacity");
         for (uint32_t i = 0; i < glyph_count; ++i) {
             auto& s = scalars[i]; read(&s,4);
-            require(((s >= 0x3000 && s <= 0x303F) || (s >= 0x3400 && s <= 0x9FFF) ||
+            require((s == 0x2015 || s == 0x2026 || (s >= 0x3000 && s <= 0x303F) || (s >= 0x3400 && s <= 0x9FFF) ||
                 (s >= 0xFF01 && s <= 0xFF60)) && (!i || s > scalars[i-1]), "invalid/unsorted glyph scalar");
         }
     }
