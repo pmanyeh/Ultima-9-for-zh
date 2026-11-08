@@ -21,6 +21,12 @@ python scripts/build_localization.py --game-dir $env:U9_GAME_DIR --font $env:U9_
 （游標被蓋住、無 hover 效果、選項顏色不固定）已於 runtime 0.2.8 修正並經實機確認。P8 翻譯批次尚未授權。
 見 [P8-0 報告](reports/P8_0_RUNTIME_CAPACITY.md)。
 
+**P8-A — Terminology Authority 為 PASS WITH LIMITATIONS（2026-11-08）**：建立翻譯規範
+[`translation/TRANSLATION_GUIDE.md`](translation/TRANSLATION_GUIDE.md) 與譯名權威檔
+`translation/glossary/U9_TERMS.csv`（1,457 個詞，負責人核准 768 個）。系列譯名以 U8 為準；
+專有名詞以「譯名(English)」加註；稱呼用你／妳／您。見
+[P8-A 報告](reports/P8A_TERMINOLOGY_AUTHORITY.md)。
+
 以下為較早階段的歷史狀態。
 
 目前狀態：**P5-0 PASS（靜態 CJK 機制確認；原報告為 PASS WITH LIMITATIONS）**，

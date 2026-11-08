@@ -11,7 +11,9 @@ from pathlib import Path
 
 from . import TOOL_VERSION
 from .adapters import ADAPTERS
-from .glossary import glossary_issues, parse_glossary, terminology_issues
+from .glossary import (annotation_issues, annotation_mode, first_occurrences, glossary_issues,
+                       parse_glossary, terminology_issues)
+from .terms import text_sections
 from .qa import (alias_issues, check_layout, font_issues, layout_summary, source_issues,
                  token_issues)
 from .runtime_pack import (RUNTIME_CONTRACT, capacity_issues, collect_scalars, contract_sha256,
@@ -144,12 +146,12 @@ def analyze(paths=None, game_dir=None, metrics_provider=None, profile="developme
     # Source checks (local only; English stays out of Git).
     a.game = read_game(game_dir, sources, a.issues, allow_resource_drift)
     by_key = {r["key"]: r for r in records}
-    local_sources = {}
+    local_sources, all_units = {}, {}
     a.checks["source"] = "NOT EXECUTED (no game directory)" if game_dir is None else "EXECUTED"
     if game_dir is not None:
         for resource, data in a.game.items():
             adapter = ADAPTERS[resource]
-            units = adapter.units(data)
+            units = all_units[resource] = adapter.units(data)
             for record in (r for r in records if r["resource"] == resource):
                 unit = units.get(record["entry_id"])
                 a.issues += source_issues(record, units, adapter.unit_name)
@@ -159,6 +161,13 @@ def analyze(paths=None, game_dir=None, metrics_provider=None, profile="developme
                     if unit.text is not None:
                         local_sources[record["key"]] = unit.text
     a.issues += terminology_issues(records, rows, local_sources or None)
+    first = None
+    if all_units:
+        first_terms = sorted(r["source"] for r in rows if r["status"] == "approved" and
+                             r["target"] != r["source"] and annotation_mode(r) == "first")
+        sections = text_sections(all_units["text.flx"]) if "text.flx" in all_units else {}
+        first = first_occurrences(first_terms, all_units, sections)
+    a.issues += annotation_issues(records, rows, local_sources or None, first)
 
     # Selection by profile, request, runtime capability.
     allowed = PROFILES[profile]

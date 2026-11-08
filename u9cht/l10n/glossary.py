@@ -9,11 +9,28 @@ import re
 
 from .store import Issue
 
-COLUMNS = ("source", "target", "category", "status", "enforcement", "reference", "notes")
-CATEGORIES = ("person", "place", "virtue", "item", "spell", "organization", "monster",
+COLUMNS = ("source", "target", "category", "status", "enforcement", "count", "example", "reference", "notes",
+           "annotate")
+CATEGORIES = ("person", "place", "organization", "title", "virtue", "spell", "monster", "item",
               "UI", "system", "other")
-STATUSES = ("draft", "review", "approved", "blocked")
+# Same meaning as the Ultima VIII authority file: keep = stays English, approved = use target,
+# proposed = suggestion, todo = undecided, ignore = not a name; blocked = a rejected target.
+STATUSES = ("todo", "proposed", "approved", "keep", "ignore", "blocked")
+NEEDS_TARGET = ("proposed", "approved", "keep", "blocked")
 ENFORCEMENT = ("mandatory", "recommended", "informational")
+# English after the Chinese name, half-width: 艾蓮娜(Elaina). always = every line; first = the first
+# line of each conversation file (text.flx entry order) or each book/label; never = no annotation.
+ANNOTATE = ("", "always", "first", "never")
+ANNOTATE_DEFAULT = {"person": "always", "place": "first", "organization": "first", "title": "first",
+                    "spell": "first", "monster": "first", "other": "first"}
+
+
+def annotation_mode(row):
+    return row["annotate"] or ANNOTATE_DEFAULT.get(row["category"], "never")
+
+
+def annotated(row):
+    return f"{row['target']}({row['source']})"
 
 
 def parse_glossary(data):
@@ -49,12 +66,28 @@ def parse_glossary(data):
         if row["enforcement"] not in ENFORCEMENT:
             issues.append(Issue("error", "glossary-enforcement", where,
                                 f"invalid enforcement {row['enforcement']!r}"))
-        if not row["target"].strip() or row["target"] != row["target"].strip():
+        if row["target"] != row["target"].strip() or (row["status"] in NEEDS_TARGET and not row["target"]):
             issues.append(Issue("error", "glossary-target", where, "empty or padded target"))
+        if row["status"] == "keep" and row["target"] != row["source"]:
+            issues.append(Issue("error", "glossary-keep", where, "a kept term must have target == source"))
+        if row["annotate"] not in ANNOTATE:
+            issues.append(Issue("error", "glossary-annotate", where, f"invalid annotate {row['annotate']!r}"))
+        if row["count"] and not row["count"].isdigit():
+            issues.append(Issue("error", "glossary-count", where, "count must be a non-negative integer"))
         if not row["reference"].strip():
             issues.append(Issue("error", "glossary-reference", where, "reference is required"))
         rows.append(row)
     return rows, issues
+
+
+VARIANT = re.compile(r"(?:^|;\s*)variant of ([^;]+?)\s*(?:;|$)")
+PLURAL = re.compile(r"^plural of (.+)$")
+
+
+def variant_base(row):
+    """Source term this row is declared to be a spelling variant or plural of, or None."""
+    m = VARIANT.search(row.get("notes", "")) or PLURAL.match(row.get("reference", "").strip())
+    return m.group(1).strip() if m else None
 
 
 def glossary_issues(rows):
@@ -66,7 +99,7 @@ def glossary_issues(rows):
         if pair in pairs:
             issues.append(Issue("error", "glossary-duplicate", row["source"], "duplicate source/target row"))
         pairs.add(pair)
-        if row["status"] == "approved":
+        if row["status"] in ("approved", "keep"):
             approved_by_source.setdefault(row["source"], set()).add(row["target"])
             approved_by_target.setdefault(row["target"], set()).add(row["source"])
     for source, targets in sorted(approved_by_source.items()):
@@ -74,8 +107,26 @@ def glossary_issues(rows):
             issues.append(Issue("error", "term-multiple-approved-targets", source,
                                 "same source term has multiple approved targets",
                                 {"targets": sorted(targets)}))
+    # Spelling variants of one term ("Scroll: Fireball" / "Fireball Scroll") may share a target
+    # only when the row says so: notes "variant of <source>" or reference "plural of <source>".
+    by_source = {r["source"]: r for r in rows}
+    canonical = {}
+    for row in rows:
+        base = variant_base(row)
+        if base is None or row["status"] not in ("approved", "keep"):
+            continue
+        b = by_source.get(base)
+        explicit = VARIANT.search(row.get("notes", ""))
+        if not explicit and b and b["target"] != row["target"]:
+            continue  # tool-written "plural of" hint; the human chose a different target
+        if not b or b["status"] not in ("approved", "keep") or b["target"] != row["target"] or variant_base(b):
+            issues.append(Issue("error", "glossary-variant", row["source"],
+                                "variant must name an approved row with the same target that is not itself a variant",
+                                {"variant_of": base}))
+            continue
+        canonical[row["source"]] = base
     for target, sources in sorted(approved_by_target.items()):
-        if len(sources) > 1:
+        if len({canonical.get(s, s) for s in sources}) > 1:
             issues.append(Issue("error", "term-target-conflict", target,
                                 "same approved target is used for conflicting source terms",
                                 {"sources": sorted(sources)}))
@@ -108,9 +159,9 @@ def terminology_issues(records, rows, sources=None):
             if not entries:
                 issues.append(Issue("warning", "term-not-in-glossary", key, f"tagged term {term!r} is not in the glossary"))
                 continue
-            approved = [e for e in entries if e["status"] == "approved"]
+            approved = [e for e in entries if e["status"] in ("approved", "keep")]
             if not approved:
-                if not any(e["target"] in target for e in entries):
+                if not any(e["target"] and e["target"] in target for e in entries):
                     issues.append(Issue("info", "term-undecided", key,
                                         f"tagged term {term!r} has no approved target yet"))
                 continue
@@ -122,7 +173,7 @@ def terminology_issues(records, rows, sources=None):
                                     {"enforcement": expected["enforcement"]}))
         if sources and key in sources:
             for term, entries in sorted(by_source.items()):
-                approved = [e for e in entries if e["status"] == "approved"]
+                approved = [e for e in entries if e["status"] in ("approved", "keep")]
                 if not approved or term in record.get("terms", []):
                     continue
                 if _contains_term(sources[key], term) and approved[0]["target"] not in target:
@@ -130,4 +181,51 @@ def terminology_issues(records, rows, sources=None):
                                         "term-possibly-untagged", key,
                                         f"source contains {term!r}; approved target {approved[0]['target']!r} absent "
                                         "(diagnostic; ordinary prose may be ambiguous)"))
+    return issues
+
+
+def first_occurrences(terms, units_by_resource, sections):
+    """{term: set(keys)} where a ``first`` term must be annotated.
+
+    text.flx: the lowest entry ID per conversation file whose source contains the term.
+    Every book and label is its own unit, so each occurrence there is a first one.
+    """
+    out = {term: set() for term in terms}
+    for resource, units in sorted(units_by_resource.items()):
+        seen = set()
+        for entry_id in sorted(units):
+            unit = units[entry_id]
+            if not unit.editable or not unit.text:
+                continue
+            group = sections.get(entry_id) if resource == "text.flx" else (resource, entry_id)
+            for term in terms:
+                if (group, term) not in seen and _contains_term(unit.text, term):
+                    seen.add((group, term))
+                    out[term].add(f"{resource}:{entry_id}")
+    return out
+
+
+def annotation_issues(records, rows, sources=None, first=None):
+    """Check 譯名(English) against each approved, translated term's annotate mode."""
+    issues = []
+    decided = [r for r in rows if r["status"] == "approved" and r["target"] != r["source"]]
+    level = {"mandatory": "error", "recommended": "warning"}
+    for record in records:
+        if record["status"] in ("untranslated", "blocked"):
+            continue
+        key, target, source = record["key"], record["target"], (sources or {}).get(record["key"])
+        for row in decided:
+            term = row["source"]
+            if term not in record.get("terms", []) and not (source and _contains_term(source, term)):
+                continue
+            mode, form = annotation_mode(row), annotated(row)
+            if mode == "first" and first is None:
+                continue
+            required = mode == "always" or (mode == "first" and key in first.get(term, ()))
+            if required and form not in target:
+                issues.append(Issue(level.get(row["enforcement"], "info"), "annotation-missing", key,
+                                    f"expected {form!r} ({mode})", {"term": term}))
+            elif not required and form in target:
+                issues.append(Issue("warning" if mode == "never" else "info", "annotation-unexpected", key,
+                                    f"{form!r} is not expected here ({mode})", {"term": term}))
     return issues

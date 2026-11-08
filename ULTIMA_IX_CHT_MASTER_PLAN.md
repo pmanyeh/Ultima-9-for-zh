@@ -1330,6 +1330,26 @@ pack 格式不變。
   未新增 hook 點，未修改 `u9.exe`。
   詳見 `reports/P8_0_RUNTIME_CAPACITY.md`。
 
+## 15.2 P8-A — Terminology Authority（2026-11-08）
+
+使用者授權 P8-A：大量翻譯前先建立 U9 的譯名權威檔與翻譯規範（比照 U7《Translation_Guide.md》
+與 U8 `authority.tsv`）。未新增或修改譯文，未碰遊戲與 runtime。
+
+- 決定：系列譯名衝突時 **U8 優先於 U7**；U9 台灣官方手冊尚未找到，找到後優先。
+- `translation/TRANSLATION_GUIDE.md`：權威順序、權威檔欄位與狀態、標點、引號、中英混排、
+  動作描述、真言、各資源限制、待決事項。
+- `U9_TERMS.csv` 改為與 U8 相同的狀態（todo／proposed／approved／keep／ignore／blocked），
+  新增 `count`、`example` 欄；`scripts/update_terms.py` 從本機遊戲檔掃描候選詞並保留人工欄位。
+- 結果：1,456 個候選詞，30 個帶入建議譯名（U8 系列譯名、美德草稿、複數形），**0 個核准**。
+- 負責人修訂並核准權威檔（2026-11-08）：768 個 `approved`、669 個 `todo`、20 個 `ignore`。
+  同一東西的不同寫法以 `notes` 的 `variant of <主要寫法>` 宣告後可共用譯名。
+- 決定：專有名詞以「譯名(English)」半形加註；一般 NPC 人名每句加註，地名等專有名詞
+  每個對話檔第一次加註，聖者、不列顛王、守護者只在第一次加註。權威檔 `annotate` 欄控制，
+  `validate` 檢查。
+- 決定：稱呼用你／妳／您，不用「汝」；美德與三原則以權威檔為準；同伴只在第一次加註。
+- **PASS WITH LIMITATIONS**：工具、規範與權威檔完成並經核准；台灣官方手冊尚待比對。
+  詳見 `reports/P8A_TERMINOLOGY_AUTHORITY.md`。
+
 ---
 
 # 16. P9 — Translation QA

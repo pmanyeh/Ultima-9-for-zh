@@ -12,7 +12,9 @@
 | `translation/zh-TW/typename.jsonl` | `TYPENAME.FLX` 物品名稱 | 是 |
 | `translation/zh-TW/books.jsonl` | `BOOKS-EN.FLX` 書本（目前 Unicode 執行期未支援） | 是 |
 | `translation/schema/translation.schema.json` | 單筆紀錄的 JSON Schema | 是 |
-| `translation/glossary/U9_TERMS.csv` | 術語權威表 | 是 |
+| `translation/glossary/U9_TERMS.csv` | 譯名權威檔（欄位與狀態見 `translation/TRANSLATION_GUIDE.md`） | 是（只有詞、次數、位置） |
+| `translation/TRANSLATION_GUIDE.md` | 翻譯規範 | 是 |
+| `.local/p8a/U9_TERMS_REVIEW.tsv` | 權威檔審閱表，**含英文原句** | **否，僅限本機** |
 | `translation/resource-capabilities.json` | 各資源家族能力表與證據 | 是 |
 | `translation/sources.json` | 英文原始資源的預期 SHA-256 | 是（只有雜湊） |
 | `.local/translation-work/` | 譯者工作集，**含英文原文** | **否，僅限本機** |
@@ -75,7 +77,7 @@ python scripts/build_localization.py --profile development --output .local/build
 | 結構 | schema、重複鍵、無效資源／entry ID／狀態、非 untranslated 卻空白、UTF-8／Unicode、禁止的控制字元、確定性序列化 |
 | 來源 | 資源雜湊、每筆來源雜湊與長度、缺少的 entry、鎖定 entry、別名 entry、佔位符、書本控制符號序列 |
 | 語言 | U+FFFD、私用區字元、控制字元；簡體字形**僅作診斷**，不自動轉換 |
-| 術語 | 同一來源多個 approved 譯名、同一 approved 譯名對應多個來源、blocked 詞出現、標記術語未使用 approved 譯名 |
+| 術語 | 同一來源多個 approved／keep 譯名、同一譯名對應多個來源、blocked 詞出現、標記術語未使用核准譯名、keep 的譯名不等於英文 |
 | 字型 | 每個自訂字元都必須存在於固定雜湊的字型，否則列出 `U+XXXX`、字元、紀錄鍵 |
 | 執行期能力 | 原生 pack 無法攜帶的字元、容量（16384 plans／8192 字元／16384 cache）、相同譯文共用同一 plan（僅提示）、資源家族不支援 Unicode |
 | 排版 | 已量測幾何的表面計算行寬；結果為 PASS／WARNING／OVERFLOW／UNKNOWN-LAYOUT；最小禁則 |

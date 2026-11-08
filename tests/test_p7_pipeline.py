@@ -33,7 +33,7 @@ from u9cht.l10n.workset import export_workset, import_workset
 
 ROOT = Path(__file__).resolve().parents[1]
 CAPS = ROOT / "translation" / "resource-capabilities.json"
-GLOSSARY_HEADER = "source,target,category,status,enforcement,reference,notes\n"
+GLOSSARY_HEADER = "source,target,category,status,enforcement,count,example,reference,notes,annotate\n"
 TEXTS = ["Synthetic greeting", "Second synthetic line", "Third line", "Fourth line",
          "Fifth line", "Sixth line"]
 
@@ -320,10 +320,10 @@ class WorksetTests(unittest.TestCase):
 
 
 class GlossaryTests(unittest.TestCase):
-    ROWS = ("Honesty,誠實,virtue,approved,mandatory,ref,\n"
-            "Valor,英勇,virtue,approved,recommended,ref,\n"
-            "Britannia,Britannia,place,review,informational,ref,\n"
-            "Skara,斯卡拉,place,blocked,informational,ref,rejected form\n")
+    ROWS = ("Honesty,誠實,virtue,approved,mandatory,12,text.flx:1,ref,,\n"
+            "Valor,英勇,virtue,approved,recommended,,,ref,,\n"
+            "Britannia,,place,todo,informational,,,ref,,\n"
+            "Skara,斯卡拉,place,blocked,informational,,,ref,rejected form,\n")
 
     def rows(self, text):
         rows, issues = gl.parse_glossary((GLOSSARY_HEADER + text).encode("utf-8"))
@@ -332,13 +332,17 @@ class GlossaryTests(unittest.TestCase):
     def test_parse_and_internal_conflicts(self):
         rows, issues = self.rows(self.ROWS)
         self.assertEqual((len(rows), issues), (4, []))
-        _, issues = self.rows(self.ROWS + "Honesty,忠實,virtue,approved,mandatory,ref,\n")
+        _, issues = self.rows(self.ROWS + "Honesty,忠實,virtue,approved,mandatory,,,ref,,\n")
         self.assertIn("term-multiple-approved-targets", [i.code for i in issues])
-        _, issues = self.rows(self.ROWS + "Truth,誠實,virtue,approved,mandatory,ref,\n")
+        _, issues = self.rows(self.ROWS + "Truth,誠實,virtue,approved,mandatory,,,ref,,\n")
         self.assertIn("term-target-conflict", [i.code for i in issues])
-        _, issues = self.rows("x,y,beast,final,always,,\n")
+        _, issues = self.rows("x,y,beast,final,always,many,,,,sometimes\n")
         self.assertTrue({"glossary-category", "glossary-status", "glossary-enforcement",
-                         "glossary-reference"} <= {i.code for i in issues})
+                         "glossary-reference", "glossary-count", "glossary-annotate"} <= {i.code for i in issues})
+        _, issues = self.rows("Lycaeum,呂克昂,place,keep,informational,,,ref,,\n"
+                              "Paws,,place,proposed,informational,,,ref,,\n"
+                              "Yew,,place,todo,informational,,,ref,,\n")
+        self.assertEqual(sorted(i.code for i in issues), ["glossary-keep", "glossary-target"])
         self.assertEqual(gl.parse_glossary(b"a,b\n")[1][0].code, "glossary-header")
 
     def test_record_terminology_checks(self):
@@ -347,9 +351,13 @@ class GlossaryTests(unittest.TestCase):
                    rec("text.flx", 2, "說實話是美德。", TEXTS[2], terms=["Honesty"]),
                    rec("text.flx", 3, "勇氣", TEXTS[3], terms=["Valor"]),
                    rec("text.flx", 4, "前往 Britannia", TEXTS[4], terms=["Britannia", "Nowhere"]),
+                   rec("text.flx", 6, "前往 Lycaeum", TEXTS[1], terms=["Lycaeum"]),
                    rec("text.flx", 5, "斯卡拉港", TEXTS[5])]
+        rows += gl.parse_glossary((GLOSSARY_HEADER + "Lycaeum,Lycaeum,place,keep,mandatory,,,ref,,\n").encode())[0]
         issues = gl.terminology_issues(records, rows)
         got = {(i.key, i.code, i.level) for i in issues}
+        self.assertIn(("text.flx:4", "term-undecided", "info"), got)
+        self.assertNotIn("text.flx:6", {i.key for i in issues})
         self.assertIn(("text.flx:2", "term-not-used", "error"), got)
         self.assertIn(("text.flx:3", "term-not-used", "warning"), got)
         self.assertIn(("text.flx:4", "term-not-in-glossary", "warning"), got)
@@ -365,7 +373,7 @@ class GlossaryTests(unittest.TestCase):
     def test_committed_glossary_is_valid_and_claims_nothing_official(self):
         rows, issues = gl.parse_glossary((ROOT / "translation/glossary/U9_TERMS.csv").read_bytes())
         self.assertEqual(issues + gl.glossary_issues(rows), [])
-        self.assertFalse([r for r in rows if r["status"] == "approved"])
+        # Terms were approved by the human in P8-A (2026-11-08); approval must not claim official status.
         for r in rows:
             self.assertNotIn("official", r["reference"].lower())
 

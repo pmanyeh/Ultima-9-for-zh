@@ -205,6 +205,47 @@ def cmd_migrate(args):
     return 0
 
 
+def cmd_terms(args):
+    """Refresh the authority file from the game text; hand-edited fields are kept."""
+    from .glossary import parse_glossary
+    from . import terms as tm
+    paths = Paths()
+    game_dir = _game_dir(args.game_dir)
+    if game_dir is None:
+        raise ValueError("terms needs --game-dir or U9_GAME_DIR (local original resources)")
+    issues = []
+    game = read_game(game_dir, load_json(paths.sources), issues)
+    errors = [i for i in issues if i.level == "error"]
+    if errors:
+        _print_issues(errors, args.max_issues)
+        return 1
+    units = {name: ADAPTERS[name].units(data) for name, data in game.items()}
+    collected = tm.collect(units["text.flx"], units["TYPENAME.FLX"], units["BOOKS-EN.FLX"], args.minimum)
+    old, gloss = parse_glossary(paths.glossary.read_bytes())
+    if [i for i in gloss if i.level == "error"]:
+        _print_issues(gloss, args.max_issues)
+        return 1
+    u8_path = args.u8_authority or os.environ.get("U8_AUTHORITY")
+    u8 = tm.load_u8_authority(Path(u8_path).read_bytes()) if u8_path else {}
+    rows = tm.merge(old, collected, u8)
+    data = tm.render_csv(rows)
+    if args.check:
+        current = paths.glossary.read_bytes().replace(b"\r\n", b"\n")
+        print("PASS: authority file is current" if current == data else "FAIL: authority file is stale")
+        return 0 if current == data else 1
+    paths.glossary.write_bytes(data)
+    if args.review:
+        review = _private(args.review)
+        review.parent.mkdir(parents=True, exist_ok=True)
+        review.write_bytes(tm.render_review(rows, collected, u8))
+        print(f"review:   {review} (LOCAL ONLY: contains source sentences)")
+    s = tm.summary(rows)
+    print(f"terms:    {s['terms']}  u8 rows loaded: {len(u8)}")
+    print("category: " + "  ".join(f"{k}={v}" for k, v in s["by_category"].items()))
+    print("status:   " + "  ".join(f"{k}={v}" for k, v in s["by_status"].items()))
+    return 0
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(prog="u9cht-l10n", description=__doc__)
     sub = p.add_subparsers(dest="command", required=True)
@@ -253,6 +294,15 @@ def main(argv=None):
     m.add_argument("--check", action="store_true")
     m.add_argument("--force", action="store_true")
     m.set_defaults(func=cmd_migrate)
+
+    t = sub.add_parser("terms", help="refresh U9_TERMS.csv candidates from the game text (hand edits kept)")
+    t.add_argument("--game-dir")
+    t.add_argument("--u8-authority", help="Ultima VIII authority.tsv for series names (or U8_AUTHORITY)")
+    t.add_argument("--review", help="LOCAL ONLY review TSV with one source sentence per term (.local/...)")
+    t.add_argument("--minimum", type=int, default=3, help="mid-sentence occurrences needed for a text name")
+    t.add_argument("--check", action="store_true", help="exit 1 if the committed file would change")
+    t.add_argument("--max-issues", type=int, default=40)
+    t.set_defaults(func=cmd_terms)
 
     args = p.parse_args(argv)
     try:

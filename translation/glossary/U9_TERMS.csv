@@ -1,15 +1,1458 @@
-source,target,category,status,enforcement,reference,notes
-Ankh,Ankh,item,review,informational,P6-S corpus terminology_review (retained English),Retained in English pending terminology decision; no official translation claimed
-Avatar,Avatar,person,review,informational,P6-S/P6-S2 corpus terminology_review (retained English),Retained in English pending terminology decision; no official translation claimed
-Britannia,Britannia,place,review,informational,P6-S/P6-S2 corpus terminology_review (retained English),Corpus retains English; Master Plan P5 render sample used 不列顛尼亞; undecided
-Compassion,慈悲,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
-First Aid Kit,急救箱,item,draft,recommended,TYPENAME.FLX:5290 (P6-S2 single-item proof),Taiwan Traditional Chinese draft for the native examine label
-Guardian,Guardian,person,review,informational,P6-S corpus terminology_review (retained English),Retained in English pending terminology decision; no official translation claimed
-Honesty,誠實,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
-Honor,榮譽,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
-Humility,謙遜,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
-Justice,正義,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
-Lord British,Lord British,person,review,informational,P6-S corpus terminology_review (retained English),Retained in English pending terminology decision; no official translation claimed
-Sacrifice,犧牲,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
-Spirituality,靈性,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
-Valor,英勇,virtue,draft,recommended,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),Not an official translation; needs authority review (AGENTS.md section 17)
+source,target,category,status,enforcement,count,example,reference,notes,annotate
+Adreanna,艾德蓮娜,person,approved,recommended,7,text.flx:2715,P8-A candidate scan,Destard遇難者，來自破曉村,always
+Aidon,艾登,person,approved,recommended,10,text.flx:249,P8-A candidate scan,不列顛城鎮官員/市民,always
+Alara,阿拉拉,person,approved,recommended,2,text.flx:2920,P8-A candidate scan,米諾克貧弱老婦,always
+Aleena,艾莉娜,person,approved,recommended,7,text.flx:379,P8-A candidate scan,不列顛城美德博物館館長,always
+Algar,阿爾加,person,approved,recommended,2,text.flx:2943,P8-A candidate scan,米諾克收費情報販子,always
+Altara,阿爾塔拉,person,approved,recommended,3,text.flx:462,P8-A candidate scan,不列顛城著名占卜師與女法師,always
+Altomar,奧托馬,person,approved,recommended,3,text.flx:493,P8-A candidate scan,不列顛城船長/老水手,always
+Amoranth,阿莫蘭斯,person,approved,recommended,5,text.flx:547,P8-A candidate scan,博愛大教堂修士,always
+Anaaj,阿納吉,person,approved,recommended,4,text.flx:3508,P8-A candidate scan,石像鬼平民,always
+Aneassa,安妮莎,person,approved,recommended,7,text.flx:2156,P8-A candidate scan,海盜窩酒館老闆娘,always
+Angus,安格斯,person,approved,recommended,2,text.flx:588,P8-A candidate scan,不列顛城酒館老闆,always
+Aria,艾莉亞,person,approved,recommended,5,text.flx:1282,P8-A candidate scan,不列顛城偷蛇女叛徒,always
+Ashling,艾許琳,person,approved,recommended,2,text.flx:6137,P8-A candidate scan,波斯鎮貧苦磨坊女工,always
+Avatar,聖者,person,approved,informational,842,text.flx:35,U8 authority.tsv (approved),U8 authority.tsv (approved),first
+Bailey,貝利,person,approved,recommended,2,text.flx:645,P8-A candidate scan,不列顛城平民,always
+Bane,貝恩,person,approved,recommended,4,text.flx:2782,U8 authority.tsv (proposed),U8 authority.tsv (proposed),always
+Barny,巴尼,person,approved,recommended,2,text.flx:6308,P8-A candidate scan,波斯鎮農婦威爾瑪之子,always
+Batista,芭蒂斯塔,person,approved,recommended,12,text.flx:5467,P8-A candidate scan,月光城女法師,always
+Batlin,巴特林,person,approved,recommended,3,text.flx:4234,P8-A candidate scan,U7巨靈教派主教，引領守護者入侵的元兇,always
+Bjorn,比約恩,person,approved,recommended,2,text.flx:2233,P8-A candidate scan,海盜窩水手,always
+Blackthorn,黑棘,person,approved,recommended,34,text.flx:1029,P8-A candidate scan,黑棘領主之名簡稱,always
+Brock,布洛克,person,approved,recommended,1,text.flx:3630,P8-A candidate scan,神恩修道院修士,always
+Calan,卡蘭,person,approved,recommended,3,text.flx:3652,P8-A candidate scan,斯卡拉布雷亡魂之一,always
+Cameron,卡麥隆,person,approved,recommended,4,text.flx:660,P8-A candidate scan,不列顛城平民,always
+Castro,卡斯特羅,person,approved,recommended,2,text.flx:707,P8-A candidate scan,不列顛城居民,always
+Ciara,希亞拉,person,approved,recommended,5,text.flx:3691,P8-A candidate scan,斯卡拉布雷亡魂之一,always
+Cleo,克莉歐,person,approved,recommended,2,text.flx:3771,P8-A candidate scan,米諾克迷途獲救小女孩,always
+Commander Hays,海耶斯指揮官,person,approved,recommended,3,text.flx:4824,P8-A candidate scan,海軍/守軍指揮官海耶斯,first
+Dara,達拉,person,approved,recommended,6,text.flx:635,P8-A candidate scan,不列顛城平民婦女,always
+Darim,達林,person,approved,recommended,8,text.flx:2732,P8-A candidate scan,Destard遇難者,always
+Dartane,達坦,person,approved,recommended,3,text.flx:2783,P8-A candidate scan,Destard遺落鑰匙之惡徒,always
+Dayla,黛拉,person,approved,recommended,4,text.flx:2990,P8-A candidate scan,米諾克5歲小女孩,always
+Deresh,德雷什,person,approved,recommended,8,text.flx:25,P8-A candidate scan,石像鬼,always
+Dermot,德莫特,person,approved,recommended,3,text.flx:770,P8-A candidate scan,不列顛城平民工人,always
+Desbet,德斯貝特,person,approved,recommended,9,text.flx:7162,P8-A candidate scan,紫杉城石像鬼學者,always
+Drake,德雷克,person,approved,recommended,3,text.flx:7114,P8-A candidate scan,瓦洛利亞騎士德雷克,always
+Duncan,鄧肯,person,approved,recommended,10,text.flx:5590,P8-A candidate scan,月光城被奪匕首的學者,always
+Dunston,鄧斯頓,person,approved,recommended,3,text.flx:2305,P8-A candidate scan,海盜窩商人,always
+Dupre,杜普雷,person,approved,recommended,18,text.flx:4648,P8-A candidate scan,榮譽聖友、殉道聖騎士幽靈,first
+Elaina,艾蓮娜,person,approved,recommended,2,text.flx:7196,U8 authority.tsv (proposed),U8 authority.tsv (proposed),always
+Elena,依蓮娜,person,approved,recommended,4,text.flx:2910,P8-A candidate scan,米諾克魔法店店主（避同音相撞作依蓮娜）,always
+Elizabeth,伊莉莎白,person,approved,recommended,3,text.flx:3819,P8-A candidate scan,斯卡拉布雷亡魂之一,always
+Elva,艾爾娃,person,approved,recommended,3,text.flx:1111,P8-A candidate scan,不列顛城農婦，賈拉思之妻,always
+Emile,埃米爾,person,approved,recommended,3,text.flx:6707,P8-A candidate scan,特林錫克居民,always
+Eris,艾莉絲,person,approved,recommended,5,text.flx:6811,P8-A candidate scan,平民女子,always
+Eustus,尤斯圖斯,person,approved,recommended,2,text.flx:7269,P8-A candidate scan,紫杉城正義法庭審判長,always
+Evidious,埃維迪烏斯,person,approved,recommended,7,text.flx:631,P8-A candidate scan,不列顛城冒充他人行騙之徒,always
+Exferlem,艾克斯弗倫,person,approved,recommended,5,text.flx:12,P8-A candidate scan,安布羅西亞石像鬼雄峰工匠,always
+Exodus,艾克索達斯,person,approved,recommended,7,BOOKS-EN.FLX:27,P8-A candidate scan,U3蒙丹與敏娜絲造出的機械惡魔,always
+Felix,菲利克斯,person,approved,recommended,2,text.flx:707,P8-A candidate scan,不列顛城居民,always
+Flann,弗蘭,person,approved,recommended,5,text.flx:905,P8-A candidate scan,不列顛城平民婦女,always
+Geoffrey,傑弗瑞,person,approved,recommended,6,text.flx:3973,P8-A candidate scan,英勇聖友、不列顛禁衛隊隊長,first
+Giovanni,喬凡尼,person,approved,recommended,3,text.flx:935,P8-A candidate scan,不列顛城黑石鐵匠,always
+Grey,格雷,person,approved,recommended,2,BOOKS-EN.FLX:171,P8-A candidate scan,書中古籍學者,always
+Groldek,格羅德克,person,approved,recommended,2,text.flx:3987,P8-A candidate scan,海盜窩黑魔法師,always
+Grond,格隆德,person,approved,recommended,2,text.flx:46,P8-A candidate scan,半獸人/巨魔頭目,always
+Guardian,守護者,person,approved,informational,143,text.flx:460,U8 authority.tsv (approved),U8 authority.tsv (approved),first
+Gwenno,桂諾,person,approved,recommended,8,text.flx:946,P8-A candidate scan,伊歐洛之妻，曾涉足巨蛇之島的傳奇女冒險者,always
+Hawkwind,鷹風,person,approved,recommended,2,BOOKS-EN.FLX:109,P8-A candidate scan,時間之主 Time Lord 化身，引導聖者的大導師,always
+Hayley,海莉,person,approved,recommended,9,text.flx:6188,P8-A candidate scan,波斯鎮貧民,always
+Hennington,漢寧頓,person,approved,recommended,2,text.flx:1019,P8-A candidate scan,不列顛城鎮主管官,always
+Herzog,赫佐格,person,approved,recommended,3,text.flx:2323,P8-A candidate scan,海盜窩海盜首領之一,always
+Iolo,伊歐洛,person,approved,recommended,21,text.flx:948,P8-A candidate scan,慈悲聖友、傳奇吟遊詩人與弓箭大師,first
+Iolo Fitzowen,伊歐洛·菲茨歐文,person,approved,recommended,4,BOOKS-EN.FLX:22,P8-A candidate scan,伊歐洛之全名,always
+Irene,艾琳,person,approved,recommended,2,text.flx:3096,P8-A candidate scan,米諾克雜貨鋪掌櫃,always
+Irina,伊莉娜,person,approved,recommended,20,text.flx:3020,P8-A candidate scan,米諾克吉普賽老巫醫/占卜師,always
+Jaana,潔娜,person,approved,recommended,12,text.flx:3507,P8-A candidate scan,正義聖友、德魯伊女醫者,first
+Jade,翡翠,person,approved,recommended,3,text.flx:4669,P8-A candidate scan,特林錫克居民,always
+James,詹姆士,person,approved,recommended,3,text.flx:7369,P8-A candidate scan,海盜/平民,always
+Jarlath,賈拉思,person,approved,recommended,2,text.flx:1111,P8-A candidate scan,不列顛城農夫,always
+Jastral,賈斯特拉爾,person,approved,recommended,4,text.flx:1144,P8-A candidate scan,不列顛城麵包師,always
+Jim,吉姆,person,approved,recommended,3,BOOKS-EN.FLX:121,P8-A candidate scan,不列顛平民,always
+Joe,獨腿喬,person,approved,recommended,5,text.flx:6231,P8-A candidate scan,波斯鎮獨腿水手喬 Peg Leg Joe,always
+Jordan,喬丹,person,approved,recommended,4,text.flx:914,P8-A candidate scan,平民,always
+Joshua,約書亞,person,approved,recommended,2,text.flx:5691,P8-A candidate scan,特林錫克居民,always
+Julia,茱莉亞,person,approved,recommended,20,text.flx:2927,P8-A candidate scan,犧牲聖友、米諾克傳奇女工匠,first
+Karenna,卡蓮娜,person,approved,recommended,4,BOOKS-EN.FLX:35,P8-A candidate scan,平民婦女,always
+Katie,凱蒂,person,approved,recommended,6,text.flx:2322,P8-A candidate scan,海盜窩遭劫被賣少女,always
+Katrina,卡特蓮娜,person,approved,recommended,9,text.flx:6052,P8-A candidate scan,謙遜聖友、瑪津西亞牧羊女,first
+Keagan,基根,person,approved,recommended,2,text.flx:2228,P8-A candidate scan,海盜窩居民,always
+Keller,凱勒,person,approved,recommended,3,text.flx:1203,P8-A candidate scan,不列顛城堡地窖主管,always
+Khelereth,克勒瑞斯,person,approved,recommended,7,text.flx:4361,P8-A candidate scan,特林錫克殉道聖騎士亡魂,always
+Killigan,基利根,person,approved,recommended,16,text.flx:255,P8-A candidate scan,不列顛城侵吞大教堂賑災善款之劣紳,always
+Kimberly,金柏莉,person,approved,recommended,4,text.flx:259,P8-A candidate scan,不列顛城失蛇貴婦,always
+Lambert,蘭伯特,person,approved,recommended,4,text.flx:6963,P8-A candidate scan,瓦洛利亞中士 Sgt. Lambert,always
+Laszlo,拉茲洛,person,approved,recommended,3,text.flx:3210,P8-A candidate scan,米諾克熟練石匠,always
+Leeland,李蘭,person,approved,recommended,4,BOOKS-EN.FLX:143,P8-A candidate scan,書中古代學者,always
+Leon,里昂,person,approved,recommended,5,text.flx:1424,P8-A candidate scan,不列顛城精準製弓師,always
+Lindonia,林多尼亞,person,approved,recommended,2,text.flx:6411,P8-A candidate scan,波斯鎮居民,always
+Liselle,莉塞爾,person,approved,recommended,5,text.flx:6831,P8-A candidate scan,特芬島翼族平民,always
+Lord Blackthorn,黑棘王,person,approved,recommended,9,text.flx:1821,P8-A candidate scan,曾任攝政王、後被腐化的黑棘領主,first
+Lord British,不列顛王,person,approved,informational,138,text.flx:286,U8 authority.tsv (approved),U8 authority.tsv (approved),first
+Lorence,洛倫斯,person,approved,recommended,3,text.flx:6456,P8-A candidate scan,波斯鎮貧民,always
+Lothar,洛薩,person,approved,recommended,3,text.flx:4362,P8-A candidate scan,"劍魔/劍魂 Lothar, the Sword Wraith",always
+Luc,盧克,person,approved,recommended,4,text.flx:7424,P8-A candidate scan,不列顛平民,always
+Lucero,盧塞羅,person,approved,recommended,14,text.flx:6412,P8-A candidate scan,特林錫克榮譽聖騎士領袖,always
+Lucian,盧西恩,person,approved,recommended,2,text.flx:6546,P8-A candidate scan,波斯鎮平民,always
+Lucy,露西,person,approved,recommended,5,text.flx:1913,P8-A candidate scan,不列顛酒館女侍,always
+Lyssa,莉莎,person,approved,recommended,3,text.flx:4420,P8-A candidate scan,斯卡拉布雷亡魂女祭司,always
+Malchir,麥爾吉爾,person,approved,recommended,3,text.flx:4458,U8 authority.tsv (proposed),U8 authority.tsv (proposed),always
+Malcolm,馬爾科姆,person,approved,recommended,3,text.flx:1720,P8-A candidate scan,平民/學者,always
+Marek,馬雷克,person,approved,recommended,10,text.flx:4513,P8-A candidate scan,斯卡拉布雷亡魂之一,always
+Margery,瑪潔莉,person,approved,recommended,2,text.flx:1639,P8-A candidate scan,神恩修道院修女,always
+Mariah,瑪莉亞,person,approved,recommended,15,text.flx:5514,P8-A candidate scan,誠實聖友、月光城首席大法師,first
+Marna,瑪娜,person,approved,recommended,4,text.flx:5862,P8-A candidate scan,波斯鎮貧民,always
+Mathis,馬席斯,person,approved,recommended,8,text.flx:4586,P8-A candidate scan,特林錫克受柱子腐化之墮落聖騎士,always
+Meranthon,梅蘭森,person,approved,recommended,7,text.flx:6822,P8-A candidate scan,瓦洛利亞受心靈詛咒之騎士,always
+Meribeth,梅里貝絲,person,approved,recommended,9,text.flx:250,P8-A candidate scan,不列顛城鎮官艾登之妻,always
+Minax,敏娜絲,person,approved,recommended,10,text.flx:4219,P8-A candidate scan,U2穿梭時空的復仇魔女,always
+Molly,茉莉,person,approved,recommended,4,text.flx:2813,P8-A candidate scan,Destard遇難平民,always
+Mondain,蒙丹,person,approved,recommended,17,text.flx:4216,P8-A candidate scan,U1不死邪惡大巫師,always
+Montego,蒙特哥,person,approved,recommended,2,text.flx:2502,P8-A candidate scan,海盜窩兇悍海盜,always
+Morganna,摩根娜,person,approved,recommended,8,text.flx:3177,P8-A candidate scan,米諾克吉普賽老占卜婆婆,always
+Myrea,梅莉亞,person,approved,recommended,3,text.flx:6558,P8-A candidate scan,波斯鎮平民婦女,always
+Naomi,娜歐蜜,person,approved,recommended,3,BOOKS-EN.FLX:171,P8-A candidate scan,平民女子,always
+Naxatilor,納克薩蒂洛,person,approved,recommended,3,BOOKS-EN.FLX:41,P8-A candidate scan,U6石像鬼盲眼智者大師,always
+Nico,尼可,person,approved,recommended,12,text.flx:503,P8-A candidate scan,平民,always
+Nimrond,尼姆隆德,person,approved,recommended,4,text.flx:1760,P8-A candidate scan,不列顛城濟貧修士,always
+Olsen,歐森,person,approved,recommended,3,text.flx:1791,P8-A candidate scan,不列顛城敬仰聖者之市民,always
+Olwyn,歐爾溫,person,approved,recommended,2,text.flx:939,P8-A candidate scan,不列顛黑石鐵匠喬凡尼之妻,always
+Oracle,智慧神諭,person,approved,recommended,33,text.flx:3677,P8-A candidate scan,月光城的真理神諭機構或神諭之靈,first
+Orson,奧森,person,approved,recommended,3,text.flx:1849,P8-A candidate scan,不列顛城路途冒險者,always
+Peiter,彼得,person,approved,recommended,4,text.flx:1894,P8-A candidate scan,不列顛城碼頭工人,always
+Pyros,派羅斯,person,approved,recommended,10,text.flx:4448,U8 authority.tsv (proposed),U8 authority.tsv (proposed),always
+Raliegh,羅利,person,approved,recommended,2,text.flx:1445,P8-A candidate scan,不列顛城射術教官,always
+Raphael,拉斐爾,person,approved,recommended,4,text.flx:6581,P8-A candidate scan,特林錫克戰技導師,always
+Raven,烏鴉,person,approved,recommended,64,text.flx:1891,P8-A candidate scan,瑞雯船長，女主角兼海盜女英雄，常稱 Raven,always
+Raxos,拉克索斯,person,approved,recommended,12,text.flx:3104,P8-A candidate scan,米諾克活人獻祭邪教首腦,always
+Rebecca,蕾貝卡,person,approved,recommended,4,text.flx:7188,P8-A candidate scan,平民,always
+Richard,理查,person,approved,recommended,2,BOOKS-EN.FLX:122,P8-A candidate scan,理查國王墓誌銘/平民,always
+Robbie,羅比,person,approved,recommended,5,text.flx:7187,P8-A candidate scan,平民少年,always
+Robin,羅賓,person,approved,recommended,5,text.flx:7095,P8-A candidate scan,瓦洛利亞騎士羅賓,always
+Rupert,魯伯特,person,approved,recommended,4,text.flx:934,P8-A candidate scan,不列顛城平民匠人,always
+Samhayne,薩姆漢,person,approved,recommended,45,text.flx:2199,P8-A candidate scan,海盜窩總督、烏鴉養父,always
+Saphera,薩菲拉,person,approved,recommended,2,text.flx:2840,P8-A candidate scan,Destard惡龍崇拜邪教女祭司長,always
+Sarah,莎拉,person,approved,recommended,10,text.flx:413,P8-A candidate scan,不列顛城虔誠靈修女子,always
+Seggallion,塞加利昂,person,approved,recommended,3,BOOKS-EN.FLX:39,P8-A candidate scan,傳奇傳記主角騎士,always
+Sentinel,哨兵,person,approved,recommended,2,text.flx:5204,P8-A candidate scan,斯卡拉布雷的亡魂守衛,first
+Sergio,塞爾吉奧,person,approved,recommended,6,text.flx:6387,P8-A candidate scan,特林錫克居民,always
+Shamino,夏米諾,person,approved,recommended,19,text.flx:1954,P8-A candidate scan,靈性聖友、傳奇遊俠,first
+Siona,席歐娜,person,approved,recommended,2,text.flx:2100,P8-A candidate scan,不列顛城堡侍女/學者,always
+Sir Artos,阿托斯爵士,person,approved,recommended,5,text.flx:7019,P8-A candidate scan,瓦洛利亞勇敢無畏之聖騎士,always
+Sir Drake,德雷克爵士,person,approved,recommended,4,text.flx:6921,P8-A candidate scan,瓦洛利亞知曉通關密語之騎士,always
+Sir Dupre,杜普雷爵士,person,approved,recommended,8,text.flx:6358,P8-A candidate scan,殉道聖友杜普雷爵士幽靈,always
+Sir Ricardo,理卡多爵士,person,approved,recommended,4,BOOKS-EN.FLX:13,P8-A candidate scan,古代傳奇騎士墓誌銘主角,always
+Sir Robin,羅賓爵士,person,approved,recommended,4,text.flx:7125,P8-A candidate scan,瓦洛利亞臨陣退縮之怯懦騎士,always
+Smith,史密斯,person,approved,recommended,6,text.flx:3757,P8-A candidate scan,會說話的馬史密斯或平民,always
+Sven,斯文,person,approved,recommended,2,text.flx:7551,P8-A candidate scan,紫杉城健談伐木工,always
+Synnovea,辛諾薇雅,person,approved,recommended,4,text.flx:6391,P8-A candidate scan,特林錫克居民婦女,always
+Talornia,塔洛尼亞,person,approved,recommended,16,text.flx:2727,P8-A candidate scan,盤踞於Destard深處的強大太古紅龍領主,always
+Teresa,泰瑞莎,person,approved,recommended,2,text.flx:7196,P8-A candidate scan,紫杉城居民,always
+Thadious,薩迪厄斯,person,approved,recommended,4,text.flx:706,P8-A candidate scan,不列顛城尋找基蘭石之市民,always
+Tommy,湯米,person,approved,recommended,3,text.flx:5844,P8-A candidate scan,月光城男童,always
+Tristan,崔斯坦,person,approved,recommended,3,text.flx:2146,P8-A candidate scan,海盜窩遇難海盜,always
+Tydus,泰杜斯,person,approved,recommended,49,text.flx:5481,P8-A candidate scan,月光城心懷鬼胎的盲眼魔法導師,always
+Tyson,泰森,person,approved,recommended,2,text.flx:2130,P8-A candidate scan,不列顛城市民,always
+Umberto,溫伯托,person,approved,recommended,8,text.flx:4509,P8-A candidate scan,斯卡拉布雷亡魂之一,always
+Vaclav,瓦斯拉夫,person,approved,recommended,6,text.flx:3394,P8-A candidate scan,米諾克吉普賽營地首領,always
+Valkadesh,瓦卡德什,person,approved,recommended,6,text.flx:72,P8-A candidate scan,安布羅西亞叛變的石像鬼長老,always
+Vasagralem,瓦薩葛拉姆,person,approved,recommended,17,text.flx:205,P8-A candidate scan,尊貴的石像鬼國王,always
+Virgil,維吉爾,person,approved,recommended,5,text.flx:6509,P8-A candidate scan,特林錫克居民,always
+Voresh,沃瑞什,person,approved,recommended,5,text.flx:166,P8-A candidate scan,安布羅西亞有翼石像鬼守衛,always
+Wislem,威斯倫,person,approved,recommended,21,text.flx:13,P8-A candidate scan,安布羅西亞石像鬼大學者,always
+Xarnthal,薩恩索,person,approved,recommended,11,text.flx:2736,P8-A candidate scan,Destard遇難學者,always
+Yastar,亞斯塔,person,approved,recommended,2,text.flx:219,P8-A candidate scan,安布羅西亞石像鬼居民,always
+Abbey,修道院,place,approved,recommended,4,text.flx:558,P8-A candidate scan,指修道院或神恩修道院,first
+Abyss,冥河深淵,place,approved,recommended,21,text.flx:1029,P8-A candidate scan,大深淵 Great Stygian Abyss，對應靈性之反美德地城,first
+Ambrosia,安布羅西亞,place,approved,recommended,13,text.flx:15,P8-A candidate scan,墜落之失落大陸，石像鬼最後的避難所,first
+Bastion,堡壘,place,approved,recommended,8,text.flx:6483,P8-A candidate scan,要塞要衝,first
+Blackrock Mines,黑石礦坑,place,approved,recommended,4,text.flx:2965,P8-A candidate scan,米諾克附近的黑石礦場,first
+Britain,不列顛城,place,approved,recommended,118,text.flx:247,P8-A candidate scan,不列顛尼亞之首善之都、慈悲之城，區別於國家不列顛尼亞,first
+Britannia,不列顛尼亞,place,approved,informational,201,text.flx:306,U8 authority.tsv (approved),U8 approved (approved),first
+Buc's Den,海盜窩,place,approved,recommended,7,text.flx:2404,P8-A candidate scan,Buccaneer's Den 簡稱; variant of Buccaneer's Den,first
+Buccaneer's Den,海盜窩,place,approved,recommended,24,text.flx:593,P8-A candidate scan,海盜與不法之徒聚集的走私巢穴島嶼,first
+Cathedral,大教堂,place,approved,recommended,4,text.flx:1268,P8-A candidate scan,不列顛城大教堂,first
+Cathedral of Love,博愛大教堂,place,approved,recommended,5,text.flx:547,P8-A candidate scan,供奉愛之原則的大教堂,first
+Cove,科夫鎮,place,approved,recommended,38,text.flx:510,P8-A candidate scan,海邊小鎮科夫，沉沒於海灣附近,first
+Covetous,貪婪地城,place,approved,recommended,5,text.flx:3239,P8-A candidate scan,對應犧牲美德之反美德地城,first
+Dawn,破曉村,place,approved,recommended,6,text.flx:2715,P8-A candidate scan,傳奇神秘隱世村落，曾出現在U3與U9,first
+Deceit,欺瞞地城,place,approved,recommended,7,text.flx:4259,P8-A candidate scan,對應誠實美德之反美德地城,first
+Despise,蔑視地城,place,approved,recommended,31,text.flx:711,P8-A candidate scan,對應慈悲美德之反美德地城,first
+Destard,怯懦地城,place,approved,recommended,27,text.flx:831,P8-A candidate scan,對應英勇美德之反美德地城，火龍巢穴,first
+Earth,地球,place,approved,recommended,3,text.flx:4078,P8-A candidate scan,聖者的故鄉行星,first
+Empath Abbey,共情修道院,place,approved,recommended,14,text.flx:553,U7 Translation_Guide.md,U7定名共情修道院（Empath意指同理心/共情，愛之原則聖地）,first
+Ethereal Void,乙太虛空,place,approved,recommended,4,text.flx:1573,P8-A candidate scan,星界靈界虛空空間,first
+Hythloth,卑劣地城,place,approved,recommended,16,text.flx:102,P8-A candidate scan,對應謙遜美德之反美德地城,first
+Isle of the Avatar,聖者之島,place,approved,recommended,14,text.flx:445,P8-A candidate scan,法典安置所與大深淵所在地,first
+Lycaeum,理學苑,place,approved,recommended,28,text.flx:559,P8-A candidate scan,位於月光城附近的真理與智慧聖殿,first
+Magic Shop,魔法店,place,approved,recommended,4,BOOKS-EN.FLX:193,P8-A candidate scan,販售藥水與施法材料之店舖,first
+Minoc,米諾克,place,approved,recommended,21,text.flx:1720,P8-A candidate scan,工匠與採礦之城、犧牲之城,first
+Moonglow,月光城,place,approved,recommended,47,text.flx:499,P8-A candidate scan,智者與法師之島城、誠實之城,first
+New Magincia,新瑪津西亞,place,approved,recommended,30,text.flx:2152,P8-A candidate scan,謙遜之島城，原瑪津西亞因驕傲滅亡後重建,first
+Pagan,佩根,place,approved,recommended,4,text.flx:466,U8 authority.tsv (proposed),U8 authority.tsv (proposed),first
+Paws,波斯鎮,place,approved,recommended,69,text.flx:262,P8-A candidate scan,不列顛城南方沼澤貧民小聚落，台灣舊譯波斯鎮,first
+Serpent's Hold,巨蛇堡壘,place,approved,recommended,11,text.flx:559,P8-A candidate scan,原英勇之城、要塞島嶼,first
+Serpent's Spine,巨蛇山脈,place,approved,recommended,4,text.flx:564,P8-A candidate scan,橫貫不列顛尼亞中部的巨蛇山脈,first
+Shame,羞恥地城,place,approved,recommended,5,text.flx:4267,P8-A candidate scan,對應榮譽美德之反美德地城,first
+Shrine,美德聖壇,place,approved,recommended,29,text.flx:1722,P8-A candidate scan,泛指八大美德聖壇,first
+Shrine of Compassion,慈悲聖壇,place,approved,recommended,9,text.flx:338,P8-A candidate scan,慈悲美德聖壇,first
+Shrine of Honesty,誠實聖壇,place,approved,recommended,4,text.flx:1744,P8-A candidate scan,誠實美德聖壇,first
+Shrine of Honor,榮譽聖壇,place,approved,recommended,7,text.flx:3622,P8-A candidate scan,榮譽美德聖壇,first
+Shrine of Humility,謙遜聖壇,place,approved,recommended,7,text.flx:4853,P8-A candidate scan,謙遜美德聖壇,first
+Shrine of Justice,正義聖壇,place,approved,recommended,7,text.flx:1527,P8-A candidate scan,正義美德聖壇,first
+Shrine of Sacrifice,犧牲聖壇,place,approved,recommended,6,text.flx:3347,P8-A candidate scan,犧牲美德聖壇,first
+Shrine of Spirituality,靈性聖壇,place,approved,recommended,12,text.flx:1573,P8-A candidate scan,靈性美德聖壇,first
+Skara Brae,斯卡拉布雷,place,approved,recommended,18,text.flx:4008,P8-A candidate scan,靈性之城，曾遭詛咒之火焚毀的幽靈島城,first
+Sosaria,索沙利亞,place,approved,recommended,9,text.flx:4216,U8 authority.tsv (approved),不列顛尼亞古名，創世紀前三部曲的世界,first
+Stonegate,石門,place,approved,recommended,4,text.flx:4074,P8-A candidate scan,歷史要塞石門城堡,first
+Temple of Singularity,唯一神廟,place,approved,recommended,4,text.flx:153,P8-A candidate scan,石像鬼之歸一哲學聖廟,first
+Temple of Souls,靈魂神殿,place,approved,recommended,5,text.flx:5202,P8-A candidate scan,供奉亡者與靈魂的神殿,first
+Terfin,特芬島,place,approved,recommended,11,text.flx:1611,P8-A candidate scan,石像鬼與翼族聚居島嶼,first
+Trinsic,特林錫克,place,approved,recommended,70,text.flx:933,P8-A candidate scan,榮譽之城，聖騎士之都,first
+Valoria,瓦洛利亞,place,approved,recommended,29,text.flx:914,P8-A candidate scan,英勇之城，由英勇騎士在Jhelom沉沒後建立,first
+Wrong,冤屈地城,place,approved,recommended,8,text.flx:3768,P8-A candidate scan,對應正義美德之反美德地城,first
+Yew,紫杉城,place,approved,recommended,52,text.flx:564,P8-A candidate scan,正義之城，正義高等法院所在地,first
+Britannian,不列顛尼亞人,organization,approved,recommended,5,text.flx:4346,U8 authority.tsv (proposed),不列顛尼亞臣民,first
+Guild,公會,organization,approved,recommended,9,text.flx:1700,P8-A candidate scan,盜賊公會或商行,first
+Gypsies,吉普賽人,organization,approved,recommended,6,text.flx:3192,P8-A candidate scan,不列顛尼亞的流浪吉普賽族群,first
+Paladins,聖騎士,organization,approved,recommended,6,text.flx:6564,P8-A candidate scan,特林錫克聖騎士軍團,first
+Shadow Lords,暗影領主,organization,approved,recommended,3,text.flx:1550,P8-A candidate scan,U5暗影領主三人組，虛偽、仇恨、怯懦之化身; variant of Shadowlords,first
+Shadowlords,暗影領主,organization,approved,recommended,8,text.flx:4228,P8-A candidate scan,U5暗影領主三人組,first
+Valorian,瓦洛利亞騎士,organization,approved,recommended,3,text.flx:6266,P8-A candidate scan,瓦洛利亞騎士或居民,first
+Valorian Knights,瓦洛利亞騎士團,organization,approved,recommended,7,text.flx:4818,P8-A candidate scan,駐守瓦洛利亞的英勇聖騎士團,first
+Winged,有翼種,organization,approved,recommended,16,text.flx:6,P8-A candidate scan,石像鬼階級：天生有翼之智者、統治者與施法者階層,first
+Wingless,無翼種,organization,approved,recommended,11,text.flx:6,P8-A candidate scan,石像鬼階級：天生無翼之勞動與工匠階層,first
+Wyrmguard,龍衛,organization,approved,recommended,40,text.flx:978,P8-A candidate scan,守護者麾下的墮落巨龍侍衛，由八位聖友夥伴被腐化而化身,first
+Ascension,羽化昇天,title,approved,recommended,0,,Taiwan release subtitle (human),台灣發行官方副標題《創世紀九：羽化昇天》,never
+Baker,麵包師,title,approved,recommended,5,text.flx:1155,P8-A candidate scan,麵包師職稱,first
+Blacksmith,鐵匠,title,approved,recommended,5,BOOKS-EN.FLX:187,P8-A candidate scan,鐵匠職稱,first
+Boyer,製弓師,title,approved,recommended,3,text.flx:1424,P8-A candidate scan,製弓匠職稱,first
+Commander,指揮官,title,approved,recommended,6,text.flx:6943,P8-A candidate scan,騎士團或守軍指揮官,first
+Emperor,皇帝,title,approved,recommended,3,BOOKS-EN.FLX:69,P8-A candidate scan,石像鬼或古代君主,first
+False Prophet,偽善者,title,approved,recommended,16,text.flx:4,P8-A candidate scan,U6石像鬼預言中摧毀石像鬼世界的「偽善者/假先知」聖者,first
+First Citizen,第一公民,title,approved,recommended,22,text.flx:1713,P8-A candidate scan,米諾克城邦領袖官方頭銜,first
+Great Leader,偉大領袖,title,approved,recommended,7,text.flx:3062,P8-A candidate scan,石像鬼族人或守護者尊稱,first
+Hero of Britannia,不列顛尼亞英雄,title,approved,recommended,3,text.flx:3468,P8-A candidate scan,不列顛尼亞人民對救世英雄的尊稱,first
+Knight,騎士,title,approved,recommended,3,text.flx:4133,P8-A candidate scan,英勇或榮譽騎士,first
+Mayor,市長,title,approved,recommended,4,text.flx:1246,P8-A candidate scan,城鎮市長,first
+Paladin,聖騎士,title,approved,recommended,3,text.flx:6413,P8-A candidate scan,特林錫克美德騎士頭銜; variant of Paladins,first
+Provisioner,雜貨商,title,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,日常雜貨供應商,first
+Queen,女王,title,approved,recommended,25,text.flx:135,P8-A candidate scan,石像鬼女王查赫 Queen Zhah 或王后,first
+Rogue,遊蕩者,title,approved,recommended,3,text.flx:2648,P8-A candidate scan,盜賊或流浪者,first
+Rom Baro,羅姆巴羅,title,approved,recommended,34,text.flx:3024,P8-A candidate scan,吉普賽大酋長/首領頭銜,first
+Compassion,慈悲,virtue,approved,recommended,22,text.flx:285,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，對應愛之原則與不列顛城,never
+Courage,勇氣,virtue,approved,recommended,9,text.flx:559,P8-A candidate scan,三大原則之一，對應英勇、榮譽、犧牲、靈性美德,never
+Honesty,誠實,virtue,approved,recommended,12,text.flx:525,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，對應真理之原則與月光城,never
+Honor,榮譽,virtue,approved,recommended,19,text.flx:4091,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，由真理與勇氣結合，對應特林錫克,never
+Humility,謙遜,virtue,approved,recommended,12,text.flx:4097,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，獨立於三原則之外，對應新瑪津西亞,never
+Justice,正義,virtue,approved,recommended,13,text.flx:4085,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，由真理與愛結合，對應紫杉城,never
+Love,愛,virtue,approved,recommended,10,text.flx:559,P8-A candidate scan,三大原則之一，對應慈悲、正義、犧牲、靈性美德,never
+Sacrifice,犧牲,virtue,approved,recommended,13,text.flx:1720,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，由愛與勇氣結合，對應米諾克,never
+Spirituality,靈性,virtue,approved,recommended,16,text.flx:4094,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，由真理、愛、勇氣三者合一，對應斯卡拉布雷,never
+Truth,真理,virtue,approved,recommended,10,text.flx:519,P8-A candidate scan,三大原則之一，對應誠實、正義、榮譽、靈性美德,never
+Valor,英勇,virtue,approved,recommended,11,text.flx:4082,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，對應勇氣之原則與瓦洛利亞,never
+Armageddon,末日決戰,spell,approved,recommended,3,text.flx:4300,U7 Translation_Guide.md,U7第八環終極禁咒定名末日決戰,first
+Barrier of Life,生命屏障,spell,approved,recommended,4,text.flx:4300,P8-A candidate scan,強大的防護結界法術,first
+Restore Ritual,復原儀式,spell,approved,recommended,5,text.flx:5774,P8-A candidate scan,淨化被腐化聖壇的大型神聖儀式,first
+Ritual of Appeasement,安撫儀式,spell,approved,recommended,3,text.flx:760,P8-A candidate scan,平息災厄或惡龍的儀式,first
+Gargoyle,石像鬼,monster,approved,recommended,33,text.flx:78,U8 authority.tsv (proposed),U8 proposed (proposed),first
+Gargoyles,石像鬼族,monster,approved,recommended,34,text.flx:12,plural of Gargoyle,石像鬼種族整體,first
+Sword Wraith,劍魔,monster,approved,recommended,6,text.flx:4372,P8-A candidate scan,劍之亡魂/劍魔 Lothar,first
+A mark left by two lovers,一處戀人的刻印,item,approved,recommended,1,TYPENAME.FLX:5716,P8-A candidate scan,,never
+A mystic diagram,神秘圖騰,item,approved,recommended,1,TYPENAME.FLX:2169,P8-A candidate scan,,never
+A sentimental carving,滿懷思念的雕刻,item,approved,recommended,1,TYPENAME.FLX:5715,P8-A candidate scan,,never
+Agatha,艾嘉莎,item,approved,recommended,1,TYPENAME.FLX:140,P8-A candidate scan,,never
+Agmar,阿格馬,item,approved,recommended,1,TYPENAME.FLX:316,P8-A candidate scan,,never
+Ailuj,艾露吉,item,approved,recommended,1,TYPENAME.FLX:77,P8-A candidate scan,,never
+Alarm clock,鬧鐘,item,approved,recommended,1,TYPENAME.FLX:4776,P8-A candidate scan,,never
+Alchemy Lab,鍊金實驗台,item,approved,recommended,1,TYPENAME.FLX:5649,P8-A candidate scan,,never
+Altara's Sceptre,阿爾塔拉的權杖,item,approved,recommended,1,TYPENAME.FLX:5670,P8-A candidate scan,,never
+Amande,杏仁,item,approved,recommended,1,TYPENAME.FLX:90,P8-A candidate scan,,never
+Amethyst,紫水晶,item,approved,recommended,1,TYPENAME.FLX:876,P8-A candidate scan,,never
+Amulet of Singularity,唯一護符,item,approved,recommended,6,text.flx:136,P8-A candidate scan,,never
+Anchor,船錨,item,approved,recommended,1,TYPENAME.FLX:1905,P8-A candidate scan,,never
+Ankh,安卡,item,approved,informational,6,text.flx:4169,P6-S corpus terminology_review (retained English),生命之符，象徵靈性與美德,never
+Ankh of Spirituality,靈性安卡,item,approved,recommended,5,text.flx:5293,P8-A candidate scan,靈性美德之安卡十字聖物,never
+Anvil,鐵砧,item,approved,recommended,1,TYPENAME.FLX:605,P8-A candidate scan,,never
+Apple,蘋果,item,approved,recommended,1,TYPENAME.FLX:743,P8-A candidate scan,,never
+Archer,,item,todo,recommended,1,TYPENAME.FLX:50,P8-A candidate scan,,
+Archery target,箭靶,item,approved,recommended,2,TYPENAME.FLX:2846,P8-A candidate scan,,never
+Arctic wolf,,item,todo,recommended,1,TYPENAME.FLX:152,P8-A candidate scan,,
+Armchair,扶手椅,item,approved,recommended,1,TYPENAME.FLX:4449,P8-A candidate scan,,never
+Armor,護甲,item,approved,recommended,5,BOOKS-EN.FLX:236,P8-A candidate scan,,never
+Arms of the Magi,大法師護臂,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Arrow,箭矢,item,approved,recommended,2,TYPENAME.FLX:1298,P8-A candidate scan,variant of Arrows,never
+Arrows,箭矢,item,approved,recommended,5,BOOKS-EN.FLX:179,P8-A candidate scan,,never
+Attractor,,item,todo,recommended,1,TYPENAME.FLX:2234,P8-A candidate scan,,
+Avatar Arms,聖者護臂,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Avatar Boots,聖者之靴,item,approved,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Avatar boots,聖者之靴,item,approved,recommended,1,TYPENAME.FLX:5107,P8-A candidate scan,variant of Avatar Boots,never
+Avatar gauntlets,聖者護手,item,approved,recommended,1,TYPENAME.FLX:5108,P8-A candidate scan,,never
+Avatar Gloves,聖者手套,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,聖者傳奇護具之一,never
+Avatar Leggings,聖者護腿,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Avatar leggings,聖者護腿,item,approved,recommended,1,TYPENAME.FLX:5109,P8-A candidate scan,variant of Avatar Leggings,never
+Avatar sleeves,聖者護袖,item,approved,recommended,1,TYPENAME.FLX:5106,P8-A candidate scan,,never
+Avatar Tunic,聖者外袍,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,聖者標誌性的安卡長外袍,never
+Avatar tunic,聖者外袍,item,approved,recommended,1,TYPENAME.FLX:4900,P8-A candidate scan,variant of Avatar Tunic,never
+Awning,,item,todo,recommended,1,TYPENAME.FLX:1757,P8-A candidate scan,,
+Axe,斧頭,item,approved,recommended,5,TYPENAME.FLX:2447,P8-A candidate scan,,never
+Backgammon board,西洋雙陸棋盤,item,approved,recommended,1,TYPENAME.FLX:586,P8-A candidate scan,,never
+Backpack,背包,item,approved,recommended,2,TYPENAME.FLX:2547,P8-A candidate scan,,never
+Bag,袋子,item,approved,recommended,1,TYPENAME.FLX:2342,P8-A candidate scan,,never
+Bakura,巴庫拉,item,approved,recommended,1,TYPENAME.FLX:99,P8-A candidate scan,,never
+Bandages,繃帶,item,approved,recommended,9,BOOKS-EN.FLX:195,P8-A candidate scan,,never
+Bandit,,item,todo,recommended,2,TYPENAME.FLX:19,P8-A candidate scan,,
+Banner,旗幟,item,approved,recommended,9,TYPENAME.FLX:4498,P8-A candidate scan,,never
+Banner of Compassion,慈悲旗幟,item,approved,recommended,1,TYPENAME.FLX:3815,P8-A candidate scan,,never
+Banner of Honesty,誠實旗幟,item,approved,recommended,1,TYPENAME.FLX:3816,P8-A candidate scan,,never
+Banner of Honor,榮譽旗幟,item,approved,recommended,1,TYPENAME.FLX:3817,P8-A candidate scan,,never
+Banner of Humility,謙遜旗幟,item,approved,recommended,1,TYPENAME.FLX:3818,P8-A candidate scan,,never
+Banner of Justice,正義旗幟,item,approved,recommended,1,TYPENAME.FLX:3819,P8-A candidate scan,,never
+Banner of Sacrifice,犧牲旗幟,item,approved,recommended,1,TYPENAME.FLX:3821,P8-A candidate scan,,never
+Banner of Spirit,靈性旗幟,item,approved,recommended,1,TYPENAME.FLX:3822,P8-A candidate scan,,never
+Banner of Valor,英勇旗幟,item,approved,recommended,1,TYPENAME.FLX:3823,P8-A candidate scan,,never
+Barrel,木桶,item,approved,recommended,2,TYPENAME.FLX:534,P8-A candidate scan,,never
+Basket,提籃,item,approved,recommended,4,TYPENAME.FLX:751,P8-A candidate scan,,never
+Bastion Key,堡壘鑰匙,item,approved,recommended,1,TYPENAME.FLX:5490,P8-A candidate scan,,never
+Battle Axe,戰斧,item,approved,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Battleaxe,戰斧,item,approved,recommended,2,TYPENAME.FLX:2640,P8-A candidate scan,variant of Battle Axe,never
+Bear rug,熊皮地毯,item,approved,recommended,2,TYPENAME.FLX:2637,P8-A candidate scan,,never
+Bed,床,item,approved,recommended,8,TYPENAME.FLX:546,P8-A candidate scan,,never
+Beehive,蜂窩,item,approved,recommended,1,TYPENAME.FLX:2200,P8-A candidate scan,,never
+Bell,勇氣之鐘,item,approved,recommended,6,text.flx:4427,P8-A candidate scan,考驗勇氣的神聖之鐘; variant of Bell of Courage,first
+Bell of Courage,勇氣之鐘,item,approved,recommended,12,text.flx:4419,P8-A candidate scan,,never
+Bella,貝拉,item,approved,recommended,1,TYPENAME.FLX:174,P8-A candidate scan,,never
+Bellows,風箱,item,approved,recommended,1,TYPENAME.FLX:885,P8-A candidate scan,,never
+Bench,長凳,item,approved,recommended,7,TYPENAME.FLX:550,P8-A candidate scan,,never
+Binding Ritual Circle,束縛儀式陣,item,approved,recommended,1,TYPENAME.FLX:5318,P8-A candidate scan,,never
+Bird,,item,todo,recommended,6,TYPENAME.FLX:183,P8-A candidate scan,,
+Birdbath,,item,todo,recommended,1,TYPENAME.FLX:1312,P8-A candidate scan,,
+Black Gate,黑門,item,approved,recommended,4,text.flx:4235,P8-A candidate scan,,never
+Black Gate Fragments,黑門碎片,item,approved,recommended,3,TYPENAME.FLX:5483,P8-A candidate scan,,never
+Black Pearl,黑珍珠,item,approved,recommended,12,BOOKS-EN.FLX:193,P8-A candidate scan,經典施法材料之一，賦予投射與動力,never
+Black pearl,黑珍珠,item,approved,recommended,1,TYPENAME.FLX:2192,P8-A candidate scan,variant of Black Pearl,never
+Black Potion,黑色藥水,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,,never
+Black Rock,黑石,item,approved,recommended,7,BOOKS-EN.FLX:49,P8-A candidate scan,同 Blackrock; variant of Blackrock,never
+Blackrock,黑石,item,approved,recommended,21,text.flx:932,U8 authority.tsv (approved),U8 authority.tsv (approved),never
+Blackrock Arms,黑石護臂,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Blackrock arms,黑石護臂,item,approved,recommended,1,TYPENAME.FLX:4748,P8-A candidate scan,variant of Blackrock Arms,never
+Blackrock Boots,黑石戰靴,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Blackrock boots,黑石戰靴,item,approved,recommended,1,TYPENAME.FLX:4749,P8-A candidate scan,variant of Blackrock Boots,never
+Blackrock Chest,黑石胸甲,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Blackrock chest,黑石胸甲,item,approved,recommended,1,TYPENAME.FLX:4750,P8-A candidate scan,variant of Blackrock Chest,never
+Blackrock Crystal Ball,黑石水晶球,item,approved,recommended,10,text.flx:3228,P8-A candidate scan,,never
+Blackrock Gauntlets,黑石護手,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Blackrock gauntlets,黑石護手,item,approved,recommended,1,TYPENAME.FLX:4751,P8-A candidate scan,variant of Blackrock Gauntlets,never
+Blackrock Helm,黑石頭盔,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Blackrock helm,黑石頭盔,item,approved,recommended,1,TYPENAME.FLX:4752,P8-A candidate scan,variant of Blackrock Helm,never
+Blackrock Leggings,黑石護腿,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Blackrock leggings,黑石護腿,item,approved,recommended,1,TYPENAME.FLX:4753,P8-A candidate scan,variant of Blackrock Leggings,never
+Blackrock Sword,黑石劍,item,approved,recommended,8,text.flx:6613,P8-A candidate scan,,never
+Blackthorn's Note,黑棘的紙條,item,approved,recommended,1,TYPENAME.FLX:5469,P8-A candidate scan,,never
+Blackthorne's Badge,黑棘領主的徽章,item,approved,recommended,1,TYPENAME.FLX:5664,P8-A candidate scan,,never
+Blade,,item,todo,recommended,1,TYPENAME.FLX:2860,P8-A candidate scan,,
+Bladed Staff,刃杖,item,approved,recommended,9,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Blanket,毯子,item,approved,recommended,5,TYPENAME.FLX:3403,P8-A candidate scan,,never
+Blood,鮮血,item,approved,recommended,12,TYPENAME.FLX:1322,P8-A candidate scan,,never
+Blood Flask,鮮血長頸瓶,item,approved,recommended,1,TYPENAME.FLX:3475,P8-A candidate scan,,never
+Blood Moss,血苔,item,approved,recommended,9,BOOKS-EN.FLX:178,P8-A candidate scan,,never
+Blood moss,血苔,item,approved,recommended,1,TYPENAME.FLX:2193,P8-A candidate scan,variant of Blood Moss,never
+Bloodmoss,血苔,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,經典施法材料之一，賦予移動與速度; variant of Blood Moss,never
+Bloody corpse,,item,todo,recommended,1,TYPENAME.FLX:5653,P8-A candidate scan,,
+Blue dye,,item,todo,recommended,1,TYPENAME.FLX:2769,P8-A candidate scan,,
+Blue gem,藍寶石,item,approved,recommended,1,TYPENAME.FLX:3768,P8-A candidate scan,,never
+Blue globe,,item,todo,recommended,1,TYPENAME.FLX:2436,P8-A candidate scan,,
+Blue Lens,藍色透鏡,item,approved,recommended,1,TYPENAME.FLX:5449,P8-A candidate scan,variant of Blue lens,never
+Blue lens,藍色透鏡,item,approved,recommended,1,TYPENAME.FLX:5519,P8-A candidate scan,,never
+Blue orb,,item,todo,recommended,1,TYPENAME.FLX:3742,P8-A candidate scan,,
+Blue Potion,藍色藥水,item,approved,recommended,5,BOOKS-EN.FLX:193,P8-A candidate scan,,never
+Blue tassel,,item,todo,recommended,1,TYPENAME.FLX:5661,P8-A candidate scan,,
+Board,,item,todo,recommended,1,TYPENAME.FLX:888,P8-A candidate scan,,
+Boat,小船,item,approved,recommended,1,TYPENAME.FLX:2017,P8-A candidate scan,,never
+Body,,item,todo,recommended,2,TYPENAME.FLX:3338,P8-A candidate scan,,
+Bolt,,item,todo,recommended,2,TYPENAME.FLX:1301,P8-A candidate scan,,
+Bolt of Flame Scroll,火箭術捲軸,item,approved,recommended,3,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Bone,,item,todo,recommended,5,TYPENAME.FLX:2764,P8-A candidate scan,,
+Bone Arms,骨製護臂,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Bone arms,骨製護臂,item,approved,recommended,1,TYPENAME.FLX:4618,P8-A candidate scan,variant of Bone Arms,never
+Bone Boots,骨製長靴,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Bone boots,骨製長靴,item,approved,recommended,1,TYPENAME.FLX:4619,P8-A candidate scan,variant of Bone Boots,never
+Bone Chest,骨製胸甲,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Bone chest,骨製胸甲,item,approved,recommended,1,TYPENAME.FLX:4620,P8-A candidate scan,variant of Bone Chest,never
+Bone Gauntlets,骨製護手,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Bone gauntlets,骨製護手,item,approved,recommended,1,TYPENAME.FLX:4621,P8-A candidate scan,variant of Bone Gauntlets,never
+Bone Helm,骨製頭盔,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Bone helm,骨製頭盔,item,approved,recommended,1,TYPENAME.FLX:4622,P8-A candidate scan,variant of Bone Helm,never
+Bone Leggings,骨製護腿,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Bone leggings,骨製護腿,item,approved,recommended,1,TYPENAME.FLX:4623,P8-A candidate scan,variant of Bone Leggings,never
+Bones,白骨,item,approved,recommended,8,TYPENAME.FLX:2663,P8-A candidate scan,,never
+Bonfire,營火,item,approved,recommended,1,TYPENAME.FLX:5461,P8-A candidate scan,,never
+Book,書籍,item,approved,recommended,16,text.flx:5297,P8-A candidate scan,,never
+Book of Balance,平衡之書,item,approved,recommended,1,TYPENAME.FLX:5307,P8-A candidate scan,,never
+Book of Control,掌控之書,item,approved,recommended,1,TYPENAME.FLX:5308,P8-A candidate scan,,never
+Book of Diligence,勤勉之書,item,approved,recommended,1,TYPENAME.FLX:5310,P8-A candidate scan,,never
+Book of Justice,正義之書,item,approved,recommended,6,text.flx:7237,P8-A candidate scan,,never
+Book of Order,秩序之書,item,approved,recommended,1,TYPENAME.FLX:5311,P8-A candidate scan,,never
+Book of Passion,熱忱之書,item,approved,recommended,1,TYPENAME.FLX:5309,P8-A candidate scan,,never
+Book of Prophecy,預言之書,item,approved,recommended,5,text.flx:109,P8-A candidate scan,石像鬼族記載命運與末日的聖典,first
+Book of Three,三原則之書,item,approved,recommended,1,TYPENAME.FLX:5210,P8-A candidate scan,,never
+Book of Truth,真理之書,item,approved,recommended,18,text.flx:3668,P8-A candidate scan,,never
+Bookcase,書櫃,item,approved,recommended,1,TYPENAME.FLX:2208,P8-A candidate scan,,never
+Books,書本,item,approved,recommended,7,TYPENAME.FLX:1287,P8-A candidate scan,,never
+Bookshelf,書架,item,approved,recommended,1,TYPENAME.FLX:824,P8-A candidate scan,,never
+Boots,靴子,item,approved,recommended,6,BOOKS-EN.FLX:196,P8-A candidate scan,,never
+Boots of Levitation,飄浮之靴,item,approved,recommended,2,TYPENAME.FLX:5216,P8-A candidate scan,,never
+Booze,烈酒,item,approved,recommended,4,BOOKS-EN.FLX:211,P8-A candidate scan,烈性酒水,never
+Bottle of Gin,一瓶琴酒,item,approved,recommended,4,BOOKS-EN.FLX:161,P8-A candidate scan,,never
+Bottle of Rum,一瓶蘭姆酒,item,approved,recommended,3,BOOKS-EN.FLX:161,P8-A candidate scan,酒館飲品,never
+Bottle of Whiskey,一瓶威士忌,item,approved,recommended,3,TYPENAME.FLX:3132,P8-A candidate scan,,never
+Bottle of Wine,一瓶葡萄酒,item,approved,recommended,3,BOOKS-EN.FLX:161,P8-A candidate scan,酒館飲品,never
+Bow,弓,item,approved,recommended,4,TYPENAME.FLX:4842,P8-A candidate scan,,never
+Bowl,碗,item,approved,recommended,5,TYPENAME.FLX:737,P8-A candidate scan,,never
+Bowl of Carrots,一碗胡蘿蔔,item,approved,recommended,1,TYPENAME.FLX:738,P8-A candidate scan,,never
+Bowl of Stew,一碗燉肉,item,approved,recommended,1,TYPENAME.FLX:739,P8-A candidate scan,,never
+Bowsaw,弓鋸,item,approved,recommended,1,TYPENAME.FLX:2566,P8-A candidate scan,,never
+Box,盒子,item,approved,recommended,2,TYPENAME.FLX:590,P8-A candidate scan,,never
+Brace,,item,todo,recommended,4,TYPENAME.FLX:2880,P8-A candidate scan,,
+Bracelet,手鐲,item,approved,recommended,4,TYPENAME.FLX:3422,P8-A candidate scan,,never
+Brass bowl,,item,todo,recommended,1,TYPENAME.FLX:572,P8-A candidate scan,,
+Brazier,火盆,item,approved,recommended,4,TYPENAME.FLX:749,P8-A candidate scan,,never
+Bread,麵包,item,approved,recommended,18,BOOKS-EN.FLX:174,P8-A candidate scan,,never
+Bread crust,麵包皮,item,approved,recommended,1,TYPENAME.FLX:3525,P8-A candidate scan,,never
+Bread Pan,麵包烤盤,item,approved,recommended,7,BOOKS-EN.FLX:196,P8-A candidate scan,,never
+Bread pan,麵包烤盤,item,approved,recommended,1,TYPENAME.FLX:4727,P8-A candidate scan,variant of Bread Pan,never
+Breadmaker,麵包機,item,approved,recommended,1,TYPENAME.FLX:4614,P8-A candidate scan,,never
+Bridge,橋樑,item,approved,recommended,1,TYPENAME.FLX:4176,P8-A candidate scan,,never
+Britannian Star,不列顛尼亞之星,item,approved,recommended,6,text.flx:3562,P8-A candidate scan,,never
+Broadsword,闊劍,item,approved,recommended,10,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Broken  Egg,,item,todo,recommended,1,TYPENAME.FLX:5447,P8-A candidate scan,,
+Broken barrel,,item,todo,recommended,4,TYPENAME.FLX:3310,P8-A candidate scan,,
+Broken beam,,item,todo,recommended,3,TYPENAME.FLX:2533,P8-A candidate scan,,
+Broken board,,item,todo,recommended,4,TYPENAME.FLX:2510,P8-A candidate scan,,
+Broken boat,,item,todo,recommended,1,TYPENAME.FLX:3153,P8-A candidate scan,,
+Broken Crate,,item,todo,recommended,16,TYPENAME.FLX:5632,P8-A candidate scan,,
+Broken crate,,item,todo,recommended,8,TYPENAME.FLX:3279,P8-A candidate scan,,
+Broken Egg,,item,todo,recommended,2,TYPENAME.FLX:5445,P8-A candidate scan,,
+Broken Eggshell,,item,todo,recommended,1,TYPENAME.FLX:5453,P8-A candidate scan,,
+Broken Glass,,item,todo,recommended,1,TYPENAME.FLX:4854,P8-A candidate scan,,
+Broken glass,,item,todo,recommended,3,TYPENAME.FLX:2536,P8-A candidate scan,,
+Broken grave marker,,item,todo,recommended,2,TYPENAME.FLX:3276,P8-A candidate scan,,
+Broken headstone,,item,todo,recommended,1,TYPENAME.FLX:3278,P8-A candidate scan,,
+Broken lute,破損的魯特琴,item,approved,recommended,1,TYPENAME.FLX:2824,P8-A candidate scan,,never
+Broken Mirror,,item,todo,recommended,1,TYPENAME.FLX:3189,P8-A candidate scan,,
+Broken plaque,,item,todo,recommended,1,TYPENAME.FLX:2680,P8-A candidate scan,,
+Broken pot,,item,todo,recommended,2,TYPENAME.FLX:2538,P8-A candidate scan,,
+Broken stool,,item,todo,recommended,3,TYPENAME.FLX:2508,P8-A candidate scan,,
+Broken wood,,item,todo,recommended,2,TYPENAME.FLX:2512,P8-A candidate scan,,
+Bronwyn,布朗溫,item,approved,recommended,1,TYPENAME.FLX:8,P8-A candidate scan,,never
+Broom,掃帚,item,approved,recommended,1,TYPENAME.FLX:607,P8-A candidate scan,,never
+Brother Brock,布洛克修士,item,approved,recommended,1,TYPENAME.FLX:102,P8-A candidate scan,,never
+Brown egg,,item,todo,recommended,1,TYPENAME.FLX:539,P8-A candidate scan,,
+Brute,,item,todo,recommended,1,TYPENAME.FLX:207,P8-A candidate scan,,
+Brutus,布魯特斯,item,approved,recommended,1,TYPENAME.FLX:346,P8-A candidate scan,,never
+Bucket,水桶,item,approved,recommended,11,BOOKS-EN.FLX:196,P8-A candidate scan,,never
+Buckler,小圓盾,item,approved,recommended,1,TYPENAME.FLX:753,P8-A candidate scan,,never
+Bug Spray,,item,todo,recommended,1,TYPENAME.FLX:5238,P8-A candidate scan,,
+Bunkbeds,,item,todo,recommended,1,TYPENAME.FLX:2356,P8-A candidate scan,,
+Burnt board,,item,todo,recommended,4,TYPENAME.FLX:2521,P8-A candidate scan,,
+Burnt pentagram,,item,todo,recommended,1,TYPENAME.FLX:3122,P8-A candidate scan,,
+Burnt scroll,燒焦的捲軸,item,approved,recommended,1,TYPENAME.FLX:2178,P8-A candidate scan,,never
+Burnt stool,,item,todo,recommended,1,TYPENAME.FLX:2519,P8-A candidate scan,,
+Burnt wood,,item,todo,recommended,2,TYPENAME.FLX:2523,P8-A candidate scan,,
+Butter churn,,item,todo,recommended,1,TYPENAME.FLX:2204,P8-A candidate scan,,
+Butterfly,,item,todo,recommended,4,TYPENAME.FLX:86,P8-A candidate scan,,
+Button,按鈕,item,approved,recommended,8,TYPENAME.FLX:2394,P8-A candidate scan,,never
+Buttress,,item,todo,recommended,3,TYPENAME.FLX:3454,P8-A candidate scan,,
+Byron,拜倫,item,approved,recommended,1,TYPENAME.FLX:20,P8-A candidate scan,,never
+Cabbage,包心菜,item,approved,recommended,1,TYPENAME.FLX:2268,P8-A candidate scan,,never
+Cable,,item,todo,recommended,4,TYPENAME.FLX:2747,P8-A candidate scan,,
+Cake,蛋糕,item,approved,recommended,9,BOOKS-EN.FLX:186,P8-A candidate scan,,never
+Calvin,卡爾文,item,approved,recommended,1,TYPENAME.FLX:201,P8-A candidate scan,,never
+Campfire,,item,todo,recommended,4,TYPENAME.FLX:1525,P8-A candidate scan,,
+Campions,,item,todo,recommended,1,TYPENAME.FLX:843,P8-A candidate scan,,
+Candle,蠟燭,item,approved,recommended,17,text.flx:3831,P8-A candidate scan,,never
+Candle of Love,愛之燭,item,approved,recommended,16,text.flx:560,P8-A candidate scan,,never
+Candles,蠟燭,item,approved,recommended,2,TYPENAME.FLX:2817,plural of Candle,,
+Cannon,,item,todo,recommended,2,TYPENAME.FLX:612,P8-A candidate scan,,
+Cannonball,,item,todo,recommended,4,BOOKS-EN.FLX:174,P8-A candidate scan,,
+Canopy Bed,,item,todo,recommended,2,TYPENAME.FLX:2172,P8-A candidate scan,,
+Captain Bill,比爾船長,item,approved,recommended,1,TYPENAME.FLX:118,P8-A candidate scan,,never
+Captain Wolford,沃爾福德船長,item,approved,recommended,1,TYPENAME.FLX:4,P8-A candidate scan,,never
+Carcass,動物屍體,item,approved,recommended,2,TYPENAME.FLX:3443,P8-A candidate scan,,never
+Carpet,,item,todo,recommended,1,TYPENAME.FLX:3318,P8-A candidate scan,,
+Carrick,卡里克,item,approved,recommended,1,TYPENAME.FLX:271,P8-A candidate scan,,never
+Carrots,,item,todo,recommended,2,TYPENAME.FLX:801,P8-A candidate scan,,
+Cart,大車,item,approved,recommended,2,TYPENAME.FLX:615,P8-A candidate scan,,never
+Cassandra,卡珊卓,item,approved,recommended,1,TYPENAME.FLX:73,P8-A candidate scan,,never
+Cat 'o Nine Tails,,item,todo,recommended,1,TYPENAME.FLX:889,P8-A candidate scan,,
+Cat o' Nine Tails,,item,todo,recommended,2,TYPENAME.FLX:529,P8-A candidate scan,,
+Catapult,,item,todo,recommended,1,TYPENAME.FLX:2776,P8-A candidate scan,,
+Cathedral Funds,大教堂賑災款,item,approved,recommended,1,TYPENAME.FLX:5211,P8-A candidate scan,,never
+Cecilia,賽西莉雅,item,approved,recommended,1,TYPENAME.FLX:315,P8-A candidate scan,,never
+Ceramic shards,,item,todo,recommended,1,TYPENAME.FLX:2540,P8-A candidate scan,,
+Chain,,item,todo,recommended,2,TYPENAME.FLX:3536,P8-A candidate scan,,
+Chain Arms,,item,todo,recommended,11,BOOKS-EN.FLX:188,P8-A candidate scan,,
+Chain arms,,item,todo,recommended,1,TYPENAME.FLX:4624,P8-A candidate scan,,
+Chain Boots,,item,todo,recommended,11,BOOKS-EN.FLX:188,P8-A candidate scan,,
+Chain boots,,item,todo,recommended,1,TYPENAME.FLX:4625,P8-A candidate scan,,
+Chain Chest,,item,todo,recommended,11,BOOKS-EN.FLX:188,P8-A candidate scan,,
+Chain chest,,item,todo,recommended,1,TYPENAME.FLX:4626,P8-A candidate scan,,
+Chain Coif,鎖子頭巾,item,approved,recommended,9,BOOKS-EN.FLX:188,P8-A candidate scan,鎖甲頭部防具,never
+Chain coif,鎖子頭巾,item,approved,recommended,1,TYPENAME.FLX:4629,P8-A candidate scan,variant of Chain Coif,never
+Chain Gauntlets,,item,todo,recommended,11,BOOKS-EN.FLX:188,P8-A candidate scan,,
+Chain gauntlets,鎖子護手,item,approved,recommended,1,TYPENAME.FLX:4628,P8-A candidate scan,,never
+Chain Leggings,,item,todo,recommended,11,BOOKS-EN.FLX:188,P8-A candidate scan,,
+Chain leggings,鎖子護腿,item,approved,recommended,1,TYPENAME.FLX:4630,P8-A candidate scan,,never
+Chair,椅子,item,approved,recommended,13,TYPENAME.FLX:551,P8-A candidate scan,,never
+Chalice,,item,todo,recommended,10,text.flx:6413,P8-A candidate scan,,
+Chalice of Honor,榮譽聖杯,item,approved,recommended,20,text.flx:6352,P8-A candidate scan,,never
+Chalice of Honor pieces,榮譽聖杯碎片,item,approved,recommended,1,TYPENAME.FLX:5533,P8-A candidate scan,,never
+Chandelier,,item,todo,recommended,3,TYPENAME.FLX:3062,P8-A candidate scan,,
+Charm Scroll,迷惑術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Charm 迷惑術,,never
+Charts of Britannia,不列顛尼亞海圖,item,approved,recommended,1,TYPENAME.FLX:5507,P8-A candidate scan,,never
+Checker board,,item,todo,recommended,1,TYPENAME.FLX:587,P8-A candidate scan,,
+Cheese,乳酪,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,never
+Chest,箱子,item,approved,recommended,4,TYPENAME.FLX:186,P8-A candidate scan,,never
+Chest of the Troll,巨魔的寶箱,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Chester,切斯特,item,approved,recommended,1,TYPENAME.FLX:251,P8-A candidate scan,,never
+Chicken,,item,todo,recommended,1,TYPENAME.FLX:145,P8-A candidate scan,,
+Chicken bones,,item,todo,recommended,1,TYPENAME.FLX:3527,P8-A candidate scan,,
+Chicken on a Spit,,item,todo,recommended,1,TYPENAME.FLX:3547,P8-A candidate scan,,
+Ciara Treasure Key,Ciara Treasure鑰匙,item,approved,recommended,1,TYPENAME.FLX:5494,P8-A candidate scan,,never
+Circle of Stones,石陣環,item,approved,recommended,1,TYPENAME.FLX:124,P8-A candidate scan,,never
+Clamp,,item,todo,recommended,1,TYPENAME.FLX:2448,P8-A candidate scan,,
+Claymore,雙手大劍,item,approved,recommended,9,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Clean bandages,乾淨繃帶,item,approved,recommended,1,TYPENAME.FLX:3125,P8-A candidate scan,,never
+Clock,鐘,item,approved,recommended,1,TYPENAME.FLX:2607,P8-A candidate scan,,never
+Cloth,布料,item,approved,recommended,5,TYPENAME.FLX:2724,P8-A candidate scan,,never
+Clothes,衣服,item,approved,recommended,17,TYPENAME.FLX:3379,P8-A candidate scan,,never
+Club,木棒,item,approved,recommended,1,TYPENAME.FLX:2645,P8-A candidate scan,,never
+Cobweb,蜘蛛網,item,approved,recommended,11,TYPENAME.FLX:1345,P8-A candidate scan,,never
+Codex,終極智慧法典,item,approved,recommended,43,text.flx:106,P8-A candidate scan,法典 Codex of Ultimate Wisdom，不列顛尼亞至高智慧之書,first
+Codex of Ultimate Wisdom,終極智慧法典,item,approved,recommended,25,text.flx:105,P8-A candidate scan,variant of Codex,never
+Coffin,棺材,item,approved,recommended,5,TYPENAME.FLX:1048,P8-A candidate scan,,never
+Coin,硬幣,item,approved,recommended,1,TYPENAME.FLX:1279,P8-A candidate scan,,never
+Coins,錢幣,item,approved,recommended,4,TYPENAME.FLX:1280,P8-A candidate scan,,never
+Colando,科蘭多,item,approved,recommended,1,TYPENAME.FLX:235,P8-A candidate scan,,never
+Column,巨石柱,item,approved,recommended,8,TYPENAME.FLX:1006,P8-A candidate scan,,never
+Compass,指南針,item,approved,recommended,2,TYPENAME.FLX:2516,P8-A candidate scan,,never
+Computer,電腦,item,approved,recommended,1,TYPENAME.FLX:4976,P8-A candidate scan,,never
+Computer chair,電腦椅,item,approved,recommended,1,TYPENAME.FLX:4803,P8-A candidate scan,,never
+Computer desk,電腦桌,item,approved,recommended,1,TYPENAME.FLX:4473,P8-A candidate scan,,never
+Conveyor belt,,item,todo,recommended,1,TYPENAME.FLX:2864,P8-A candidate scan,,
+Cooked steak,烤牛排,item,approved,recommended,1,TYPENAME.FLX:4771,P8-A candidate scan,,never
+Cooking utensils,炊具,item,approved,recommended,1,TYPENAME.FLX:2478,P8-A candidate scan,,never
+Copper key,Copper鑰匙,item,approved,recommended,2,TYPENAME.FLX:869,P8-A candidate scan,,never
+Copper Necklace,銅項鍊,item,approved,recommended,16,BOOKS-EN.FLX:196,P8-A candidate scan,,never
+Corner Table,,item,todo,recommended,1,TYPENAME.FLX:2213,P8-A candidate scan,,
+Corner table,,item,todo,recommended,2,TYPENAME.FLX:1989,P8-A candidate scan,,
+Couch,沙發,item,approved,recommended,1,TYPENAME.FLX:1981,P8-A candidate scan,,never
+Counter,,item,todo,recommended,1,TYPENAME.FLX:4597,P8-A candidate scan,,
+Court of Justice,正義法院,item,approved,recommended,3,text.flx:7608,P8-A candidate scan,,never
+Coverstone,遮蓋石板,item,approved,recommended,1,TYPENAME.FLX:3660,P8-A candidate scan,,never
+Crate,木箱,item,approved,recommended,9,TYPENAME.FLX:1881,P8-A candidate scan,,never
+Create Reagents Scroll,製造材料術捲軸,item,approved,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Creeper Plant,,item,todo,recommended,1,TYPENAME.FLX:45,P8-A candidate scan,,
+Crook of Charming,迷惑牧羊杖,item,approved,recommended,7,BOOKS-EN.FLX:189,U7 Translation_Guide.md: Charm 迷惑術,,never
+Crook of Humility,謙遜牧羊杖,item,approved,recommended,4,text.flx:6089,P8-A candidate scan,,never
+Crossbow,十字弓,item,approved,recommended,3,TYPENAME.FLX:1300,P8-A candidate scan,,never
+Crow's nest,,item,todo,recommended,1,TYPENAME.FLX:1869,P8-A candidate scan,,
+Crusty,克拉斯蒂,item,approved,recommended,1,TYPENAME.FLX:142,P8-A candidate scan,,never
+Crystal,水晶,item,approved,recommended,5,TYPENAME.FLX:3671,P8-A candidate scan,,never
+Crystal ball,,item,todo,recommended,3,TYPENAME.FLX:1408,P8-A candidate scan,,
+Crystal Barrier Scroll,水晶屏障捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Crystal Shard,水晶碎片,item,approved,recommended,1,TYPENAME.FLX:4496,P8-A candidate scan,,never
+Cult Member,邪教信徒,item,approved,recommended,1,TYPENAME.FLX:253,P8-A candidate scan,,never
+Cupboard,,item,todo,recommended,1,TYPENAME.FLX:2207,P8-A candidate scan,,
+Cure Scroll,解毒術捲軸,item,approved,recommended,7,BOOKS-EN.FLX:178,P8-A candidate scan,,never
+Cushions,,item,todo,recommended,4,TYPENAME.FLX:2601,P8-A candidate scan,,
+Cut Amethyst,切割紫水晶,item,approved,recommended,1,TYPENAME.FLX:2856,P8-A candidate scan,,never
+Cut Diamond,切割鑽石,item,approved,recommended,1,TYPENAME.FLX:2858,P8-A candidate scan,,never
+Cut Emerald,切割祖母綠,item,approved,recommended,1,TYPENAME.FLX:2855,P8-A candidate scan,,never
+Cut Ruby,切割紅寶石,item,approved,recommended,1,TYPENAME.FLX:2857,P8-A candidate scan,,never
+Cut Sapphire,切割藍寶石,item,approved,recommended,1,TYPENAME.FLX:2854,P8-A candidate scan,,never
+Cut Topaz,切割黃玉,item,approved,recommended,1,TYPENAME.FLX:2859,P8-A candidate scan,,never
+Cutlass,水手彎刀,item,approved,recommended,10,BOOKS-EN.FLX:174,P8-A candidate scan,,never
+Dagger,匕首,item,approved,recommended,26,BOOKS-EN.FLX:3,P8-A candidate scan,,never
+Dagger of Valor,英勇匕首,item,approved,recommended,6,text.flx:7035,P8-A candidate scan,,never
+Darim's Journal,Darim的日誌,item,approved,recommended,1,TYPENAME.FLX:5495,P8-A candidate scan,,never
+Davey,戴維,item,approved,recommended,1,TYPENAME.FLX:182,P8-A candidate scan,,never
+Day Scroll,白晝術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Dayla's Doll,黛拉的洋娃娃,item,approved,recommended,1,TYPENAME.FLX:5432,P8-A candidate scan,,never
+Dead body,死者遺體,item,approved,recommended,3,TYPENAME.FLX:4891,U8 authority.tsv (proposed),,
+Dead Drone,,item,todo,recommended,1,TYPENAME.FLX:5524,P8-A candidate scan,,
+Death Scroll,死亡術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Debris,,item,todo,recommended,1,TYPENAME.FLX:4653,P8-A candidate scan,,
+Decaying limb,,item,todo,recommended,1,TYPENAME.FLX:2160,P8-A candidate scan,,
+Decorative axes,,item,todo,recommended,1,TYPENAME.FLX:3267,P8-A candidate scan,,
+Decorative Pickaxes,,item,todo,recommended,1,TYPENAME.FLX:3268,P8-A candidate scan,,
+Decorative swords,,item,todo,recommended,2,TYPENAME.FLX:3262,P8-A candidate scan,,
+Decorative weapons,,item,todo,recommended,2,TYPENAME.FLX:3075,P8-A candidate scan,,
+Deflector,,item,todo,recommended,1,TYPENAME.FLX:1704,P8-A candidate scan,,
+Demon,,item,todo,recommended,2,TYPENAME.FLX:33,P8-A candidate scan,,
+Demon Skull,惡魔頭骨,item,approved,recommended,1,TYPENAME.FLX:5477,P8-A candidate scan,,never
+Demon Triumvirate,惡魔三巨頭,item,approved,recommended,9,text.flx:6853,P8-A candidate scan,,never
+Deresh's corpse,,item,todo,recommended,2,TYPENAME.FLX:5260,P8-A candidate scan,,
+Desk,書桌,item,approved,recommended,1,TYPENAME.FLX:1160,P8-A candidate scan,,never
+Destard Key,Destard鑰匙,item,approved,recommended,1,TYPENAME.FLX:5491,P8-A candidate scan,,never
+Diamond,鑽石,item,approved,recommended,1,TYPENAME.FLX:878,P8-A candidate scan,,never
+Dirty bandages,骯髒繃帶,item,approved,recommended,1,TYPENAME.FLX:3126,P8-A candidate scan,,never
+Disc,,item,todo,recommended,1,TYPENAME.FLX:2217,P8-A candidate scan,,
+Dishwasher,,item,todo,recommended,1,TYPENAME.FLX:4606,P8-A candidate scan,,
+Display case,,item,todo,recommended,6,TYPENAME.FLX:2651,P8-A candidate scan,,
+Display daggers,,item,todo,recommended,1,TYPENAME.FLX:3280,P8-A candidate scan,,
+Display swords,,item,todo,recommended,1,TYPENAME.FLX:3308,P8-A candidate scan,,
+Dividers,,item,todo,recommended,1,TYPENAME.FLX:2562,P8-A candidate scan,,
+Dog,,item,todo,recommended,1,TYPENAME.FLX:304,P8-A candidate scan,,
+Dog food,,item,todo,recommended,1,TYPENAME.FLX:5618,P8-A candidate scan,,
+Doll,,item,todo,recommended,1,TYPENAME.FLX:3468,P8-A candidate scan,,
+Dome,,item,todo,recommended,7,text.flx:162,P8-A candidate scan,,
+Dont use me use gringolet,,item,todo,recommended,1,TYPENAME.FLX:5695,P8-A candidate scan,,
+Door,門,item,approved,recommended,5,TYPENAME.FLX:1034,P8-A candidate scan,,never
+Dough,,item,todo,recommended,1,TYPENAME.FLX:4781,P8-A candidate scan,,
+Dragon,巨龍,item,approved,recommended,13,text.flx:2882,P8-A candidate scan,,never
+dragon,巨龍,item,approved,recommended,1,TYPENAME.FLX:5584,P8-A candidate scan,variant of Dragon,never
+Dragonfly,,item,todo,recommended,1,TYPENAME.FLX:297,P8-A candidate scan,,
+Drain,,item,todo,recommended,1,TYPENAME.FLX:3657,P8-A candidate scan,,
+Drako,德拉科,item,approved,recommended,1,TYPENAME.FLX:43,P8-A candidate scan,,never
+Drive mechanism,,item,todo,recommended,1,TYPENAME.FLX:2782,P8-A candidate scan,,
+Drone,,item,todo,recommended,2,TYPENAME.FLX:220,P8-A candidate scan,,
+Drone corpse,,item,todo,recommended,3,TYPENAME.FLX:5261,P8-A candidate scan,,
+Drone Egg,,item,todo,recommended,1,TYPENAME.FLX:5452,P8-A candidate scan,,
+Drum,,item,todo,recommended,1,TYPENAME.FLX:579,P8-A candidate scan,,
+Drying rack,,item,todo,recommended,1,TYPENAME.FLX:2718,P8-A candidate scan,,
+Dulcimer,,item,todo,recommended,1,TYPENAME.FLX:3249,P8-A candidate scan,,
+Dum Dum Staff,,item,todo,recommended,4,BOOKS-EN.FLX:215,P8-A candidate scan,,
+Dum-dum,,item,todo,recommended,1,TYPENAME.FLX:4835,P8-A candidate scan,,
+Duncan's Dagger,鄧肯的匕首,item,approved,recommended,1,TYPENAME.FLX:4935,P8-A candidate scan,,never
+Dupre's Ashes,杜普雷的骨灰,item,approved,recommended,1,TYPENAME.FLX:5518,P8-A candidate scan,,never
+Dupre's Ghost,Dupre的幽靈,item,approved,recommended,1,TYPENAME.FLX:244,P8-A candidate scan,,never
+Dutch oven,,item,todo,recommended,1,TYPENAME.FLX:1415,P8-A candidate scan,,
+Dye tub,,item,todo,recommended,1,TYPENAME.FLX:2705,P8-A candidate scan,,
+Earthquake Scroll,地震術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Egg,,item,todo,recommended,11,BOOKS-EN.FLX:196,P8-A candidate scan,,
+Egg Goo,,item,todo,recommended,1,TYPENAME.FLX:5463,P8-A candidate scan,,
+Eggplant,,item,todo,recommended,1,TYPENAME.FLX:2270,P8-A candidate scan,,
+Elevator,,item,todo,recommended,1,TYPENAME.FLX:2746,P8-A candidate scan,,
+Elizabeth's Baby,,item,todo,recommended,1,TYPENAME.FLX:5451,P8-A candidate scan,,
+Ella,,item,todo,recommended,1,TYPENAME.FLX:146,P8-A candidate scan,,
+Emerald,,item,todo,recommended,1,TYPENAME.FLX:875,P8-A candidate scan,,
+Emerald Bracelet,,item,todo,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,
+Emerald Necklace,祖母綠項鍊,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,never
+Empty bottle,,item,todo,recommended,4,TYPENAME.FLX:3131,P8-A candidate scan,,
+Empty Flask,空長頸瓶,item,approved,recommended,3,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Entrails,,item,todo,recommended,1,TYPENAME.FLX:3759,P8-A candidate scan,,
+Ether cloud,,item,todo,recommended,6,TYPENAME.FLX:3743,P8-A candidate scan,,
+Ethereal Sight Scroll,乙太靈視捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,"U7 Translation_Guide.md: Ether 乙太, Peer 靈視術",,never
+Execution block,,item,todo,recommended,1,TYPENAME.FLX:2701,P8-A candidate scan,,
+Exodus Cards,,item,todo,recommended,1,TYPENAME.FLX:5662,P8-A candidate scan,,
+Eyeglasses,,item,todo,recommended,1,TYPENAME.FLX:4214,P8-A candidate scan,,
+Farmer Bob,,item,todo,recommended,1,TYPENAME.FLX:49,P8-A candidate scan,,
+Fellowship Medallion,友誼會徽章,item,approved,recommended,1,TYPENAME.FLX:5667,P8-A candidate scan,U7 Translation_Guide.md: Fellowship 友誼會,never
+Fence,,item,todo,recommended,4,TYPENAME.FLX:582,P8-A candidate scan,,
+Fencepost,,item,todo,recommended,3,TYPENAME.FLX:584,P8-A candidate scan,,
+Ferry,,item,todo,recommended,1,TYPENAME.FLX:4128,P8-A candidate scan,,
+Fire,,item,todo,recommended,6,TYPENAME.FLX:2147,P8-A candidate scan,,
+Fireball Scroll,火球術捲軸,item,approved,recommended,7,BOOKS-EN.FLX:174,P8-A candidate scan,,never
+Fireplace,,item,todo,recommended,2,TYPENAME.FLX:1902,P8-A candidate scan,,
+First Aid Kit,急救箱,item,approved,recommended,1,TYPENAME.FLX:5290,TYPENAME.FLX:5290 (P6-S2 single-item proof),Taiwan Traditional Chinese draft for the native examine label,
+Fish,魚,item,approved,recommended,3,TYPENAME.FLX:37,P8-A candidate scan,,never
+Fishing pole,,item,todo,recommended,2,TYPENAME.FLX:3159,P8-A candidate scan,,
+Fishnet,,item,todo,recommended,3,TYPENAME.FLX:2442,P8-A candidate scan,,
+Fitz,,item,todo,recommended,1,TYPENAME.FLX:156,P8-A candidate scan,,
+Flame Arrow,火箭,item,approved,recommended,1,TYPENAME.FLX:5687,P8-A candidate scan,,never
+Flaming Sword,,item,todo,recommended,8,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Flaming sword,,item,todo,recommended,1,TYPENAME.FLX:2801,P8-A candidate scan,,
+Flask,長頸瓶,item,approved,recommended,17,BOOKS-EN.FLX:196,P8-A candidate scan,,never
+Flask of water,,item,todo,recommended,1,TYPENAME.FLX:5627,P8-A candidate scan,,
+Flasks,長頸瓶,item,approved,recommended,1,TYPENAME.FLX:2175,plural of Flask,,
+Flour,,item,todo,recommended,3,TYPENAME.FLX:881,P8-A candidate scan,,
+Fog Scroll,雲霧術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Food crumbs,,item,todo,recommended,1,TYPENAME.FLX:3528,P8-A candidate scan,,
+Footprints,,item,todo,recommended,4,TYPENAME.FLX:3123,P8-A candidate scan,,
+Force field,,item,todo,recommended,1,TYPENAME.FLX:2283,P8-A candidate scan,,
+Forcefield,,item,todo,recommended,3,TYPENAME.FLX:3772,P8-A candidate scan,,
+Forge,,item,todo,recommended,2,TYPENAME.FLX:1940,P8-A candidate scan,,
+Fork,叉子,item,approved,recommended,1,TYPENAME.FLX:803,P8-A candidate scan,,never
+Fountain,,item,todo,recommended,5,TYPENAME.FLX:1861,P8-A candidate scan,,
+Foxglove,,item,todo,recommended,1,TYPENAME.FLX:3474,P8-A candidate scan,,
+Freeze Scroll,凍結術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Frost Storm Scroll,冰霜風暴捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Frying pan,,item,todo,recommended,2,TYPENAME.FLX:1420,P8-A candidate scan,,
+Full Heal Scroll,完全治癒術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Fungus,,item,todo,recommended,2,TYPENAME.FLX:1040,P8-A candidate scan,,
+Furs,,item,todo,recommended,1,TYPENAME.FLX:2643,P8-A candidate scan,,
+Gabe,,item,todo,recommended,1,TYPENAME.FLX:351,P8-A candidate scan,,
+Galleon,,item,todo,recommended,1,TYPENAME.FLX:4775,P8-A candidate scan,,
+Game Controls,,item,todo,recommended,1,TYPENAME.FLX:5737,P8-A candidate scan,,
+Garbage,,item,todo,recommended,3,TYPENAME.FLX:2760,P8-A candidate scan,,
+Gargoyle Child,,item,todo,recommended,1,TYPENAME.FLX:154,P8-A candidate scan,,
+Gargoyle Staff,,item,todo,recommended,1,TYPENAME.FLX:5389,P8-A candidate scan,,
+Gargoyle statue,,item,todo,recommended,1,TYPENAME.FLX:1969,P8-A candidate scan,,
+Garlic,大蒜,item,approved,recommended,19,BOOKS-EN.FLX:178,P8-A candidate scan,,never
+Gate,大門,item,approved,recommended,6,TYPENAME.FLX:580,P8-A candidate scan,,never
+Gauntlets of Fury,狂怒護手,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Gazebo,,item,todo,recommended,1,TYPENAME.FLX:2085,P8-A candidate scan,,
+Gazer,,item,todo,recommended,2,TYPENAME.FLX:191,P8-A candidate scan,,
+Gem of Death,,item,todo,recommended,1,TYPENAME.FLX:3160,P8-A candidate scan,,
+Gems,,item,todo,recommended,1,TYPENAME.FLX:1697,P8-A candidate scan,,
+Geoffrey's Ghost,Geoffrey的幽靈,item,approved,recommended,1,TYPENAME.FLX:177,P8-A candidate scan,,never
+Ghost,幽靈,item,approved,recommended,2,TYPENAME.FLX:66,U8 authority.tsv (proposed),,
+Ghost of Sir Reynald,Sir Reynald的幽靈,item,approved,recommended,1,TYPENAME.FLX:48,P8-A candidate scan,,never
+Ghost Sword,,item,todo,recommended,4,text.flx:4384,P8-A candidate scan,,
+Ghost's Bracelet,,item,todo,recommended,1,TYPENAME.FLX:5541,P8-A candidate scan,,
+Ghost's Necklace,,item,todo,recommended,1,TYPENAME.FLX:5430,P8-A candidate scan,,
+Giant Bat,巨蝙蝠,item,approved,recommended,1,TYPENAME.FLX:193,P8-A candidate scan,,never
+Giant Rat,,item,todo,recommended,1,TYPENAME.FLX:194,P8-A candidate scan,,
+Ginseng,人蔘,item,approved,recommended,22,BOOKS-EN.FLX:178,P8-A candidate scan,,never
+Ginwoo,,item,todo,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Glass,,item,todo,recommended,7,TYPENAME.FLX:2665,P8-A candidate scan,,
+Glass Sword,,item,todo,recommended,8,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Globe,,item,todo,recommended,9,TYPENAME.FLX:3375,P8-A candidate scan,,
+Glyph of  Honesty,誠實神符,item,approved,recommended,1,TYPENAME.FLX:4889,P8-A candidate scan,,never
+Glyph of Compassion,慈悲神符,item,approved,recommended,1,TYPENAME.FLX:4883,P8-A candidate scan,,never
+Glyph of Honor,榮譽神符,item,approved,recommended,1,TYPENAME.FLX:4884,P8-A candidate scan,,never
+Glyph of Humility,謙遜神符,item,approved,recommended,1,TYPENAME.FLX:4885,P8-A candidate scan,,never
+Glyph of Justice,正義神符,item,approved,recommended,1,TYPENAME.FLX:4886,P8-A candidate scan,,never
+Glyph of Sacrifice,犧牲神符,item,approved,recommended,1,TYPENAME.FLX:4887,P8-A candidate scan,,never
+Glyph of Spirituality,靈性神符,item,approved,recommended,4,text.flx:1578,P8-A candidate scan,,never
+Glyph of Valor,英勇神符,item,approved,recommended,1,TYPENAME.FLX:4890,P8-A candidate scan,,never
+Gnarled staff,,item,todo,recommended,1,TYPENAME.FLX:4832,P8-A candidate scan,,
+Goat,,item,todo,recommended,2,TYPENAME.FLX:293,P8-A candidate scan,,
+Goblet,高腳杯,item,approved,recommended,1,TYPENAME.FLX:804,P8-A candidate scan,,never
+Goblin Boss,哥布林頭目,item,approved,recommended,1,TYPENAME.FLX:272,P8-A candidate scan,,never
+Goblin Captain,,item,todo,recommended,1,TYPENAME.FLX:34,P8-A candidate scan,,
+Goblin Commander,,item,todo,recommended,1,TYPENAME.FLX:17,P8-A candidate scan,,
+Goblin Grunt,,item,todo,recommended,1,TYPENAME.FLX:192,P8-A candidate scan,,
+Goblin Scrawl,,item,todo,recommended,1,TYPENAME.FLX:5383,P8-A candidate scan,,
+Gold,黃金,item,approved,recommended,1,TYPENAME.FLX:908,P8-A candidate scan,,never
+Gold Bracelet,,item,todo,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,
+Gold key,Gold鑰匙,item,approved,recommended,1,TYPENAME.FLX:573,P8-A candidate scan,,never
+Gold Necklace,,item,todo,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,
+Gold Ring,金戒指,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,金質戒指,never
+Golden Bracelet,,item,todo,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,
+Goo,,item,todo,recommended,6,TYPENAME.FLX:3331,P8-A candidate scan,,
+Grain,,item,todo,recommended,5,TYPENAME.FLX:2840,P8-A candidate scan,,
+Grapes,葡萄,item,approved,recommended,1,TYPENAME.FLX:745,P8-A candidate scan,,never
+Grapple,,item,todo,recommended,1,TYPENAME.FLX:1047,P8-A candidate scan,,
+Grappling hook,,item,todo,recommended,1,TYPENAME.FLX:3184,P8-A candidate scan,,
+Grate,,item,todo,recommended,4,TYPENAME.FLX:1304,P8-A candidate scan,,
+Grave,,item,todo,recommended,1,TYPENAME.FLX:886,P8-A candidate scan,,
+Grave marker,,item,todo,recommended,4,TYPENAME.FLX:2077,P8-A candidate scan,,
+Green globe,,item,todo,recommended,1,TYPENAME.FLX:2439,P8-A candidate scan,,
+Green Potion,綠色藥水,item,approved,recommended,1,TYPENAME.FLX:835,P8-A candidate scan,,never
+Greens,,item,todo,recommended,1,TYPENAME.FLX:2456,P8-A candidate scan,,
+Grill,,item,todo,recommended,1,TYPENAME.FLX:4704,P8-A candidate scan,,
+Gringolet,,item,todo,recommended,15,text.flx:4384,P8-A candidate scan,,
+Gruel,,item,todo,recommended,1,TYPENAME.FLX:2460,P8-A candidate scan,,
+Guard,衛兵,item,approved,recommended,6,TYPENAME.FLX:61,U8 authority.tsv (proposed),,
+Guard's Journal,Guard的日誌,item,approved,recommended,1,TYPENAME.FLX:4973,P8-A candidate scan,,never
+Gypsy,,item,todo,recommended,4,text.flx:3265,P8-A candidate scan,,
+Gypsy Breastplate,,item,todo,recommended,5,text.flx:3413,P8-A candidate scan,,
+Gypsy Seer,,item,todo,recommended,1,TYPENAME.FLX:98,P8-A candidate scan,,
+Gyspy Breastplate,,item,todo,recommended,1,TYPENAME.FLX:5612,P8-A candidate scan,,
+Halberd,斧槍,item,approved,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Ham,,item,todo,recommended,1,TYPENAME.FLX:758,P8-A candidate scan,,
+Hammer,鐵錘,item,approved,recommended,1,TYPENAME.FLX:1386,P8-A candidate scan,,never
+Hamster,,item,todo,recommended,1,TYPENAME.FLX:5718,P8-A candidate scan,,
+Hand Axe,,item,todo,recommended,10,BOOKS-EN.FLX:174,P8-A candidate scan,,
+Handed Axe,,item,todo,recommended,8,BOOKS-EN.FLX:174,P8-A candidate scan,,
+Handed Sword,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Hans,,item,todo,recommended,1,TYPENAME.FLX:295,P8-A candidate scan,,
+Harp,,item,todo,recommended,1,TYPENAME.FLX:763,P8-A candidate scan,,
+Harpsichord,大鍵琴,item,approved,recommended,1,TYPENAME.FLX:813,P8-A candidate scan,,never
+Harrison,,item,todo,recommended,1,TYPENAME.FLX:232,P8-A candidate scan,,
+Hatchet,,item,todo,recommended,1,TYPENAME.FLX:735,P8-A candidate scan,,
+Hay,,item,todo,recommended,3,TYPENAME.FLX:841,P8-A candidate scan,,
+Head of the Dragon,,item,todo,recommended,1,TYPENAME.FLX:5514,P8-A candidate scan,,
+Headstone,,item,todo,recommended,3,TYPENAME.FLX:2078,P8-A candidate scan,,
+Heart of Compassion,,item,todo,recommended,7,text.flx:322,P8-A candidate scan,,
+Hearth,,item,todo,recommended,1,TYPENAME.FLX:4000,P8-A candidate scan,,
+Heartstone,,item,todo,recommended,8,text.flx:5931,P8-A candidate scan,,
+Heirloom Shield,,item,todo,recommended,1,TYPENAME.FLX:5315,P8-A candidate scan,,
+Hellhound,,item,todo,recommended,1,TYPENAME.FLX:47,P8-A candidate scan,,
+Helm of Radiance,光輝頭盔,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Herb,,item,todo,recommended,3,TYPENAME.FLX:2621,P8-A candidate scan,,
+Hoe,,item,todo,recommended,1,TYPENAME.FLX:5630,P8-A candidate scan,,
+Holding Cell Crystal,,item,todo,recommended,1,TYPENAME.FLX:5629,P8-A candidate scan,,
+Hole,,item,todo,recommended,1,TYPENAME.FLX:3670,P8-A candidate scan,,
+Hythloth Key,Hythloth鑰匙,item,approved,recommended,1,TYPENAME.FLX:5476,P8-A candidate scan,,never
+Ice Hound,冰獵犬,item,approved,recommended,1,TYPENAME.FLX:5626,P8-A candidate scan,,never
+Icehound,,item,todo,recommended,1,TYPENAME.FLX:46,P8-A candidate scan,,
+Infernal Armor Scroll,地獄護甲捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Inferno Scroll,煉獄火海捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Ingot,,item,todo,recommended,1,TYPENAME.FLX:1388,P8-A candidate scan,,
+Inkwell,墨水瓶,item,approved,recommended,1,TYPENAME.FLX:588,P8-A candidate scan,,never
+Instrument,,item,todo,recommended,1,TYPENAME.FLX:3477,P8-A candidate scan,,
+Invisibility Scroll,隱身術捲軸,item,approved,recommended,5,BOOKS-EN.FLX:175,U7 Translation_Guide.md: Invisibility 隱身術,,never
+Iolo's Bow,,item,todo,recommended,7,BOOKS-EN.FLX:192,P8-A candidate scan,,
+Iolo's bow,,item,todo,recommended,1,TYPENAME.FLX:5689,P8-A candidate scan,,
+Iolo's Ghost,Iolo的幽靈,item,approved,recommended,1,TYPENAME.FLX:200,P8-A candidate scan,,never
+Iolo's Journal,Iolo的日誌,item,approved,recommended,1,TYPENAME.FLX:4974,P8-A candidate scan,,never
+Iron key,Iron鑰匙,item,approved,recommended,2,TYPENAME.FLX:871,P8-A candidate scan,,never
+Iron Maiden,,item,todo,recommended,1,TYPENAME.FLX:2728,P8-A candidate scan,,
+Jaana's Ghost,Jaana的幽靈,item,approved,recommended,1,TYPENAME.FLX:153,P8-A candidate scan,,never
+Jade Ring,翡翠戒指,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,翡翠寶石戒指,never
+Jail Key,Jail鑰匙,item,approved,recommended,1,TYPENAME.FLX:5492,P8-A candidate scan,,never
+Janus,雅努斯,item,approved,recommended,1,TYPENAME.FLX:71,P8-A candidate scan,,never
+Jar,陶罐,item,approved,recommended,2,TYPENAME.FLX:3248,P8-A candidate scan,,never
+Jared,,item,todo,recommended,1,TYPENAME.FLX:260,P8-A candidate scan,,
+Jean Paul,,item,todo,recommended,4,text.flx:7453,P8-A candidate scan,,
+Jeans,,item,todo,recommended,1,TYPENAME.FLX:4958,P8-A candidate scan,,
+Jonah,,item,todo,recommended,1,TYPENAME.FLX:335,P8-A candidate scan,,
+Jordan's Journal,Jordan的日誌,item,approved,recommended,1,TYPENAME.FLX:5592,P8-A candidate scan,,never
+Journal,,item,todo,recommended,6,text.flx:4188,P8-A candidate scan,,
+Jug,大酒壺,item,approved,recommended,4,TYPENAME.FLX:541,P8-A candidate scan,,never
+Julia's Ghost,Julia的幽靈,item,approved,recommended,1,TYPENAME.FLX:178,P8-A candidate scan,,never
+Julia's Journal,Julia的日誌,item,approved,recommended,1,TYPENAME.FLX:5440,P8-A candidate scan,,never
+Katie's Letter,,item,todo,recommended,1,TYPENAME.FLX:5346,P8-A candidate scan,,
+Kettle,,item,todo,recommended,2,TYPENAME.FLX:1418,P8-A candidate scan,,
+Key,鑰匙,item,approved,recommended,1,TYPENAME.FLX:1654,P8-A candidate scan,,never
+Keyring,,item,todo,recommended,1,TYPENAME.FLX:1655,P8-A candidate scan,,
+Keys,鑰匙,item,approved,recommended,2,TYPENAME.FLX:1656,plural of Key,,
+khelereth,,item,todo,recommended,1,TYPENAME.FLX:305,P8-A candidate scan,,
+Khorgin's Fang,,item,todo,recommended,1,TYPENAME.FLX:5669,P8-A candidate scan,,
+Kien,基恩,item,approved,recommended,1,TYPENAME.FLX:224,P8-A candidate scan,,never
+Kiran Shield,,item,todo,recommended,8,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Kiran Stone,,item,todo,recommended,14,text.flx:698,P8-A candidate scan,,
+Kite Shield,,item,todo,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Knife,小刀,item,approved,recommended,1,TYPENAME.FLX:805,P8-A candidate scan,,never
+Knight of Valor,,item,todo,recommended,4,text.flx:4822,P8-A candidate scan,,
+Ladder,梯子,item,approved,recommended,6,TYPENAME.FLX:609,P8-A candidate scan,,never
+Lamp,,item,todo,recommended,7,TYPENAME.FLX:4509,P8-A candidate scan,,
+Landis,,item,todo,recommended,1,TYPENAME.FLX:311,P8-A candidate scan,,
+Lantern,提燈,item,approved,recommended,31,BOOKS-EN.FLX:3,P8-A candidate scan,,never
+Larana,,item,todo,recommended,1,TYPENAME.FLX:94,P8-A candidate scan,,
+Large Silver Ring,大銀戒,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,粗銀戒指,never
+Large Spider,,item,todo,recommended,1,TYPENAME.FLX:242,P8-A candidate scan,,
+Laszlo's Key,Laszlo's鑰匙,item,approved,recommended,1,TYPENAME.FLX:5489,P8-A candidate scan,,never
+Laurana,勞拉娜,item,approved,recommended,1,TYPENAME.FLX:125,P8-A candidate scan,,never
+Leather Arms,,item,todo,recommended,8,BOOKS-EN.FLX:187,P8-A candidate scan,,
+Leather arms,,item,todo,recommended,1,TYPENAME.FLX:4631,P8-A candidate scan,,
+Leather Boots,,item,todo,recommended,8,BOOKS-EN.FLX:187,P8-A candidate scan,,
+Leather boots,皮靴,item,approved,recommended,1,TYPENAME.FLX:4882,P8-A candidate scan,,never
+Leather Cap,皮帽,item,approved,recommended,9,BOOKS-EN.FLX:174,P8-A candidate scan,輕型皮革頭部防具,never
+Leather cap,皮帽,item,approved,recommended,1,TYPENAME.FLX:4634,P8-A candidate scan,variant of Leather Cap,never
+Leather Chest,,item,todo,recommended,8,BOOKS-EN.FLX:187,P8-A candidate scan,,
+Leather chest,,item,todo,recommended,1,TYPENAME.FLX:4632,P8-A candidate scan,,
+Leather gauntlets,皮護手,item,approved,recommended,1,TYPENAME.FLX:4633,P8-A candidate scan,,never
+Leather Guantlets,皮護手,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,皮革手套護具; variant of Leather gauntlets,never
+Leather Leggings,,item,todo,recommended,8,BOOKS-EN.FLX:187,P8-A candidate scan,,
+Leather leggings,皮護腿,item,approved,recommended,1,TYPENAME.FLX:4635,P8-A candidate scan,,never
+Leather pouch,,item,todo,recommended,1,TYPENAME.FLX:3186,P8-A candidate scan,,
+Leech Water,,item,todo,recommended,1,TYPENAME.FLX:3472,P8-A candidate scan,,
+Leggings of Sentri,桑崔護腿,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,聖友桑崔男爵 Baron Sentri 的傳奇護具神器,never
+Legs of Sentri,,item,todo,recommended,1,TYPENAME.FLX:5425,P8-A candidate scan,,
+Lemon,,item,todo,recommended,1,TYPENAME.FLX:747,P8-A candidate scan,,
+Lever,拉桿,item,approved,recommended,2,TYPENAME.FLX:1022,P8-A candidate scan,,never
+Levitate Scroll,漂浮術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Lich,,item,todo,recommended,1,TYPENAME.FLX:300,P8-A candidate scan,,
+Lift,,item,todo,recommended,4,TYPENAME.FLX:2032,P8-A candidate scan,,
+Lift Gear,,item,todo,recommended,1,TYPENAME.FLX:5377,P8-A candidate scan,,
+Lighning Storm Scroll,閃電風暴捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,variant of Scroll: Lightning Storm,never
+Light Heal Scroll,次級治癒術捲軸,item,approved,recommended,7,BOOKS-EN.FLX:194,P8-A candidate scan,基礎治療法術,never
+Light Scroll,亮光術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Light 亮光術,,never
+Light switch,電燈開關,item,approved,recommended,1,TYPENAME.FLX:4713,P8-A candidate scan,地球聖者家中物品,never
+Lightning Arrow,雷光箭,item,approved,recommended,1,TYPENAME.FLX:5688,P8-A candidate scan,,never
+Lightning Bolt Scroll,閃電箭捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Lily,,item,todo,recommended,2,TYPENAME.FLX:722,P8-A candidate scan,,
+Lilypad,,item,todo,recommended,5,TYPENAME.FLX:724,P8-A candidate scan,,
+Lime,,item,todo,recommended,1,TYPENAME.FLX:748,P8-A candidate scan,,
+Linda,,item,todo,recommended,1,TYPENAME.FLX:147,P8-A candidate scan,,
+Linen,,item,todo,recommended,2,TYPENAME.FLX:2755,P8-A candidate scan,,
+Linus,,item,todo,recommended,1,TYPENAME.FLX:345,P8-A candidate scan,,
+Lockpick,,item,todo,recommended,2,TYPENAME.FLX:822,P8-A candidate scan,,
+Longbow,,item,todo,recommended,11,BOOKS-EN.FLX:3,P8-A candidate scan,,
+Longsword,長劍,item,approved,recommended,8,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Loom,織布機,item,approved,recommended,1,TYPENAME.FLX:2716,P8-A candidate scan,,never
+Lord British's bed,,item,todo,recommended,1,TYPENAME.FLX:2871,P8-A candidate scan,,
+Lord British's throne,不列顛王的王座,item,approved,recommended,1,TYPENAME.FLX:2894,P8-A candidate scan,,never
+Lumber,,item,todo,recommended,3,TYPENAME.FLX:1036,P8-A candidate scan,,
+Lute,魯特琴,item,approved,recommended,1,TYPENAME.FLX:591,P8-A candidate scan,,never
+Lycaeum Oracle,,item,todo,recommended,1,TYPENAME.FLX:292,P8-A candidate scan,,
+Lydia,,item,todo,recommended,1,TYPENAME.FLX:150,P8-A candidate scan,,
+Mace,釘頭槌,item,approved,recommended,17,BOOKS-EN.FLX:187,P8-A candidate scan,,never
+Mage,法師,item,approved,recommended,1,TYPENAME.FLX:76,U8 authority.tsv (proposed),,
+Mage Shield,,item,todo,recommended,9,text.flx:5517,P8-A candidate scan,,
+Magic Dart,,item,todo,recommended,1,TYPENAME.FLX:97,P8-A candidate scan,,
+Magic eggshell,,item,todo,recommended,5,TYPENAME.FLX:5473,P8-A candidate scan,,
+Magic Shop of the Two Moons,,item,todo,recommended,1,TYPENAME.FLX:1306,P8-A candidate scan,,
+Mallet,,item,todo,recommended,2,TYPENAME.FLX:2429,P8-A candidate scan,,
+Mana Arrow,,item,todo,recommended,1,TYPENAME.FLX:5686,P8-A candidate scan,,
+Mana Breath Scroll,法力之息捲軸,item,approved,recommended,5,BOOKS-EN.FLX:175,P8-A candidate scan,,never
+Mandrake Root,曼陀羅根,item,approved,recommended,9,BOOKS-EN.FLX:175,P8-A candidate scan,經典施法材料之一，蘊含極大純淨魔力,never
+Mandrake root,曼陀羅根,item,approved,recommended,1,TYPENAME.FLX:2196,P8-A candidate scan,variant of Mandrake Root,never
+Mantra of Compassion,,item,todo,recommended,3,text.flx:415,P8-A candidate scan,,
+Mantra of Honesty,,item,todo,recommended,3,text.flx:4299,P8-A candidate scan,,
+Mantra of Honor,,item,todo,recommended,7,text.flx:4648,P8-A candidate scan,,
+Mantra of Justice,,item,todo,recommended,6,text.flx:4297,P8-A candidate scan,,
+Mantra of Spirituality,,item,todo,recommended,7,text.flx:5209,P8-A candidate scan,,
+Map,地圖,item,approved,recommended,9,TYPENAME.FLX:592,P8-A candidate scan,,never
+Map of Britain,,item,todo,recommended,1,TYPENAME.FLX:5706,P8-A candidate scan,,
+Map of Buccaneers' Den,,item,todo,recommended,1,TYPENAME.FLX:5711,P8-A candidate scan,,
+Map of Minoc,,item,todo,recommended,1,TYPENAME.FLX:5709,P8-A candidate scan,,
+Map of Moonglow,,item,todo,recommended,1,TYPENAME.FLX:5710,P8-A candidate scan,,
+Map of Paws,,item,todo,recommended,1,TYPENAME.FLX:5707,P8-A candidate scan,,
+Map of the Park,,item,todo,recommended,1,TYPENAME.FLX:5705,P8-A candidate scan,,
+Map of Trinsic,,item,todo,recommended,1,TYPENAME.FLX:5713,P8-A candidate scan,,
+Map of Valoria,,item,todo,recommended,1,TYPENAME.FLX:5712,P8-A candidate scan,,
+Map of Yew,,item,todo,recommended,1,TYPENAME.FLX:5708,P8-A candidate scan,,
+Marble bench,,item,todo,recommended,1,TYPENAME.FLX:1005,P8-A candidate scan,,
+Maria,,item,todo,recommended,1,TYPENAME.FLX:331,P8-A candidate scan,,
+Mariah's Ghost,Mariah的幽靈,item,approved,recommended,1,TYPENAME.FLX:93,P8-A candidate scan,,never
+Markus,,item,todo,recommended,1,TYPENAME.FLX:95,P8-A candidate scan,,
+Mason,,item,todo,recommended,1,TYPENAME.FLX:320,P8-A candidate scan,,
+Mast,,item,todo,recommended,1,TYPENAME.FLX:1896,P8-A candidate scan,,
+Mausoleum,,item,todo,recommended,2,TYPENAME.FLX:2646,P8-A candidate scan,,
+Meat fork,,item,todo,recommended,1,TYPENAME.FLX:2544,P8-A candidate scan,,
+Medical bag,,item,todo,recommended,1,TYPENAME.FLX:3481,P8-A candidate scan,,
+Medium Round Shield,,item,todo,recommended,12,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Melvin the Mad,瘋子梅爾文,item,approved,recommended,1,TYPENAME.FLX:219,P8-A candidate scan,,never
+Meteor,,item,todo,recommended,2,TYPENAME.FLX:3652,P8-A candidate scan,,
+Meteorite Scroll,隕石術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Microwave oven,,item,todo,recommended,1,TYPENAME.FLX:4608,P8-A candidate scan,,
+Mill,,item,todo,recommended,1,TYPENAME.FLX:3922,P8-A candidate scan,,
+Mine cart,,item,todo,recommended,2,TYPENAME.FLX:2865,P8-A candidate scan,,
+Miner,,item,todo,recommended,1,TYPENAME.FLX:254,P8-A candidate scan,,
+Minoc Generic Gypsy Female Final,,item,todo,recommended,1,TYPENAME.FLX:169,P8-A candidate scan,,
+Mirror,鏡子,item,approved,recommended,2,TYPENAME.FLX:2580,P8-A candidate scan,,never
+Monster Generator,,item,todo,recommended,1,TYPENAME.FLX:3803,P8-A candidate scan,,
+Moongate,月之門,item,approved,recommended,1,TYPENAME.FLX:4870,U8 authority.tsv (approved),U8 authority.tsv (approved),first
+Moongates,月之門,item,approved,recommended,4,text.flx:1741,plural of Moongate,,
+Moons,,item,todo,recommended,4,BOOKS-EN.FLX:143,P8-A candidate scan,,
+Mortar and Pestle,,item,todo,recommended,1,TYPENAME.FLX:2167,P8-A candidate scan,,
+Moss,,item,todo,recommended,2,TYPENAME.FLX:2749,P8-A candidate scan,,
+Mount,,item,todo,recommended,1,TYPENAME.FLX:2861,P8-A candidate scan,,
+Mourdin,,item,todo,recommended,4,text.flx:706,P8-A candidate scan,,
+Mourdin's Note,,item,todo,recommended,1,TYPENAME.FLX:4972,P8-A candidate scan,,
+Muffin,,item,todo,recommended,4,BOOKS-EN.FLX:174,P8-A candidate scan,,
+Mug,馬克杯,item,approved,recommended,1,TYPENAME.FLX:802,P8-A candidate scan,,never
+Mug of Ale,一大杯麥酒,item,approved,recommended,4,BOOKS-EN.FLX:161,P8-A candidate scan,,never
+Mushroom,,item,todo,recommended,3,TYPENAME.FLX:894,P8-A candidate scan,,
+Mushrooms,,item,todo,recommended,1,TYPENAME.FLX:897,P8-A candidate scan,,
+Music stand,,item,todo,recommended,1,TYPENAME.FLX:817,P8-A candidate scan,,
+Nameless,,item,todo,recommended,1,TYPENAME.FLX:21,P8-A candidate scan,,
+Nautilis,,item,todo,recommended,1,TYPENAME.FLX:4685,P8-A candidate scan,,
+Necklace,項鍊,item,approved,recommended,6,TYPENAME.FLX:3416,P8-A candidate scan,,never
+Netting,,item,todo,recommended,1,TYPENAME.FLX:1899,P8-A candidate scan,,
+Nicodemus,,item,todo,recommended,1,TYPENAME.FLX:259,P8-A candidate scan,,
+Nightshade,龍葵,item,approved,recommended,8,text.flx:1418,P8-A candidate scan,,never
+Note from Raven,來自Raven的字條,item,approved,recommended,1,TYPENAME.FLX:5372,P8-A candidate scan,,never
+Novice Bow,新手弓,item,approved,recommended,5,BOOKS-EN.FLX:179,P8-A candidate scan,,never
+Novice bow,,item,todo,recommended,5,TYPENAME.FLX:4836,P8-A candidate scan,,
+Oil Can,,item,todo,recommended,1,TYPENAME.FLX:5213,P8-A candidate scan,,
+Oil Flask,,item,todo,recommended,10,BOOKS-EN.FLX:3,P8-A candidate scan,,
+Oil flask,油瓶,item,approved,recommended,2,TYPENAME.FLX:1676,P8-A candidate scan,,never
+Oil lamp,,item,todo,recommended,1,TYPENAME.FLX:866,P8-A candidate scan,,
+Old Jak,,item,todo,recommended,1,TYPENAME.FLX:176,P8-A candidate scan,,
+Omar,,item,todo,recommended,1,TYPENAME.FLX:350,P8-A candidate scan,,
+Onion,,item,todo,recommended,4,BOOKS-EN.FLX:174,P8-A candidate scan,,
+Ooli,,item,todo,recommended,1,TYPENAME.FLX:57,P8-A candidate scan,,
+Operating table,,item,todo,recommended,1,TYPENAME.FLX:3400,P8-A candidate scan,,
+Orange,,item,todo,recommended,7,BOOKS-EN.FLX:194,P8-A candidate scan,,
+Orange Potion,橙色藥水,item,approved,recommended,6,BOOKS-EN.FLX:193,P8-A candidate scan,,never
+Orb,,item,todo,recommended,1,TYPENAME.FLX:2131,P8-A candidate scan,,
+Orb of the Moons,,item,todo,recommended,4,text.flx:1742,P8-A candidate scan,,
+Ornament,,item,todo,recommended,1,TYPENAME.FLX:1893,P8-A candidate scan,,
+Orrery,,item,todo,recommended,1,TYPENAME.FLX:3380,P8-A candidate scan,,
+Oven,,item,todo,recommended,2,TYPENAME.FLX:2398,P8-A candidate scan,,
+Painting,油畫,item,approved,recommended,35,TYPENAME.FLX:554,P8-A candidate scan,,never
+Pan,平底鍋,item,approved,recommended,1,TYPENAME.FLX:2470,P8-A candidate scan,,never
+Pan of dough,,item,todo,recommended,1,TYPENAME.FLX:5623,P8-A candidate scan,,
+Pan of flour,,item,todo,recommended,1,TYPENAME.FLX:5624,P8-A candidate scan,,
+Pan of water,,item,todo,recommended,1,TYPENAME.FLX:5625,P8-A candidate scan,,
+Pavilion,,item,todo,recommended,1,TYPENAME.FLX:2873,P8-A candidate scan,,
+Pear,梨子,item,approved,recommended,1,TYPENAME.FLX:746,P8-A candidate scan,,never
+Pear tree,,item,todo,recommended,1,TYPENAME.FLX:5702,P8-A candidate scan,,
+Pearli,,item,todo,recommended,1,TYPENAME.FLX:338,P8-A candidate scan,,
+Peas,,item,todo,recommended,1,TYPENAME.FLX:759,P8-A candidate scan,,
+Pedestal,,item,todo,recommended,2,TYPENAME.FLX:4817,P8-A candidate scan,,
+Peg Leg Joe,獨腿喬,item,approved,recommended,1,TYPENAME.FLX:84,P8-A candidate scan,variant of Joe,never
+Pen,羽毛筆,item,approved,recommended,1,TYPENAME.FLX:2988,P8-A candidate scan,,never
+Pentagram,,item,todo,recommended,7,text.flx:537,P8-A candidate scan,,
+Pew,教堂長椅,item,approved,recommended,4,TYPENAME.FLX:1159,P8-A candidate scan,,never
+Phase Spider,相位蜘蛛,item,approved,recommended,1,TYPENAME.FLX:195,P8-A candidate scan,,never
+Phase Spider Statue,,item,todo,recommended,1,TYPENAME.FLX:3828,P8-A candidate scan,,
+Phillipa,,item,todo,recommended,1,TYPENAME.FLX:72,P8-A candidate scan,,
+Phineus,,item,todo,recommended,1,TYPENAME.FLX:344,P8-A candidate scan,,
+Pick,,item,todo,recommended,1,TYPENAME.FLX:734,P8-A candidate scan,,
+Picnic table,,item,todo,recommended,1,TYPENAME.FLX:4703,P8-A candidate scan,,
+Pie,,item,todo,recommended,2,TYPENAME.FLX:740,P8-A candidate scan,,
+Pig,,item,todo,recommended,1,TYPENAME.FLX:298,P8-A candidate scan,,
+Pig on a Spit,,item,todo,recommended,1,TYPENAME.FLX:3546,P8-A candidate scan,,
+Pike,,item,todo,recommended,1,TYPENAME.FLX:1049,P8-A candidate scan,,
+Pillow,枕頭,item,approved,recommended,8,TYPENAME.FLX:4591,P8-A candidate scan,,never
+Pipe,煙斗,item,approved,recommended,2,TYPENAME.FLX:3413,P8-A candidate scan,,never
+Pirate,,item,todo,recommended,25,BOOKS-EN.FLX:201,P8-A candidate scan,,
+Pit,,item,todo,recommended,2,TYPENAME.FLX:2221,P8-A candidate scan,,
+Pitchfork,草叉,item,approved,recommended,1,TYPENAME.FLX:884,P8-A candidate scan,,never
+Planer,,item,todo,recommended,1,TYPENAME.FLX:2449,P8-A candidate scan,,
+Plank saw,,item,todo,recommended,1,TYPENAME.FLX:2446,P8-A candidate scan,,
+Plaque,,item,todo,recommended,5,TYPENAME.FLX:1970,P8-A candidate scan,,
+Plate,盤子,item,approved,recommended,2,TYPENAME.FLX:543,P8-A candidate scan,,never
+Plate Arms,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Plate arms,板甲護臂,item,approved,recommended,1,TYPENAME.FLX:4636,P8-A candidate scan,,never
+Plate Boots,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Plate boots,板甲戰靴,item,approved,recommended,1,TYPENAME.FLX:4637,P8-A candidate scan,,never
+Plate Chest,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Plate chest,板甲胸甲,item,approved,recommended,1,TYPENAME.FLX:4638,P8-A candidate scan,,never
+Plate Gauntlets,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Plate gauntlets,板甲護手,item,approved,recommended,1,TYPENAME.FLX:4639,P8-A candidate scan,,never
+Plate Helm,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Plate helm,板甲頭盔,item,approved,recommended,1,TYPENAME.FLX:4616,P8-A candidate scan,,never
+Plate Leggings,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Plate leggings,板甲護腿,item,approved,recommended,1,TYPENAME.FLX:4644,P8-A candidate scan,,never
+Plate of Muffins,,item,todo,recommended,1,TYPENAME.FLX:4740,P8-A candidate scan,,
+Platform,,item,todo,recommended,3,TYPENAME.FLX:2223,P8-A candidate scan,,
+Platter,,item,todo,recommended,1,TYPENAME.FLX:823,P8-A candidate scan,,
+Plow,,item,todo,recommended,1,TYPENAME.FLX:1897,P8-A candidate scan,,
+Podium,,item,todo,recommended,1,TYPENAME.FLX:2134,P8-A candidate scan,,
+Poisoned Bread,淬毒麵包,item,approved,recommended,1,TYPENAME.FLX:4881,P8-A candidate scan,,never
+Pole,,item,todo,recommended,1,TYPENAME.FLX:3412,P8-A candidate scan,,
+Polished Diamond,,item,todo,recommended,1,TYPENAME.FLX:5218,P8-A candidate scan,,
+Polished Emerald,,item,todo,recommended,1,TYPENAME.FLX:5220,P8-A candidate scan,,
+Polished Ruby,,item,todo,recommended,1,TYPENAME.FLX:5222,P8-A candidate scan,,
+Polished Sapphire,,item,todo,recommended,1,TYPENAME.FLX:5224,P8-A candidate scan,,
+Pool,,item,todo,recommended,9,TYPENAME.FLX:1007,P8-A candidate scan,,
+Poppy,,item,todo,recommended,1,TYPENAME.FLX:846,P8-A candidate scan,,
+Portcullis,,item,todo,recommended,3,TYPENAME.FLX:1033,P8-A candidate scan,,
+Post,,item,todo,recommended,2,TYPENAME.FLX:2748,P8-A candidate scan,,
+Poster,,item,todo,recommended,2,TYPENAME.FLX:4769,P8-A candidate scan,,
+Potential Chalice of Honor,,item,todo,recommended,1,TYPENAME.FLX:5474,P8-A candidate scan,,
+Potion,,item,todo,recommended,10,BOOKS-EN.FLX:390,P8-A candidate scan,,
+Potted fern,,item,todo,recommended,1,TYPENAME.FLX:3145,P8-A candidate scan,,
+Potted plant,,item,todo,recommended,9,TYPENAME.FLX:3146,P8-A candidate scan,,
+Powder Keg,,item,todo,recommended,1,TYPENAME.FLX:1220,P8-A candidate scan,,
+Powderkeg,火藥桶,item,approved,recommended,4,BOOKS-EN.FLX:196,P8-A candidate scan,爆炸性黑火藥桶,never
+Power Cube,,item,todo,recommended,5,TYPENAME.FLX:4648,P8-A candidate scan,,
+Predatory Fish,,item,todo,recommended,1,TYPENAME.FLX:209,P8-A candidate scan,,
+Prisoner,,item,todo,recommended,1,TYPENAME.FLX:78,P8-A candidate scan,,
+Puddle,,item,todo,recommended,3,TYPENAME.FLX:1311,P8-A candidate scan,,
+Pump,,item,todo,recommended,1,TYPENAME.FLX:2907,P8-A candidate scan,,
+Pumpkin,,item,todo,recommended,1,TYPENAME.FLX:808,P8-A candidate scan,,
+Purple Gem,,item,todo,recommended,3,BOOKS-EN.FLX:3,P8-A candidate scan,,
+Purple Potion,紫色藥水,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,,never
+Pylon,,item,todo,recommended,1,TYPENAME.FLX:4650,P8-A candidate scan,,
+Queen Egg,女王之卵,item,approved,recommended,5,text.flx:7168,P8-A candidate scan,石像鬼女王之卵，拯救石像鬼種族的最後希望,first
+Queen Zhah,,item,todo,recommended,1,TYPENAME.FLX:217,P8-A candidate scan,,
+Queen's Entrance Cube,,item,todo,recommended,1,TYPENAME.FLX:5745,P8-A candidate scan,,
+Queen's Power Cube,,item,todo,recommended,3,text.flx:138,P8-A candidate scan,,
+Queen's Sculpture Cube,,item,todo,recommended,1,TYPENAME.FLX:5500,P8-A candidate scan,,
+Quill of Justice,,item,todo,recommended,11,text.flx:7230,P8-A candidate scan,,
+Quill pen,,item,todo,recommended,1,TYPENAME.FLX:617,P8-A candidate scan,,
+Rack,,item,todo,recommended,1,TYPENAME.FLX:2745,P8-A candidate scan,,
+Rack of lamb,,item,todo,recommended,1,TYPENAME.FLX:742,P8-A candidate scan,,
+Rag,,item,todo,recommended,2,TYPENAME.FLX:2896,P8-A candidate scan,,
+Rake,,item,todo,recommended,1,TYPENAME.FLX:610,P8-A candidate scan,,
+Raleigh,,item,todo,recommended,1,TYPENAME.FLX:231,P8-A candidate scan,,
+Rand,,item,todo,recommended,1,TYPENAME.FLX:18,P8-A candidate scan,,
+Randolas,,item,todo,recommended,1,TYPENAME.FLX:282,P8-A candidate scan,,
+Rat,,item,todo,recommended,1,TYPENAME.FLX:28,P8-A candidate scan,,
+Rat poison,老鼠藥,item,approved,recommended,1,TYPENAME.FLX:4760,P8-A candidate scan,,never
+Rat's nest,,item,todo,recommended,1,TYPENAME.FLX:3306,P8-A candidate scan,,
+Raven Key,Raven鑰匙,item,approved,recommended,2,TYPENAME.FLX:5782,P8-A candidate scan,,never
+Raven's Choice boots,,item,todo,recommended,1,TYPENAME.FLX:4778,P8-A candidate scan,,
+Raven's Choice chest,,item,todo,recommended,1,TYPENAME.FLX:4779,P8-A candidate scan,,
+Raven's Choice gauntlets,,item,todo,recommended,1,TYPENAME.FLX:4780,P8-A candidate scan,,
+Raven's Choice leggings,,item,todo,recommended,1,TYPENAME.FLX:4793,P8-A candidate scan,,
+Reb globe,,item,todo,recommended,1,TYPENAME.FLX:2440,P8-A candidate scan,,
+Red Candle,,item,todo,recommended,1,TYPENAME.FLX:5478,P8-A candidate scan,,
+Red dye,,item,todo,recommended,1,TYPENAME.FLX:2706,P8-A candidate scan,,
+Red Lens,,item,todo,recommended,1,TYPENAME.FLX:5450,P8-A candidate scan,,
+Red lens,,item,todo,recommended,1,TYPENAME.FLX:5520,P8-A candidate scan,,
+Red Potion,紅色藥水,item,approved,recommended,7,BOOKS-EN.FLX:193,P8-A candidate scan,,never
+Red Skull,,item,todo,recommended,1,TYPENAME.FLX:5566,P8-A candidate scan,,
+Reef,,item,todo,recommended,5,TYPENAME.FLX:4669,P8-A candidate scan,,
+Refrigerator,,item,todo,recommended,1,TYPENAME.FLX:4609,P8-A candidate scan,,
+Renald,,item,todo,recommended,1,TYPENAME.FLX:171,P8-A candidate scan,,
+Reynald,,item,todo,recommended,5,text.flx:6943,P8-A candidate scan,,
+Reynald's Note,,item,todo,recommended,1,TYPENAME.FLX:5314,P8-A candidate scan,,
+Richter,,item,todo,recommended,1,TYPENAME.FLX:281,P8-A candidate scan,,
+Rigging,,item,todo,recommended,1,TYPENAME.FLX:1939,P8-A candidate scan,,
+Ring,戒指,item,approved,recommended,5,TYPENAME.FLX:3428,P8-A candidate scan,,never
+Ring of Fire Scroll,火環術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Fire Ring 火環術,,never
+Road,,item,todo,recommended,1,TYPENAME.FLX:4694,P8-A candidate scan,,
+Roast fowl,,item,todo,recommended,2,TYPENAME.FLX:760,P8-A candidate scan,,
+Roast pig,,item,todo,recommended,1,TYPENAME.FLX:809,P8-A candidate scan,,
+Robison,,item,todo,recommended,1,TYPENAME.FLX:115,P8-A candidate scan,,
+Rock,,item,todo,recommended,5,TYPENAME.FLX:4321,P8-A candidate scan,,
+Rolling pin,,item,todo,recommended,1,TYPENAME.FLX:4730,P8-A candidate scan,,
+Ronald,,item,todo,recommended,1,TYPENAME.FLX:317,P8-A candidate scan,,
+Rope,繩索,item,approved,recommended,6,TYPENAME.FLX:3201,P8-A candidate scan,,never
+Rope ladder,,item,todo,recommended,1,TYPENAME.FLX:608,P8-A candidate scan,,
+Roprick,,item,todo,recommended,1,TYPENAME.FLX:135,P8-A candidate scan,,
+Rosemary,,item,todo,recommended,1,TYPENAME.FLX:847,P8-A candidate scan,,
+Rotten cabbage,,item,todo,recommended,1,TYPENAME.FLX:3529,P8-A candidate scan,,
+Round Shield,,item,todo,recommended,2,TYPENAME.FLX:752,P8-A candidate scan,,
+Rowboat,,item,todo,recommended,1,TYPENAME.FLX:4774,P8-A candidate scan,,
+Rubble,,item,todo,recommended,1,TYPENAME.FLX:3328,P8-A candidate scan,,
+Ruby,,item,todo,recommended,2,TYPENAME.FLX:287,P8-A candidate scan,,
+Ruby Bracelet,,item,todo,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,
+Ruby Ring,紅寶石戒指,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,鑲嵌紅寶石之魔法戒指,never
+Rug,地毯,item,approved,recommended,2,TYPENAME.FLX:4725,P8-A candidate scan,,never
+Rum,,item,todo,recommended,1,TYPENAME.FLX:5488,P8-A candidate scan,,
+Rune of Compassion,慈悲符石,item,approved,recommended,2,TYPENAME.FLX:2940,P8-A candidate scan,,never
+Rune of Honesty,誠實符石,item,approved,recommended,2,TYPENAME.FLX:2941,P8-A candidate scan,,never
+Rune of Honor,榮譽符石,item,approved,recommended,2,TYPENAME.FLX:2942,P8-A candidate scan,,never
+Rune of Humility,謙遜符石,item,approved,recommended,2,TYPENAME.FLX:2943,P8-A candidate scan,,never
+Rune of Justice,正義符石,item,approved,recommended,2,TYPENAME.FLX:2944,P8-A candidate scan,,never
+Rune of Sacrifice,犧牲符石,item,approved,recommended,2,TYPENAME.FLX:2945,P8-A candidate scan,,never
+Rune of Spirit,靈性符石,item,approved,recommended,1,TYPENAME.FLX:3245,P8-A candidate scan,,never
+Rune of Spirituality,靈性符石,item,approved,recommended,1,TYPENAME.FLX:2946,P8-A candidate scan,variant of Rune of Spirit,never
+Rune of Valor,英勇符石,item,approved,recommended,2,TYPENAME.FLX:2947,P8-A candidate scan,,never
+Runes of Virtue,美德符石,item,approved,recommended,3,text.flx:395,P8-A candidate scan,八大美德符石，用以解開封印或淨化聖壇,first
+Sack of Flour,,item,todo,recommended,6,BOOKS-EN.FLX:196,P8-A candidate scan,,
+Sage's Journal,Sage的日誌,item,approved,recommended,1,TYPENAME.FLX:4934,P8-A candidate scan,,never
+Sail cloth,,item,todo,recommended,2,TYPENAME.FLX:2787,P8-A candidate scan,,
+Sailboat,,item,todo,recommended,1,TYPENAME.FLX:4772,P8-A candidate scan,,
+Sailing for Dummies,,item,todo,recommended,1,TYPENAME.FLX:5596,P8-A candidate scan,,
+Salvador,,item,todo,recommended,1,TYPENAME.FLX:89,P8-A candidate scan,,
+Samhayne's Desk,,item,todo,recommended,1,TYPENAME.FLX:4662,P8-A candidate scan,,
+Sandalwood box,,item,todo,recommended,1,TYPENAME.FLX:3436,P8-A candidate scan,,
+Sapphire,,item,todo,recommended,1,TYPENAME.FLX:874,P8-A candidate scan,,
+Sasha,,item,todo,recommended,1,TYPENAME.FLX:340,P8-A candidate scan,,
+Saucepan,,item,todo,recommended,2,TYPENAME.FLX:1416,P8-A candidate scan,,
+Saw,,item,todo,recommended,1,TYPENAME.FLX:883,P8-A candidate scan,,
+Sawhorse,,item,todo,recommended,1,TYPENAME.FLX:3377,P8-A candidate scan,,
+Scaffold,,item,todo,recommended,1,TYPENAME.FLX:2426,P8-A candidate scan,,
+Scales,,item,todo,recommended,2,TYPENAME.FLX:2869,P8-A candidate scan,,
+Scalpel,,item,todo,recommended,1,TYPENAME.FLX:3478,P8-A candidate scan,,
+Scimitar,彎刀,item,approved,recommended,10,BOOKS-EN.FLX:174,P8-A candidate scan,,never
+Screech,,item,todo,recommended,1,TYPENAME.FLX:267,P8-A candidate scan,,
+Scroll,捲軸,item,approved,recommended,14,TYPENAME.FLX:1256,P8-A candidate scan,,never
+Scroll:  Lightning Bolt,閃電箭捲軸,item,approved,recommended,1,TYPENAME.FLX:5345,P8-A candidate scan,variant of Lightning Bolt Scroll,never
+Scroll: Bolt of Flame,火箭術捲軸,item,approved,recommended,1,TYPENAME.FLX:5359,P8-A candidate scan,variant of Bolt of Flame Scroll,never
+Scroll: Charm,迷惑術捲軸,item,approved,recommended,1,TYPENAME.FLX:5349,U7 Translation_Guide.md: Charm 迷惑術,variant of Charm Scroll,never
+Scroll: Crystal Barrier,水晶屏障捲軸,item,approved,recommended,1,TYPENAME.FLX:5344,P8-A candidate scan,variant of Crystal Barrier Scroll,never
+Scroll: Cure,解毒術捲軸,item,approved,recommended,1,TYPENAME.FLX:5348,P8-A candidate scan,variant of Cure Scroll,never
+Scroll: Day,白晝術捲軸,item,approved,recommended,1,TYPENAME.FLX:5355,P8-A candidate scan,variant of Day Scroll,never
+Scroll: Death,死亡術捲軸,item,approved,recommended,1,TYPENAME.FLX:5330,P8-A candidate scan,variant of Death Scroll,never
+Scroll: Douse,熄滅術捲軸,item,approved,recommended,1,TYPENAME.FLX:5339,U7 Translation_Guide.md: Great Douse 大熄滅術,,never
+Scroll: Earthquake,地震術捲軸,item,approved,recommended,1,TYPENAME.FLX:5368,P8-A candidate scan,variant of Earthquake Scroll,never
+Scroll: Ethereal Sight,乙太靈視捲軸,item,approved,recommended,1,TYPENAME.FLX:5341,"U7 Translation_Guide.md: Ether 乙太, Peer 靈視術",variant of Ethereal Sight Scroll,never
+Scroll: Fireball,火球術捲軸,item,approved,recommended,1,TYPENAME.FLX:5351,P8-A candidate scan,variant of Fireball Scroll,never
+Scroll: Fog,雲霧術捲軸,item,approved,recommended,1,TYPENAME.FLX:5352,P8-A candidate scan,variant of Fog Scroll,never
+Scroll: Freeze,冰凍術捲軸,item,approved,recommended,1,TYPENAME.FLX:5356,P8-A candidate scan,,never
+Scroll: Frost Storm,冰霜風暴捲軸,item,approved,recommended,1,TYPENAME.FLX:5367,P8-A candidate scan,variant of Frost Storm Scroll,never
+Scroll: Full Heal,完全治癒術捲軸,item,approved,recommended,1,TYPENAME.FLX:5360,P8-A candidate scan,variant of Full Heal Scroll,never
+Scroll: Gust,狂風術捲軸,item,approved,recommended,1,TYPENAME.FLX:5337,P8-A candidate scan,,never
+Scroll: Ignite,點燃術捲軸,item,approved,recommended,1,TYPENAME.FLX:5338,U7 Translation_Guide.md: Great Ignite 大點燃術,,never
+Scroll: Infernal Armor,地獄護甲捲軸,item,approved,recommended,1,TYPENAME.FLX:5347,P8-A candidate scan,variant of Infernal Armor Scroll,never
+Scroll: Inferno,煉獄火海捲軸,item,approved,recommended,1,TYPENAME.FLX:5370,P8-A candidate scan,variant of Inferno Scroll,never
+Scroll: Invisibility,隱身術捲軸,item,approved,recommended,1,TYPENAME.FLX:5362,U7 Translation_Guide.md: Invisibility 隱身術,variant of Invisibility Scroll,never
+Scroll: Levitate,漂浮術捲軸,item,approved,recommended,1,TYPENAME.FLX:5358,P8-A candidate scan,variant of Levitate Scroll,never
+Scroll: Light,亮光術捲軸,item,approved,recommended,1,TYPENAME.FLX:5342,U7 Translation_Guide.md: Light 亮光術,variant of Light Scroll,never
+Scroll: Light Heal,次級治癒術捲軸,item,approved,recommended,1,TYPENAME.FLX:5343,P8-A candidate scan,基礎治療法術; variant of Light Heal Scroll,never
+Scroll: Lightning Storm,閃電風暴捲軸,item,approved,recommended,1,TYPENAME.FLX:5369,P8-A candidate scan,,never
+Scroll: Mana Breath,法力之息捲軸,item,approved,recommended,1,TYPENAME.FLX:5364,P8-A candidate scan,variant of Mana Breath Scroll,never
+Scroll: Meteorite,隕石術捲軸,item,approved,recommended,1,TYPENAME.FLX:5361,P8-A candidate scan,variant of Meteorite Scroll,never
+Scroll: Ring of Fire,火環術捲軸,item,approved,recommended,1,TYPENAME.FLX:5363,U7 Translation_Guide.md: Fire Ring 火環術,variant of Ring of Fire Scroll,never
+Scroll: Searing Rain,熾烈火雨捲軸,item,approved,recommended,1,TYPENAME.FLX:5371,P8-A candidate scan,variant of Searing Rain Scroll,never
+Scroll: Stone,石化術捲軸,item,approved,recommended,1,TYPENAME.FLX:5335,P8-A candidate scan,,never
+Scroll: Summon Daemon,召喚惡魔捲軸,item,approved,recommended,1,TYPENAME.FLX:5366,P8-A candidate scan,U7 Translation_Guide.md: daemon 惡魔; variant of Summon Demon Scroll,never
+Scroll: Summon Reagents,召喚材料捲軸,item,approved,recommended,1,TYPENAME.FLX:5340,P8-A candidate scan,U7 Translation_Guide.md: reagents 藥材,never
+Scroll: Summon Undead,召喚亡靈捲軸,item,approved,recommended,1,TYPENAME.FLX:5357,P8-A candidate scan,variant of Summon Undead Scroll,never
+Scroll: Telekinesis,遙控術捲軸,item,approved,recommended,1,TYPENAME.FLX:5350,U7 Translation_Guide.md: Telekinesis 遙控術,variant of Telekinesis Scroll,never
+Scroll: Teleport,傳送術捲軸,item,approved,recommended,1,TYPENAME.FLX:5365,P8-A candidate scan,variant of Teleport Scroll,never
+Scroll: Time Stop,時間暫停捲軸,item,approved,recommended,1,TYPENAME.FLX:5353,U7 Translation_Guide.md: Time Stop 時間暫停,variant of Time Stop Scroll,never
+Scroll: Wizard Eye,巫師眼捲軸,item,approved,recommended,1,TYPENAME.FLX:5354,P8-A candidate scan,U7 Translation_Guide.md: Wizard Eye 巫師眼; variant of Wizard Eye Scroll,never
+Sculpture,,item,todo,recommended,1,TYPENAME.FLX:4853,P8-A candidate scan,,
+Sculpture Power Cube,,item,todo,recommended,1,TYPENAME.FLX:5498,P8-A candidate scan,,
+Scythe,,item,todo,recommended,8,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Sea anenome,,item,todo,recommended,1,TYPENAME.FLX:4682,P8-A candidate scan,,
+Sea Monster,,item,todo,recommended,1,TYPENAME.FLX:155,P8-A candidate scan,,
+Sea urchin,,item,todo,recommended,1,TYPENAME.FLX:4684,P8-A candidate scan,,
+Searing Rain Scroll,熾烈火雨捲軸,item,approved,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Seed,,item,todo,recommended,1,TYPENAME.FLX:5479,P8-A candidate scan,,
+Sentinel of Skara Brae,,item,todo,recommended,2,TYPENAME.FLX:237,P8-A candidate scan,,
+Sergeant Lambert,,item,todo,recommended,1,TYPENAME.FLX:67,P8-A candidate scan,,
+Serpent Venom,,item,todo,recommended,6,text.flx:1340,P8-A candidate scan,,
+Serpent Wyne vat,,item,todo,recommended,1,TYPENAME.FLX:3121,P8-A candidate scan,,
+Serpentwyne,,item,todo,recommended,26,text.flx:903,P8-A candidate scan,,
+Serpentwyne vat,,item,todo,recommended,3,TYPENAME.FLX:3110,P8-A candidate scan,,
+Serving spoon,,item,todo,recommended,1,TYPENAME.FLX:2545,P8-A candidate scan,,
+Severed head,,item,todo,recommended,2,TYPENAME.FLX:5723,P8-A candidate scan,,
+Sewing,,item,todo,recommended,1,TYPENAME.FLX:3767,P8-A candidate scan,,
+Sewing kit,,item,todo,recommended,1,TYPENAME.FLX:2750,P8-A candidate scan,,
+Sextant,,item,todo,recommended,18,BOOKS-EN.FLX:3,P8-A candidate scan,,
+Shackles,,item,todo,recommended,2,TYPENAME.FLX:1307,P8-A candidate scan,,
+Sheet music,,item,todo,recommended,3,TYPENAME.FLX:3205,P8-A candidate scan,,
+Shelf,,item,todo,recommended,2,TYPENAME.FLX:5147,P8-A candidate scan,,
+Shell,,item,todo,recommended,2,TYPENAME.FLX:4686,P8-A candidate scan,,
+Shepherd's crook,,item,todo,recommended,1,TYPENAME.FLX:4830,P8-A candidate scan,,
+Shield,盾牌,item,approved,recommended,4,TYPENAME.FLX:755,P8-A candidate scan,,never
+Ship,帆船,item,approved,recommended,3,TYPENAME.FLX:1928,P8-A candidate scan,,never
+Ship Wheel,,item,todo,recommended,1,TYPENAME.FLX:5475,P8-A candidate scan,,
+Shirt,,item,todo,recommended,1,TYPENAME.FLX:4957,P8-A candidate scan,,
+Short Sword,短劍,item,approved,recommended,8,BOOKS-EN.FLX:187,P8-A candidate scan,,never
+Short sword,,item,todo,recommended,3,TYPENAME.FLX:2673,P8-A candidate scan,,
+Shortsword,,item,todo,recommended,1,TYPENAME.FLX:4809,P8-A candidate scan,,
+Shovel,,item,todo,recommended,1,TYPENAME.FLX:903,P8-A candidate scan,,
+Shower,,item,todo,recommended,1,TYPENAME.FLX:4598,P8-A candidate scan,,
+Shrine of Valor,,item,todo,recommended,1,TYPENAME.FLX:68,P8-A candidate scan,,
+Sickle,,item,todo,recommended,1,TYPENAME.FLX:2209,P8-A candidate scan,,
+Siege Bow,,item,todo,recommended,9,BOOKS-EN.FLX:192,P8-A candidate scan,,
+Sigil of Compassion,慈悲聖印,item,approved,recommended,5,text.flx:301,P8-A candidate scan,,never
+Sign,,item,todo,recommended,46,TYPENAME.FLX:578,P8-A candidate scan,,
+Signpost,,item,todo,recommended,5,TYPENAME.FLX:1644,P8-A candidate scan,,
+Silk,,item,todo,recommended,1,TYPENAME.FLX:2198,P8-A candidate scan,,
+Silver Horn,,item,todo,recommended,1,TYPENAME.FLX:5663,P8-A candidate scan,,
+Silver key,Silver鑰匙,item,approved,recommended,1,TYPENAME.FLX:873,P8-A candidate scan,,never
+Silver Necklace,,item,todo,recommended,16,BOOKS-EN.FLX:196,P8-A candidate scan,,
+Silver Ring,銀戒指,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,銀質戒指,never
+Silver Serpent,銀巨蛇,item,approved,recommended,9,text.flx:1329,P8-A candidate scan,,never
+Silver Serpent's Cage,,item,todo,recommended,2,TYPENAME.FLX:3100,P8-A candidate scan,,
+Silverseed,,item,todo,recommended,1,TYPENAME.FLX:3208,P8-A candidate scan,,
+Simon,,item,todo,recommended,1,TYPENAME.FLX:119,P8-A candidate scan,,
+Sink,,item,todo,recommended,1,TYPENAME.FLX:4607,P8-A candidate scan,,
+Sir Eris,,item,todo,recommended,1,TYPENAME.FLX:63,P8-A candidate scan,,
+Sir Reynald,,item,todo,recommended,1,TYPENAME.FLX:64,P8-A candidate scan,,
+Siran,,item,todo,recommended,1,TYPENAME.FLX:323,P8-A candidate scan,,
+Skeleton,骷髏,item,approved,recommended,5,TYPENAME.FLX:196,U8 authority.tsv (proposed),,
+Skull,頭骨,item,approved,recommended,7,TYPENAME.FLX:2653,P8-A candidate scan,,never
+Skull of Mondain,蒙丹的頭骨,item,approved,recommended,1,TYPENAME.FLX:5666,P8-A candidate scan,,never
+Skull Poll,,item,todo,recommended,1,TYPENAME.FLX:5249,P8-A candidate scan,,
+Skully's Skull,,item,todo,recommended,1,TYPENAME.FLX:5250,P8-A candidate scan,,
+Slasher Demon,,item,todo,recommended,1,TYPENAME.FLX:130,P8-A candidate scan,,
+Sleeping bag,,item,todo,recommended,3,TYPENAME.FLX:559,P8-A candidate scan,,
+Sludge,,item,todo,recommended,1,TYPENAME.FLX:3386,P8-A candidate scan,,
+Small Copper Shield,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Small Gold Shield,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Small Silver Shield,,item,todo,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Small Spider,,item,todo,recommended,1,TYPENAME.FLX:158,P8-A candidate scan,,
+Smelter,,item,todo,recommended,1,TYPENAME.FLX:2906,P8-A candidate scan,,
+Smoke detector,,item,todo,recommended,1,TYPENAME.FLX:4718,P8-A candidate scan,,
+Snowdrops,,item,todo,recommended,1,TYPENAME.FLX:848,P8-A candidate scan,,
+Sofa,,item,todo,recommended,1,TYPENAME.FLX:4444,P8-A candidate scan,,
+Sparkler,,item,todo,recommended,1,TYPENAME.FLX:1479,P8-A candidate scan,,
+Spatula,,item,todo,recommended,1,TYPENAME.FLX:2543,P8-A candidate scan,,
+Spectre,,item,todo,recommended,1,TYPENAME.FLX:210,P8-A candidate scan,,
+Spellbook,,item,todo,recommended,1,TYPENAME.FLX:945,P8-A candidate scan,,
+Spider Silk,蜘蛛絲,item,approved,recommended,14,text.flx:4486,P8-A candidate scan,經典施法材料之一，束縛與聯結魔力,never
+Spike,,item,todo,recommended,1,TYPENAME.FLX:3441,P8-A candidate scan,,
+Spiked Club,,item,todo,recommended,10,BOOKS-EN.FLX:174,P8-A candidate scan,,
+Spiked club,,item,todo,recommended,2,TYPENAME.FLX:4940,P8-A candidate scan,,
+Spinning wheel,,item,todo,recommended,1,TYPENAME.FLX:2715,P8-A candidate scan,,
+Spirit,,item,todo,recommended,1,TYPENAME.FLX:307,P8-A candidate scan,,
+Spit,,item,todo,recommended,2,TYPENAME.FLX:859,P8-A candidate scan,,
+Spoiled vegetables,,item,todo,recommended,1,TYPENAME.FLX:3526,P8-A candidate scan,,
+Sponge,,item,todo,recommended,5,TYPENAME.FLX:4677,P8-A candidate scan,,
+Spoon,湯匙,item,approved,recommended,1,TYPENAME.FLX:811,P8-A candidate scan,,never
+Square,,item,todo,recommended,1,TYPENAME.FLX:2563,P8-A candidate scan,,
+Staff,,item,todo,recommended,5,text.flx:3563,P8-A candidate scan,,
+Staff of the Dead,,item,todo,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Staff of Wisdom,智慧法杖,item,approved,recommended,4,text.flx:5919,P8-A candidate scan,月光城的傳奇法杖神器,first
+Stairs,,item,todo,recommended,2,TYPENAME.FLX:697,P8-A candidate scan,,
+Stake,,item,todo,recommended,1,TYPENAME.FLX:1050,P8-A candidate scan,,
+Stall,,item,todo,recommended,2,TYPENAME.FLX:3849,P8-A candidate scan,,
+Stand,,item,todo,recommended,5,TYPENAME.FLX:3446,P8-A candidate scan,,
+Starfish,,item,todo,recommended,1,TYPENAME.FLX:4683,P8-A candidate scan,,
+Statue,,item,todo,recommended,42,text.flx:181,P8-A candidate scan,,
+Statue of  the Guardian,,item,todo,recommended,1,TYPENAME.FLX:3325,P8-A candidate scan,,
+Statue of a Hellhound,,item,todo,recommended,1,TYPENAME.FLX:5395,P8-A candidate scan,,
+Statue of Blackthorn,,item,todo,recommended,1,TYPENAME.FLX:3324,P8-A candidate scan,,
+Statue of the Shadow Lords,,item,todo,recommended,1,TYPENAME.FLX:3350,P8-A candidate scan,,
+Steak,,item,todo,recommended,1,TYPENAME.FLX:4770,P8-A candidate scan,,
+Steel Buckler,鋼圓盾,item,approved,recommended,8,BOOKS-EN.FLX:187,P8-A candidate scan,精鋼輕小型小圓盾,never
+Stephanie,,item,todo,recommended,1,TYPENAME.FLX:280,P8-A candidate scan,,
+Stephen,,item,todo,recommended,1,TYPENAME.FLX:127,P8-A candidate scan,,
+Still,,item,todo,recommended,6,TYPENAME.FLX:3163,P8-A candidate scan,,
+Stocks,,item,todo,recommended,2,TYPENAME.FLX:2714,P8-A candidate scan,,
+Stone bench,,item,todo,recommended,1,TYPENAME.FLX:820,P8-A candidate scan,,
+Stone Demon,,item,todo,recommended,1,TYPENAME.FLX:134,P8-A candidate scan,,
+Stones,《大地之石》,item,approved,recommended,8,text.flx:985,P8-A candidate scan,創世紀系列最著名民謠與主題曲，由伊歐洛作曲、桂諾填詞,first
+Stones Music,,item,todo,recommended,1,TYPENAME.FLX:5467,P8-A candidate scan,,
+Stool,圓凳,item,approved,recommended,2,TYPENAME.FLX:563,P8-A candidate scan,,never
+Stop sign,,item,todo,recommended,1,TYPENAME.FLX:4707,P8-A candidate scan,,
+Stove,,item,todo,recommended,1,TYPENAME.FLX:4610,P8-A candidate scan,,
+Strainer,,item,todo,recommended,1,TYPENAME.FLX:2546,P8-A candidate scan,,
+Straw mat,,item,todo,recommended,1,TYPENAME.FLX:3484,P8-A candidate scan,,
+Streetlamp,,item,todo,recommended,2,TYPENAME.FLX:4688,P8-A candidate scan,,
+String peas,,item,todo,recommended,1,TYPENAME.FLX:2458,P8-A candidate scan,,
+Suit of Armor,,item,todo,recommended,3,TYPENAME.FLX:3423,P8-A candidate scan,,
+Suit of armor,,item,todo,recommended,1,TYPENAME.FLX:4814,P8-A candidate scan,,
+Sulphurous Ash,,item,todo,recommended,14,text.flx:4486,P8-A candidate scan,,
+Summon Demon Scroll,召喚惡魔捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Summon Undead Scroll,召喚亡靈捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Swamp Boots,,item,todo,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Swan,,item,todo,recommended,1,TYPENAME.FLX:144,P8-A candidate scan,,
+Sword,長劍,item,approved,recommended,6,TYPENAME.FLX:2622,P8-A candidate scan,variant of Longsword,never
+Sword of Frost,,item,todo,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Sword of Lightning,閃電之劍,item,approved,recommended,1,TYPENAME.FLX:5677,P8-A candidate scan,蘊含霹靂閃電力量的長劍,never
+Sword of Thunder,雷鳴之劍,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,蘊含閃電雷鳴之力的魔法長劍,never
+Table,桌子,item,approved,recommended,20,TYPENAME.FLX:549,P8-A candidate scan,,never
+Table and shelves,,item,todo,recommended,1,TYPENAME.FLX:2174,P8-A candidate scan,,
+Table leaf,,item,todo,recommended,1,TYPENAME.FLX:2189,P8-A candidate scan,,
+Talisman of Infinity,無限護符,item,approved,recommended,1,TYPENAME.FLX:5668,P8-A candidate scan,U7 Translation_Guide.md: Talisman of Infinity 無限護符,never
+Tankard,,item,todo,recommended,1,TYPENAME.FLX:821,P8-A candidate scan,,
+Tapestry,壁毯,item,approved,recommended,14,TYPENAME.FLX:565,P8-A candidate scan,,never
+tapestry,,item,todo,recommended,3,TYPENAME.FLX:5392,P8-A candidate scan,,
+Tapestry of Ages,時代織錦,item,approved,recommended,7,text.flx:271,P8-A candidate scan,記載不列顛尼亞時代興衰命運的魔法掛毯,first
+Target,,item,todo,recommended,3,TYPENAME.FLX:1700,P8-A candidate scan,,
+Target Bow,練習弓,item,approved,recommended,9,BOOKS-EN.FLX:179,P8-A candidate scan,,never
+Target buoy,,item,todo,recommended,1,TYPENAME.FLX:4201,P8-A candidate scan,,
+Tarot cards,,item,todo,recommended,1,TYPENAME.FLX:2548,P8-A candidate scan,,
+Tear of Sacrifice,,item,todo,recommended,1,TYPENAME.FLX:5468,P8-A candidate scan,,
+Telekinesis Scroll,遙控術捲軸,item,approved,recommended,6,BOOKS-EN.FLX:174,U7 Translation_Guide.md: Telekinesis 遙控術,,never
+Telephone,,item,todo,recommended,1,TYPENAME.FLX:4787,P8-A candidate scan,,
+Telephone pole,,item,todo,recommended,3,TYPENAME.FLX:4689,P8-A candidate scan,,
+Teleport Scroll,傳送術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Teleporter,,item,todo,recommended,2,TYPENAME.FLX:2121,P8-A candidate scan,,
+Telescope,望遠鏡,item,approved,recommended,2,TYPENAME.FLX:3183,P8-A candidate scan,,never
+Television,,item,todo,recommended,1,TYPENAME.FLX:857,P8-A candidate scan,,
+Television Set,,item,todo,recommended,2,TYPENAME.FLX:4471,P8-A candidate scan,,
+The destroyed Black Gate,,item,todo,recommended,1,TYPENAME.FLX:5482,P8-A candidate scan,,
+Thief,,item,todo,recommended,1,TYPENAME.FLX:44,P8-A candidate scan,,
+Thieves' Journal,Thieves'的日誌,item,approved,recommended,1,TYPENAME.FLX:5384,P8-A candidate scan,,never
+Thread,,item,todo,recommended,1,TYPENAME.FLX:2736,P8-A candidate scan,,
+Thresher,,item,todo,recommended,1,TYPENAME.FLX:2895,P8-A candidate scan,,
+Throne,王座,item,approved,recommended,1,TYPENAME.FLX:2707,P8-A candidate scan,,never
+Thug,,item,todo,recommended,1,TYPENAME.FLX:288,P8-A candidate scan,,
+Time Stop Scroll,時間暫停捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Time Stop 時間暫停,,never
+Tinder box,,item,todo,recommended,1,TYPENAME.FLX:880,P8-A candidate scan,,
+To Northern Trail and Wrong,,item,todo,recommended,1,TYPENAME.FLX:3156,P8-A candidate scan,,
+Toilet,,item,todo,recommended,1,TYPENAME.FLX:4596,P8-A candidate scan,,
+Tomato,,item,todo,recommended,1,TYPENAME.FLX:2271,P8-A candidate scan,,
+Tome of Demonology,惡魔學寶典,item,approved,recommended,4,text.flx:6858,P8-A candidate scan,記載深淵惡魔召喚與封印的古籍,first
+Tongs,,item,todo,recommended,1,TYPENAME.FLX:1387,P8-A candidate scan,,
+Toolbelt,,item,todo,recommended,1,TYPENAME.FLX:5300,P8-A candidate scan,,
+Toolbox,,item,todo,recommended,1,TYPENAME.FLX:2425,P8-A candidate scan,,
+Topaz,,item,todo,recommended,1,TYPENAME.FLX:879,P8-A candidate scan,,
+Torch,火把,item,approved,recommended,19,BOOKS-EN.FLX:174,P8-A candidate scan,,never
+Tower,,item,todo,recommended,1,TYPENAME.FLX:652,P8-A candidate scan,,
+Track,,item,todo,recommended,3,TYPENAME.FLX:2797,P8-A candidate scan,,
+Training dummy,,item,todo,recommended,1,TYPENAME.FLX:3378,P8-A candidate scan,,
+Trashcan,,item,todo,recommended,1,TYPENAME.FLX:4690,P8-A candidate scan,,
+Treasure Map,,item,todo,recommended,10,TYPENAME.FLX:5373,P8-A candidate scan,,
+Treasure map,,item,todo,recommended,1,TYPENAME.FLX:3148,P8-A candidate scan,,
+Tree,,item,todo,recommended,5,TYPENAME.FLX:4706,P8-A candidate scan,,
+Tree stump,,item,todo,recommended,3,TYPENAME.FLX:736,P8-A candidate scan,,
+Trinsic Inn Key,Trinsic Inn鑰匙,item,approved,recommended,1,TYPENAME.FLX:5598,P8-A candidate scan,,never
+Tripod,,item,todo,recommended,1,TYPENAME.FLX:2477,P8-A candidate scan,,
+Trough,,item,todo,recommended,2,TYPENAME.FLX:2820,P8-A candidate scan,,
+Trout,,item,todo,recommended,5,BOOKS-EN.FLX:174,P8-A candidate scan,,
+Turkey leg,,item,todo,recommended,1,TYPENAME.FLX:2457,P8-A candidate scan,,
+Two Handed Axe,,item,todo,recommended,2,TYPENAME.FLX:2642,P8-A candidate scan,,
+Two Handed Sword,,item,todo,recommended,2,TYPENAME.FLX:4565,P8-A candidate scan,,
+Ugh,,item,todo,recommended,1,TYPENAME.FLX:269,P8-A candidate scan,,
+Unpolished Diamond,,item,todo,recommended,1,TYPENAME.FLX:5219,P8-A candidate scan,,
+Unpolished Emerald,,item,todo,recommended,1,TYPENAME.FLX:5221,P8-A candidate scan,,
+Unpolished Ruby,,item,todo,recommended,1,TYPENAME.FLX:5223,P8-A candidate scan,,
+Unpolished Sapphire,,item,todo,recommended,1,TYPENAME.FLX:5225,P8-A candidate scan,,
+Unused,,item,todo,recommended,1,TYPENAME.FLX:5565,P8-A candidate scan,,
+UnusedBow,,item,todo,recommended,1,TYPENAME.FLX:5427,P8-A candidate scan,,
+Urn,,item,todo,recommended,1,TYPENAME.FLX:1219,P8-A candidate scan,,
+Valkadesh's corpse,,item,todo,recommended,1,TYPENAME.FLX:5631,P8-A candidate scan,,
+Valve,,item,todo,recommended,2,TYPENAME.FLX:3414,P8-A candidate scan,,
+Valve wheel,,item,todo,recommended,1,TYPENAME.FLX:4828,P8-A candidate scan,,
+Vampire Bat,吸血蝙蝠,item,approved,recommended,1,TYPENAME.FLX:35,P8-A candidate scan,,never
+Vent,,item,todo,recommended,3,TYPENAME.FLX:2863,P8-A candidate scan,,
+Vidos,,item,todo,recommended,1,TYPENAME.FLX:321,P8-A candidate scan,,
+Vine,,item,todo,recommended,1,TYPENAME.FLX:4712,P8-A candidate scan,,
+Violet gem,,item,todo,recommended,1,TYPENAME.FLX:3659,P8-A candidate scan,,
+Vortex Cube,,item,todo,recommended,1,TYPENAME.FLX:5665,P8-A candidate scan,,
+Vulture,,item,todo,recommended,1,TYPENAME.FLX:187,P8-A candidate scan,,
+Wagon,,item,todo,recommended,2,TYPENAME.FLX:3841,P8-A candidate scan,,
+Wall,,item,todo,recommended,2,TYPENAME.FLX:3975,P8-A candidate scan,,
+Walter,,item,todo,recommended,1,TYPENAME.FLX:165,P8-A candidate scan,,
+Wand,,item,todo,recommended,5,TYPENAME.FLX:1257,P8-A candidate scan,,
+Wand of Crystal Barrier,,item,todo,recommended,1,TYPENAME.FLX:5613,P8-A candidate scan,,
+War Bow of Blood,,item,todo,recommended,8,BOOKS-EN.FLX:192,P8-A candidate scan,,
+Warhammer,戰錘,item,approved,recommended,11,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Warrick,,item,todo,recommended,1,TYPENAME.FLX:349,P8-A candidate scan,,
+Watcher,,item,todo,recommended,2,TYPENAME.FLX:5146,P8-A candidate scan,,
+Water,水,item,approved,recommended,4,TYPENAME.FLX:983,P8-A candidate scan,,never
+Water Flask,,item,todo,recommended,7,BOOKS-EN.FLX:196,P8-A candidate scan,,
+Water wheel,,item,todo,recommended,1,TYPENAME.FLX:513,P8-A candidate scan,,
+Watermelon,,item,todo,recommended,1,TYPENAME.FLX:806,P8-A candidate scan,,
+Weapons rack,,item,todo,recommended,1,TYPENAME.FLX:2813,P8-A candidate scan,,
+Well,,item,todo,recommended,2,TYPENAME.FLX:2461,P8-A candidate scan,,
+Wheat,小麥,item,approved,recommended,1,TYPENAME.FLX:4860,P8-A candidate scan,,never
+Wheel,,item,todo,recommended,1,TYPENAME.FLX:2472,P8-A candidate scan,,
+White Potion,白色藥水,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,,never
+Willow tree,,item,todo,recommended,2,TYPENAME.FLX:3444,P8-A candidate scan,,
+Wilma,,item,todo,recommended,1,TYPENAME.FLX:109,P8-A candidate scan,,
+Winch,,item,todo,recommended,2,TYPENAME.FLX:3500,P8-A candidate scan,,
+Winch chain,,item,todo,recommended,1,TYPENAME.FLX:3486,P8-A candidate scan,,
+Windvane,,item,todo,recommended,1,TYPENAME.FLX:3942,P8-A candidate scan,,
+Wine bottle,酒瓶,item,approved,recommended,1,TYPENAME.FLX:542,P8-A candidate scan,,never
+Winged corpse,,item,todo,recommended,3,TYPENAME.FLX:5262,P8-A candidate scan,,
+Winged Gargoyle,,item,todo,recommended,1,TYPENAME.FLX:16,P8-A candidate scan,,
+Winged Medallion,,item,todo,recommended,1,TYPENAME.FLX:5329,P8-A candidate scan,,
+Wislem's Crystal,,item,todo,recommended,1,TYPENAME.FLX:5501,P8-A candidate scan,,
+Wizard Eye Scroll,巫師眼捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,U7 Translation_Guide.md: Wizard Eye 巫師眼,never
+Wolf,野狼,item,approved,recommended,1,TYPENAME.FLX:198,P8-A candidate scan,,never
+Wood,,item,todo,recommended,7,TYPENAME.FLX:3591,P8-A candidate scan,,
+Wood chips,,item,todo,recommended,1,TYPENAME.FLX:2560,P8-A candidate scan,,
+Woodpile,,item,todo,recommended,1,TYPENAME.FLX:604,P8-A candidate scan,,
+Wool,羊毛,item,approved,recommended,1,TYPENAME.FLX:2737,P8-A candidate scan,,never
+Workbench,,item,todo,recommended,1,TYPENAME.FLX:1964,P8-A candidate scan,,
+Writ,令狀,item,approved,recommended,6,text.flx:5532,P8-A candidate scan,官方通緝令或特許令狀,never
+Writ of Honesty,,item,todo,recommended,6,text.flx:5513,P8-A candidate scan,,
+Wyrmguard Anaaj,,item,todo,recommended,1,TYPENAME.FLX:179,P8-A candidate scan,,
+Wyrmguard Arms,,item,todo,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Wyrmguard arms,,item,todo,recommended,1,TYPENAME.FLX:4754,P8-A candidate scan,,
+Wyrmguard Boots,龍衛長靴,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Wyrmguard boots,,item,todo,recommended,1,TYPENAME.FLX:4755,P8-A candidate scan,,
+Wyrmguard Chest,,item,todo,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Wyrmguard chest,,item,todo,recommended,1,TYPENAME.FLX:4756,P8-A candidate scan,,
+Wyrmguard Damon,,item,todo,recommended,1,TYPENAME.FLX:175,P8-A candidate scan,,
+Wyrmguard Eve,,item,todo,recommended,1,TYPENAME.FLX:75,P8-A candidate scan,,
+Wyrmguard Gauntlets,龍衛護手,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Wyrmguard gauntlets,,item,todo,recommended,1,TYPENAME.FLX:4757,P8-A candidate scan,,
+Wyrmguard Hairam,,item,todo,recommended,1,TYPENAME.FLX:96,P8-A candidate scan,,
+Wyrmguard Helm,龍衛頭盔,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Wyrmguard helm,,item,todo,recommended,1,TYPENAME.FLX:4758,P8-A candidate scan,,
+Wyrmguard Leggings,龍衛護腿,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Wyrmguard leggings,,item,todo,recommended,1,TYPENAME.FLX:4759,P8-A candidate scan,,
+Wyrmguard Yerffoeg,,item,todo,recommended,1,TYPENAME.FLX:52,P8-A candidate scan,,
+Wyrnguard Hairam,,item,todo,recommended,1,TYPENAME.FLX:301,P8-A candidate scan,,
+Yarn,,item,todo,recommended,5,TYPENAME.FLX:2731,P8-A candidate scan,,
+Yellow dye,,item,todo,recommended,1,TYPENAME.FLX:2770,P8-A candidate scan,,
+Yellow globe,,item,todo,recommended,1,TYPENAME.FLX:2441,P8-A candidate scan,,
+Yellow poppies,,item,todo,recommended,1,TYPENAME.FLX:851,P8-A candidate scan,,
+Yellow Potion,黃色藥水,item,approved,recommended,8,BOOKS-EN.FLX:193,P8-A candidate scan,,never
+Zhah's Sculpture,,item,todo,recommended,1,TYPENAME.FLX:4709,P8-A candidate scan,,
+Zombie,,item,todo,recommended,1,TYPENAME.FLX:206,P8-A candidate scan,,
+Zombie Legs,,item,todo,recommended,1,TYPENAME.FLX:204,P8-A candidate scan,,
+Zombie Torso,,item,todo,recommended,1,TYPENAME.FLX:205,P8-A candidate scan,,
+Karma,業力,system,approved,recommended,11,text.flx:3144,P8-A candidate scan,創世紀經典道德善惡值系統,never
+Achievement,成就,other,approved,recommended,4,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼美德,first
+Age of Enlightenment,啟蒙時代,other,approved,recommended,3,BOOKS-EN.FLX:4,P8-A candidate scan,創世紀歷史上的美德啟蒙時代,first
+Balance,平衡,other,approved,recommended,4,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼三大力量融合而生的中心美德,first
+Black,,other,ignore,recommended,6,BOOKS-EN.FLX:194,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Blue,,other,ignore,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Brae,,other,ignore,recommended,3,text.flx:5041,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Breathing,,other,ignore,recommended,3,BOOKS-EN.FLX:391,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+British,,other,ignore,recommended,4,text.flx:1557,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Chaos,混沌,other,approved,recommended,5,BOOKS-EN.FLX:43,P8-A candidate scan,與唯一對立之混亂力量,first
+Control,掌控,other,approved,recommended,10,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼宇宙觀三原則之一,first
+Diligence,勤勉,other,approved,recommended,17,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼宇宙觀三原則之一,first
+Direction,方向,other,approved,recommended,3,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼美德（掌控＋勤勉）,first
+Feeling,感應,other,approved,recommended,3,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼美德（熱忱＋勤勉）,first
+Goods,,other,ignore,recommended,4,BOOKS-EN.FLX:211,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Healing,,other,ignore,recommended,5,BOOKS-EN.FLX:196,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Holmgang,霍姆岡決鬥,other,approved,recommended,6,text.flx:4591,P8-A candidate scan,瓦洛利亞騎士團傳統的生死決鬥榮譽審判,first
+Honestly,,other,ignore,recommended,3,text.flx:4080,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Mantra,真言,other,approved,recommended,5,text.flx:5319,P8-A candidate scan,八大美德與法術的禱念真言,first
+Passion,熱忱,other,approved,recommended,14,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼宇宙觀三原則之一,first
+Persistence,堅毅,other,approved,recommended,3,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼美德（掌控＋熱忱）,first
+Poison,,other,todo,recommended,4,BOOKS-EN.FLX:389,P8-A candidate scan,,
+Precision,,other,todo,recommended,4,BOOKS-EN.FLX:43,P8-A candidate scan,,
+Prophecy,預言,other,approved,recommended,4,text.flx:37,P8-A candidate scan,預言命運,first
+Purple,,other,ignore,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Recovery,,other,ignore,recommended,3,BOOKS-EN.FLX:392,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Red,,other,ignore,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Root,,other,ignore,recommended,3,BOOKS-EN.FLX:393,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Sell,,other,ignore,recommended,3,BOOKS-EN.FLX:201,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Serpent,巨蛇,other,approved,recommended,16,text.flx:1282,P8-A candidate scan,象徵秩序、混沌與平衡的古老巨蛇信仰,first
+Shop,,other,ignore,recommended,10,BOOKS-EN.FLX:3,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Shop Sell,,other,ignore,recommended,5,BOOKS-EN.FLX:192,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Silver,,other,ignore,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Singularity,唯一,other,approved,recommended,5,text.flx:136,P8-A candidate scan,石像鬼核心宇宙觀哲學：歸一、萬物本源,first
+Spiritual,,other,ignore,recommended,5,text.flx:4096,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Tome,,other,ignore,recommended,4,text.flx:6841,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+White,,other,ignore,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Yellow,,other,ignore,recommended,8,BOOKS-EN.FLX:194,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
