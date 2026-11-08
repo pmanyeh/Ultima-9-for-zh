@@ -10,6 +10,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W2a | Britain/LordBritish, Iolo, IoloGhost, ShrineCompassion | 237 | 235 | PASS | not yet (`reports/P8_W2A_BRITAIN_CORE.md`) |
 | W2b | Britain/Aidon, Aleena, Altara, Altomar | 297 | 297 | PASS, 0 errors | not yet |
 | W2c | Britain/Amoranth, Angus, Bailey, Cameron, CaptainBill, Castro, Dara | 200 | 200 | PASS, 0 errors | not yet |
+| W2d | Britain/Dermot, Elva, Evidious, FarmerBob, Flann, Giovanni, Gwenno, Hans, Hennington | 271 | 271 | PASS, 0 errors | not yet |
 
 Notes:
 
