@@ -28,6 +28,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W5a | BuccaneersDen/Aneassa to Herzog | 179 | 179 | PASS, 0 errors | not yet |
 | W5b | BuccaneersDen/Herzog (end), Jade, Jonah, Katie, Keagan, Linus, Montego, Omar | 183 | 183 | PASS, 0 errors | not yet |
 | W5c | BuccaneersDen/Omar (end), Pearli, Phineus, Samhayne, Sasha, Warrick | 181 | 181 | PASS, 0 errors | not yet |
+| W6a | NewMagencia/Katrina, ShrineHumility | 80 | 78 | PASS, 0 errors | not yet |
 
 Notes:
 
@@ -39,3 +40,4 @@ Notes:
 - W4a: 3606 (Blackthorn's incantation) stays in English.
 - W4e: typed answers 4651, 4654, 4657, 4660, 4662 (mantra, Word of Power, password, incantations) stay in English.
 - W4i: typed answers 5317 (om) and 5328 (vas mani corp) stay in English.
+- W6a: typed answers 6118 (lum) and 6128 (vas mani corp) stay in English.
