@@ -24,6 +24,7 @@ No runtime or executable change. In-game checks are recorded in their own report
 | W4f | MiscNPC/Raven (4677-4870) | 194 | 194 | PASS, 0 errors | not yet |
 | W4g | MiscNPC/Raven (4871-5040) | 170 | 170 | PASS, 0 errors | not yet |
 | W4h | MiscNPC/Raven (5041-5146), RavenCourt, RavenDress, RestlessSpirit, Sentinel | 167 | 167 | PASS, 0 errors | not yet |
+| W4i | MiscNPC/Shamino, ShaminoVoice, ShrineSpirituality, Stephen, Umberto, travelers, WyrmguardDamon, Yerffoeg | 235 | 233 | PASS, 0 errors | not yet |
 
 Notes:
 
@@ -34,3 +35,4 @@ Notes:
   for the record. Tested in `tests/test_p8a_terms.py`.
 - W4a: 3606 (Blackthorn's incantation) stays in English.
 - W4e: typed answers 4651, 4654, 4657, 4660, 4662 (mantra, Word of Power, password, incantations) stay in English.
+- W4i: typed answers 5317 (om) and 5328 (vas mani corp) stay in English.
