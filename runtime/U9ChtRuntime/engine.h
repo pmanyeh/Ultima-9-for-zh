@@ -61,6 +61,20 @@ struct JournalAppend {
     uint32_t code_page = 0, wide_length = 0, capacity = 0, high_bytes = 0;
     int32_t result = 0;
     uint32_t error = 0;
+    bool marker = false;         // P8-3 J2: a U9J<entry> marker was written instead
+};
+// P8-3: the native glyph and offset whose one solid ink pixel is copied, pixel by pixel, onto page rasters.
+struct InkProbe {
+    uintptr_t blob = 0, glyph = 0;
+    uint32_t type = 0, reference = 0, value = 0, solid = 0, written = 0;
+    int32_t dx = 0, dy = 0;
+    bool usable = false;
+};
+struct JournalSpan { uint32_t offset = 0, plan = 0; };
+struct JournalBuffer {
+    uintptr_t base = 0;
+    uint32_t size = 0, span_count = 0;
+    std::array<JournalSpan,64> spans{};
 };
 struct FlowProbe {
     uintptr_t flow = 0, caller = 0, widget = 0, text = 0;
@@ -120,6 +134,20 @@ struct Engine {
     uint64_t flow_overflow = 0;
     std::array<CallerCount,32> glyph_callers{}, paint_callers{}, queue_callers{};
     uint64_t caller_overflow = 0;
+    bool texture_enabled = false;
+    std::array<InkProbe,16> inks{};
+    uint32_t ink_count = 0;
+    std::array<uint16_t,SampleSize*SampleSize> probe_a{}, probe_b{};
+    std::array<JournalBuffer,4> journal_buffers{};
+    uint32_t journal_next = 0;
+    uint64_t journal_markers = 0, journal_marker_short = 0, journal_expansions = 0, journal_spans = 0;
+    uint64_t journal_unknown_markers = 0, journal_stale = 0, journal_alloc_failures = 0;
+    uint64_t texture_glyphs = 0, texture_pixels = 0, texture_faults = 0;
+    std::array<uint64_t,4> texture_rejects{}; // slot byte, metric, glyph cache, ink
+    const InkProbe* ink_for(uintptr_t record, uintptr_t raster) noexcept;
+    int plan_for_entry(uint32_t entry) const noexcept;
+    int journal_locate(uintptr_t source, uint32_t& offset) noexcept;
+    void expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept;
     void count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept;
     void probe_flow_source(uintptr_t source, uint32_t stage) noexcept;
     bool begin() noexcept;

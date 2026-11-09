@@ -1,6 +1,7 @@
 #include "engine.h"
 #include <intrin.h>
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
 #include <cmath>
 #include <ddraw.h>
@@ -53,8 +54,29 @@ int WINAPI wide_hook(UINT cp, DWORD flags, LPCWCH wide, int length, LPSTR out, i
                      LPCCH fallback, LPBOOL used) {
     Guard guard;
     if (guard.state && reinterpret_cast<uintptr_t>(_ReturnAddress()) == 0x615DF7) {
-        // P8-2 probe: the journal append conversion (0x615db0). Observe only; output is native.
+        // Journal append conversion (0x615db0, only caller 0x42e0a6). P8-3 J2: an allowlisted entry is
+        // written as the locale-independent marker U9J<entry>, which always fits the native wcslen+1 buffer.
         auto& e = *guard.state;
+        const int plan = e.render && wide && length == -1 ? e.pack.match(wide) : -1;
+        if (plan >= 0 && !e.pack.plans[size_t(plan)].is_name()) {
+            const auto entry = e.pack.plans[size_t(plan)].entry;
+            char marker[16]{};
+            const int n = std::snprintf(marker, sizeof marker, "U9J%u", entry);
+            JournalAppend v{};
+            v.tick = GetTickCount64(); v.code_page = cp == CP_ACP ? GetACP() : cp; v.capacity = uint32_t(capacity);
+            v.wide_length = uint32_t(wcsnlen(wide, 65536)); v.entry = int32_t(entry);
+            if (out && n > 0 && capacity >= n+1) {
+                std::memcpy(out, marker, size_t(n)+1);
+                if (used) *used = FALSE;
+                v.result = n+1; v.marker = true;
+                Exclusive lock(e.mutex);
+                ++e.journal_markers;
+                if (e.journal_append_total < e.journal_appends.size()) e.journal_appends[size_t(e.journal_append_total)] = v;
+                ++e.journal_append_total;
+                return n+1;
+            }
+            Exclusive lock(e.mutex); ++e.journal_marker_short; // too short for a marker: native conversion below
+        }
         SetLastError(0);
         const int result = wide_original(cp, flags, wide, length, out, capacity, fallback, used);
         const DWORD error = result ? 0 : GetLastError();
@@ -63,8 +85,8 @@ int WINAPI wide_hook(UINT cp, DWORD flags, LPCWCH wide, int length, LPSTR out, i
         v.capacity = uint32_t(capacity); v.result = result; v.error = error;
         if (wide) {
             v.wide_length = uint32_t(wcsnlen(wide, 65536));
-            const int plan = length == -1 ? e.pack.match(wide) : -1;
-            v.entry = plan >= 0 ? int32_t(e.pack.plans[size_t(plan)].entry) : -1;
+            const int matched = length == -1 ? e.pack.match(wide) : -1;
+            v.entry = matched >= 0 ? int32_t(e.pack.plans[size_t(matched)].entry) : -1;
         }
         if (out && result > 0) for (int i = 0; i < result; ++i) v.high_bytes += static_cast<uint8_t>(out[i]) >= 0x80;
         { Exclusive lock(e.mutex);
@@ -126,6 +148,100 @@ bool read_flow_text(uintptr_t text_ref, FlowText& t) noexcept {
         return true;
     } __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
 }
+using NativeBlit = uintptr_t(__thiscall*)(uintptr_t,uintptr_t,int32_t,int32_t);
+const auto native_blit = reinterpret_cast<NativeBlit>(0x5E20E0);
+// P8-3 texture writer. For each covered pixel the raster clip (+4..+0x10, inclusive) is narrowed to that
+// pixel and the native blit copies one solid ink pixel of a native glyph there. Pixel format, palette and
+// auxiliary planes therefore stay the game's own. Returns pixels written, or UINT32_MAX on a fault.
+uint32_t texture_glyph(uintptr_t raster, const InkProbe& ink, const uint8_t* alpha, uint32_t width, uint32_t height,
+                       int32_t left, int32_t top) noexcept {
+    int32_t clip[4]{};
+    bool saved = false;
+    uint32_t written = 0;
+    __try {
+        std::memcpy(clip,reinterpret_cast<const void*>(raster+4),sizeof clip);
+        saved = true;
+        auto* live = reinterpret_cast<int32_t*>(raster+4);
+        for (uint32_t row = 0; row < height; ++row) for (uint32_t col = 0; col < width; ++col) {
+            if (alpha[size_t(row)*width+col] < 112) continue;
+            const int32_t x = left+int32_t(col), y = top+int32_t(row);
+            if (x < clip[0] || y < clip[1] || x > clip[2] || y > clip[3]) continue;
+            live[0] = x; live[1] = y; live[2] = x; live[3] = y;
+            native_blit(raster,ink.glyph,x+ink.dx,y+ink.dy);
+            ++written;
+        }
+        std::memcpy(reinterpret_cast<void*>(raster+4),clip,sizeof clip);
+        return written;
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        if (saved) std::memcpy(reinterpret_cast<void*>(raster+4),clip,sizeof clip);
+        return UINT32_MAX;
+    }
+}
+struct ProbeBuffers { uint16_t* a; uint16_t* b; uint16_t* aux; uint32_t size; };
+uint32_t probe_value(const ProbeBuffers& q, bool sixteen, uint32_t x, uint32_t y, bool& solid) noexcept {
+    const size_t i = size_t(y)*q.size+x;
+    if (sixteen) { solid = q.a[i] == q.b[i]; return q.a[i]; }
+    const auto* a8 = reinterpret_cast<const uint8_t*>(q.a); const auto* b8 = reinterpret_cast<const uint8_t*>(q.b);
+    solid = a8[i] == b8[i]; return a8[i];
+}
+void fake_set(uint8_t* fake, size_t at, uintptr_t value) noexcept { std::memcpy(fake+at,&value,4); }
+// Draws reference glyphs privately twice (different backgrounds). Pixels equal in both runs were written
+// solidly; the most common written value at its most enclosed position becomes the ink sample.
+bool probe_ink(uintptr_t raster, InkProbe& ink, const ProbeBuffers& q) noexcept {
+    __try {
+        uint8_t fake[0x44C];
+        std::memcpy(fake,reinterpret_cast<const void*>(raster),sizeof fake);
+        const auto address = reinterpret_cast<uintptr_t>(fake);
+        const bool sixteen = ink.type == 2;
+        const uint32_t size = q.size;
+        fake_set(fake,4,0); fake_set(fake,8,0); fake_set(fake,0xC,size-1); fake_set(fake,0x10,size-1);
+        fake_set(fake,0x14,size); fake_set(fake,0x18,size); fake_set(fake,0x448,size);
+        const bool has_aux = word(raster+0x444) != 0;
+        if (has_aux) fake_set(fake,0x444,reinterpret_cast<uintptr_t>(q.aux));
+        const uint32_t refs[6] = {'I','l','H','M','E','1'};
+        for (const uint32_t c : refs) {
+            const auto offset = word(ink.blob+c*8-0xF0);
+            if (!offset) continue;
+            const auto glyph = ink.blob+offset;
+            const auto w = word(glyph+4), h = word(glyph+8);
+            if (!w || !h || w+8 > size || h+8 > size) continue;
+            const int32_t X = int32_t(word(glyph+0xC))+4, Y = int32_t(word(glyph+0x10))+4;
+            std::memset(q.a,0x00,size_t(size)*size*2);
+            if (has_aux) std::memset(q.aux,0x00,size_t(size)*size*4);
+            fake_set(fake,0x43C,reinterpret_cast<uintptr_t>(q.a)); native_blit(address,glyph,X,Y);
+            std::memset(q.b,0xFF,size_t(size)*size*2);
+            if (has_aux) std::memset(q.aux,0xFF,size_t(size)*size*4);
+            fake_set(fake,0x43C,reinterpret_cast<uintptr_t>(q.b)); native_blit(address,glyph,X,Y);
+            uint32_t values[32]{}, counts[32]{}, distinct = 0, written = 0;
+            for (uint32_t y = 0; y < size; ++y) for (uint32_t x = 0; x < size; ++x) {
+                bool solid = false; const auto v = probe_value(q,sixteen,x,y,solid);
+                if (!solid) continue;
+                ++written;
+                uint32_t k = 0; while (k < distinct && values[k] != v) ++k;
+                if (k == distinct) { if (distinct == 32) continue; values[distinct++] = v; }
+                ++counts[k];
+            }
+            uint32_t best = 0;
+            for (uint32_t k = 1; k < distinct; ++k) if (counts[k] > counts[best]) best = k;
+            if (!distinct || counts[best] < 3) continue;
+            int32_t px = -1, py = -1; uint32_t enclosed = 0;
+            for (uint32_t y = 1; y+1 < size; ++y) for (uint32_t x = 1; x+1 < size; ++x) {
+                bool solid = false;
+                if (probe_value(q,sixteen,x,y,solid) != values[best] || !solid) continue;
+                uint32_t n = 0;
+                for (int dy = -1; dy <= 1; ++dy) for (int dx = -1; dx <= 1; ++dx) {
+                    bool s2 = false; n += probe_value(q,sixteen,x+dx,y+dy,s2) == values[best] && s2;
+                }
+                if (px < 0 || n > enclosed) { px = int32_t(x); py = int32_t(y); enclosed = n; }
+            }
+            if (px < 0) continue;
+            ink.glyph = glyph; ink.dx = X-px; ink.dy = Y-py; ink.value = values[best];
+            ink.solid = enclosed; ink.written = written; ink.reference = c; ink.usable = true;
+            return true;
+        }
+        return true;
+    } __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+}
 // P8-2 probe: paged text-flow initializer 0x5C7620 (thiscall, 4 args). Observe only.
 uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_t text_ref, uintptr_t a3, uintptr_t a4) {
     Guard guard;
@@ -133,7 +249,12 @@ uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_
     const auto fn = reinterpret_cast<uintptr_t(__thiscall*)(uintptr_t,uintptr_t,uintptr_t,uintptr_t,uintptr_t)>(flow_gateway);
     if (!guard.state) return fn(self,widget,text_ref,a3,a4);
     FlowText t;
-    const bool readable = read_flow_text(text_ref,t);
+    bool readable = read_flow_text(text_ref,t);
+    // P8-3: the journal page loader passes &page+0xC8, a game-allocated copy of diary.txt.
+    if (guard.state->render && caller == 0x426648 && readable && t.text && t.length) {
+        guard.state->expand_journal(text_ref,t.text,t.length);
+        t = {}; readable = read_flow_text(text_ref,t);
+    }
     const auto result = fn(self,widget,text_ref,a3,a4);
     auto& e = *guard.state; Exclusive lock(e.mutex);
     FlowProbe* slot = nullptr;
@@ -334,6 +455,29 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
     } else if (stage == 3) {
         const auto* s = reinterpret_cast<const uint32_t*>(f->esp+4);
         e.count_caller(e.glyph_callers,s[0]);
+        uint32_t journal_offset = 0;
+        const int journal_plan = e.render && e.texture_enabled && s[0] == 0x5C5D09 ? e.journal_locate(s[9],journal_offset) : -1;
+        if (journal_plan >= 0) {
+            // P8-3: a journal span drawn into a page raster. Chinese is written into the raster itself.
+            const auto& p = e.pack.plans[size_t(journal_plan)];
+            if (p.wide[journal_offset] < 128) return 0; // ASCII inside the entry stays native
+            ++e.texture_glyphs;
+            const auto metric = logical_metric(word(f->ecx+4),p.advances[journal_offset]);
+            const auto* g = e.glyphs.get(p.wide[journal_offset],TextureEm);
+            const auto raster = word(0x133393C);
+            const InkProbe* ink = (s[3]&255) == 0x7F && metric && g ? e.ink_for(f->ecx,raster) : nullptr;
+            if ((s[3]&255) != 0x7F) ++e.texture_rejects[0];
+            else if (!metric) ++e.texture_rejects[1];
+            else if (!g) ++e.texture_rejects[2];
+            else if (!ink) ++e.texture_rejects[3];
+            if (!ink) return 0; // visible native fallback, never a forced quit
+            const auto drawn = texture_glyph(raster,*ink,g->alpha.data(),g->width,g->height,
+                int32_t(s[1])+g->bearing_x,int32_t(s[2])-g->bearing_y);
+            if (drawn == UINT32_MAX) ++e.texture_faults; else e.texture_pixels += drawn;
+            metric_header[0] = metric;
+            f->eax = reinterpret_cast<uintptr_t>(metric_header.data());
+            return f->eax;
+        }
         auto m = s[0] == 0x5C5D09 ? e.locate(s[9]) : Located{};
         if (!m.binding && s[0] == 0x5C5D09) e.probe_flow_source(s[9],3);
         if (m.binding) {
@@ -526,6 +670,74 @@ QueueBinding* Engine::queue(uintptr_t address) noexcept {
     for (auto& q : queues) if (address && q.address == address) return &q;
     return nullptr;
 }
+const InkProbe* Engine::ink_for(uintptr_t record, uintptr_t raster) noexcept {
+    const auto blob = record ? word(record) : 0;
+    if (!blob || !raster) return nullptr;
+    const auto type = uint32_t(word(raster+0x20));
+    for (uint32_t i = 0; i < ink_count; ++i)
+        if (inks[i].blob == blob && inks[i].type == type) return inks[i].usable ? &inks[i] : nullptr;
+    if (ink_count == inks.size()) return nullptr;
+    auto& ink = inks[ink_count++];
+    ink = {}; ink.blob = blob; ink.type = type;
+    if (!probe_ink(raster,ink,{probe_a.data(),probe_b.data(),sample_aux.data(),SampleSize})) { ink.usable = false; ++texture_faults; }
+    return ink.usable ? &ink : nullptr;
+}
+int Engine::plan_for_entry(uint32_t entry) const noexcept {
+    for (uint32_t i = 0; i < pack.count; ++i) if (pack.plans[i].entry == entry && !pack.plans[i].is_name()) return int(i);
+    return -1;
+}
+int Engine::journal_locate(uintptr_t source, uint32_t& offset) noexcept {
+    for (auto& b : journal_buffers) {
+        if (!b.base || source < b.base || source >= b.base+b.size) continue;
+        const auto at = uint32_t(source-b.base);
+        for (uint32_t i = 0; i < b.span_count; ++i) {
+            const auto& span = b.spans[i]; const auto& p = pack.plans[span.plan];
+            if (at < span.offset || at >= span.offset+p.length) continue;
+            offset = at-span.offset;
+            if (*reinterpret_cast<const uint8_t*>(source) != p.slots[offset]) { ++journal_stale; b = {}; return -1; }
+            return int(span.plan);
+        }
+        return -1;
+    }
+    return -1;
+}
+// J2 display side: replaces each `U9J<entry>` line ending with the plan's slot string, in a new buffer from
+// the game allocator; the old copy is freed with the game's free. Called without the engine lock held.
+void Engine::expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept {
+    try {
+        const auto* s = reinterpret_cast<const char*>(text);
+        std::string out; out.reserve(size_t(length)+512);
+        std::array<JournalSpan,64> spans{}; uint32_t count = 0, unknown = 0;
+        for (uint32_t i = 0; i < length;) {
+            if ((i == 0 || s[i-1] == ' ' || s[i-1] == '\n') && i+3 < length && s[i] == 'U' && s[i+1] == '9' && s[i+2] == 'J') {
+                uint32_t j = i+3, id = 0, digits = 0;
+                while (j < length && s[j] >= '0' && s[j] <= '9' && digits < 6) { id = id*10+uint32_t(s[j]-'0'); ++j; ++digits; }
+                if (digits && digits <= 5 && (j == length || s[j] == '\n' || s[j] == '\r')) {
+                    const int plan = plan_for_entry(id);
+                    if (plan >= 0 && count < spans.size()) {
+                        const auto& p = pack.plans[size_t(plan)];
+                        spans[count++] = {uint32_t(out.size()),uint32_t(plan)};
+                        out.append(reinterpret_cast<const char*>(p.slots.data()),p.length);
+                        i = j; continue;
+                    }
+                    ++unknown;
+                }
+            }
+            out += s[i++];
+        }
+        if (!count) { if (unknown) { Exclusive lock(mutex); journal_unknown_markers += unknown; } return; }
+        auto* copy = reinterpret_cast<char*(__cdecl*)(size_t)>(0x7108F0)(out.size()+1);
+        if (!copy) { Exclusive lock(mutex); ++journal_alloc_failures; return; }
+        std::memcpy(copy,out.data(),out.size()); copy[out.size()] = 0;
+        *reinterpret_cast<uintptr_t*>(text_ref) = reinterpret_cast<uintptr_t>(copy);
+        reinterpret_cast<void(__cdecl*)(uintptr_t)>(0x7108E0)(text);
+        Exclusive lock(mutex);
+        auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
+        b = {}; b.base = reinterpret_cast<uintptr_t>(copy); b.size = uint32_t(out.size()+1); b.span_count = count;
+        std::copy(spans.begin(),spans.begin()+count,b.spans.begin());
+        ++journal_expansions; journal_spans += count; journal_unknown_markers += unknown;
+    } catch (...) { Exclusive lock(mutex); ++journal_alloc_failures; }
+}
 void Engine::count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept {
     for (auto& c : table) {
         if (c.caller == caller) { ++c.count; return; }
@@ -557,6 +769,7 @@ void Engine::probe_flow_source(uintptr_t source, uint32_t stage) noexcept {
     }
 }
 void Engine::retire(uintptr_t address) noexcept {
+    for (auto& b : journal_buffers) if (address && b.base == address) b = {};
     const auto found = registry.locate(address);
     if (found.binding && found.offset == 0) { ++stats[found.binding->plan].freed; retire_buffer(address); }
     if (auto* q = queue(address)) {
@@ -778,7 +991,15 @@ void Engine::install(const Config& config, Logger& logger) {
             require(a && b && a->advance*16/20 == b->advance*16/40,"inconsistent engine advances");
             pack.plans[i].advances[j] = uint16_t(b->advance*16/40);
         }
-        for (uint32_t i = 0; i < pack.glyph_count; ++i) for (auto em : {20U,40U}) if (const auto* g = glyphs.get(pack.scalars[i],em))
+        // P8-3: page textures need a third size. Disabled, never fatal, when capacity or metrics disagree.
+        texture_enabled = pack.glyph_count*3 <= GlyphCacheCapacity;
+        if (texture_enabled) for (uint32_t i = 0; i < pack.glyph_count; ++i) {
+            glyphs.warm(pack.scalars[i],TextureEm);
+            const auto* t = glyphs.get(pack.scalars[i],TextureEm); const auto* b = glyphs.get(pack.scalars[i],40);
+            if (!t || !b || t->advance*16/int32_t(TextureEm) != b->advance*16/40) texture_enabled = false;
+        }
+        log->event("texture_glyphs","\"enabled\":"+std::string(texture_enabled?"true":"false")+",\"em\":"+std::to_string(TextureEm));
+        for (uint32_t i = 0; i < pack.glyph_count; ++i) for (auto em : {20U,40U,TextureEm}) if (const auto* g = glyphs.get(pack.scalars[i],em))
         { const auto scalar = pack.scalars[i];
             log->event("glyph_cache_warm", "\"scalar\":"+std::to_string(scalar)+",\"em\":"+std::to_string(em)+
                 ",\"index\":"+std::to_string(g->index)+",\"width\":"+std::to_string(g->width)+
@@ -929,7 +1150,8 @@ void Engine::snapshot(const char* event) noexcept {
               fields += "{\"tick_ms\":"+std::to_string(v.tick)+",\"entry\":"+std::to_string(v.entry)+
                   ",\"code_page\":"+std::to_string(v.code_page)+",\"wide_length\":"+std::to_string(v.wide_length)+
                   ",\"capacity\":"+std::to_string(v.capacity)+",\"result\":"+std::to_string(v.result)+
-                  ",\"error\":"+std::to_string(v.error)+",\"high_bytes\":"+std::to_string(v.high_bytes)+"}";
+                  ",\"error\":"+std::to_string(v.error)+",\"high_bytes\":"+std::to_string(v.high_bytes)+
+                  ",\"marker\":"+(v.marker?"true":"false")+"}";
           }
           fields += "],\"flow_overflow\":"+std::to_string(flow_overflow)+",\"flows\":[";
           bool first_flow = true;
@@ -965,6 +1187,22 @@ void Engine::snapshot(const char* event) noexcept {
           fields += ']';
           callers("glyph_callers",glyph_callers); callers("paint_callers",paint_callers); callers("queue_callers",queue_callers);
           fields += ",\"caller_overflow\":"+std::to_string(caller_overflow)+"}";
+          fields += ",\"texture\":{\"enabled\":"+std::string(texture_enabled?"true":"false")+
+              ",\"markers\":"+std::to_string(journal_markers)+",\"marker_short\":"+std::to_string(journal_marker_short)+
+              ",\"expansions\":"+std::to_string(journal_expansions)+",\"spans\":"+std::to_string(journal_spans)+
+              ",\"unknown_markers\":"+std::to_string(journal_unknown_markers)+",\"stale\":"+std::to_string(journal_stale)+
+              ",\"alloc_failures\":"+std::to_string(journal_alloc_failures)+",\"glyphs\":"+std::to_string(texture_glyphs)+
+              ",\"pixels\":"+std::to_string(texture_pixels)+",\"faults\":"+std::to_string(texture_faults)+
+              ",\"rejects\":["+std::to_string(texture_rejects[0])+","+std::to_string(texture_rejects[1])+","+
+              std::to_string(texture_rejects[2])+","+std::to_string(texture_rejects[3])+"],\"inks\":[";
+          for (uint32_t i = 0; i < ink_count; ++i) {
+              const auto& v = inks[i]; if (i) fields += ',';
+              fields += "{\"blob\":"+std::to_string(v.blob)+",\"type\":"+std::to_string(v.type)+
+                  ",\"usable\":"+(v.usable?"true":"false")+",\"reference\":"+std::to_string(v.reference)+
+                  ",\"value\":"+std::to_string(v.value)+",\"solid\":"+std::to_string(v.solid)+
+                  ",\"written\":"+std::to_string(v.written)+",\"dx\":"+std::to_string(v.dx)+",\"dy\":"+std::to_string(v.dy)+"}";
+          }
+          fields += "]}";
           life_count = 0; raster_fault_count = 0;
         }
         Exclusive io(io_gate); log->event(event,fields);

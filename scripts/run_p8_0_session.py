@@ -114,6 +114,12 @@ def start(args):
         receipt["preserved_saves"] = {p.name: sha(p) for p in sorted((game / "savegame").iterdir())}
         if {p.name: sha(p) for p in sorted((session / "backup/savegame").iterdir())} != receipt["preserved_saves"]:
             raise SystemExit("STOP: save backup verification failed")
+        if args.diary_fixture:
+            # Test-only journal content in the private copy; the preserved originals return at finish.
+            shutil.copyfile(args.diary_fixture, game / "savegame/diary.txt")
+            receipt["diary_fixture_sha256"] = sha(args.diary_fixture)
+    elif args.diary_fixture:
+        raise SystemExit("--diary-fixture requires --preserve-saves")
     write_json(session / "launch.json", receipt)
     command = [str(exe), "--game-dir", str(game), "--runtime", str(dll), "--log", str(session / "runtime.jsonl"),
                "--mode", "render", "--font", str(args.font), "--allowlist", str(pack)]
@@ -297,6 +303,8 @@ def main(argv=None):
                         help="move saves aside for this session so the game starts like a clean install")
     parser.add_argument("--preserve-saves", action="store_true",
                         help="back up the whole savegame directory (including diary.txt) and restore it after the session")
+    parser.add_argument("--diary-fixture", type=Path,
+                        help="with --preserve-saves: replace savegame/diary.txt for this session only")
     args = parser.parse_args(argv)
     args.session, args.game_dir = args.session.resolve(), args.game_dir.resolve()
     args.font = args.font.resolve()

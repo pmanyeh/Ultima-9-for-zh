@@ -12,10 +12,13 @@ int wmain(int argc, wchar_t** argv) {
         require(pack->glyph_count && pack->glyph_count*2 <= GlyphCacheCapacity,"showcase cache capacity");
         auto cache = std::make_unique<GlyphCache>(); cache->open(argv[2]);
         Logger log; log.open(argv[3],true);
+        // Mirrors Engine::install: the page-texture size is warmed only when capacity allows.
+        const bool texture = pack->glyph_count*3 <= GlyphCacheCapacity;
         const auto started = GetTickCount64();
         for (uint32_t i = 0; i < pack->glyph_count; ++i) {
             const auto scalar = pack->scalars[i];
-            for (auto em : {20U,40U}) {
+            for (auto em : {20U,40U,TextureEm}) {
+                if (em == TextureEm && !texture) continue;
                 cache->warm(scalar,em); const auto* g = cache->get(scalar,em);
                 require(g && g->advance > 0,"missing glyph");
                 log.event("offline_glyph", "\"scalar\":"+std::to_string(scalar)+
@@ -25,9 +28,10 @@ int wmain(int argc, wchar_t** argv) {
             const auto* a = cache->get(scalar,20); const auto* b = cache->get(scalar,40);
             require(a->advance*16/20 == b->advance*16/40,"inconsistent logical advances");
         }
-        const auto expected = pack->glyph_count*2;
+        const auto expected = pack->glyph_count*(texture ? 3 : 2);
         require(cache->size() == expected && cache->misses == expected,"unexpected warm misses");
-        for (uint32_t i = 0; i < pack->glyph_count; ++i) for (auto em : {20U,40U}) {
+        for (uint32_t i = 0; i < pack->glyph_count; ++i) for (auto em : {20U,40U,TextureEm}) {
+            if (em == TextureEm && !texture) continue;
             const auto* first = cache->get(pack->scalars[i],em);
             cache->warm(pack->scalars[i],em);
             require(cache->get(pack->scalars[i],em) == first,"cache entry not reused");

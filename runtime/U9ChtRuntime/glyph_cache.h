@@ -7,6 +7,8 @@
 
 namespace u9cht {
 inline constexpr size_t GlyphCacheCapacity = 16384;
+// P8-3: page textures (journal/books) take glyph pixels 1:1; a 16 px em equals the 16-unit logical cell.
+inline constexpr uint32_t TextureEm = 16;
 struct GlyphKey {
     std::array<wchar_t,65> font{};
     uint32_t scalar = 0, em = 0, mode = 0;

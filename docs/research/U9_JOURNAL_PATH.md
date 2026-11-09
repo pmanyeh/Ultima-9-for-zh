@@ -97,6 +97,16 @@ text-flow initializer `0x5C7620`, and caller tables. Game output was unchanged. 
 - UNKNOWN: how the text flow wraps text with no spaces. It may force breaks at byte level.
 - HYPOTHESIS: the history timeline (4216–4242) is drawn by a different page class.
 
+## Prototype result (P8-3, 2026-11-09)
+
+J2 plus the texture writer rendered entries 4078 and 4165 in Chinese on the 3D journal page. See
+`reports/P8_3_JOURNAL_TEXTURE_POC.md`.
+
+- CONFIRMED: loading a save rewrites `diary.txt`. The journal is stored in the save and extracted on load.
+- CONFIRMED: the page raster is 16-bit (type 2).
+- Remaining: the journal width measuring path is unhooked, so wrapping uses native `0x7F` widths and lines
+  overflow the page.
+
 ## Consequence for the design
 
 Storing the entry (J1/J2) is only half the problem. Drawing needs a **texture-space glyph writer**:
