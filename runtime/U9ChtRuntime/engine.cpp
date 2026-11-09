@@ -612,8 +612,10 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                             list.backend = f->ecx; list.backbuffer = back; list.width = width; list.height = height;
                             if (!list.add_record({q->address,r->address,q->generation,r->generation,q->plan})) e.fail(19);
                             const auto round = [](float v) { return static_cast<int32_t>(std::lround(v)); };
-                            const auto clip = intersect({round(x*sx),round(y*sy),round((x+r->width)*sx),round((y+r->height)*sy)},
-                                {0,0,int32_t(width),int32_t(height)});
+                            // P9-3: native label rasters are sized for the English font. CJK descends further below
+                            // the baseline, so the bottom edge may extend by up to a quarter em (never sideways/up).
+                            const auto clip = intersect({round(x*sx),round(y*sy),round((x+r->width)*sx),
+                                round((y+r->height)*sy)+int32_t(em/4)},{0,0,int32_t(width),int32_t(height)});
                             for (uint32_t i = 0; i < r->count; ++i) {
                                 const auto& p = r->placements[i]; const auto plan = r->runs.at(p.run).plan;
                                 const auto scalar = e.pack.plans[plan].wide[p.offset];

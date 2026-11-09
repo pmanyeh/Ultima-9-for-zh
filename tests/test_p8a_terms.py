@@ -147,6 +147,14 @@ class AnnotationTests(unittest.TestCase):
         self.assertEqual([(i.key, i.code) for i in gl.annotation_issues(tagged, rows)],
                          [("text.flx:10", "annotation-missing")])
 
+    def test_single_line_labels_are_exempt(self):
+        # An item-name label cannot hold 譯名(English) within its one-line budget.
+        label = {"key": "TYPENAME.FLX:9", "resource": "TYPENAME.FLX", "status": "draft",
+                 "target": "艾蓮娜", "terms": ["Elaina"]}
+        self.assertEqual(gl.annotation_issues([label], self.rows()), [])
+        text = dict(label, key="text.flx:9", resource="text.flx")
+        self.assertEqual([i.code for i in gl.annotation_issues([text], self.rows())], ["annotation-missing"])
+
 
 class StandaloneTermTests(unittest.TestCase):
     def test_term_inside_a_longer_term_does_not_count(self):

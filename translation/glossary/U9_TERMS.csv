@@ -520,7 +520,7 @@ Chester,切斯特,item,approved,recommended,1,TYPENAME.FLX:251,P8-A candidate sc
 Chicken,,item,todo,recommended,1,TYPENAME.FLX:145,P8-A candidate scan,,
 Chicken bones,,item,todo,recommended,1,TYPENAME.FLX:3527,P8-A candidate scan,,
 Chicken on a Spit,,item,todo,recommended,1,TYPENAME.FLX:3547,P8-A candidate scan,,
-Ciara Treasure Key,Ciara Treasure鑰匙,item,approved,recommended,1,TYPENAME.FLX:5494,P8-A candidate scan,,never
+Ciara Treasure Key,希亞拉寶藏鑰匙,item,approved,recommended,1,TYPENAME.FLX:5494,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Circle of Stones,石陣環,item,approved,recommended,1,TYPENAME.FLX:124,P8-A candidate scan,,never
 Clamp,,item,todo,recommended,1,TYPENAME.FLX:2448,P8-A candidate scan,,
 Claymore,雙手大劍,item,approved,recommended,9,BOOKS-EN.FLX:189,P8-A candidate scan,,never
@@ -544,7 +544,7 @@ Computer desk,電腦桌,item,approved,recommended,1,TYPENAME.FLX:4473,P8-A candi
 Conveyor belt,,item,todo,recommended,1,TYPENAME.FLX:2864,P8-A candidate scan,,
 Cooked steak,烤牛排,item,approved,recommended,1,TYPENAME.FLX:4771,P8-A candidate scan,,never
 Cooking utensils,炊具,item,approved,recommended,1,TYPENAME.FLX:2478,P8-A candidate scan,,never
-Copper key,Copper鑰匙,item,approved,recommended,2,TYPENAME.FLX:869,P8-A candidate scan,,never
+Copper key,銅鑰匙,item,approved,recommended,2,TYPENAME.FLX:869,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Copper Necklace,銅項鍊,item,approved,recommended,16,BOOKS-EN.FLX:196,P8-A candidate scan,,never
 Corner Table,,item,todo,recommended,1,TYPENAME.FLX:2213,P8-A candidate scan,,
 Corner table,,item,todo,recommended,2,TYPENAME.FLX:1989,P8-A candidate scan,,
@@ -577,7 +577,7 @@ Cut Topaz,切割黃玉,item,approved,recommended,1,TYPENAME.FLX:2859,P8-A candid
 Cutlass,水手彎刀,item,approved,recommended,10,BOOKS-EN.FLX:174,P8-A candidate scan,,never
 Dagger,匕首,item,approved,recommended,26,BOOKS-EN.FLX:3,P8-A candidate scan,,never
 Dagger of Valor,英勇匕首,item,approved,recommended,6,text.flx:7035,P8-A candidate scan,,never
-Darim's Journal,Darim的日誌,item,approved,recommended,1,TYPENAME.FLX:5495,P8-A candidate scan,,never
+Darim's Journal,達林的日誌,item,approved,recommended,1,TYPENAME.FLX:5495,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Davey,戴維,item,approved,recommended,1,TYPENAME.FLX:182,P8-A candidate scan,,never
 Day Scroll,白晝術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
 Dayla's Doll,黛拉的洋娃娃,item,approved,recommended,1,TYPENAME.FLX:5432,P8-A candidate scan,,never
@@ -596,7 +596,7 @@ Demon Skull,惡魔頭骨,item,approved,recommended,1,TYPENAME.FLX:5477,P8-A cand
 Demon Triumvirate,惡魔三巨頭,item,approved,recommended,9,text.flx:6853,P8-A candidate scan,,never
 Deresh's corpse,,item,todo,recommended,2,TYPENAME.FLX:5260,P8-A candidate scan,,
 Desk,書桌,item,approved,recommended,1,TYPENAME.FLX:1160,P8-A candidate scan,,never
-Destard Key,Destard鑰匙,item,approved,recommended,1,TYPENAME.FLX:5491,P8-A candidate scan,,never
+Destard Key,怯懦地城鑰匙,item,approved,recommended,1,TYPENAME.FLX:5491,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Diamond,鑽石,item,approved,recommended,1,TYPENAME.FLX:878,P8-A candidate scan,,never
 Dirty bandages,骯髒繃帶,item,approved,recommended,1,TYPENAME.FLX:3126,P8-A candidate scan,,never
 Disc,,item,todo,recommended,1,TYPENAME.FLX:2217,P8-A candidate scan,,
@@ -628,7 +628,7 @@ Dum Dum Staff,,item,todo,recommended,4,BOOKS-EN.FLX:215,P8-A candidate scan,,
 Dum-dum,,item,todo,recommended,1,TYPENAME.FLX:4835,P8-A candidate scan,,
 Duncan's Dagger,鄧肯的匕首,item,approved,recommended,1,TYPENAME.FLX:4935,P8-A candidate scan,,never
 Dupre's Ashes,杜普雷的骨灰,item,approved,recommended,1,TYPENAME.FLX:5518,P8-A candidate scan,,never
-Dupre's Ghost,Dupre的幽靈,item,approved,recommended,1,TYPENAME.FLX:244,P8-A candidate scan,,never
+Dupre's Ghost,杜普雷的幽靈,item,approved,recommended,1,TYPENAME.FLX:244,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Dutch oven,,item,todo,recommended,1,TYPENAME.FLX:1415,P8-A candidate scan,,
 Dye tub,,item,todo,recommended,1,TYPENAME.FLX:2705,P8-A candidate scan,,
 Earthquake Scroll,地震術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
@@ -698,9 +698,9 @@ Gazebo,,item,todo,recommended,1,TYPENAME.FLX:2085,P8-A candidate scan,,
 Gazer,,item,todo,recommended,2,TYPENAME.FLX:191,P8-A candidate scan,,
 Gem of Death,,item,todo,recommended,1,TYPENAME.FLX:3160,P8-A candidate scan,,
 Gems,,item,todo,recommended,1,TYPENAME.FLX:1697,P8-A candidate scan,,
-Geoffrey's Ghost,Geoffrey的幽靈,item,approved,recommended,1,TYPENAME.FLX:177,P8-A candidate scan,,never
+Geoffrey's Ghost,傑弗瑞的幽靈,item,approved,recommended,1,TYPENAME.FLX:177,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Ghost,幽靈,item,approved,recommended,2,TYPENAME.FLX:66,U8 authority.tsv (proposed),,
-Ghost of Sir Reynald,Sir Reynald的幽靈,item,approved,recommended,1,TYPENAME.FLX:48,P8-A candidate scan,,never
+Ghost of Sir Reynald,雷納德爵士的幽靈,item,approved,recommended,1,TYPENAME.FLX:48,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Ghost Sword,,item,todo,recommended,4,text.flx:4384,P8-A candidate scan,,
 Ghost's Bracelet,,item,todo,recommended,1,TYPENAME.FLX:5541,P8-A candidate scan,,
 Ghost's Necklace,,item,todo,recommended,1,TYPENAME.FLX:5430,P8-A candidate scan,,
@@ -729,7 +729,7 @@ Goblin Grunt,,item,todo,recommended,1,TYPENAME.FLX:192,P8-A candidate scan,,
 Goblin Scrawl,,item,todo,recommended,1,TYPENAME.FLX:5383,P8-A candidate scan,,
 Gold,黃金,item,approved,recommended,1,TYPENAME.FLX:908,P8-A candidate scan,,never
 Gold Bracelet,,item,todo,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,
-Gold key,Gold鑰匙,item,approved,recommended,1,TYPENAME.FLX:573,P8-A candidate scan,,never
+Gold key,金鑰匙,item,approved,recommended,1,TYPENAME.FLX:573,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Gold Necklace,,item,todo,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,
 Gold Ring,金戒指,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,金質戒指,never
 Golden Bracelet,,item,todo,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,
@@ -748,7 +748,7 @@ Grill,,item,todo,recommended,1,TYPENAME.FLX:4704,P8-A candidate scan,,
 Gringolet,,item,todo,recommended,15,text.flx:4384,P8-A candidate scan,,
 Gruel,,item,todo,recommended,1,TYPENAME.FLX:2460,P8-A candidate scan,,
 Guard,衛兵,item,approved,recommended,6,TYPENAME.FLX:61,U8 authority.tsv (proposed),,
-Guard's Journal,Guard的日誌,item,approved,recommended,1,TYPENAME.FLX:4973,P8-A candidate scan,,never
+Guard's Journal,衛兵的日誌,item,approved,recommended,1,TYPENAME.FLX:4973,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Gypsy,,item,todo,recommended,4,text.flx:3265,P8-A candidate scan,,
 Gypsy Breastplate,,item,todo,recommended,5,text.flx:3413,P8-A candidate scan,,
 Gypsy Seer,,item,todo,recommended,1,TYPENAME.FLX:98,P8-A candidate scan,,
@@ -778,7 +778,7 @@ Herb,,item,todo,recommended,3,TYPENAME.FLX:2621,P8-A candidate scan,,
 Hoe,,item,todo,recommended,1,TYPENAME.FLX:5630,P8-A candidate scan,,
 Holding Cell Crystal,,item,todo,recommended,1,TYPENAME.FLX:5629,P8-A candidate scan,,
 Hole,,item,todo,recommended,1,TYPENAME.FLX:3670,P8-A candidate scan,,
-Hythloth Key,Hythloth鑰匙,item,approved,recommended,1,TYPENAME.FLX:5476,P8-A candidate scan,,never
+Hythloth Key,卑劣地城鑰匙,item,approved,recommended,1,TYPENAME.FLX:5476,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Ice Hound,冰獵犬,item,approved,recommended,1,TYPENAME.FLX:5626,P8-A candidate scan,,never
 Icehound,,item,todo,recommended,1,TYPENAME.FLX:46,P8-A candidate scan,,
 Infernal Armor Scroll,地獄護甲捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
@@ -789,24 +789,24 @@ Instrument,,item,todo,recommended,1,TYPENAME.FLX:3477,P8-A candidate scan,,
 Invisibility Scroll,隱身術捲軸,item,approved,recommended,5,BOOKS-EN.FLX:175,U7 Translation_Guide.md: Invisibility 隱身術,,never
 Iolo's Bow,,item,todo,recommended,7,BOOKS-EN.FLX:192,P8-A candidate scan,,
 Iolo's bow,,item,todo,recommended,1,TYPENAME.FLX:5689,P8-A candidate scan,,
-Iolo's Ghost,Iolo的幽靈,item,approved,recommended,1,TYPENAME.FLX:200,P8-A candidate scan,,never
-Iolo's Journal,Iolo的日誌,item,approved,recommended,1,TYPENAME.FLX:4974,P8-A candidate scan,,never
-Iron key,Iron鑰匙,item,approved,recommended,2,TYPENAME.FLX:871,P8-A candidate scan,,never
+Iolo's Ghost,伊歐洛的幽靈,item,approved,recommended,1,TYPENAME.FLX:200,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Iolo's Journal,伊歐洛的日誌,item,approved,recommended,1,TYPENAME.FLX:4974,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Iron key,鐵鑰匙,item,approved,recommended,2,TYPENAME.FLX:871,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Iron Maiden,,item,todo,recommended,1,TYPENAME.FLX:2728,P8-A candidate scan,,
-Jaana's Ghost,Jaana的幽靈,item,approved,recommended,1,TYPENAME.FLX:153,P8-A candidate scan,,never
+Jaana's Ghost,潔娜的幽靈,item,approved,recommended,1,TYPENAME.FLX:153,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Jade Ring,翡翠戒指,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,翡翠寶石戒指,never
-Jail Key,Jail鑰匙,item,approved,recommended,1,TYPENAME.FLX:5492,P8-A candidate scan,,never
+Jail Key,牢房鑰匙,item,approved,recommended,1,TYPENAME.FLX:5492,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Janus,雅努斯,item,approved,recommended,1,TYPENAME.FLX:71,P8-A candidate scan,,never
 Jar,陶罐,item,approved,recommended,2,TYPENAME.FLX:3248,P8-A candidate scan,,never
 Jared,,item,todo,recommended,1,TYPENAME.FLX:260,P8-A candidate scan,,
 Jean Paul,,item,todo,recommended,4,text.flx:7453,P8-A candidate scan,,
 Jeans,,item,todo,recommended,1,TYPENAME.FLX:4958,P8-A candidate scan,,
 Jonah,,item,todo,recommended,1,TYPENAME.FLX:335,P8-A candidate scan,,
-Jordan's Journal,Jordan的日誌,item,approved,recommended,1,TYPENAME.FLX:5592,P8-A candidate scan,,never
+Jordan's Journal,喬丹的日誌,item,approved,recommended,1,TYPENAME.FLX:5592,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Journal,,item,todo,recommended,6,text.flx:4188,P8-A candidate scan,,
 Jug,大酒壺,item,approved,recommended,4,TYPENAME.FLX:541,P8-A candidate scan,,never
-Julia's Ghost,Julia的幽靈,item,approved,recommended,1,TYPENAME.FLX:178,P8-A candidate scan,,never
-Julia's Journal,Julia的日誌,item,approved,recommended,1,TYPENAME.FLX:5440,P8-A candidate scan,,never
+Julia's Ghost,茱莉亞的幽靈,item,approved,recommended,1,TYPENAME.FLX:178,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Julia's Journal,茱莉亞的日誌,item,approved,recommended,1,TYPENAME.FLX:5440,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Katie's Letter,,item,todo,recommended,1,TYPENAME.FLX:5346,P8-A candidate scan,,
 Kettle,,item,todo,recommended,2,TYPENAME.FLX:1418,P8-A candidate scan,,
 Key,鑰匙,item,approved,recommended,1,TYPENAME.FLX:1654,P8-A candidate scan,,never
@@ -827,7 +827,7 @@ Lantern,提燈,item,approved,recommended,31,BOOKS-EN.FLX:3,P8-A candidate scan,,
 Larana,,item,todo,recommended,1,TYPENAME.FLX:94,P8-A candidate scan,,
 Large Silver Ring,大銀戒,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,粗銀戒指,never
 Large Spider,,item,todo,recommended,1,TYPENAME.FLX:242,P8-A candidate scan,,
-Laszlo's Key,Laszlo's鑰匙,item,approved,recommended,1,TYPENAME.FLX:5489,P8-A candidate scan,,never
+Laszlo's Key,拉茲洛的鑰匙,item,approved,recommended,1,TYPENAME.FLX:5489,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Laurana,勞拉娜,item,approved,recommended,1,TYPENAME.FLX:125,P8-A candidate scan,,never
 Leather Arms,,item,todo,recommended,8,BOOKS-EN.FLX:187,P8-A candidate scan,,
 Leather arms,,item,todo,recommended,1,TYPENAME.FLX:4631,P8-A candidate scan,,
@@ -901,7 +901,7 @@ Map of Valoria,,item,todo,recommended,1,TYPENAME.FLX:5712,P8-A candidate scan,,
 Map of Yew,,item,todo,recommended,1,TYPENAME.FLX:5708,P8-A candidate scan,,
 Marble bench,,item,todo,recommended,1,TYPENAME.FLX:1005,P8-A candidate scan,,
 Maria,,item,todo,recommended,1,TYPENAME.FLX:331,P8-A candidate scan,,
-Mariah's Ghost,Mariah的幽靈,item,approved,recommended,1,TYPENAME.FLX:93,P8-A candidate scan,,never
+Mariah's Ghost,瑪莉亞的幽靈,item,approved,recommended,1,TYPENAME.FLX:93,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Markus,,item,todo,recommended,1,TYPENAME.FLX:95,P8-A candidate scan,,
 Mason,,item,todo,recommended,1,TYPENAME.FLX:320,P8-A candidate scan,,
 Mast,,item,todo,recommended,1,TYPENAME.FLX:1896,P8-A candidate scan,,
@@ -939,7 +939,7 @@ Necklace,項鍊,item,approved,recommended,6,TYPENAME.FLX:3416,P8-A candidate sca
 Netting,,item,todo,recommended,1,TYPENAME.FLX:1899,P8-A candidate scan,,
 Nicodemus,,item,todo,recommended,1,TYPENAME.FLX:259,P8-A candidate scan,,
 Nightshade,龍葵,item,approved,recommended,8,text.flx:1418,P8-A candidate scan,,never
-Note from Raven,來自Raven的字條,item,approved,recommended,1,TYPENAME.FLX:5372,P8-A candidate scan,,never
+Note from Raven,烏鴉的字條,item,approved,recommended,1,TYPENAME.FLX:5372,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Novice Bow,新手弓,item,approved,recommended,5,BOOKS-EN.FLX:179,P8-A candidate scan,,never
 Novice bow,,item,todo,recommended,5,TYPENAME.FLX:4836,P8-A candidate scan,,
 Oil Can,,item,todo,recommended,1,TYPENAME.FLX:5213,P8-A candidate scan,,
@@ -1052,7 +1052,7 @@ Randolas,,item,todo,recommended,1,TYPENAME.FLX:282,P8-A candidate scan,,
 Rat,,item,todo,recommended,1,TYPENAME.FLX:28,P8-A candidate scan,,
 Rat poison,老鼠藥,item,approved,recommended,1,TYPENAME.FLX:4760,P8-A candidate scan,,never
 Rat's nest,,item,todo,recommended,1,TYPENAME.FLX:3306,P8-A candidate scan,,
-Raven Key,Raven鑰匙,item,approved,recommended,2,TYPENAME.FLX:5782,P8-A candidate scan,,never
+Raven Key,烏鴉的鑰匙,item,approved,recommended,2,TYPENAME.FLX:5782,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Raven's Choice boots,,item,todo,recommended,1,TYPENAME.FLX:4778,P8-A candidate scan,,
 Raven's Choice chest,,item,todo,recommended,1,TYPENAME.FLX:4779,P8-A candidate scan,,
 Raven's Choice gauntlets,,item,todo,recommended,1,TYPENAME.FLX:4780,P8-A candidate scan,,
@@ -1104,7 +1104,7 @@ Rune of Spirituality,靈性符石,item,approved,recommended,1,TYPENAME.FLX:2946,
 Rune of Valor,英勇符石,item,approved,recommended,2,TYPENAME.FLX:2947,P8-A candidate scan,,never
 Runes of Virtue,美德符石,item,approved,recommended,3,text.flx:395,P8-A candidate scan,八大美德符石，用以解開封印或淨化聖壇,first
 Sack of Flour,,item,todo,recommended,6,BOOKS-EN.FLX:196,P8-A candidate scan,,
-Sage's Journal,Sage的日誌,item,approved,recommended,1,TYPENAME.FLX:4934,P8-A candidate scan,,never
+Sage's Journal,賢者的日誌,item,approved,recommended,1,TYPENAME.FLX:4934,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Sail cloth,,item,todo,recommended,2,TYPENAME.FLX:2787,P8-A candidate scan,,
 Sailboat,,item,todo,recommended,1,TYPENAME.FLX:4772,P8-A candidate scan,,
 Sailing for Dummies,,item,todo,recommended,1,TYPENAME.FLX:5596,P8-A candidate scan,,
@@ -1199,7 +1199,7 @@ Sign,,item,todo,recommended,46,TYPENAME.FLX:578,P8-A candidate scan,,
 Signpost,,item,todo,recommended,5,TYPENAME.FLX:1644,P8-A candidate scan,,
 Silk,,item,todo,recommended,1,TYPENAME.FLX:2198,P8-A candidate scan,,
 Silver Horn,,item,todo,recommended,1,TYPENAME.FLX:5663,P8-A candidate scan,,
-Silver key,Silver鑰匙,item,approved,recommended,1,TYPENAME.FLX:873,P8-A candidate scan,,never
+Silver key,銀鑰匙,item,approved,recommended,1,TYPENAME.FLX:873,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Silver Necklace,,item,todo,recommended,16,BOOKS-EN.FLX:196,P8-A candidate scan,,
 Silver Ring,銀戒指,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,銀質戒指,never
 Silver Serpent,銀巨蛇,item,approved,recommended,9,text.flx:1329,P8-A candidate scan,,never
@@ -1305,7 +1305,7 @@ Television,,item,todo,recommended,1,TYPENAME.FLX:857,P8-A candidate scan,,
 Television Set,,item,todo,recommended,2,TYPENAME.FLX:4471,P8-A candidate scan,,
 The destroyed Black Gate,,item,todo,recommended,1,TYPENAME.FLX:5482,P8-A candidate scan,,
 Thief,,item,todo,recommended,1,TYPENAME.FLX:44,P8-A candidate scan,,
-Thieves' Journal,Thieves'的日誌,item,approved,recommended,1,TYPENAME.FLX:5384,P8-A candidate scan,,never
+Thieves' Journal,盜賊的日誌,item,approved,recommended,1,TYPENAME.FLX:5384,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Thread,,item,todo,recommended,1,TYPENAME.FLX:2736,P8-A candidate scan,,
 Thresher,,item,todo,recommended,1,TYPENAME.FLX:2895,P8-A candidate scan,,
 Throne,王座,item,approved,recommended,1,TYPENAME.FLX:2707,P8-A candidate scan,,never
@@ -1329,7 +1329,7 @@ Treasure Map,,item,todo,recommended,10,TYPENAME.FLX:5373,P8-A candidate scan,,
 Treasure map,,item,todo,recommended,1,TYPENAME.FLX:3148,P8-A candidate scan,,
 Tree,,item,todo,recommended,5,TYPENAME.FLX:4706,P8-A candidate scan,,
 Tree stump,,item,todo,recommended,3,TYPENAME.FLX:736,P8-A candidate scan,,
-Trinsic Inn Key,Trinsic Inn鑰匙,item,approved,recommended,1,TYPENAME.FLX:5598,P8-A candidate scan,,never
+Trinsic Inn Key,特林錫克旅店鑰匙,item,approved,recommended,1,TYPENAME.FLX:5598,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Tripod,,item,todo,recommended,1,TYPENAME.FLX:2477,P8-A candidate scan,,
 Trough,,item,todo,recommended,2,TYPENAME.FLX:2820,P8-A candidate scan,,
 Trout,,item,todo,recommended,5,BOOKS-EN.FLX:174,P8-A candidate scan,,

@@ -224,6 +224,11 @@ def first_occurrences(terms, units_by_resource, sections, vocabulary=()):
     return out
 
 
+# Single-line native labels (item names) cannot carry a 譯名(English) annotation within their
+# 192-unit budget; the annotation convention applies to running text only.
+ANNOTATION_EXEMPT_RESOURCES = frozenset({"TYPENAME.FLX"})
+
+
 def annotation_issues(records, rows, sources=None, first=None):
     """Check 譯名(English) against each approved, translated term's annotate mode."""
     issues = []
@@ -231,7 +236,7 @@ def annotation_issues(records, rows, sources=None, first=None):
     vocabulary = [r["source"] for r in rows if r["status"] in ("approved", "keep")]
     level = {"mandatory": "error", "recommended": "warning"}
     for record in records:
-        if record["status"] in ("untranslated", "blocked"):
+        if record["status"] in ("untranslated", "blocked") or record.get("resource") in ANNOTATION_EXEMPT_RESOURCES:
             continue
         key, target, source = record["key"], record["target"], (sources or {}).get(record["key"])
         for row in decided:
