@@ -26,7 +26,7 @@ RUNTIME_CONTRACT = {
     "logical_units_per_em": 16,
     # Runtime refuses a font unless every CJK glyph advances exactly this many units (LayoutCellUnits).
     "custom_logical_advance": 16,
-    "custom_scalar_ranges": [[0x2015, 0x2015], [0x2026, 0x2026], [0x3000, 0x303F], [0x3400, 0x9FFF], [0xFF01, 0xFF60]],
+    "custom_scalar_ranges": [[0x2015, 0x2015], [0x2026, 0x2026], [0x3000, 0x303F], [0x30FB, 0x30FB], [0x3400, 0x9FFF], [0xFF01, 0xFF60]],
     "native_ascii_range": [32, 126],
     "newline_allowed": {"text.flx": True, "TYPENAME.FLX": False, "BOOKS-EN.FLX": True},
     # Book bodies keep their source paragraph CRLF and tabs; the game's reader converts them.
@@ -56,7 +56,7 @@ def is_custom(scalar):
 def scalar_class(scalar):
     if 0x3400 <= scalar <= 0x9FFF or 0x20000 <= scalar <= 0x3FFFF or 0xF900 <= scalar <= 0xFAFF:
         return "han"
-    if scalar in (0x2015, 0x2026) or 0x3000 <= scalar <= 0x303F or 0xFF01 <= scalar <= 0xFF60:
+    if scalar in (0x2015, 0x2026, 0x30FB) or 0x3000 <= scalar <= 0x303F or 0xFF01 <= scalar <= 0xFF60:
         return "punctuation"
     if 32 <= scalar <= 126 or scalar == 10:
         return "native"

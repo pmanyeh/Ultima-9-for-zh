@@ -75,9 +75,12 @@ class GdiRasterizer:
             self.previous = self.g.SelectObject(self.dc, self.font)
             if not self.previous or self.previous == c.c_void_p(-1).value:
                 raise OSError("font selection failed")
+            # GDI may report a localized face name (for example on zh-TW), so substitution is ruled
+            # out by the selected face's data hash below, as in the native runtime (P9-1).
             face = c.create_unicode_buffer(128)
-            if not self.g.GetTextFaceW(self.dc, len(face), face) or face.value != family:
-                raise ValueError("font substitution detected")
+            if not self.g.GetTextFaceW(self.dc, len(face), face):
+                raise ValueError("selected face name unavailable")
+            self.face_name = face.value
             size = self.g.GetFontData(self.dc, 0, 0, None, 0)
             if size == 0xFFFFFFFF or not 0 < size <= 32 * 1024 * 1024:
                 raise ValueError("selected font data unavailable")
