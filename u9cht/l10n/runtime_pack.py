@@ -13,7 +13,7 @@ from fractions import Fraction
 from ..flx import digest
 
 RUNTIME_CONTRACT = {
-    "runtime": "U9ChtRuntime/0.2.11-p8-3",
+    "runtime": "U9ChtRuntime/0.2.12-p9-1",
     "magic": "U9CTP51",
     "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans"},
     "max_plans": 16384,
@@ -22,6 +22,8 @@ RUNTIME_CONTRACT = {
     "glyph_cache_capacity": 16384,
     "raster_sizes_px": [20, 40],
     "logical_units_per_em": 16,
+    # Runtime refuses a font unless every CJK glyph advances exactly this many units (LayoutCellUnits).
+    "custom_logical_advance": 16,
     "custom_scalar_ranges": [[0x2015, 0x2015], [0x2026, 0x2026], [0x3000, 0x303F], [0x3400, 0x9FFF], [0xFF01, 0xFF60]],
     "native_ascii_range": [32, 126],
     "newline_allowed": {"text.flx": True, "TYPENAME.FLX": False},
@@ -87,6 +89,8 @@ def logical_advance(metrics, scalar):
         values.append(Fraction(m["advance"] * RUNTIME_CONTRACT["logical_units_per_em"], em))
     if len(set(values)) != 1 or values[0].denominator != 1 or not 1 <= values[0] <= 255:
         raise ValueError(f"U+{scalar:04X}: inconsistent/unrepresentable logical advance {values}")
+    if values[0] != RUNTIME_CONTRACT["custom_logical_advance"]:
+        raise ValueError(f"U+{scalar:04X}: logical advance {values[0]} differs from the runtime layout cell")
     return int(values[0])
 
 

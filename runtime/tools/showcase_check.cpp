@@ -12,6 +12,7 @@ int wmain(int argc, wchar_t** argv) {
         require(pack->glyph_count && pack->glyph_count*2 <= GlyphCacheCapacity,"showcase cache capacity");
         auto cache = std::make_unique<GlyphCache>(); cache->open(argv[2]);
         Logger log; log.open(argv[3],true);
+        log.event("offline_font","\"family\":\""+utf8(cache->font_family())+"\",\"sha256\":\""+utf8(cache->font_sha256())+"\"");
         // Mirrors Engine::install: the page-texture size is warmed only when capacity allows.
         const bool texture = pack->glyph_count*3 <= GlyphCacheCapacity;
         const auto started = GetTickCount64();
@@ -27,6 +28,7 @@ int wmain(int argc, wchar_t** argv) {
             }
             const auto* a = cache->get(scalar,20); const auto* b = cache->get(scalar,40);
             require(a->advance*16/20 == b->advance*16/40,"inconsistent logical advances");
+            require(b->advance*16/40 == int32_t(LayoutCellUnits),"font glyph advance differs from the 16-unit layout cell");
         }
         const auto expected = pack->glyph_count*(texture ? 3 : 2);
         require(cache->size() == expected && cache->misses == expected,"unexpected warm misses");

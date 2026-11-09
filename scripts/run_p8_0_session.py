@@ -10,6 +10,8 @@ This tool sends no keyboard or mouse input.
   stress    start + wait + request window close + finish (no human needed)
 """
 import argparse
+import codecs
+import configparser
 import ctypes
 import ctypes.wintypes as w
 import hashlib
@@ -95,7 +97,8 @@ def start(args):
         "phase": "P8-0", "label": args.label, "status": "ACTIVE",
         "head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
         "runtime_sha256": sha(dll), "launcher_sha256": sha(exe), "pack_sha256": sha(pack),
-        "font_sha256": sha(args.font), "installed_resources": installed,
+        "font_sha256": sha(args.font), "settings_sha256": sha(args.config) if args.config else None,
+        "installed_resources": installed,
         "save_sha256_at_start": {p.name: sha(p) for p in sorted((game / "savegame").glob("*.sav"))},
     }
     if args.fresh_start:
@@ -122,7 +125,8 @@ def start(args):
         raise SystemExit("--diary-fixture requires --preserve-saves")
     write_json(session / "launch.json", receipt)
     command = [str(exe), "--game-dir", str(game), "--runtime", str(dll), "--log", str(session / "runtime.jsonl"),
-               "--mode", "render", "--font", str(args.font), "--allowlist", str(pack)]
+               "--mode", "render", "--allowlist", str(pack)]
+    command += ["--config", str(args.config)] if args.config else ["--font", str(args.font)]
     with (session / "stdout.txt").open("wb") as out, (session / "stderr.txt").open("wb") as err:
         process = subprocess.Popen(command, cwd=ROOT, stdout=out, stderr=err, creationflags=subprocess.CREATE_NO_WINDOW)
     receipt["launcher_pid"] = process.pid
@@ -297,6 +301,8 @@ def main(argv=None):
     parser.add_argument("--pack", type=Path, help="pack to load instead of the build's own")
     parser.add_argument("--runtime", type=Path, help="directory holding the launcher and runtime DLL")
     parser.add_argument("--font", type=Path, default=ROOT / ".local/p5-highres/font/NotoSansCJKtc-Regular.otf")
+    parser.add_argument("--config", type=Path,
+                        help="player settings INI passed to the launcher; its [font] file replaces --font")
     parser.add_argument("--offline", type=Path, help="U9ChtShowcaseCheck log for the same pack")
     parser.add_argument("--hold-seconds", type=float, default=30)
     parser.add_argument("--fresh-start", action="store_true",
@@ -308,6 +314,15 @@ def main(argv=None):
     args = parser.parse_args(argv)
     args.session, args.game_dir = args.session.resolve(), args.game_dir.resolve()
     args.font = args.font.resolve()
+    if args.config:
+        args.config = args.config.resolve()
+        settings = configparser.ConfigParser()
+        # Windows profile APIs read UTF-16 (with BOM) or the ANSI code page, never UTF-8.
+        raw = args.config.read_bytes()
+        settings.read_string(raw.decode("utf-16") if raw.startswith(codecs.BOM_UTF16_LE) else raw.decode("mbcs"))
+        if settings.has_option("font", "file"):
+            font = Path(settings.get("font", "file"))
+            args.font = (font if font.is_absolute() else args.config.parent / font).resolve()
     if args.command != "finish":
         if not args.build or not args.runtime:
             parser.error("--build and --runtime are required")

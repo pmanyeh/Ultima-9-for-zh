@@ -3,6 +3,8 @@
 #include <tlhelp32.h>
 #include <iostream>
 #include <map>
+#include <algorithm>
+#include <cwctype>
 
 using namespace u9cht;
 namespace {
@@ -28,6 +30,43 @@ uintptr_t remote_system_export(DWORD pid, const char* name) {
     auto base = remote_module(pid, path.filename(), &path);
     require(base != 0, "remote system module unavailable");
     return base + reinterpret_cast<uintptr_t>(address) - reinterpret_cast<uintptr_t>(owner);
+}
+// P9-1 player settings (INI). Strict: a section or key this runtime does not implement yet is an error,
+// so a setting is never silently ignored. Relative paths resolve against the INI's own directory.
+void need(bool ok, const std::string& message) { require(ok, message.c_str()); }
+std::vector<std::wstring> ini_list(const wchar_t* section, const std::filesystem::path& file) {
+    std::vector<wchar_t> buffer(32768);
+    const auto n = section ? GetPrivateProfileSectionW(section, buffer.data(), DWORD(buffer.size()), file.c_str())
+                           : GetPrivateProfileSectionNamesW(buffer.data(), DWORD(buffer.size()), file.c_str());
+    require(n < buffer.size() - 2, "settings file section too large");
+    std::vector<std::wstring> items;
+    for (const wchar_t* at = buffer.data(); *at; at += wcslen(at) + 1) items.emplace_back(at);
+    return items;
+}
+std::map<std::wstring, std::wstring> read_settings(const std::filesystem::path& file) {
+    static const std::map<std::wstring, std::vector<std::wstring>> known = {{L"font", {L"file"}}};
+    need(std::filesystem::is_regular_file(file), "settings file not found");
+    std::map<std::wstring, std::wstring> values;
+    for (const auto& section : ini_list(nullptr, file)) {
+        const auto keys = known.find(section);
+        need(keys != known.end(), "settings: unsupported section [" + utf8(section) + "]");
+        for (const auto& line : ini_list(section.c_str(), file)) {
+            const auto eq = line.find(L'=');
+            need(eq != std::wstring::npos, "settings: malformed line in [" + utf8(section) + "]");
+            auto key = line.substr(0, eq), value = line.substr(eq + 1);
+            while (!key.empty() && iswspace(key.back())) key.pop_back();
+            while (!value.empty() && iswspace(value.front())) value.erase(value.begin());
+            need(std::find(keys->second.begin(), keys->second.end(), key) != keys->second.end(),
+                    "settings: unsupported key " + utf8(section) + "." + utf8(key));
+            need(values.emplace(section + L"." + key, value).second, "settings: duplicate key " + utf8(key));
+        }
+    }
+    if (values.count(L"font.file")) {
+        std::filesystem::path font(values[L"font.file"]);
+        if (font.is_relative()) font = file.parent_path() / font;
+        values[L"font.file"] = std::filesystem::canonical(font).wstring();
+    }
+    return values;
 }
 DWORD remote_call(HANDLE process, uintptr_t entry, void* parameter) {
     Handle thread(CreateRemoteThread(process, nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(entry),
@@ -67,7 +106,7 @@ int wmain(int argc, wchar_t** argv) {
             else if (key == L"--verify-unload") unload = true;
             else {
                 require(i + 1 < argc && (key == L"--game-dir" || key == L"--runtime" || key == L"--log" ||
-                         key == L"--mode" || key == L"--font" || key == L"--allowlist"), "unknown/missing argument");
+                         key == L"--mode" || key == L"--font" || key == L"--allowlist" || key == L"--config"), "unknown/missing argument");
                 require(options.emplace(key, argv[++i]).second, "duplicate option");
             }
         }
@@ -86,6 +125,13 @@ int wmain(int argc, wchar_t** argv) {
             config.mode = mode == L"bootstrap" ? Mode::Bootstrap : mode == L"observe" ? Mode::Observe : Mode::Render;
         }
         copy_path(config.game_dir, game); copy_path(config.log_path, log_path);
+        if (options.count(L"--config")) {
+            const auto settings = read_settings(std::filesystem::canonical(options[L"--config"]));
+            if (settings.count(L"font.file")) {
+                require(!options.count(L"--font"), "font given both by --font and by the settings file");
+                options[L"--font"] = settings.at(L"font.file");
+            }
+        }
         if (options.count(L"--font")) copy_path(config.font_path, std::filesystem::canonical(options[L"--font"]));
         if (options.count(L"--allowlist")) copy_path(config.allowlist_path, std::filesystem::canonical(options[L"--allowlist"]));
         config.flags = fail ? ForceFailure : 0;

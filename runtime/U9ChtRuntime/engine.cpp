@@ -970,6 +970,8 @@ void Engine::install(const Config& config, Logger& logger) {
         "\",\"resource_sha256\":\""+utf8(pack.resource_hash)+"\",\"entries\":"+std::to_string(pack.count));
     if (render) {
         glyphs.open(config_path(config.font_path));
+        log->event("runtime_font","\"family\":\""+utf8(glyphs.font_family())+"\",\"sha256\":\""+utf8(glyphs.font_sha256())+
+            "\",\"file\":\""+utf8(config_path(config.font_path).filename().wstring())+"\"");
         // v1 historical packs carry no explicit glyph list. v2 lists are exact
         // and validated by Pack::load. In either case prewarm before hooks/READY.
         if (!pack.glyph_count) {
@@ -989,6 +991,9 @@ void Engine::install(const Config& config, Logger& logger) {
             if (s < 128) continue;
             const auto* a = glyphs.get(s,20); const auto* b = glyphs.get(s,40);
             require(a && b && a->advance*16/20 == b->advance*16/40,"inconsistent engine advances");
+            // P9-1: text was wrapped offline with every CJK glyph one 16-unit cell wide. A font that disagrees
+            // would silently break line layout, so it is refused before READY (the game is not resumed).
+            require(b->advance*16/40 == int32_t(LayoutCellUnits),"font glyph advance differs from the 16-unit layout cell");
             pack.plans[i].advances[j] = uint16_t(b->advance*16/40);
         }
         // P8-3: page textures need a third size. Disabled, never fatal, when capacity or metrics disagree.
