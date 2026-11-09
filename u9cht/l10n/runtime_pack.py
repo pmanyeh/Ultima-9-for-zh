@@ -13,7 +13,7 @@ from fractions import Fraction
 from ..flx import digest
 
 RUNTIME_CONTRACT = {
-    "runtime": "U9ChtRuntime/0.2.18-p9-4c",
+    "runtime": "U9ChtRuntime/0.2.19-p9-5",
     "magic": "U9CTP51",
     "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans",
                       "4": "text.flx, TYPENAME and UTF-16 BOOKS-EN plans"},
