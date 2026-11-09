@@ -108,6 +108,12 @@ def start(args):
                 raise SystemExit("STOP: save backup verification failed")
         for path in (game / "savegame").iterdir():
             path.unlink()
+    elif args.preserve_saves:
+        # Keep play-through side effects (diary.txt appends, new saves) out of the private copy.
+        shutil.copytree(game / "savegame", session / "backup/savegame")
+        receipt["preserved_saves"] = {p.name: sha(p) for p in sorted((game / "savegame").iterdir())}
+        if {p.name: sha(p) for p in sorted((session / "backup/savegame").iterdir())} != receipt["preserved_saves"]:
+            raise SystemExit("STOP: save backup verification failed")
     write_json(session / "launch.json", receipt)
     command = [str(exe), "--game-dir", str(game), "--runtime", str(dll), "--log", str(session / "runtime.jsonl"),
                "--mode", "render", "--font", str(args.font), "--allowlist", str(pack)]
@@ -139,9 +145,19 @@ def restore(session, game, receipt):
             shutil.copyfile(path, game / "savegame" / path.name)
         saves_restored = {p.name: sha(p) for p in sorted((game / "savegame").glob("*.sav"))} == receipt["moved_saves"]
         receipt["save_sha256_at_start"] = receipt["moved_saves"]
+    preserved_restored = None
+    if "preserved_saves" in receipt:
+        shutil.copytree(game / "savegame", session / "final-savegame")
+        for path in (game / "savegame").iterdir():
+            path.unlink()
+        for path in (session / "backup/savegame").iterdir():
+            shutil.copyfile(path, game / "savegame" / path.name)
+        preserved_restored = ({p.name: sha(p) for p in sorted((game / "savegame").iterdir())}
+                              == receipt["preserved_saves"])
     saves = {p.name: sha(p) for p in sorted((game / "savegame").glob("*.sav"))}
     return {"protected_assets_match_p0": not mismatched, "mismatched": mismatched,
             "moved_saves_restored": saves_restored,
+            "preserved_saves_restored": preserved_restored,
             "config_restored": all((game / n).read_bytes() == (session / "backup" / n).read_bytes()
                                    for n in ("Options.ini", "dxcfg.ini")),
             "default_keymap_unchanged": keymap_same,
@@ -209,7 +225,8 @@ def finish(args):
     print(json.dumps(result, indent=2, ensure_ascii=False))
     ok = (not result["failure_events"] and not result["nonzero_fault_counters"] and not result["raster_faults"]
           and result["exit_code"] == 0 and result["restoration"]["protected_assets_match_p0"]
-          and result["restoration"]["config_restored"])
+          and result["restoration"]["config_restored"]
+          and result["restoration"]["preserved_saves_restored"] is not False)
     return 0 if ok else 1
 
 
@@ -278,6 +295,8 @@ def main(argv=None):
     parser.add_argument("--hold-seconds", type=float, default=30)
     parser.add_argument("--fresh-start", action="store_true",
                         help="move saves aside for this session so the game starts like a clean install")
+    parser.add_argument("--preserve-saves", action="store_true",
+                        help="back up the whole savegame directory (including diary.txt) and restore it after the session")
     args = parser.parse_args(argv)
     args.session, args.game_dir = args.session.resolve(), args.game_dir.resolve()
     args.font = args.font.resolve()

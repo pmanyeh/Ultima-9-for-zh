@@ -65,15 +65,45 @@ static). Display-side transforms therefore would not write back into saves.
 The Japanese executable converts with a length query first, then allocates `query+1` bytes. That
 fixes sizing but still depends on the locale code page. It is not reusable here.
 
+## Observe-only session (P8-2, 2026-11-09)
+
+Runtime `0.2.10-p8-2` adds counters only: the journal append conversion, a pass-through hook on the
+text-flow initializer `0x5C7620`, and caller tables. Game output was unchanged. See
+`reports/P8_2_JOURNAL_OBSERVE.md`.
+
+| Flow caller (return) | Calls | Text bytes | Bounds hits (text) | Glyph hits (text) | Glyph raster |
+| --- | --- | --- | --- | --- | --- |
+| `0x426648` (journal page) | 1 | 92 = size of `diary.txt` | 0 | 455 | 256×256 |
+| `0x4260c6` (book page) | 1 | 3,562 | 103,680 | 15,139 | 256×256 |
+| `0x42771f` (book page) | 1 | 1,404 | 19,761 | 4,554 | 256×256 |
+
+- CONFIRMED: the journal page is flow caller `0x426648`. Its text pointer is the strdup of
+  `diary.txt`, and glyphs are drawn directly from that buffer.
+- CONFIRMED: journal and book glyphs go through the already-hooked glyph function `0x5C5A80`
+  (via `0x5C5D09`), with the source pointer in stack slot 9, like dialogue.
+- CONFIRMED: every journal/book glyph was drawn **outside** the paint-cache chain `0x5CFCE0`
+  (paint generation 0) into a **256×256** native raster.
+- CONFIRMED (screenshot): the journal is a perspective 3D book; the page texture is warped on screen.
+  The flat screen-space compositor used for dialogue cannot place text on it.
+- CONFIRMED: journal line measuring does not reach the hooked bounds (`0x5C5F5B`) or layout
+  (`0x5C7BB3`) points; book pages do reach the bounds point.
+- No journal entry was appended during the session, so the append counters are still unobserved.
+
 ## Unknowns
 
-- UNKNOWN: whether the text flow `0x5c7620` paints through the already-hooked widget chain
-  (`0x5cfce0` paint cache → `0x5c5a80` glyph → `0x508d50` queue at `0x5cfdbb`) or through
-  another raster path (for example `0x561f40` → `0x508d50` at `0x5620c5`, reached from `0x4227b8`).
+- UNKNOWN: which function measures journal line widths (it is not a hooked width point).
+- UNKNOWN: how the page texture is submitted. The only queue callers seen were `0x5CFDBB`,
+  `0x5CFEC5` (both inside the paint-cache function) and `0x5620CA`.
 - UNKNOWN: how the text flow wraps text with no spaces. It may force breaks at byte level.
-- UNKNOWN: whether the journal page is drawn flat at native scale, which the compositor's geometry
-  checks require.
 - HYPOTHESIS: the history timeline (4216–4242) is drawn by a different page class.
+
+## Consequence for the design
+
+Storing the entry (J1/J2) is only half the problem. Drawing needs a **texture-space glyph writer**:
+when the hooked glyph function `0x5C5A80` meets a CJK slot on a page raster, write our cached glyph
+coverage into that 256×256 raster at the native glyph position, the same place the native blit
+(`0x5E20E0`) writes. The 3D page then warps Chinese like English. This is new runtime work. It
+also needs a width hook for the journal measuring path. Books (books-*.flx) share the same writer.
 
 ## Candidate design (not implemented, needs a decision)
 

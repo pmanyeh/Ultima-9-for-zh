@@ -22,6 +22,7 @@ void* free_gateway = nullptr;
 void* name_copy_gateway = nullptr;
 void* name_destroy_gateway = nullptr;
 void* flip_gateway = nullptr;
+void* flow_gateway = nullptr;
 void* triangle_original = reinterpret_cast<void*>(0x589F50);
 decltype(&WideCharToMultiByte) wide_original = nullptr;
 decltype(&ExitProcess) exit_original = nullptr;
@@ -51,6 +52,27 @@ uint64_t raster_hash(const RasterBinding& r) {
 int WINAPI wide_hook(UINT cp, DWORD flags, LPCWCH wide, int length, LPSTR out, int capacity,
                      LPCCH fallback, LPBOOL used) {
     Guard guard;
+    if (guard.state && reinterpret_cast<uintptr_t>(_ReturnAddress()) == 0x615DF7) {
+        // P8-2 probe: the journal append conversion (0x615db0). Observe only; output is native.
+        auto& e = *guard.state;
+        SetLastError(0);
+        const int result = wide_original(cp, flags, wide, length, out, capacity, fallback, used);
+        const DWORD error = result ? 0 : GetLastError();
+        JournalAppend v{};
+        v.tick = GetTickCount64(); v.code_page = cp == CP_ACP ? GetACP() : cp;
+        v.capacity = uint32_t(capacity); v.result = result; v.error = error;
+        if (wide) {
+            v.wide_length = uint32_t(wcsnlen(wide, 65536));
+            const int plan = length == -1 ? e.pack.match(wide) : -1;
+            v.entry = plan >= 0 ? int32_t(e.pack.plans[size_t(plan)].entry) : -1;
+        }
+        if (out && result > 0) for (int i = 0; i < result; ++i) v.high_bytes += static_cast<uint8_t>(out[i]) >= 0x80;
+        { Exclusive lock(e.mutex);
+          if (e.journal_append_total < e.journal_appends.size()) e.journal_appends[size_t(e.journal_append_total)] = v;
+          ++e.journal_append_total; }
+        SetLastError(error);
+        return result;
+    }
     if (guard.state && reinterpret_cast<uintptr_t>(_ReturnAddress()) == 0x615B7C &&
         length == -1 && constructor_depth && constructor_depth <= constructors.size()) {
         auto& e = *guard.state;
@@ -90,12 +112,47 @@ uintptr_t __fastcall ctor_hook(uintptr_t self, void*, uintptr_t a, uintptr_t b, 
     }
     return result;
 }
+struct FlowText { uintptr_t text = 0; uint32_t length = 0, high = 0; uint64_t hash = 14695981039346656037ULL; };
+// Reads `*text_ref` under SEH: the caller passes a char** whose target is game-owned.
+bool read_flow_text(uintptr_t text_ref, FlowText& t) noexcept {
+    __try {
+        if (!text_ref) return true;
+        t.text = word(text_ref);
+        if (!t.text) return true;
+        const auto* p = reinterpret_cast<const uint8_t*>(t.text);
+        while (t.length < 0x10000 && p[t.length]) {
+            t.high += p[t.length] >= 0x80; t.hash ^= p[t.length]; t.hash *= 1099511628211ULL; ++t.length;
+        }
+        return true;
+    } __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+}
+// P8-2 probe: paged text-flow initializer 0x5C7620 (thiscall, 4 args). Observe only.
+uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_t text_ref, uintptr_t a3, uintptr_t a4) {
+    Guard guard;
+    const auto caller = reinterpret_cast<uintptr_t>(_ReturnAddress());
+    const auto fn = reinterpret_cast<uintptr_t(__thiscall*)(uintptr_t,uintptr_t,uintptr_t,uintptr_t,uintptr_t)>(flow_gateway);
+    if (!guard.state) return fn(self,widget,text_ref,a3,a4);
+    FlowText t;
+    const bool readable = read_flow_text(text_ref,t);
+    const auto result = fn(self,widget,text_ref,a3,a4);
+    auto& e = *guard.state; Exclusive lock(e.mutex);
+    FlowProbe* slot = nullptr;
+    for (auto& f : e.flows) if (f.flow == self && f.caller == caller) { slot = &f; break; }
+    if (!slot) for (auto& f : e.flows) if (!f.flow) { slot = &f; *slot = {}; slot->flow = self; slot->caller = caller; break; }
+    if (!slot) { ++e.flow_overflow; return result; }
+    slot->widget = widget; slot->text = readable ? t.text : 0;
+    slot->text_length = t.length; slot->text_high = t.high; slot->text_hash = readable ? t.hash : 0;
+    slot->buffers[0] = word(self+0x34); slot->buffers[1] = word(self+0x38); slot->buffers[2] = word(self+0x3C);
+    ++slot->calls; slot->last_tick = GetTickCount64();
+    return result;
+}
 uintptr_t __fastcall queue_hook(uintptr_t self, void*, uintptr_t raster, uintptr_t x, uintptr_t y,
                                uintptr_t flag, uintptr_t last) {
     Guard guard;
     const auto caller = reinterpret_cast<uintptr_t>(_ReturnAddress());
     auto fn = reinterpret_cast<uintptr_t(__thiscall*)(uintptr_t,uintptr_t,uintptr_t,uintptr_t,uintptr_t,uintptr_t)>(queue_gateway);
     const uintptr_t result = fn(self,raster,x,y,flag,last);
+    if (guard.state) { Exclusive lock(guard.state->mutex); guard.state->count_caller(guard.state->queue_callers,caller); }
     if (guard.state && caller == 0x5CFDBB) {
         auto& e = *guard.state; Exclusive lock(e.mutex);
         if (auto* r = e.raster(raster)) {
@@ -166,7 +223,10 @@ uintptr_t __fastcall paint_hook(uintptr_t self, void*, uintptr_t widget) {
     const auto old_owner = paint_owner, old_widget = paint_widget, old_caller = paint_caller;
     paint_owner = self; paint_widget = widget;
     paint_caller = reinterpret_cast<uintptr_t>(_ReturnAddress());
-    if (guard.state) { Exclusive lock(guard.state->mutex); paint_generation = ++guard.state->generations; }
+    if (guard.state) {
+        Exclusive lock(guard.state->mutex); paint_generation = ++guard.state->generations;
+        guard.state->count_caller(guard.state->paint_callers,paint_caller);
+    }
     const auto result = reinterpret_cast<uintptr_t(__thiscall*)(uintptr_t,uintptr_t)>(paint_gateway)(self,widget);
     paint_generation = previous;
     paint_owner = old_owner; paint_widget = old_widget; paint_caller = old_caller;
@@ -270,10 +330,12 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                     ++stats.width_overrides;
                 }
             }
-        }
+        } else e.probe_flow_source(stage == 1 ? f->ebp : f->edi, stage);
     } else if (stage == 3) {
         const auto* s = reinterpret_cast<const uint32_t*>(f->esp+4);
+        e.count_caller(e.glyph_callers,s[0]);
         auto m = s[0] == 0x5C5D09 ? e.locate(s[9]) : Located{};
+        if (!m.binding && s[0] == 0x5C5D09) e.probe_flow_source(s[9],3);
         if (m.binding) {
             const auto plan = m.binding->plan;
             ++e.stats[plan].glyph;
@@ -463,6 +525,36 @@ RasterBinding* Engine::raster(uintptr_t address) noexcept {
 QueueBinding* Engine::queue(uintptr_t address) noexcept {
     for (auto& q : queues) if (address && q.address == address) return &q;
     return nullptr;
+}
+void Engine::count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept {
+    for (auto& c : table) {
+        if (c.caller == caller) { ++c.count; return; }
+        if (!c.caller) { c.caller = caller; c.count = 1; return; }
+    }
+    ++caller_overflow;
+}
+// Attributes a non-allowlisted layout/bounds/glyph source byte to a recorded text flow buffer.
+void Engine::probe_flow_source(uintptr_t source, uint32_t stage) noexcept {
+    if (!source) return;
+    static constexpr uintptr_t sizes[3] = {0x1000, 0x10000, 0x8000};
+    for (auto& f : flows) {
+        if (!f.flow) continue;
+        int range = -1;
+        if (f.text && source >= f.text && source <= f.text+f.text_length) range = 0;
+        else for (int i = 0; i < 3; ++i) if (f.buffers[i] && source >= f.buffers[i] && source < f.buffers[i]+sizes[i]) { range = i+1; break; }
+        if (range < 0) continue;
+        if (stage == 1) ++f.layout[range];
+        else if (stage == 2) ++f.bounds[range];
+        else {
+            ++f.glyph[range];
+            if (!paint_generation) ++f.glyph_outside_paint;
+            f.glyph_paint_caller = paint_caller; f.glyph_paint_owner = paint_owner; f.glyph_paint_widget = paint_widget;
+            const auto raster = word(0x133393C);
+            f.glyph_raster = raster;
+            if (raster) { f.glyph_raster_width = uint32_t(word(raster+0x14)); f.glyph_raster_height = uint32_t(word(raster+0x18)); }
+        }
+        return;
+    }
 }
 void Engine::retire(uintptr_t address) noexcept {
     const auto found = registry.locate(address);
@@ -717,6 +809,7 @@ void Engine::install(const Config& config, Logger& logger) {
         name_copy_gateway = prepare("name_copy",0x714CD0,name_copy_hook,{0x53,0x56,0x8B,0x74,0x24,0x0C},{1,1,4});
         name_destroy_gateway = prepare("name_destroy",0x41AE40,name_destroy_hook,{0x56,0x8B,0xF1,0x8B,0x46,0x6C},{1,2,3});
     }
+    flow_gateway = prepare("text_flow_init",0x5C7620,flow_hook,{0x8B,0x44,0x24,0x08,0x53},{4,1});
     flip_gateway = prepare("pre_flip",0x597B00,flip_hook,{0x56,0x8B,0xF1,0x8A,0x86,9,0xC5,0x3F,0},{1,2,6});
     wide_original = &WideCharToMultiByte;
     exit_original = &ExitProcess;
@@ -829,7 +922,50 @@ void Engine::snapshot(const char* event) noexcept {
               fields += ",\"bound\":"+std::string(v.bound?"true":"false")+
                   ",\"prior_entry\":"+std::to_string(v.bound?entry_of(v.prior_plan):0)+"}";
           }
-          fields += ']'; life_count = 0; raster_fault_count = 0;
+          fields += "],\"journal_probe\":{\"acp\":"+std::to_string(GetACP())+
+              ",\"append_total\":"+std::to_string(journal_append_total)+",\"appends\":[";
+          for (uint64_t i = 0; i < std::min<uint64_t>(journal_append_total,journal_appends.size()); ++i) {
+              const auto& v = journal_appends[size_t(i)]; if (i) fields += ',';
+              fields += "{\"tick_ms\":"+std::to_string(v.tick)+",\"entry\":"+std::to_string(v.entry)+
+                  ",\"code_page\":"+std::to_string(v.code_page)+",\"wide_length\":"+std::to_string(v.wide_length)+
+                  ",\"capacity\":"+std::to_string(v.capacity)+",\"result\":"+std::to_string(v.result)+
+                  ",\"error\":"+std::to_string(v.error)+",\"high_bytes\":"+std::to_string(v.high_bytes)+"}";
+          }
+          fields += "],\"flow_overflow\":"+std::to_string(flow_overflow)+",\"flows\":[";
+          bool first_flow = true;
+          for (const auto& v : flows) {
+              if (!v.flow) continue;
+              if (!first_flow) fields += ',';
+              first_flow = false;
+              const auto quad = [&](const uint64_t (&a)[4]) {
+                  return "["+std::to_string(a[0])+","+std::to_string(a[1])+","+std::to_string(a[2])+","+std::to_string(a[3])+"]";
+              };
+              fields += "{\"flow\":"+std::to_string(v.flow)+",\"caller\":"+std::to_string(v.caller)+
+                  ",\"widget\":"+std::to_string(v.widget)+",\"calls\":"+std::to_string(v.calls)+
+                  ",\"last_tick_ms\":"+std::to_string(v.last_tick)+",\"text_length\":"+std::to_string(v.text_length)+
+                  ",\"text_high\":"+std::to_string(v.text_high)+",\"text_fnv1a64\":"+std::to_string(v.text_hash)+
+                  ",\"layout\":"+quad(v.layout)+",\"bounds\":"+quad(v.bounds)+",\"glyph\":"+quad(v.glyph)+
+                  ",\"glyph_outside_paint\":"+std::to_string(v.glyph_outside_paint)+
+                  ",\"glyph_paint_caller\":"+std::to_string(v.glyph_paint_caller)+
+                  ",\"glyph_paint_owner\":"+std::to_string(v.glyph_paint_owner)+
+                  ",\"glyph_paint_widget\":"+std::to_string(v.glyph_paint_widget)+
+                  ",\"glyph_raster\":"+std::to_string(v.glyph_raster)+
+                  ",\"glyph_raster_size\":["+std::to_string(v.glyph_raster_width)+","+std::to_string(v.glyph_raster_height)+"]}";
+          }
+          const auto callers = [&](const char* name, const std::array<CallerCount,32>& table) {
+              fields += ",\""+std::string(name)+"\":[";
+              bool first = true;
+              for (const auto& c : table) if (c.caller) {
+                  if (!first) fields += ',';
+                  first = false;
+                  fields += "["+std::to_string(c.caller)+","+std::to_string(c.count)+"]";
+              }
+              fields += ']';
+          };
+          fields += ']';
+          callers("glyph_callers",glyph_callers); callers("paint_callers",paint_callers); callers("queue_callers",queue_callers);
+          fields += ",\"caller_overflow\":"+std::to_string(caller_overflow)+"}";
+          life_count = 0; raster_fault_count = 0;
         }
         Exclusive io(io_gate); log->event(event,fields);
         if (log->failures()) fail(28);

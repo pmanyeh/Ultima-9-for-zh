@@ -54,6 +54,25 @@ struct RasterFault {
     uint32_t prior_plan = 0, prior_count = 0;
     uint64_t prior_identity = 0, prior_generation = 0, prior_paint = 0;
 };
+// P8-2 journal probe: observe-only evidence, never changes game output.
+struct JournalAppend {
+    uint64_t tick = 0;
+    int32_t entry = -1;          // matched plan entry, -1 when not allowlisted
+    uint32_t code_page = 0, wide_length = 0, capacity = 0, high_bytes = 0;
+    int32_t result = 0;
+    uint32_t error = 0;
+};
+struct FlowProbe {
+    uintptr_t flow = 0, caller = 0, widget = 0, text = 0;
+    uintptr_t buffers[3]{};      // flow+0x34 (4 KiB), +0x38 (64 KiB), +0x3C (32 KiB)
+    uint32_t text_length = 0, text_high = 0;
+    uint64_t text_hash = 0, calls = 0, last_tick = 0;
+    uint64_t layout[4]{}, bounds[4]{}, glyph[4]{}; // by range: text, +0x34, +0x38, +0x3C
+    uintptr_t glyph_paint_caller = 0, glyph_paint_owner = 0, glyph_paint_widget = 0, glyph_raster = 0;
+    uint32_t glyph_raster_width = 0, glyph_raster_height = 0;
+    uint64_t glyph_outside_paint = 0;
+};
+struct CallerCount { uintptr_t caller = 0; uint64_t count = 0; };
 struct Engine {
     Pack pack;
     Registry registry;
@@ -95,6 +114,14 @@ struct Engine {
     std::array<EntryStats, MaxPlans> stats{};
     std::array<RasterBinding, 64> rasters{};
     std::array<QueueBinding, 128> queues{};
+    std::array<JournalAppend,16> journal_appends{};
+    uint64_t journal_append_total = 0;
+    std::array<FlowProbe,32> flows{};
+    uint64_t flow_overflow = 0;
+    std::array<CallerCount,32> glyph_callers{}, paint_callers{}, queue_callers{};
+    uint64_t caller_overflow = 0;
+    void count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept;
+    void probe_flow_source(uintptr_t source, uint32_t stage) noexcept;
     bool begin() noexcept;
     void fail(uint32_t code) noexcept;
     void install(const Config& config, Logger& logger);
