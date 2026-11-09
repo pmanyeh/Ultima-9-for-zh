@@ -487,7 +487,8 @@ class CapabilityAndBuildTests(unittest.TestCase):
                 self.assertTrue(entry[name]["evidence"], (resource, name))
                 if entry[name]["status"] == "UNKNOWN":
                     self.assertFalse(entry[name]["value"], (resource, name))
-        self.assertFalse(caps["resources"]["BOOKS-EN.FLX"]["unicode_runtime"]["value"])
+        # P9-4: Chinese books run through the game's UTF-16 reader and runtime book plans (in-game PASS).
+        self.assertTrue(caps["resources"]["BOOKS-EN.FLX"]["unicode_runtime"]["value"])
         self.assertEqual(caps["runtime"]["font"]["sha256"],
                          "dce08bd4fd91aa8aa76ed8fea4b694c2dfb8550f67871e326843212ddbeb88b4")
 
@@ -514,7 +515,9 @@ class CapabilityAndBuildTests(unittest.TestCase):
         env = Env(books)
         try:
             a = env.analyze()
-            self.assertEqual(a.excluded[0]["reason"], "Unicode runtime unsupported for this resource family")
+            # P9-4: a Chinese book is a runtime record (pack v4 book plan), no longer an unsupported family.
+            self.assertEqual(a.excluded, [])
+            self.assertEqual([r["key"] for r in a.runtime], ["BOOKS-EN.FLX:0"])
         finally:
             env.close()
         ascii_book = [rec("BOOKS-EN.FLX", 0, "`f2Synthetic heading\r\n`f1Edited.`pPage two.",

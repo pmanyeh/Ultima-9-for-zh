@@ -193,7 +193,7 @@ def analyze(paths=None, game_dir=None, metrics_provider=None, profile="developme
                 a.excluded.append({"key": record["key"], "status": record["status"], "reason": reason})
             continue
         a.included.setdefault(resource, []).append(record)
-        if resource == "TYPENAME.FLX" or (resource == "text.flx" and non_ascii):
+        if resource == "TYPENAME.FLX" or (resource in ("text.flx", "BOOKS-EN.FLX") and non_ascii):
             a.runtime.append(record)
 
     # Renderer capability and font / layout QA on what would enter the runtime.
@@ -316,7 +316,9 @@ def build(a, output, game_dir=None):
         if "text.flx" not in outputs and "text.flx" not in a.game:
             raise ValueError("runtime pack requires the text.flx hash")
         names = outputs.get("TYPENAME.FLX")
-        pack = encode_pack(a.runtime, text_hash, hashlib.sha256(names).hexdigest() if names else None)
+        books = outputs.get("BOOKS-EN.FLX")
+        pack = encode_pack(a.runtime, text_hash, hashlib.sha256(names).hexdigest() if names else None,
+                           hashlib.sha256(books).hexdigest() if books else None)
         files["runtime/allowlist.u9ct"] = pack
         a.glyphs["generated_pack_sha256"] = hashlib.sha256(pack).hexdigest()
     report = qa_report(a)
@@ -336,7 +338,7 @@ def build(a, output, game_dir=None):
         **a.hashes,
         "resource_output_sha256": {r: hashlib.sha256(d).hexdigest() for r, d in outputs.items()},
         "runtime_pack_sha256": hashlib.sha256(pack).hexdigest() if pack else None,
-        "runtime_pack_version": (3 if any(r["resource"] == "TYPENAME.FLX" for r in a.runtime) else 2) if pack else None,
+        "runtime_pack_version": int.from_bytes(pack[8:12], "little") if pack else None,
         "translation_counts_by_status": report["records_by_status"],
         "translation_counts_by_resource": report["records_by_resource"],
         "included_by_resource": report["included_by_resource"],

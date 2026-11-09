@@ -26,9 +26,9 @@
       "source_unit": "raw body bytes after the title and body-length fields",
       "decode": {"value": true, "status": "CONFIRMED", "evidence": "docs/formats/U9-BOOKS-NOTES.md"},
       "roundtrip": {"value": "byte-perfect", "status": "CONFIRMED", "evidence": "reports/P6S2_REPRESENTATIVE_SURFACES.md (221316 bytes, 0 differences)"},
-      "translate_build": {"value": "ascii-only", "status": "CONFIRMED", "evidence": "reports/P6S2_REPRESENTATIVE_SURFACES.md (BOOKS-EN:182 ASCII single edit RUNTIME PASS)"},
-      "unicode_runtime": {"value": false, "status": "UNKNOWN", "evidence": "reports/P6S2_REPRESENTATIVE_SURFACES.md (book Unicode render path UNKNOWN; Chinese NOT EXECUTED)"},
-      "notes": "Chinese book records stay in the canonical store with runtime_supported=false and are excluded from every runtime build."
+      "translate_build": {"value": "utf16-bom", "status": "CONFIRMED", "evidence": "reports/P9_4_BOOKS_POC.md (reader 0x42E560 BOM branch; writer u9cht/books.py encode_body; game loaded the rebuilt archive)"},
+      "unicode_runtime": {"value": true, "status": "CONFIRMED", "evidence": "reports/P9_4_BOOKS_POC.md (books 182 and 233 rendered in Chinese in game)"},
+      "notes": "Chinese bodies are stored as FF FE + UTF-16LE + one NUL unit; runtime pack v4 carries each exact book plan."
     },
     "misctext.flx": {
       "adapter": null,

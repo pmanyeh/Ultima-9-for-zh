@@ -13,11 +13,13 @@ from fractions import Fraction
 from ..flx import digest
 
 RUNTIME_CONTRACT = {
-    "runtime": "U9ChtRuntime/0.2.15-p9-3",
+    "runtime": "U9ChtRuntime/0.2.18-p9-4c",
     "magic": "U9CTP51",
-    "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans"},
+    "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans",
+                      "4": "text.flx, TYPENAME and UTF-16 BOOKS-EN plans"},
     "max_plans": 16384,
     "max_plan_utf16_units": 512,
+    "max_book_plan_utf16_units": 8192,
     "max_glyph_scalars": 8192,
     "glyph_cache_capacity": 16384,
     "raster_sizes_px": [20, 40],
@@ -26,7 +28,10 @@ RUNTIME_CONTRACT = {
     "custom_logical_advance": 16,
     "custom_scalar_ranges": [[0x2015, 0x2015], [0x2026, 0x2026], [0x3000, 0x303F], [0x3400, 0x9FFF], [0xFF01, 0xFF60]],
     "native_ascii_range": [32, 126],
-    "newline_allowed": {"text.flx": True, "TYPENAME.FLX": False},
+    "newline_allowed": {"text.flx": True, "TYPENAME.FLX": False, "BOOKS-EN.FLX": True},
+    # Book bodies keep their source paragraph CRLF and tabs; the game's reader converts them.
+    "extra_controls": {"BOOKS-EN.FLX": [9, 13]},
+    "book_domain": 0x20000000,
     "name_domain": 0x10000000,
     "name_entry_max": 8191,
     "name_marker": "U9T%04X",
@@ -37,6 +42,8 @@ RUNTIME_CONTRACT = {
 def contract_sha256(contract=RUNTIME_CONTRACT):
     return hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
+
+BOOK_DOMAIN = RUNTIME_CONTRACT["book_domain"]
 
 # Above every text.flx slot and below the v3 limit of 65536 text entries.
 FILLER_ENTRY_BASE = 40000
@@ -59,8 +66,11 @@ def scalar_class(scalar):
 def runtime_scalar_issues(resource, text):
     """Characters the bounded native pack cannot carry (renderer capability)."""
     bad = []
+    extra = RUNTIME_CONTRACT["extra_controls"].get(resource, ())
     for ch in text:
         o = ord(ch)
+        if o in extra:
+            continue
         if ch == "\n":
             if not RUNTIME_CONTRACT["newline_allowed"].get(resource, False):
                 bad.append(o)
@@ -103,6 +113,10 @@ def plan_entry(record):
         if entry_id > RUNTIME_CONTRACT["name_entry_max"]:
             raise ValueError(f"{record['key']}: outside measured name family")
         return RUNTIME_CONTRACT["name_domain"] | entry_id
+    if resource == "BOOKS-EN.FLX":
+        if entry_id > 0xFFFF:
+            raise ValueError(f"{record['key']}: outside book family")
+        return BOOK_DOMAIN | entry_id
     raise ValueError(f"{record['key']}: resource has no runtime pack domain")
 
 
@@ -133,30 +147,37 @@ def capacity_issues(records, scalars):
         problems.append(f"{rasters} prewarmed rasters exceed glyph cache capacity {c['glyph_cache_capacity']}")
     for record in records:
         units = len(record["target"].encode("utf-16-le")) // 2
-        if units > c["max_plan_utf16_units"]:
+        limit = c["max_book_plan_utf16_units"] if record.get("resource") == "BOOKS-EN.FLX" else c["max_plan_utf16_units"]
+        if units > limit:
             problems.append(f"{record['key']}: {units} UTF-16 units exceed plan limit")
     return problems
 
 
-def encode_pack(records, text_sha256, typename_sha256=None):
-    """Encode the existing v2 (text only) or v3 (text + names) pack format."""
+def encode_pack(records, text_sha256, typename_sha256=None, books_sha256=None):
+    """Encode v2 (text only), v3 (text + names) or v4 (text, names and books)."""
     shared = shared_text_targets(records)
     plans = sorted(((plan_entry(r), r["target"]) for r in records if r["key"] not in shared),
                    key=lambda p: p[0])
-    has_names = any(e & RUNTIME_CONTRACT["name_domain"] for e, _ in plans)
+    has_names = any(e & 0xF0000000 == RUNTIME_CONTRACT["name_domain"] for e, _ in plans)
+    has_books = any(e & 0xF0000000 == BOOK_DOMAIN for e, _ in plans)
     scalars = sorted({ord(ch) for _, t in plans for ch in t if ord(ch) >= 128})
     problems = capacity_issues(records, scalars)
     if problems:
         raise ValueError("; ".join(problems))
     if any(not is_custom(s) for s in scalars):
         raise ValueError("scalar outside native custom ranges")
-    version = 3 if has_names else 2
+    version = 4 if has_books else 3 if has_names else 2
     pack = bytearray(b"U9CTP51\0" + struct.pack("<II", version, len(plans)))
     pack += text_sha256.encode("ascii")
-    if has_names:
-        if typename_sha256 is None:
-            raise ValueError("name plans require the installed TYPENAME hash")
+    if has_names and typename_sha256 is None:
+        raise ValueError("name plans require the installed TYPENAME hash")
+    if has_books and books_sha256 is None:
+        raise ValueError("book plans require the installed BOOKS-EN hash")
+    if version == 3:
         pack += typename_sha256.encode("ascii")
+    elif version == 4:
+        # v4: TYPENAME hash (64 zeros when no names are selected), then the BOOKS-EN hash.
+        pack += (typename_sha256 or "0" * 64).encode("ascii") + books_sha256.encode("ascii")
     pack += struct.pack("<I", len(scalars)) + struct.pack(f"<{len(scalars)}I", *scalars)
     for entry, target in plans:
         data = target.encode("utf-16-le")
@@ -209,12 +230,14 @@ def decode_pack(pack):
     if pack[:8] != b"U9CTP51\0":
         raise ValueError("not a U9CTP51 pack")
     version, count = struct.unpack_from("<II", pack, 8)
-    if version not in (2, 3):
+    if version not in (2, 3, 4):
         raise ValueError(f"unsupported pack version {version}")
     text_hash = pack[16:80].decode("ascii")
     at, name_hash = 80, None
-    if version == 3:
+    if version >= 3:
         name_hash, at = pack[80:144].decode("ascii"), 144
+    if version == 4:
+        at = 208
     glyphs = struct.unpack_from("<I", pack, at)[0]
     scalars = list(struct.unpack_from(f"<{glyphs}I", pack, at + 4))
     at += 4 + glyphs * 4

@@ -9,11 +9,36 @@ import struct
 from .flx import Archive, FormatError, digest
 
 TOKENS = re.compile(rb"`[fF][0-9]|`[pP]|\r\n|\x00")
+TEXT_TOKENS = re.compile(r"`[fF][0-9]|`[pP]|\r\n|\x00")
+# P9-4 (CONFIRMED by disassembly of the book reader 0x42E560): a body that begins with the UTF-16LE BOM is
+# converted from UTF-16 by the game itself. The reader overwrites the final UTF-16 unit with NUL, so a
+# Unicode body always ends with one explicit NUL unit that is not part of the text.
+UTF16_BOM = b"\xff\xfe"
 
 
 def ascii_body(raw):
     return (raw.decode("ascii") if all(32 <= b < 127 or b in (0, 9, 10, 13)
                                       for b in raw) else None)
+
+
+def unicode_body(raw):
+    """Text of a BOM-marked UTF-16LE body that ends with its NUL unit, else None."""
+    if not raw.startswith(UTF16_BOM) or len(raw) % 2 or len(raw) < 4 or raw[-2:] != b"\0\0":
+        return None
+    try:
+        text = raw[2:-2].decode("utf-16-le", errors="strict")
+    except UnicodeDecodeError:
+        return None
+    return text if "\0" not in text else None
+
+
+def encode_body(text):
+    """ASCII bodies keep the original single-byte form; anything else uses the game's UTF-16 book format."""
+    if all(32 <= ord(c) < 127 or c in "\t\n\r\0" for c in text):
+        return text.encode("ascii")
+    if "\0" in text:
+        raise FormatError("NUL inside a Unicode book body")
+    return UTF16_BOM + text.encode("utf-16-le", errors="strict") + b"\0\0"
 
 
 class BookArchive(Archive):
@@ -43,7 +68,9 @@ class BookArchive(Archive):
             self.records.append({"id": entry.index, "offset": entry.offset,
                                  "raw_size": entry.length, "title_length": n,
                                  "title_ascii": label, "body_length": m,
-                                 "body_hex": body.hex(), "body_ascii": ascii_body(body)})
+                                 "body_hex": body.hex(), "body_ascii": ascii_body(body),
+                                 "body_text": ascii_body(body) if ascii_body(body) is not None
+                                 else unicode_body(body)})
 
     def export(self):
         return {"format": "u9-books-ascii-selection-v1", "source_sha256": digest(self.data),
@@ -69,12 +96,24 @@ class BookArchive(Archive):
                 raise FormatError("duplicate or invalid book ID")
             seen.add(index)
             original = expected[index]
-            for key in original.keys()-{"body_ascii"}:
+            for key in original.keys()-{"body_ascii", "body_text"}:
                 if type(row[key]) is not type(original[key]) or row[key] != original[key]:
                     raise FormatError(f"book {index}: metadata mismatch: {key}")
             text = row["body_ascii"]
             old = self.data[original["offset"]:original["offset"]+original["raw_size"]]
-            if text == original["body_ascii"]:
+            unicode_edit = row["body_text"] != original["body_text"]
+            if unicode_edit and text != original["body_ascii"]:
+                raise FormatError(f"book {index}: body_ascii and body_text both changed")
+            if unicode_edit:
+                new = row["body_text"]
+                if original["body_text"] is None or not isinstance(new, str):
+                    raise FormatError("opaque book body is not editable")
+                if TEXT_TOKENS.findall(original["body_text"]) != TEXT_TOKENS.findall(new):
+                    raise FormatError("book font/page/CRLF/NUL control-token mismatch")
+                body = encode_body(new)
+                title_end = 4+original["title_length"]
+                raw = old[:title_end]+struct.pack("<I", len(body))+body
+            elif text == original["body_ascii"]:
                 raw = old
             else:
                 if original["body_ascii"] is None or not isinstance(text, str):

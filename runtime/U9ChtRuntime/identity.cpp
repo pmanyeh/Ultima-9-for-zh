@@ -21,9 +21,9 @@ int find_indexed(const std::vector<PlanIndex>& index, uint32_t hash, Equal equal
 }
 }
 void Pack::load(const std::filesystem::path& path, bool render) {
-    count = glyph_count = 0; plans.clear(); scalars = {}; has_names = false;
-    text_index_.clear(); name_index_.clear();
-    resource_hash.clear(); typename_hash.clear();
+    count = glyph_count = 0; plans.clear(); scalars = {}; has_names = has_books = false;
+    text_index_.clear(); name_index_.clear(); book_index_.clear();
+    resource_hash.clear(); typename_hash.clear(); books_hash.clear();
     std::ifstream in(path, std::ios::binary);
     require(bool(in), "allowlist open failed");
     auto read = [&](void* out, size_t size) {
@@ -32,7 +32,7 @@ void Pack::load(const std::filesystem::path& path, bool render) {
     };
     char magic[8]{}; uint32_t version = 0, requested = 0;
     read(magic, 8); read(&version, 4); read(&requested, 4);
-    require(std::memcmp(magic, "U9CTP51\0", 8) == 0 && (version == 1 || ((version == 2 || version == 3) && render)) &&
+    require(std::memcmp(magic, "U9CTP51\0", 8) == 0 && (version == 1 || (version >= 2 && version <= 4 && render)) &&
             requested && requested <= (version == 1 ? 16 : MaxPlans),
             "invalid allowlist header");
     char hash[64]; read(hash, 64);
@@ -41,11 +41,18 @@ void Pack::load(const std::filesystem::path& path, bool render) {
         require((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'), "invalid resource hash");
         resource_hash += static_cast<wchar_t>(c);
     }
-    if (version == 3) {
+    if (version >= 3) {
         read(hash,64);
         for (char c : hash) {
             require((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'), "invalid typename hash");
             typename_hash += static_cast<wchar_t>(c);
+        }
+    }
+    if (version == 4) {
+        read(hash,64);
+        for (char c : hash) {
+            require((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'), "invalid books hash");
+            books_hash += static_cast<wchar_t>(c);
         }
     }
     if (version >= 2) {
@@ -61,8 +68,10 @@ void Pack::load(const std::filesystem::path& path, bool render) {
     plans.resize(requested);
     for (uint32_t i = 0; i < requested; ++i) {
         auto& p = plans[i]; read(&p.entry, 4); read(&p.length, 4);
-        if (version == 3) {
-            require(p.entry < 65536 || (p.entry & 0xFFFFE000) == NameDomain, "invalid resource domain/entry");
+        if (version >= 3) {
+            require(p.entry < 65536 || (p.entry & 0xFFFFE000) == NameDomain ||
+                    (version == 4 && (p.entry & 0xFFFF0000) == BookDomain), "invalid resource domain/entry");
+            if (p.is_book()) has_books = true;
             if (p.is_name()) {
                 has_names = true;
                 p.marker[0] = 'U'; p.marker[1] = '9'; p.marker[2] = 'T';
@@ -70,7 +79,7 @@ void Pack::load(const std::filesystem::path& path, bool render) {
                 for (uint32_t j = 0; j < 4; ++j) p.marker[3+j] = hex[(p.entry >> ((3-j)*4)) & 15];
             }
         }
-        require(p.length && p.length <= MaxText, "invalid allowlist text length");
+        require(p.length && p.length <= (p.is_book() ? MaxBookText : MaxText), "invalid allowlist text length");
         p.wide.assign(size_t(p.length)+1,0); p.slots.assign(size_t(p.length)+1,0); p.advances.assign(size_t(p.length)+1,0);
         read(p.wide.data(), size_t(p.length)*2);
         for (uint32_t j = 0; j < p.length; ++j) {
@@ -79,6 +88,7 @@ void Pack::load(const std::filesystem::path& path, bool render) {
             const auto it = std::lower_bound(begin,end,uint32_t(c));
             const bool listed = version >= 2 && it != end && *it == c;
             require((c >= 32 && c < 127) || (version >= 2 && c == '\n' && !p.is_name()) ||
+                    (p.is_book() && (c == '\r' || c == '\t')) ||
                     (render && (listed || (version == 1 && (c == 0x4E2D || c == 0x6587)))),
                     "unsupported scalar/control in bounded corpus");
             if (listed) used[size_t(it-begin)] = true;
@@ -91,14 +101,16 @@ void Pack::load(const std::filesystem::path& path, bool render) {
     std::vector<PlanIndex> text_index, name_index;
     for (uint32_t i = 0; i < requested; ++i) {
         const auto& p = plans[i]; entries.push_back(p.entry);
-        if (!p.is_name()) text_index.push_back({fnv1a(p.wide.data(),size_t(p.length)*2),i});
-        else if (version == 3) name_index.push_back({fnv1a(p.marker.data(),7),i});
+        if (p.is_book()) book_index_.push_back({fnv1a(p.wide.data(),size_t(p.length)*2),i});
+        else if (!p.is_name()) text_index.push_back({fnv1a(p.wide.data(),size_t(p.length)*2),i});
+        else if (version >= 3) name_index.push_back({fnv1a(p.marker.data(),7),i});
     }
     std::sort(entries.begin(),entries.end());
     require(std::adjacent_find(entries.begin(),entries.end()) == entries.end(), "duplicate allowlist entry");
     const auto by_hash = [](const PlanIndex& a, const PlanIndex& b) { return a.hash != b.hash ? a.hash < b.hash : a.plan < b.plan; };
     std::sort(text_index.begin(),text_index.end(),by_hash);
     std::sort(name_index.begin(),name_index.end(),by_hash);
+    std::sort(book_index_.begin(),book_index_.end(),by_hash);
     // Identical text always shares a hash, so only equal-hash neighbours can collide.
     for (size_t i = 0; i < text_index.size(); ++i)
         for (size_t j = i+1; j < text_index.size() && text_index[j].hash == text_index[i].hash; ++j) {
@@ -108,6 +120,7 @@ void Pack::load(const std::filesystem::path& path, bool render) {
         }
     require(in.peek() == std::char_traits<char>::eof(), "trailing allowlist bytes");
     require(version != 3 || has_names, "name pack has no selected names");
+    require(version != 4 || has_books, "book pack has no selected books");
     text_index_ = std::move(text_index); name_index_ = std::move(name_index);
     count = requested;
 }
@@ -117,6 +130,12 @@ int Pack::match(const wchar_t* text) const noexcept {
     while (length <= MaxText && text[length]) ++length;
     if (length > MaxText) return -1;
     return find_indexed(text_index_,fnv1a(text,length*2),[&](uint32_t i) {
+        return length == plans[i].length && std::memcmp(text, plans[i].wide.data(), length*2) == 0;
+    });
+}
+int Pack::match_book(const wchar_t* text, size_t length) const noexcept {
+    if (!has_books || !text || !length || length > MaxBookText) return -1;
+    return find_indexed(book_index_,fnv1a(text,length*2),[&](uint32_t i) {
         return length == plans[i].length && std::memcmp(text, plans[i].wide.data(), length*2) == 0;
     });
 }

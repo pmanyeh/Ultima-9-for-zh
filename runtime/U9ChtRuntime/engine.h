@@ -141,7 +141,11 @@ struct Engine {
     std::array<InkProbe,16> inks{};
     uint32_t ink_count = 0;
     std::array<uint16_t,SampleSize*SampleSize> probe_a{}, probe_b{};
-    std::array<JournalBuffer,4> journal_buffers{};
+    std::array<JournalBuffer,8> journal_buffers{};
+    // P9-4 books: the plan converted at 0x42E64A, consumed by the next flow initializer.
+    int pending_book = -1;
+    uint64_t book_converts = 0, book_short = 0, book_bound = 0, book_mismatch = 0, book_width_overrides = 0;
+    bool bind_book(uintptr_t text, uint32_t length, uint32_t plan) noexcept;
     uint32_t journal_next = 0;
     uint64_t journal_markers = 0, journal_marker_short = 0, journal_expansions = 0, journal_spans = 0;
     uint64_t journal_width_overrides = 0, journal_breaks_dropped = 0, journal_spaces_kept = 0, journal_leading_applied = 0;

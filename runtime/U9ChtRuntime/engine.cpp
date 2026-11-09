@@ -97,6 +97,24 @@ int WINAPI wide_hook(UINT cp, DWORD flags, LPCWCH wide, int length, LPSTR out, i
         SetLastError(error);
         return result;
     }
+    if (guard.state && reinterpret_cast<uintptr_t>(_ReturnAddress()) == BookConvertReturn && length == -1 && wide) {
+        // P9-4: the book reader 0x42E560 converts a BOM-marked UTF-16 body. An exactly matching book plan is
+        // written as its slot string (CJK -> 0x7F); the next flow initializer maps each slot back to its scalar.
+        auto& e = *guard.state;
+        const auto n = wcsnlen(wide, MaxBookText+1);
+        const int plan = e.render && n <= MaxBookText ? e.pack.match_book(wide, n) : -1;
+        if (plan >= 0) {
+            const auto& p = e.pack.plans[size_t(plan)];
+            Exclusive lock(e.mutex);
+            if (out && capacity >= int(p.length+1)) {
+                std::memcpy(out, p.slots.data(), p.length+1);
+                if (used) *used = FALSE;
+                e.pending_book = plan; ++e.book_converts;
+                return int(p.length+1);
+            }
+            ++e.book_short;
+        }
+    }
     if (guard.state && reinterpret_cast<uintptr_t>(_ReturnAddress()) == 0x615B7C &&
         length == -1 && constructor_depth && constructor_depth <= constructors.size()) {
         auto& e = *guard.state;
@@ -138,6 +156,10 @@ uintptr_t __fastcall ctor_hook(uintptr_t self, void*, uintptr_t a, uintptr_t b, 
 }
 struct FlowText { uintptr_t text = 0; uint32_t length = 0, high = 0; uint64_t hash = 14695981039346656037ULL; };
 // Reads `*text_ref` under SEH: the caller passes a char** whose target is game-owned.
+bool copy_guarded(uintptr_t source, char* out, uint32_t n) noexcept {
+    __try { std::memcpy(out,reinterpret_cast<const void*>(source),n); return true; }
+    __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+}
 bool read_flow_text(uintptr_t text_ref, FlowText& t) noexcept {
     __try {
         if (!text_ref) return true;
@@ -223,9 +245,15 @@ bool probe_ink(uintptr_t raster, InkProbe& ink, const ProbeBuffers& q) noexcept 
                 if (k == distinct) { if (distinct == 32) continue; values[distinct++] = v; }
                 ++counts[k];
             }
-            uint32_t best = 0;
-            for (uint32_t k = 1; k < distinct; ++k) if (counts[k] > counts[best]) best = k;
-            if (!distinct || counts[best] < 3) continue;
+            // P9-4: book fonts are anti-aliased; their glyphs carry several shades with light edge tones.
+            // The ink is the darkest shade that recurs (luminance from 5-bit fields; the order is the same
+            // for RGB555 and RGB565). A single-shade journal font yields its only value as before.
+            const auto luma = [&](uint32_t v) { return sixteen ? 2*((v>>10)&31)+5*((v>>5)&31)+(v&31) : v; };
+            int32_t pick = -1;
+            for (uint32_t k = 0; k < distinct; ++k)
+                if (counts[k] >= 2 && (pick < 0 || luma(values[k]) < luma(values[uint32_t(pick)]))) pick = int32_t(k);
+            if (pick < 0) continue;
+            const uint32_t best = uint32_t(pick);
             int32_t px = -1, py = -1; uint32_t enclosed = 0;
             for (uint32_t y = 1; y+1 < size; ++y) for (uint32_t x = 1; x+1 < size; ++x) {
                 bool solid = false;
@@ -259,6 +287,12 @@ uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_
         leading = guard.state->expand_journal(text_ref,t.text,t.length) && guard.state->journal_line;
         t = {}; readable = read_flow_text(text_ref,t);
     }
+    {   // P9-4: a book converted just before this call (0x42E560 -> strdup -> 0x5C7620).
+        int book = -1;
+        { Exclusive lock(guard.state->mutex); book = guard.state->pending_book; guard.state->pending_book = -1; }
+        if (book >= 0 && readable && t.text && t.length && guard.state->bind_book(t.text,t.length,uint32_t(book)))
+            leading = leading || guard.state->journal_line;
+    }
     // P9-2: line positions are computed inside this initializer (0x5C6B10) from font record +8 (extra line
     // spacing). Raise it for every font record only while the journal is laid out, then restore it.
     if (leading) {
@@ -279,6 +313,21 @@ uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_
     for (auto& f : e.flows) if (f.flow == self && f.caller == caller) { slot = &f; break; }
     if (!slot) for (auto& f : e.flows) if (!f.flow) { slot = &f; *slot = {}; slot->flow = self; slot->caller = caller; break; }
     if (!slot) { ++e.flow_overflow; return result; }
+    // P9-4 observe: identify which flow callers carry readable books. A new (caller, text) pair logs its
+    // length, hash and first bytes (local log only); output is unchanged.
+    if (readable && t.text && t.length && (slot->calls == 0 || slot->text_hash != t.hash)) {
+        char head[49]{}; const auto n = std::min<uint32_t>(t.length,48);
+        if (copy_guarded(t.text,head,n)) {
+            std::string shown;
+            for (uint32_t i = 0; i < n; ++i) {
+                const auto c = uint8_t(head[i]);
+                if (c >= 32 && c < 127 && c != '"' && c != '\\') shown += char(c);
+                else { char hex[8]; std::snprintf(hex,sizeof hex,"\\\\x%02X",c); shown += hex; }
+            }
+            e.log->event("flow_text","\"caller\":"+std::to_string(caller)+",\"length\":"+std::to_string(t.length)+
+                ",\"high\":"+std::to_string(t.high)+",\"fnv1a64\":"+std::to_string(t.hash)+",\"head\":\""+shown+"\"");
+        }
+    }
     slot->widget = widget; slot->text = readable ? t.text : 0;
     slot->text_length = t.length; slot->text_high = t.high; slot->text_hash = readable ? t.hash : 0;
     slot->buffers[0] = word(self+0x34); slot->buffers[1] = word(self+0x38); slot->buffers[2] = word(self+0x3C);
@@ -469,7 +518,19 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                     ++stats.width_overrides;
                 }
             }
-        } else e.probe_flow_source(stage == 1 ? f->ebp : f->edi, stage);
+        } else {
+            // P9-4: book pages measure through these points; widths of verified book slots follow the journal rule.
+            uint32_t offset = 0, lead = 0; uint8_t previous = 0;
+            const auto source = stage == 1 ? f->ebp : f->edi;
+            const int plan = e.render && e.texture_enabled ? e.journal_locate(source,offset,&previous) : -1;
+            if (plan >= 0 && e.pack.plans[size_t(plan)].wide[offset] >= 128) {
+                const auto font = stage == 1 ? f->ecx : f->edx;
+                const auto record = stage == 1 ? f->esi : f->ecx;
+                const auto metric = logical_metric(word(record+4),e.journal_advance(previous,e.pack.plans[size_t(plan)].advances[offset],lead));
+                if (!metric) e.fail(16);
+                else { metric_header[0] = metric; f->eax = reinterpret_cast<uintptr_t>(metric_header.data())-font; ++e.book_width_overrides; }
+            } else e.probe_flow_source(source, stage);
+        }
     } else if (stage == 6 || stage == 7) {
         // P9-2: journal line breaking (0x5C6B10). Stage 6 = word measure 0x5C6378 (text ESI, font ECX,
         // record EDX); stage 7 = overlong-word character trim 0x5C6F5A (text EBX, font EDX, record ECX).
@@ -758,6 +819,28 @@ int Engine::journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous
 }
 // J2 display side: replaces each `U9J<entry>` line ending with the plan's slot string, in a new buffer from
 // the game allocator; the old copy is freed with the game's free. Called without the engine lock held.
+// P9-4: maps the k-th 0x7F slot of a converted book's flow text to the k-th non-ASCII scalar of its plan.
+// The game's markup pass only compacts bytes, so order is preserved; a count mismatch binds nothing.
+bool Engine::bind_book(uintptr_t text, uint32_t length, uint32_t plan) noexcept {
+    try {
+        const auto& p = pack.plans[plan];
+        std::vector<JournalSegment> segments; segments.reserve(p.length);
+        std::vector<uint32_t> wides;
+        for (uint32_t i = 0; i < p.length; ++i) if (p.wide[i] >= 128) wides.push_back(i);
+        std::vector<char> copy(length);
+        if (!copy_guarded(text,copy.data(),length)) return false;
+        for (uint32_t i = 0, k = 0; i < length; ++i) if (uint8_t(copy[i]) == 0x7F) {
+            if (k >= wides.size()) { Exclusive lock(mutex); ++book_mismatch; return false; }
+            segments.push_back({i,plan,wides[k++],1});
+        }
+        if (segments.size() != wides.size()) { Exclusive lock(mutex); ++book_mismatch; return false; }
+        Exclusive lock(mutex);
+        auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
+        b = {}; b.base = text; b.size = length+1; b.entries = 1; b.segments = std::move(segments);
+        ++book_bound;
+        return true;
+    } catch (...) { Exclusive lock(mutex); ++journal_alloc_failures; return false; }
+}
 bool Engine::expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept {
     try {
         const auto* s = reinterpret_cast<const char*>(text);
@@ -1037,6 +1120,8 @@ void Engine::install(const Config& config, Logger& logger) {
             "allowlist resource hash mismatch");
     if (pack.has_names) require(sha256(config_path(config.game_dir)/L"static"/L"TYPENAME.FLX") == pack.typename_hash,
                                 "allowlist typename hash mismatch");
+    if (pack.has_books) require(sha256(config_path(config.game_dir)/L"static"/L"BOOKS-EN.FLX") == pack.books_hash,
+                                "allowlist books hash mismatch");
     log->event("runtime_corpus", "\"mode\":\""+std::string(render?"render":"observe")+
         "\",\"resource_sha256\":\""+utf8(pack.resource_hash)+"\",\"entries\":"+std::to_string(pack.count));
     if (render) {
@@ -1267,7 +1352,9 @@ void Engine::snapshot(const char* event) noexcept {
           fields += ",\"caller_overflow\":"+std::to_string(caller_overflow)+"}";
           fields += ",\"texture\":{\"enabled\":"+std::string(texture_enabled?"true":"false")+
               ",\"markers\":"+std::to_string(journal_markers)+",\"marker_short\":"+std::to_string(journal_marker_short)+
-              ",\"expansions\":"+std::to_string(journal_expansions)+",\"spans\":"+std::to_string(journal_spans)+",\"width_overrides\":"+std::to_string(journal_width_overrides)+",\"breaks_dropped\":"+std::to_string(journal_breaks_dropped)+",\"spaces_kept\":"+std::to_string(journal_spaces_kept)+",\"leading_applied\":"+std::to_string(journal_leading_applied)+
+              ",\"expansions\":"+std::to_string(journal_expansions)+",\"spans\":"+std::to_string(journal_spans)+",\"width_overrides\":"+std::to_string(journal_width_overrides)+",\"breaks_dropped\":"+std::to_string(journal_breaks_dropped)+",\"book_converts\":"+std::to_string(book_converts)+",\"book_short\":"+std::to_string(book_short)+
+              ",\"book_bound\":"+std::to_string(book_bound)+",\"book_mismatch\":"+std::to_string(book_mismatch)+
+              ",\"book_width_overrides\":"+std::to_string(book_width_overrides)+",\"spaces_kept\":"+std::to_string(journal_spaces_kept)+",\"leading_applied\":"+std::to_string(journal_leading_applied)+
               ",\"unknown_markers\":"+std::to_string(journal_unknown_markers)+",\"stale\":"+std::to_string(journal_stale)+
               ",\"alloc_failures\":"+std::to_string(journal_alloc_failures)+",\"glyphs\":"+std::to_string(texture_glyphs)+
               ",\"pixels\":"+std::to_string(texture_pixels)+",\"faults\":"+std::to_string(texture_faults)+

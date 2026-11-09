@@ -11,6 +11,7 @@ import hashlib
 from dataclasses import dataclass
 
 from ..books import TOKENS, BookArchive
+from .runtime_pack import BOOK_DOMAIN
 from ..flx import FormatError, TextArchive, digest
 from ..representative import NAME_DOMAIN, name_marker
 from ..typename import TypeNameArchive
@@ -124,12 +125,13 @@ class TypeNameAdapter(Adapter):
 
 
 class BooksAdapter(Adapter):
-    """Only the empirically ASCII subset is buildable; Unicode is unverified."""
+    """ASCII bodies keep their form; Chinese bodies use the game's own UTF-16 book format (P9-4)."""
     resource = "BOOKS-EN.FLX"
     archive_class = BookArchive
-    editable_field = "body_ascii"
+    editable_field = "body_text"
     locked_fields = ("title_length", "title_ascii")
     unit_name = "body-bytes"
+    runtime_domain = BOOK_DOMAIN
 
     def units(self, data):
         archive = self.archive(data)
@@ -137,17 +139,13 @@ class BooksAdapter(Adapter):
         out = {}
         for r in archive.records:
             body = bytes.fromhex(r["body_hex"])
-            ascii_ok = r["body_ascii"] is not None
-            out[r["id"]] = SourceUnit(r["id"], r["body_ascii"], digest(body), len(body), ascii_ok,
-                                      None if ascii_ok else "opaque non-ASCII body",
+            ok = r["body_text"] is not None
+            out[r["id"]] = SourceUnit(r["id"], r["body_text"], digest(body), len(body), ok,
+                                      None if ok else "opaque non-text body",
                                       aliases[r["id"]])
         return out
 
     def stored(self, entry_id, target):
-        try:
-            target.encode("ascii")
-        except UnicodeEncodeError as error:
-            raise FormatError(f"BOOKS-EN.FLX:{entry_id}: Unicode book storage is unverified") from error
         return target
 
     def source_tokens(self, text):

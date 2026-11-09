@@ -156,6 +156,8 @@ def text_issues(key, resource, text):
         cat = unicodedata.category(ch)
         if ch == "\n":
             continue
+        if ch == "\t" and resource == "BOOKS-EN.FLX":
+            continue  # book sources indent paragraphs with tabs; the game's reader keeps them
         if ch == "\r":
             if resource == "BOOKS-EN.FLX" and text[i + 1:i + 2] == "\n":
                 continue

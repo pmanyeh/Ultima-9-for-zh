@@ -22,6 +22,29 @@ class BookTests(unittest.TestCase):
         self.assertIsNone(a.records[2]["body_ascii"])
         self.assertEqual(a.rebuild(a.export()), data)
 
+    def test_unicode_body_uses_bom_utf16_with_terminal_nul_unit(self):
+        # P9-4: the game's reader converts BOM-marked UTF-16 and overwrites the last unit with NUL.
+        a = BookArchive(fixture([book(), book(body=b"Opaque\x80")]))
+        d = a.export()
+        d["entries"][0]["body_text"] = "`f2標題\r\n`f1合成內文。`p下一頁。"
+        out = a.rebuild(d); b = BookArchive(out)
+        raw = bytes.fromhex(b.records[0]["body_hex"])
+        self.assertEqual(raw[:2], b"\xff\xfe"); self.assertEqual(raw[-2:], b"\0\0")
+        self.assertEqual(raw[2:-2].decode("utf-16-le"), d["entries"][0]["body_text"])
+        self.assertEqual(b.records[0]["body_text"], d["entries"][0]["body_text"])
+        self.assertIsNone(b.records[0]["body_ascii"])
+        self.assertEqual(a.payload(a.entries[1]), b.payload(b.entries[1]))
+        self.assertEqual(b.rebuild(b.export()), out)
+
+    def test_unicode_body_rejects_token_changes_and_double_edits(self):
+        a = BookArchive(fixture([book()]))
+        for mutate in (lambda r: r.update(body_text="`f2標題\r\n合成內文。`p下一頁。"),
+                       lambda r: r.update(body_text="`f2標題\r\n`f1合成內文。下一頁。"),
+                       lambda r: r.update(body_text="`f2標題\r\n`f1中\0文`p"),
+                       lambda r: r.update(body_text="`f2標題\r\n`f1中文`p", body_ascii="changed")):
+            d = a.export(); mutate(d["entries"][0])
+            with self.assertRaises(FormatError): a.rebuild(d)
+
     def test_single_body_edit_preserves_control_tokens_unknown_bytes_and_others(self):
         a = BookArchive(fixture([book(), book(body=b"Opaque\x80")]))
         d = a.export(); d["entries"][0]["body_ascii"] = d["entries"][0]["body_ascii"].replace("Heading", "U9_BOOK_PROBE")
