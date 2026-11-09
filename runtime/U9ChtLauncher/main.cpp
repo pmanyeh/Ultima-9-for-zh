@@ -44,7 +44,8 @@ std::vector<std::wstring> ini_list(const wchar_t* section, const std::filesystem
     return items;
 }
 std::map<std::wstring, std::wstring> read_settings(const std::filesystem::path& file) {
-    static const std::map<std::wstring, std::vector<std::wstring>> known = {{L"font", {L"file"}}};
+    static const std::map<std::wstring, std::vector<std::wstring>> known = {
+        {L"font", {L"file"}}, {L"journal", {L"letter_spacing", L"line_spacing"}}};
     need(std::filesystem::is_regular_file(file), "settings file not found");
     std::map<std::wstring, std::wstring> values;
     for (const auto& section : ini_list(nullptr, file)) {
@@ -125,8 +126,21 @@ int wmain(int argc, wchar_t** argv) {
             config.mode = mode == L"bootstrap" ? Mode::Bootstrap : mode == L"observe" ? Mode::Observe : Mode::Render;
         }
         copy_path(config.game_dir, game); copy_path(config.log_path, log_path);
+        // Journal defaults (P9-2): a little air around 16 px Chinese on the 256 px page texture.
+        config.journal_letter_spacing = 2; config.journal_line_spacing = 3;
         if (options.count(L"--config")) {
             const auto settings = read_settings(std::filesystem::canonical(options[L"--config"]));
+            auto number = [&](const wchar_t* key, uint32_t max, uint32_t& out) {
+                if (!settings.count(key)) return;
+                const auto& text = settings.at(key);
+                need(!text.empty() && text.size() <= 2 && std::all_of(text.begin(), text.end(), iswdigit),
+                     "settings: " + utf8(key) + " must be a whole number");
+                const auto value = uint32_t(std::stoul(text));
+                need(value <= max, "settings: " + utf8(key) + " must be 0.." + std::to_string(max));
+                out = value;
+            };
+            number(L"journal.letter_spacing", MaxJournalLetterSpacing, config.journal_letter_spacing);
+            number(L"journal.line_spacing", MaxJournalLineSpacing, config.journal_line_spacing);
             if (settings.count(L"font.file")) {
                 require(!options.count(L"--font"), "font given both by --font and by the settings file");
                 options[L"--font"] = settings.at(L"font.file");

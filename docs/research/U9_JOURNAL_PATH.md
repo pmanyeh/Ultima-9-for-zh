@@ -91,7 +91,7 @@ text-flow initializer `0x5C7620`, and caller tables. Game output was unchanged. 
 
 ## Unknowns
 
-- UNKNOWN: which function measures journal line widths (it is not a hooked width point).
+- RESOLVED (P9-2): journal line widths are measured in `0x5C6B10` (see above).
 - UNKNOWN: how the page texture is submitted. The only queue callers seen were `0x5CFDBB`,
   `0x5CFEC5` (both inside the paint-cache function) and `0x5620CA`.
 - UNKNOWN: how the text flow wraps text with no spaces. It may force breaks at byte level.
@@ -106,6 +106,17 @@ J2 plus the texture writer rendered entries 4078 and 4165 in Chinese on the 3D j
 - CONFIRMED: the page raster is 16-bit (type 2).
 - Remaining: the journal width measuring path is unhooked, so wrapping uses native `0x7F` widths and lines
   overflow the page.
+
+## Wrapping and spacing (P9-2, 2026-11-09)
+
+See `reports/P9_2_JOURNAL_WRAP_SPACING.md`.
+
+- CONFIRMED: the measuring path is the flow line breaker `0x5C6B10`, not the hooked bounds or layout points.
+  - Word measure: `0x5C62C0`, width lookup at `0x5C6378`.
+  - Overlong-word character trim: `0x5C6ED4` → `0x5C6EF6`, width lookup at `0x5C6F5A`.
+- CONFIRMED: once widths are correct, the native trim wraps space-free Chinese at the page edge.
+- CONFIRMED: line height = font blob `+4` + font record `+8`. Line positions are fixed when the flow is initialized.
+- Authored line breaks are dropped on expansion (English journal sources contain none). Expanded buffers have no entry limit.
 
 ## Consequence for the design
 

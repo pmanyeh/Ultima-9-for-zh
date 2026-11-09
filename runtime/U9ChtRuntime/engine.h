@@ -70,11 +70,14 @@ struct InkProbe {
     int32_t dx = 0, dy = 0;
     bool usable = false;
 };
-struct JournalSpan { uint32_t offset = 0, plan = 0; };
+// P9-2: one contiguous run of plan slots inside an expanded diary buffer. Authored line breaks are dropped
+// on expansion (English journal sources contain none; the native flow wraps to the page), so one entry
+// can yield several segments. Segments are sorted by buffer offset.
+struct JournalSegment { uint32_t offset = 0, plan = 0, plan_offset = 0, length = 0; };
 struct JournalBuffer {
     uintptr_t base = 0;
-    uint32_t size = 0, span_count = 0;
-    std::array<JournalSpan,64> spans{};
+    uint32_t size = 0, entries = 0;
+    std::vector<JournalSegment> segments;
 };
 struct FlowProbe {
     uintptr_t flow = 0, caller = 0, widget = 0, text = 0;
@@ -141,13 +144,16 @@ struct Engine {
     std::array<JournalBuffer,4> journal_buffers{};
     uint32_t journal_next = 0;
     uint64_t journal_markers = 0, journal_marker_short = 0, journal_expansions = 0, journal_spans = 0;
+    uint64_t journal_width_overrides = 0, journal_breaks_dropped = 0, journal_spaces_kept = 0, journal_leading_applied = 0;
+    uint32_t journal_letter = 0, journal_line = 0;
+    uint32_t journal_advance(uint8_t previous, uint32_t base, uint32_t& lead) const noexcept;
     uint64_t journal_unknown_markers = 0, journal_stale = 0, journal_alloc_failures = 0;
     uint64_t texture_glyphs = 0, texture_pixels = 0, texture_faults = 0;
     std::array<uint64_t,4> texture_rejects{}; // slot byte, metric, glyph cache, ink
     const InkProbe* ink_for(uintptr_t record, uintptr_t raster) noexcept;
     int plan_for_entry(uint32_t entry) const noexcept;
-    int journal_locate(uintptr_t source, uint32_t& offset) noexcept;
-    void expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept;
+    int journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous = nullptr) noexcept;
+    bool expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept;
     void count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept;
     void probe_flow_source(uintptr_t source, uint32_t stage) noexcept;
     bool begin() noexcept;

@@ -14,6 +14,8 @@ void* ctor_gateway = nullptr;
 void* copy_gateway = nullptr;
 void* layout_after = reinterpret_cast<void*>(0x5C7BBA);
 void* bounds_after = reinterpret_cast<void*>(0x5C5F62);
+void* journal_word_after = reinterpret_cast<void*>(0x5C637F);
+void* journal_trim_after = reinterpret_cast<void*>(0x5C6F61);
 void* glyph_gateway = nullptr;
 void* paint_gateway = nullptr;
 void* raster_begin_after = reinterpret_cast<void*>(0x5CFD56);
@@ -251,11 +253,27 @@ uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_
     FlowText t;
     bool readable = read_flow_text(text_ref,t);
     // P8-3: the journal page loader passes &page+0xC8, a game-allocated copy of diary.txt.
+    bool leading = false;
+    std::array<int32_t,64> saved_leading{}; uint32_t records = 0; uintptr_t table = 0;
     if (guard.state->render && caller == 0x426648 && readable && t.text && t.length) {
-        guard.state->expand_journal(text_ref,t.text,t.length);
+        leading = guard.state->expand_journal(text_ref,t.text,t.length) && guard.state->journal_line;
         t = {}; readable = read_flow_text(text_ref,t);
     }
+    // P9-2: line positions are computed inside this initializer (0x5C6B10) from font record +8 (extra line
+    // spacing). Raise it for every font record only while the journal is laid out, then restore it.
+    if (leading) {
+        table = word(0x1325A60); records = uint32_t(word(0x1325A64));
+        if (!table || records > saved_leading.size()) leading = false;
+        else for (uint32_t i = 0; i < records; ++i) {
+            auto* field = reinterpret_cast<int32_t*>(table+i*12+8);
+            saved_leading[i] = *field; *field += int32_t(guard.state->journal_line);
+        }
+    }
     const auto result = fn(self,widget,text_ref,a3,a4);
+    if (leading) {
+        for (uint32_t i = 0; i < records; ++i) *reinterpret_cast<int32_t*>(table+i*12+8) = saved_leading[i];
+        Exclusive lock(guard.state->mutex); ++guard.state->journal_leading_applied;
+    }
     auto& e = *guard.state; Exclusive lock(e.mutex);
     FlowProbe* slot = nullptr;
     for (auto& f : e.flows) if (f.flow == self && f.caller == caller) { slot = &f; break; }
@@ -452,17 +470,34 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                 }
             }
         } else e.probe_flow_source(stage == 1 ? f->ebp : f->edi, stage);
+    } else if (stage == 6 || stage == 7) {
+        // P9-2: journal line breaking (0x5C6B10). Stage 6 = word measure 0x5C6378 (text ESI, font ECX,
+        // record EDX); stage 7 = overlong-word character trim 0x5C6F5A (text EBX, font EDX, record ECX).
+        uint32_t offset = 0, lead = 0; uint8_t previous = 0;
+        const auto source = stage == 6 ? f->esi : f->ebx;
+        const int plan = e.render && e.texture_enabled ? e.journal_locate(source,offset,&previous) : -1;
+        if (plan >= 0 && e.pack.plans[size_t(plan)].wide[offset] >= 128) {
+            const auto font = stage == 6 ? f->ecx : f->edx;
+            const auto record = stage == 6 ? f->edx : f->ecx;
+            const auto metric = logical_metric(word(record+4),e.journal_advance(previous,e.pack.plans[size_t(plan)].advances[offset],lead));
+            if (!metric) e.fail(16);
+            else {
+                metric_header[0] = metric;
+                f->eax = reinterpret_cast<uintptr_t>(metric_header.data())-font;
+                ++e.journal_width_overrides;
+            }
+        }
     } else if (stage == 3) {
         const auto* s = reinterpret_cast<const uint32_t*>(f->esp+4);
         e.count_caller(e.glyph_callers,s[0]);
-        uint32_t journal_offset = 0;
-        const int journal_plan = e.render && e.texture_enabled && s[0] == 0x5C5D09 ? e.journal_locate(s[9],journal_offset) : -1;
+        uint32_t journal_offset = 0, journal_lead = 0; uint8_t journal_previous = 0;
+        const int journal_plan = e.render && e.texture_enabled && s[0] == 0x5C5D09 ? e.journal_locate(s[9],journal_offset,&journal_previous) : -1;
         if (journal_plan >= 0) {
             // P8-3: a journal span drawn into a page raster. Chinese is written into the raster itself.
             const auto& p = e.pack.plans[size_t(journal_plan)];
             if (p.wide[journal_offset] < 128) return 0; // ASCII inside the entry stays native
             ++e.texture_glyphs;
-            const auto metric = logical_metric(word(f->ecx+4),p.advances[journal_offset]);
+            const auto metric = logical_metric(word(f->ecx+4),e.journal_advance(journal_previous,p.advances[journal_offset],journal_lead));
             const auto* g = e.glyphs.get(p.wide[journal_offset],TextureEm);
             const auto raster = word(0x133393C);
             const InkProbe* ink = (s[3]&255) == 0x7F && metric && g ? e.ink_for(f->ecx,raster) : nullptr;
@@ -472,7 +507,7 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
             else if (!ink) ++e.texture_rejects[3];
             if (!ink) return 0; // visible native fallback, never a forced quit
             const auto drawn = texture_glyph(raster,*ink,g->alpha.data(),g->width,g->height,
-                int32_t(s[1])+g->bearing_x,int32_t(s[2])-g->bearing_y);
+                int32_t(s[1])+int32_t(journal_lead)+g->bearing_x,int32_t(s[2])-g->bearing_y);
             if (drawn == UINT32_MAX) ++e.texture_faults; else e.texture_pixels += drawn;
             metric_header[0] = metric;
             f->eax = reinterpret_cast<uintptr_t>(metric_header.data());
@@ -617,6 +652,14 @@ __declspec(naked) void bounds_hook() {
     __asm mov eax, dword ptr [edx+eax*8-0xF0]
     SAVE_FRAME CALL_STAGE(2) RESTORE_FRAME __asm jmp dword ptr [bounds_after]
 }
+__declspec(naked) void journal_word_hook() {
+    __asm mov eax, dword ptr [ecx+eax*8-0xF0]
+    SAVE_FRAME CALL_STAGE(6) RESTORE_FRAME __asm jmp dword ptr [journal_word_after]
+}
+__declspec(naked) void journal_trim_hook() {
+    __asm mov eax, dword ptr [edx+eax*8-0xF0]
+    SAVE_FRAME CALL_STAGE(7) RESTORE_FRAME __asm jmp dword ptr [journal_trim_after]
+}
 __declspec(naked) void glyph_hook() {
     SAVE_FRAME CALL_STAGE(3)
     __asm test eax, eax
@@ -686,57 +729,79 @@ int Engine::plan_for_entry(uint32_t entry) const noexcept {
     for (uint32_t i = 0; i < pack.count; ++i) if (pack.plans[i].entry == entry && !pack.plans[i].is_name()) return int(i);
     return -1;
 }
-int Engine::journal_locate(uintptr_t source, uint32_t& offset) noexcept {
+// P9-2: Chinese in the journal gets player letter spacing (centred in the cell) and, after a visible ASCII
+// glyph, a small lead so the game's italic overhang (for example a closing parenthesis) stays clear of it.
+inline constexpr uint32_t JournalAsciiGap = 3;
+uint32_t Engine::journal_advance(uint8_t previous, uint32_t base, uint32_t& lead) const noexcept {
+    const uint32_t gap = previous > 0x20 && previous < 0x7F ? JournalAsciiGap : 0;
+    lead = journal_letter/2 + gap;
+    return base + journal_letter + gap;
+}
+int Engine::journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous) noexcept {
     for (auto& b : journal_buffers) {
         if (!b.base || source < b.base || source >= b.base+b.size) continue;
         const auto at = uint32_t(source-b.base);
-        for (uint32_t i = 0; i < b.span_count; ++i) {
-            const auto& span = b.spans[i]; const auto& p = pack.plans[span.plan];
-            if (at < span.offset || at >= span.offset+p.length) continue;
-            offset = at-span.offset;
-            if (*reinterpret_cast<const uint8_t*>(source) != p.slots[offset]) { ++journal_stale; b = {}; return -1; }
-            return int(span.plan);
-        }
-        return -1;
+        auto it = std::upper_bound(b.segments.begin(),b.segments.end(),at,
+            [](uint32_t v, const JournalSegment& g) { return v < g.offset; });
+        if (it == b.segments.begin()) return -1;
+        const auto& g = *--it;
+        if (at >= g.offset+g.length) return -1;
+        const auto& p = pack.plans[g.plan];
+        offset = g.plan_offset+(at-g.offset);
+        if (*reinterpret_cast<const uint8_t*>(source) != p.slots[offset]) { ++journal_stale; b = {}; return -1; }
+        if (previous) *previous = at ? *reinterpret_cast<const uint8_t*>(source-1) : 0;
+        return int(g.plan);
     }
     return -1;
 }
 // J2 display side: replaces each `U9J<entry>` line ending with the plan's slot string, in a new buffer from
 // the game allocator; the old copy is freed with the game's free. Called without the engine lock held.
-void Engine::expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept {
+bool Engine::expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept {
     try {
         const auto* s = reinterpret_cast<const char*>(text);
         std::string out; out.reserve(size_t(length)+512);
-        std::array<JournalSpan,64> spans{}; uint32_t count = 0, unknown = 0;
+        std::vector<JournalSegment> segments; uint32_t count = 0, unknown = 0, dropped = 0, kept = 0;
         for (uint32_t i = 0; i < length;) {
             if ((i == 0 || s[i-1] == ' ' || s[i-1] == '\n') && i+3 < length && s[i] == 'U' && s[i+1] == '9' && s[i+2] == 'J') {
                 uint32_t j = i+3, id = 0, digits = 0;
                 while (j < length && s[j] >= '0' && s[j] <= '9' && digits < 6) { id = id*10+uint32_t(s[j]-'0'); ++j; ++digits; }
                 if (digits && digits <= 5 && (j == length || s[j] == '\n' || s[j] == '\r')) {
                     const int plan = plan_for_entry(id);
-                    if (plan >= 0 && count < spans.size()) {
+                    if (plan >= 0) {
                         const auto& p = pack.plans[size_t(plan)];
-                        spans[count++] = {uint32_t(out.size()),uint32_t(plan)};
-                        out.append(reinterpret_cast<const char*>(p.slots.data()),p.length);
-                        i = j; continue;
+                        for (uint32_t k = 0; k < p.length;) {
+                            if (p.slots[k] == 0x0A) {
+                                // A break between two ASCII words stood for a space (for example inside a mantra).
+                                const uint8_t before = k ? p.slots[k-1] : 0, after = k+1 < p.length ? p.slots[k+1] : 0;
+                                if (before > 0x20 && before < 0x7F && after > 0x20 && after < 0x7F) { out += ' '; ++kept; }
+                                ++dropped; ++k; continue;
+                            }
+                            uint32_t end = k; while (end < p.length && p.slots[end] != 0x0A) ++end;
+                            segments.push_back({uint32_t(out.size()),uint32_t(plan),k,end-k});
+                            out.append(reinterpret_cast<const char*>(p.slots.data())+k,end-k);
+                            k = end;
+                        }
+                        ++count; i = j; continue;
                     }
                     ++unknown;
                 }
             }
             out += s[i++];
         }
-        if (!count) { if (unknown) { Exclusive lock(mutex); journal_unknown_markers += unknown; } return; }
+        if (!count) { if (unknown) { Exclusive lock(mutex); journal_unknown_markers += unknown; } return false; }
         auto* copy = reinterpret_cast<char*(__cdecl*)(size_t)>(0x7108F0)(out.size()+1);
-        if (!copy) { Exclusive lock(mutex); ++journal_alloc_failures; return; }
+        if (!copy) { Exclusive lock(mutex); ++journal_alloc_failures; return false; }
         std::memcpy(copy,out.data(),out.size()); copy[out.size()] = 0;
         *reinterpret_cast<uintptr_t*>(text_ref) = reinterpret_cast<uintptr_t>(copy);
         reinterpret_cast<void(__cdecl*)(uintptr_t)>(0x7108E0)(text);
         Exclusive lock(mutex);
         auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
-        b = {}; b.base = reinterpret_cast<uintptr_t>(copy); b.size = uint32_t(out.size()+1); b.span_count = count;
-        std::copy(spans.begin(),spans.begin()+count,b.spans.begin());
-        ++journal_expansions; journal_spans += count; journal_unknown_markers += unknown;
+        b = {}; b.base = reinterpret_cast<uintptr_t>(copy); b.size = uint32_t(out.size()+1); b.entries = count;
+        b.segments = std::move(segments);
+        ++journal_expansions; journal_spans += count; journal_unknown_markers += unknown; journal_breaks_dropped += dropped; journal_spaces_kept += kept;
+        return true;
     } catch (...) { Exclusive lock(mutex); ++journal_alloc_failures; }
+    return false;
 }
 void Engine::count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept {
     for (auto& c : table) {
@@ -960,6 +1025,10 @@ const FontStyle& Engine::font_style(uintptr_t record) noexcept {
 }
 void Engine::install(const Config& config, Logger& logger) {
     log = &logger; render = config.mode == Mode::Render;
+    require(config.journal_letter_spacing <= MaxJournalLetterSpacing && config.journal_line_spacing <= MaxJournalLineSpacing,
+            "journal spacing outside supported range");
+    journal_letter = config.journal_letter_spacing; journal_line = config.journal_line_spacing;
+    log->event("journal_settings","\"letter_spacing\":"+std::to_string(journal_letter)+",\"line_spacing\":"+std::to_string(journal_line));
     const auto load_started = GetTickCount64();
     pack.load(config_path(config.allowlist_path), render);
     require(sha256(config_path(config.game_dir)/L"static"/L"text.flx") == pack.resource_hash,
@@ -1025,6 +1094,8 @@ void Engine::install(const Config& config, Logger& logger) {
     copy_gateway = prepare("full_copy",0x41BC61,copy_hook,{0x33,0xFF,0xC7,0x44,0x24,0x20,0x58,2,0,0},{2,8});
     prepare("layout_width",0x5C7BB3,layout_hook,{0x8B,0x84,0xC1,0x10,0xFF,0xFF,0xFF},{7});
     prepare("bounds_width",0x5C5F5B,bounds_hook,{0x8B,0x84,0xC2,0x10,0xFF,0xFF,0xFF},{7});
+    prepare("journal_word_width",0x5C6378,journal_word_hook,{0x8B,0x84,0xC1,0x10,0xFF,0xFF,0xFF},{7});
+    prepare("journal_trim_width",0x5C6F5A,journal_trim_hook,{0x8B,0x84,0xC2,0x10,0xFF,0xFF,0xFF},{7});
     glyph_gateway = prepare("glyph",0x5C5A80,glyph_hook,{0x8B,0x54,0x24,0x0C,0x80,0xFA,0x20},{4,3});
     paint_gateway = prepare("paint_cache",0x5CFCE0,paint_hook,{0x64,0xA1,0,0,0,0},{6});
     prepare("raster_repaint",0x5CFD50,raster_begin_hook,{0x89,0x1D,0x3C,0x39,0x33,1},{6});
@@ -1194,7 +1265,7 @@ void Engine::snapshot(const char* event) noexcept {
           fields += ",\"caller_overflow\":"+std::to_string(caller_overflow)+"}";
           fields += ",\"texture\":{\"enabled\":"+std::string(texture_enabled?"true":"false")+
               ",\"markers\":"+std::to_string(journal_markers)+",\"marker_short\":"+std::to_string(journal_marker_short)+
-              ",\"expansions\":"+std::to_string(journal_expansions)+",\"spans\":"+std::to_string(journal_spans)+
+              ",\"expansions\":"+std::to_string(journal_expansions)+",\"spans\":"+std::to_string(journal_spans)+",\"width_overrides\":"+std::to_string(journal_width_overrides)+",\"breaks_dropped\":"+std::to_string(journal_breaks_dropped)+",\"spaces_kept\":"+std::to_string(journal_spaces_kept)+",\"leading_applied\":"+std::to_string(journal_leading_applied)+
               ",\"unknown_markers\":"+std::to_string(journal_unknown_markers)+",\"stale\":"+std::to_string(journal_stale)+
               ",\"alloc_failures\":"+std::to_string(journal_alloc_failures)+",\"glyphs\":"+std::to_string(texture_glyphs)+
               ",\"pixels\":"+std::to_string(texture_pixels)+",\"faults\":"+std::to_string(texture_faults)+
