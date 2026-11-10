@@ -54,6 +54,34 @@ uint64_t raster_hash(const RasterBinding& r) {
     for (size_t i = 0; i < size_t(r.stride)*r.height*2; ++i) { h ^= p[i]; h *= 1099511628211ULL; }
     return h;
 }
+// P10-2: slot string of a shop book with a misc marker before every item name that has a text-domain plan.
+// Returns false (no shop) when no name was marked. Never touches game memory.
+bool shop_slots(const Pack& pack, const Plan& p, std::string& out) {
+    out.clear(); out.reserve(size_t(p.length)+256);
+    uint32_t marked = 0;
+    for (uint32_t i = 0; i < p.length;) {
+        uint32_t end = i; while (end < p.length && p.wide[end] != u'\n') ++end;
+        if (end < p.length) ++end; // keep the line break with its line
+        uint32_t open = UINT32_MAX, close = UINT32_MAX;
+        if (p.wide[i] == u'#') {
+            for (uint32_t j = i; j < end; ++j) if (p.wide[j] == u'"') { if (open == UINT32_MAX) open = j; else { close = j; break; } }
+        }
+        int name = -1;
+        if (close != UINT32_MAX && close > open+1) {
+            std::wstring w(reinterpret_cast<const wchar_t*>(p.wide.data()+open+1),close-open-1);
+            bool wide_name = false; for (auto c : w) wide_name = wide_name || c >= 128;
+            if (wide_name) name = pack.match(w.c_str());
+            if (name >= 0 && (pack.plans[size_t(name)].is_name() || pack.plans[size_t(name)].is_book())) name = -1;
+        }
+        char marker[MiscMarkerSize];
+        for (uint32_t j = i; j < end; ++j) {
+            out += char(p.slots[j]);
+            if (j == open && name >= 0 && encode_misc_marker(uint32_t(name),marker)) { out.append(marker,MiscMarkerSize); ++marked; }
+        }
+        i = end;
+    }
+    return marked != 0;
+}
 int WINAPI wide_hook(UINT cp, DWORD flags, LPCWCH wide, int length, LPSTR out, int capacity,
                      LPCCH fallback, LPBOOL used) {
     Guard guard;
@@ -105,6 +133,21 @@ int WINAPI wide_hook(UINT cp, DWORD flags, LPCWCH wide, int length, LPSTR out, i
         auto& e = *guard.state;
         const auto n = wcsnlen(wide, MaxBookText+1);
         const int plan = e.render && n <= MaxBookText ? e.pack.match_book(wide, n) : -1;
+        if (plan >= 0 && e.texture_enabled) {
+            // P10-2: a shop list. Each item name gets a marker so its inline copy (0x42C925 / 0x42D2xx) and the
+            // label drawn from it keep their plan; the parsers only look at '#', '"' and '$', never at markers.
+            std::string shop;
+            if (shop_slots(e.pack,e.pack.plans[size_t(plan)],shop)) {
+                Exclusive lock(e.mutex);
+                if (out && capacity >= int(shop.size()+1)) {
+                    std::memcpy(out, shop.c_str(), shop.size()+1);
+                    if (used) *used = FALSE;
+                    ++e.shop_converts;
+                    return int(shop.size()+1);
+                }
+                ++e.shop_short; // native-length slots below
+            }
+        }
         if (plan >= 0) {
             const auto& p = e.pack.plans[size_t(plan)];
             Exclusive lock(e.mutex);
@@ -1704,7 +1747,8 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"bounded\":"+std::to_string(misc_bounded)+",\"book_overwritten\":"+std::to_string(book_overwritten)+
               ",\"measures\":"+std::to_string(misc_measures)+",\"measure_faults\":"+std::to_string(misc_measure_faults)+
               ",\"message_insets\":"+std::to_string(message_insets)+",\"small_em_glyphs\":"+std::to_string(small_em_glyphs)+",\"book_messages\":"+std::to_string(book_messages)+
-              ",\"misc_message_strips\":"+std::to_string(misc_message_strips)+"}";
+              ",\"misc_message_strips\":"+std::to_string(misc_message_strips)+",\"shop_converts\":"+std::to_string(shop_converts)+
+              ",\"shop_short\":"+std::to_string(shop_short)+"}";
           fields += ",\"flow_misses\":[";
           { bool first = true; for (const auto& m : flow_misses) if (m.caller) { if (!first) fields += ','; first = false;
               fields += "{\"caller\":"+std::to_string(m.caller)+",\"text\":"+std::to_string(m.text)+",\"offset\":"+std::to_string(m.offset)+

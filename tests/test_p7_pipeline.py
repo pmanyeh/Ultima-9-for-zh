@@ -25,7 +25,7 @@ from u9cht.l10n.migrate import FROZEN_SHA256, frozen_issues, migrate
 from u9cht.l10n.pipeline import Paths, analyze, build, parse_selection
 from u9cht.l10n.runtime_pack import (FILLER_ENTRY_BASE, RUNTIME_CONTRACT, capacity_stress_pack,
                                      contract_sha256, decode_pack, encode_pack, glyph_manifest,
-                                     shared_text_targets)
+                                     shared_text_targets, shop_name_targets)
 from u9cht.l10n.store import (FIELDS, REQUIRED, STATUSES, CATEGORIES, dumps_jsonl, load_store,
                               parse_jsonl, parse_key, record_revision, validate_record,
                               write_store)
@@ -681,6 +681,20 @@ class PackAndMigrationTests(unittest.TestCase):
         names = [rec("TYPENAME.FLX", i, "工具", "tool", category="item-name") for i in (1, 2)]
         self.assertEqual(shared_text_targets(names), {})
         self.assertEqual(len(decode_pack(encode_pack(names, "0" * 64, "1" * 64))[3]), 2)
+
+    def test_shop_item_names_get_text_domain_plans(self):
+        # P10-2: synthetic shop list; the first quoted string after "#<type>" is the item name.
+        shop = rec("BOOKS-EN.FLX", 3, 'Shop\r\n!\r\n#1 "短刀" $10\r\n#2 "長劍" $100\r\n#3 "Rope" $5\r\n#4 "短刀" $9',
+                   'Shop\r\n!\r\n#1 "A" $10\r\n#2 "B" $100\r\n#3 "Rope" $5\r\n#4 "A" $9', category="book",
+                   runtime_supported=False)
+        text = rec("text.flx", 4, "長劍", "x")
+        self.assertEqual(shop_name_targets([shop]), ["短刀", "長劍"])
+        plans = decode_pack(encode_pack([shop, text], "0" * 64, None, "1" * 64))[3]
+        base = RUNTIME_CONTRACT["shop_name_entry_base"]
+        # "長劍" already is a text plan and is reused; "短刀" gets one shop name plan; ASCII names get none.
+        self.assertIn((base, "短刀"), plans)
+        self.assertEqual([e for e, t in plans if t == "長劍"], [4])
+        self.assertEqual(sum(1 for e, _ in plans if base <= e <= RUNTIME_CONTRACT["shop_name_entry_max"]), 1)
 
     def test_pack_decode_round_trip(self):
         rows = [rec("text.flx", 7, "測試", "x"), rec("TYPENAME.FLX", 3, "工具", "tool", category="item-name")]

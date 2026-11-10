@@ -311,3 +311,37 @@ Private session `.local/p10-misc/session-9`, log `8ca78dc9…fdd7`, exit 0. fini
 - 12 and 14 px glyphs are prewarmed: 5 sizes × 2,724 = 13,620 of 16,384 cache entries. Offline, all advances equal the em. Prewarm takes 5.9 s (was 3.7 s).
   - If capacity or metrics fail, small sizes are disabled and everything stays at 16 px (`texture_glyphs.small_ems`).
 - New counter: `misc.small_em_glyphs`.
+
+## P10-2 item 2: shop lists (runtime 0.2.29-p10-2) — not yet tested in game
+
+Static findings (CONFIRMED, disassembly):
+
+- Two shop parsers read a BOOKS-EN shop file through the book reader:
+  - `0x42C830` (reader call `0x42C860`);
+  - `0x42D2A0` (reader call `0x42D2D0`).
+- Per line, the parsers:
+  - parse a line starting with `#` (up to 100 items), reading the type id digits and passing them to `0x5537E0`;
+  - copy the first `"…"` string into its own allocation (`0x7108F0` + `0x711FF0`, array at stack `+0x120`);
+  - parse the digits after the next `$` as the price;
+  - skip `!` lines and every other line. The first line (shop name) is never read by either parser.
+- The shop page then builds label widgets (`vtable 0x742D18`) from misctext headings (`0x5A`, `0x5B`, …).
+  Item labels therefore reach the draw-string routine `0x5C5C00` like the options labels (HYPOTHESIS for the item rows themselves).
+- Every `#<type>` in the 56 shop files has a TYPENAME translation (1,246 item lines; the longest name is 7 characters).
+
+Data (translation store, `draft`):
+
+- Item names come from the TYPENAME store by type id. Only the first quoted string on a `#` line is replaced; all other bytes are kept, including two malformed lines (`"Sextant" "49`, `"Bracelet" !`).
+- `!` comment lines become a bare `!`, so no English prose enters the store.
+- First-line shop names are translated for QA consistency, with approved annotations. They are not displayed.
+- Remaining QA warnings: 14 annotation warnings from item names (TYPENAME labels carry no annotations) and 7 from the
+  blanked `!Provisioner…` comment lines.
+
+Runtime and pack:
+
+- `shop_name_plans`: distinct non-ASCII item names that are not already a text-domain target get plans from `0xE000`.
+  This produced 173 plans; the other names reuse existing identical text plans.
+- Book conversion (`0x42E64A`): when a book plan contains `#` lines whose first quoted name matches a text-domain plan,
+  the output is the slot string with a misc marker inserted after each opening quote (`shop_slots`). No pending book is set.
+  - If the conversion buffer is too small, the plain slots are used instead (`misc.shop_short`).
+  - The parsers copy marker + name. The label draw / width / flow / holder strip points then bind it like any marked misctext.
+- Counters: `misc.shop_converts`, `misc.shop_short`.

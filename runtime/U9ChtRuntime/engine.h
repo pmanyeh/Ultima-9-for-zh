@@ -167,7 +167,7 @@ struct Engine {
     bool bind_book(uintptr_t text, uint32_t length, uint32_t plan, bool locked = false) noexcept;
     // P10-1: output buffer of the last book conversion (0x42E64A); signs pass it to the message holder.
     uintptr_t pending_book_buffer = 0;
-    uint64_t book_messages = 0, misc_message_strips = 0;
+    uint64_t book_messages = 0, misc_message_strips = 0, shop_converts = 0, shop_short = 0;
     uint32_t journal_next = 0;
     uint64_t journal_markers = 0, journal_marker_short = 0, journal_expansions = 0, journal_spans = 0;
     uint64_t journal_width_overrides = 0, journal_breaks_dropped = 0, journal_spaces_kept = 0, journal_leading_applied = 0;

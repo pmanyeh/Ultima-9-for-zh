@@ -7,13 +7,14 @@ pack the runtime would refuse is never built.
 import hashlib
 import json
 import random
+import re
 import struct
 from fractions import Fraction
 
 from ..flx import digest
 
 RUNTIME_CONTRACT = {
-    "runtime": "U9ChtRuntime/0.2.28-p10-2",
+    "runtime": "U9ChtRuntime/0.2.29-p10-2",
     "magic": "U9CTP51",
     "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans",
                       "4": "text.flx, TYPENAME and UTF-16 BOOKS-EN plans"},
@@ -44,6 +45,10 @@ RUNTIME_CONTRACT = {
                        "width_point": "string_width 0x5C6240", "drop_cap_entry": 255,
                        "message_box_inset_px": 8,
                        "message_holder_copy": "0x41BC61 binds sign books (0x5E9701) and marked misctext messages"},
+    # P10-2: item names inside translated shop lists (BOOKS-EN '#type "name" $price' lines) get their own
+    # text-domain plans from this base; the runtime marks each name when the shop book is converted.
+    "shop_name_entry_base": 0xE000,
+    "shop_name_entry_max": 0xFFFF,
     "name_entry_max": 8191,
     "name_marker": "U9T%04X",
     "identical_text_targets_share_one_plan": True,
@@ -55,6 +60,9 @@ def contract_sha256(contract=RUNTIME_CONTRACT):
 
 
 BOOK_DOMAIN = RUNTIME_CONTRACT["book_domain"]
+SHOP_NAME_BASE = RUNTIME_CONTRACT["shop_name_entry_base"]
+# The shop parsers 0x42C830/0x42D2A0 read the first quoted string after "#<type>" on a line.
+SHOP_ITEM = re.compile(r'^#\d+[^"\r\n]*"([^"\r\n]*)"', re.M)
 MISC_ENTRY_BASE = RUNTIME_CONTRACT["misc_entry_base"]
 TEXT_DOMAIN_RESOURCES = ("text.flx", "misctext.flx")
 
@@ -170,11 +178,29 @@ def capacity_issues(records, scalars):
     return problems
 
 
+def shop_name_targets(records):
+    """Distinct non-ASCII item names in translated shop lists, sorted."""
+    names = set()
+    for r in records:
+        if r.get("resource") == "BOOKS-EN.FLX":
+            names.update(m.group(1) for m in SHOP_ITEM.finditer(r["target"]) if any(ord(c) >= 128 for c in m.group(1)))
+    return sorted(names)
+
+
+def shop_name_plans(records, text_targets):
+    """(entry, target) plans for shop item names that are not already an identical text-domain target."""
+    extra = [n for n in shop_name_targets(records) if n not in text_targets]
+    if SHOP_NAME_BASE + len(extra) - 1 > RUNTIME_CONTRACT["shop_name_entry_max"]:
+        raise ValueError(f"{len(extra)} shop item names exceed the shop name plan range")
+    return [(SHOP_NAME_BASE + i, n) for i, n in enumerate(extra)]
+
+
 def encode_pack(records, text_sha256, typename_sha256=None, books_sha256=None):
     """Encode v2 (text only), v3 (text + names) or v4 (text, names and books)."""
     shared = shared_text_targets(records)
-    plans = sorted(((plan_entry(r), r["target"]) for r in records if r["key"] not in shared),
-                   key=lambda p: p[0])
+    plans = [(plan_entry(r), r["target"]) for r in records if r["key"] not in shared]
+    plans += shop_name_plans(records, {t for e, t in plans if e < 0x10000})
+    plans.sort(key=lambda p: p[0])
     has_names = any(e & 0xF0000000 == RUNTIME_CONTRACT["name_domain"] for e, _ in plans)
     has_books = any(e & 0xF0000000 == BOOK_DOMAIN for e, _ in plans)
     scalars = sorted({ord(ch) for _, t in plans for ch in t if ord(ch) >= 128})
