@@ -226,7 +226,8 @@ def first_occurrences(terms, units_by_resource, sections, vocabulary=()):
 
 # Single-line native labels (item names) cannot carry a 譯名(English) annotation within their
 # 192-unit budget; the annotation convention applies to running text only.
-ANNOTATION_EXEMPT_RESOURCES = frozenset({"TYPENAME.FLX"})
+# misctext.flx holds short UI/system labels (menus, stat names, prompts) on the same principle.
+ANNOTATION_EXEMPT_RESOURCES = frozenset({"TYPENAME.FLX", "misctext.flx"})
 
 
 def annotation_issues(records, rows, sources=None, first=None):

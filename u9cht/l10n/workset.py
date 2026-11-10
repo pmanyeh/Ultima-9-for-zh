@@ -15,7 +15,8 @@ WORK_FIELDS = ("key", "resource", "entry_id", "source", "source_sha256", "source
                "status", "category", "speaker", "context", "notes", "terms", "target", "review",
                "base_revision")
 EDITABLE = ("status", "category", "speaker", "context", "notes", "terms", "target", "review")
-DEFAULT_CATEGORY = {"text.flx": "dialogue", "TYPENAME.FLX": "item-name", "BOOKS-EN.FLX": "book"}
+DEFAULT_CATEGORY = {"text.flx": "dialogue", "TYPENAME.FLX": "item-name", "BOOKS-EN.FLX": "book",
+                    "misctext.flx": "ui"}
 
 
 def export_workset(records, game, selection=None, include_untranslated=True):

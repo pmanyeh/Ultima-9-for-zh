@@ -12,9 +12,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 RESOURCE_FILES = {"text.flx": "text.jsonl", "TYPENAME.FLX": "typename.jsonl",
-                  "BOOKS-EN.FLX": "books.jsonl"}
+                  "BOOKS-EN.FLX": "books.jsonl", "misctext.flx": "misctext.jsonl"}
 RESOURCE_ORDER = tuple(RESOURCE_FILES)
-KEY_RE = re.compile(r"(text\.flx|TYPENAME\.FLX|BOOKS-EN\.FLX):(0|[1-9][0-9]{0,5})")
+KEY_RE = re.compile(r"(text\.flx|TYPENAME\.FLX|BOOKS-EN\.FLX|misctext\.flx):(0|[1-9][0-9]{0,5})")
 
 STATUSES = ("untranslated", "draft", "review", "approved", "blocked", "showcase-draft")
 # showcase-draft exists only for migrated P6-S/P6-S2 work; it ranks as draft.

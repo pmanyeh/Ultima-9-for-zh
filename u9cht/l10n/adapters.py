@@ -11,7 +11,7 @@ import hashlib
 from dataclasses import dataclass
 
 from ..books import TOKENS, BookArchive
-from .runtime_pack import BOOK_DOMAIN
+from .runtime_pack import BOOK_DOMAIN, MISC_ENTRY_BASE
 from ..flx import FormatError, TextArchive, digest
 from ..representative import NAME_DOMAIN, name_marker
 from ..typename import TypeNameArchive
@@ -98,6 +98,16 @@ class TextAdapter(Adapter):
         return target
 
 
+class MiscTextAdapter(TextAdapter):
+    """misctext.flx: the same verified UTF-16LE + one NUL entry layout as text.flx (P10-1 round-trip).
+
+    The engine identifies these strings by exact wide content like text.flx, so their runtime
+    plans live in the text domain at MISC_ENTRY_BASE + entry ID.
+    """
+    resource = "misctext.flx"
+    runtime_domain = MISC_ENTRY_BASE
+
+
 class TypeNameAdapter(Adapter):
     """Chinese labels use the measured ASCII marker bridge plus a runtime plan."""
     resource = "TYPENAME.FLX"
@@ -152,7 +162,7 @@ class BooksAdapter(Adapter):
         return [t.decode("ascii") for t in TOKENS.findall(text.encode("utf-8"))]
 
 
-ADAPTERS = {a.resource: a for a in (TextAdapter(), TypeNameAdapter(), BooksAdapter())}
+ADAPTERS = {a.resource: a for a in (TextAdapter(), TypeNameAdapter(), BooksAdapter(), MiscTextAdapter())}
 
 
 def mutation_audit(adapter, original, output, intended):

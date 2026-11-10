@@ -31,12 +31,13 @@
       "notes": "Chinese bodies are stored as FF FE + UTF-16LE + one NUL unit; runtime pack v4 carries each exact book plan."
     },
     "misctext.flx": {
-      "adapter": null,
-      "decode": {"value": false, "status": "UNKNOWN", "evidence": "reports/P1_ASSET_INVENTORY.md (STRONG EVIDENCE of short UI/system strings; payload not round-tripped)"},
-      "roundtrip": {"value": false, "status": "UNKNOWN", "evidence": "reports/P1_ASSET_INVENTORY.md"},
-      "translate_build": {"value": false, "status": "UNKNOWN", "evidence": "no adapter"},
-      "unicode_runtime": {"value": false, "status": "UNKNOWN", "evidence": "no runtime route investigated"},
-      "notes": "Not a canonical store resource until independently decoded and round-tripped."
+      "adapter": "u9cht.l10n.adapters.MiscTextAdapter",
+      "source_unit": "UTF-16LE code units of the entry text, excluding one NUL terminator",
+      "decode": {"value": true, "status": "CONFIRMED", "evidence": "reports/P10_1_MISCTEXT.md (340 used of 348 slots; UTF-16LE, no BOM, one NUL)"},
+      "roundtrip": {"value": "byte-perfect", "status": "CONFIRMED", "evidence": "reports/P10_1_MISCTEXT.md (14618 bytes, 0 differences)"},
+      "translate_build": {"value": true, "status": "STRONG EVIDENCE", "evidence": "reports/P10_1_MISCTEXT.md (TextArchive writer; scoped mutation audit)"},
+      "unicode_runtime": {"value": "bounded", "status": "HYPOTHESIS", "evidence": "reports/P10_1_MISCTEXT.md (plans share the text domain; per-surface runtime check pending)"},
+      "notes": "Menus, stat names, prompts, spellbook and save/load labels. Each UI surface may use its own draw path; only surfaces confirmed in game count as supported."
     }
   },
   "layout_profiles": [

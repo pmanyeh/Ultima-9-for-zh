@@ -17,6 +17,11 @@
       "path": "static/BOOKS-EN.FLX",
       "size": 221316,
       "sha256": "a0653ef3608537575e707faa56aca6f24efc2eddaab554d49279d6c1c1a8858b"
+    },
+    "misctext.flx": {
+      "path": "static/misctext.flx",
+      "size": 14618,
+      "sha256": "3c5bb8845ff101bfba87f38dcb253d81eb9bee6580d18c22a1649179e5e9b570"
     }
   }
 }

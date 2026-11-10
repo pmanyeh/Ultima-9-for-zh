@@ -28,11 +28,14 @@ RUNTIME_CONTRACT = {
     "custom_logical_advance": 16,
     "custom_scalar_ranges": [[0x2015, 0x2015], [0x2026, 0x2026], [0x3000, 0x303F], [0x30FB, 0x30FB], [0x3400, 0x9FFF], [0xFF01, 0xFF60]],
     "native_ascii_range": [32, 126],
-    "newline_allowed": {"text.flx": True, "TYPENAME.FLX": False, "BOOKS-EN.FLX": True},
+    "newline_allowed": {"text.flx": True, "TYPENAME.FLX": False, "BOOKS-EN.FLX": True, "misctext.flx": False},
     # Book bodies keep their source paragraph CRLF and tabs; the game's reader converts them.
     "extra_controls": {"BOOKS-EN.FLX": [9, 13]},
     "book_domain": 0x20000000,
     "name_domain": 0x10000000,
+    # misctext.flx strings are matched by wide content exactly like text.flx; their plans use
+    # text-domain entry IDs at this base (text.flx < 7390 slots; misctext < 348 slots).
+    "misc_entry_base": 0xC000,
     "name_entry_max": 8191,
     "name_marker": "U9T%04X",
     "identical_text_targets_share_one_plan": True,
@@ -44,6 +47,8 @@ def contract_sha256(contract=RUNTIME_CONTRACT):
 
 
 BOOK_DOMAIN = RUNTIME_CONTRACT["book_domain"]
+MISC_ENTRY_BASE = RUNTIME_CONTRACT["misc_entry_base"]
+TEXT_DOMAIN_RESOURCES = ("text.flx", "misctext.flx")
 
 # Above every text.flx slot and below the v3 limit of 65536 text entries.
 FILLER_ENTRY_BASE = 40000
@@ -109,6 +114,10 @@ def plan_entry(record):
     resource, entry_id = parse_key(record["key"])
     if resource == "text.flx":
         return entry_id
+    if resource == "misctext.flx":
+        if entry_id >= 0x1000:
+            raise ValueError(f"{record['key']}: outside misctext family")
+        return MISC_ENTRY_BASE + entry_id
     if resource == "TYPENAME.FLX":
         if entry_id > RUNTIME_CONTRACT["name_entry_max"]:
             raise ValueError(f"{record['key']}: outside measured name family")
@@ -121,13 +130,13 @@ def plan_entry(record):
 
 
 def shared_text_targets(records):
-    """Map each text record sharing a target -> the lowest entry's key.
+    """Map each text-domain record sharing a target -> the lowest plan entry's key.
 
     The engine identifies text only by its exact wide string, so entries with
     identical targets are indistinguishable at runtime and share one plan.
     """
     first, shared = {}, {}
-    for record in sorted((r for r in records if r["resource"] == "text.flx"), key=lambda r: r["entry_id"]):
+    for record in sorted((r for r in records if r["resource"] in TEXT_DOMAIN_RESOURCES), key=plan_entry):
         owner = first.setdefault(record["target"], record["key"])
         if owner != record["key"]:
             shared[record["key"]] = owner
