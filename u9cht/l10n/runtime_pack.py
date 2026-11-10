@@ -13,7 +13,7 @@ from fractions import Fraction
 from ..flx import digest
 
 RUNTIME_CONTRACT = {
-    "runtime": "U9ChtRuntime/0.2.19-p9-5",
+    "runtime": "U9ChtRuntime/0.2.20-p10-1",
     "magic": "U9CTP51",
     "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans",
                       "4": "text.flx, TYPENAME and UTF-16 BOOKS-EN plans"},
@@ -36,6 +36,9 @@ RUNTIME_CONTRACT = {
     # misctext.flx strings are matched by wide content exactly like text.flx; their plans use
     # text-domain entry IDs at this base (text.flx < 7390 slots; misctext < 348 slots).
     "misc_entry_base": 0xC000,
+    # P10-1 M1: a string built by the misctext factory (constructor return 0x6161AB) carries a 4-byte marker
+    # (0x1E + three base-94 digits of the plan index) before its slot string; text flows strip it in place.
+    "misc_ui_marker": {"lead": 0x1E, "digits": 3, "base": 94, "ctor_return": 0x6161AB},
     "name_entry_max": 8191,
     "name_marker": "U9T%04X",
     "identical_text_targets_share_one_plan": True,

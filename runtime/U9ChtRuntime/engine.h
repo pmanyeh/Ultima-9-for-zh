@@ -4,6 +4,7 @@
 #include "platform.h"
 #include "compositor.h"
 #include "raster_runs.h"
+#include "misc_marker.h"
 #include <atomic>
 
 namespace u9cht {
@@ -141,7 +142,8 @@ struct Engine {
     std::array<InkProbe,16> inks{};
     uint32_t ink_count = 0;
     std::array<uint16_t,SampleSize*SampleSize> probe_a{}, probe_b{};
-    std::array<JournalBuffer,8> journal_buffers{};
+    // P10-1: UI pages keep several flows alive at once (journal, books and misctext buffers share this ring).
+    std::array<JournalBuffer,64> journal_buffers{};
     // P9-4 books: the plan converted at 0x42E64A, consumed by the next flow initializer.
     int pending_book = -1;
     uint64_t book_converts = 0, book_short = 0, book_bound = 0, book_mismatch = 0, book_width_overrides = 0;
@@ -158,6 +160,11 @@ struct Engine {
     int plan_for_entry(uint32_t entry) const noexcept;
     int journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous = nullptr) noexcept;
     bool expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept;
+    // P10-1 M1: misctext UI marker bridge (see misc_marker.h).
+    uint64_t misc_marked = 0, misc_mark_failures = 0, misc_stripped = 0, misc_buffers = 0;
+    uint64_t misc_invalid = 0, misc_partial = 0, misc_leaks = 0;
+    bool mark_misc(uintptr_t object, uint32_t plan) noexcept;
+    void strip_misc(uintptr_t text, uint32_t length) noexcept;
     void count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept;
     void probe_flow_source(uintptr_t source, uint32_t stage) noexcept;
     bool begin() noexcept;

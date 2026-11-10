@@ -92,6 +92,17 @@ python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-1
 - **畫面變中文**：該畫面走 constructor 0x615A10 → 0x615B7C 的轉換和既有的繪字 hook，可以升級為 CONFIRMED。
 - **出現方框、`?` 或空白**：該畫面用了別的繪字路徑，要另外研究。必要時用 `--only` 把該畫面的字串排除在 build 之外。
 
+## 3a. P10-1 遊戲內測試結果（session-1，2026-11-10）
+
+- finish 已執行：受保護資源與 P0 相符、存檔與設定已還原、`Default.kmp` 未變。log `8fbd701d…2b71b`。
+- **結果：FAIL（misctext UI 畫面）**。選單、選項、存讀檔對話框、屬性、圖鑑標題、路牌點擊訊息全部顯示洋紅色點，不是中文。
+- 證據（CONFIRMED）：`flow_text` 事件的字串裡，中文字元已經變成 `0x7F`（例如 `(Avatar)`）。每個 misctext 方案都是 `wide=1`，但 `layout=0`、`unicode_draws=0`，`unicode_drawn_entries` 是空的。
+  → misctext 字串在進入繪字前，先經過另一個 UTF-16 → 8-bit 轉換，非 Latin-1 字元在這裡被換成 0x7F。這個轉換不是 text.flx 對話用的 0x615A10 路徑。
+- 呼叫端（flow_text caller）：0x42687A、0x426DF3、0x4260C6、0x426648、0x425F3E、0x425DC0、0x41F80F、0x41F305。
+- 時鐘訊息「It is 3 minutes past seven…」不在任何 FLX 裡。它是寫死在 u9.exe 的格式字串（`It is %s %s.`、`a quarter till` 等，約在檔案偏移 0x3A70F4）。要翻譯就得處理執行檔字串，屬於另一個題目。
+- 日誌 Day 1 條目仍是英文（ASCII flow_text），和既有的日誌橋接狀況一致。
+- 在研究出解法之前，build 不應帶入 misctext UI 方案，否則畫面會比英文原版還差。
+
 ## 4. 之後的待辦
 
 - 寫 `reports/P10_1_MISCTEXT.md`（遊戲內結果出來後再寫；capabilities 已引用這個檔名）。

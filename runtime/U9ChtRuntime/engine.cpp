@@ -138,10 +138,18 @@ uintptr_t __fastcall ctor_hook(uintptr_t self, void*, uintptr_t a, uintptr_t b, 
     const auto fn = reinterpret_cast<uintptr_t(__thiscall*)(uintptr_t,uintptr_t,uintptr_t,uintptr_t)>(ctor_gateway);
     if (!guard.state) return fn(self,a,b,c);
     auto& e = *guard.state;
+    const auto caller = reinterpret_cast<uintptr_t>(_ReturnAddress());
     if (constructor_depth >= constructors.size()) { e.fail(2); return fn(self,a,b,c); }
     constructors[constructor_depth++] = {self, -1, nullptr};
     const uintptr_t result = fn(self,a,b,c);
     const auto current = constructors[--constructor_depth];
+    // P10-1 M1: a string from the misctext factory 0x616120 carries a marker instead of a bound cache.
+    // On any failure it falls back to the ordinary binding below (visible native slots, never a quit).
+    if (current.plan >= 0 && caller == MiscTextCtorReturn && e.render && e.texture_enabled &&
+        word(self+8) == reinterpret_cast<uintptr_t>(current.wide) && e.mark_misc(self,uint32_t(current.plan))) {
+        Exclusive lock(e.mutex); ++e.stats[size_t(current.plan)].cache; ++e.misc_marked;
+        return result;
+    }
     if (current.plan >= 0) {
         Exclusive lock(e.mutex);
         const auto& p = e.pack.plans[size_t(current.plan)];
@@ -158,6 +166,10 @@ struct FlowText { uintptr_t text = 0; uint32_t length = 0, high = 0; uint64_t ha
 // Reads `*text_ref` under SEH: the caller passes a char** whose target is game-owned.
 bool copy_guarded(uintptr_t source, char* out, uint32_t n) noexcept {
     __try { std::memcpy(out,reinterpret_cast<const void*>(source),n); return true; }
+    __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+}
+bool write_guarded(uintptr_t target, const void* data, uint32_t n) noexcept {
+    __try { std::memcpy(reinterpret_cast<void*>(target),data,n); return true; }
     __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
 }
 bool read_flow_text(uintptr_t text_ref, FlowText& t) noexcept {
@@ -285,6 +297,11 @@ uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_
     std::array<int32_t,64> saved_leading{}; uint32_t records = 0; uintptr_t table = 0;
     if (guard.state->render && caller == 0x426648 && readable && t.text && t.length) {
         leading = guard.state->expand_journal(text_ref,t.text,t.length) && guard.state->journal_line;
+        t = {}; readable = read_flow_text(text_ref,t);
+    }
+    // P10-1 M1: any other flow may hold copies of marked misctext strings; strip them in place.
+    if (guard.state->render && guard.state->texture_enabled && caller != 0x426648 && readable && t.text && t.length) {
+        guard.state->strip_misc(t.text,t.length);
         t = {}; readable = read_flow_text(text_ref,t);
     }
     {   // P9-4: a book converted just before this call (0x42E560 -> strdup -> 0x5C7620).
@@ -551,6 +568,7 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
     } else if (stage == 3) {
         const auto* s = reinterpret_cast<const uint32_t*>(f->esp+4);
         e.count_caller(e.glyph_callers,s[0]);
+        if ((s[3]&255) == MiscMarkerLead) ++e.misc_leaks; // a marked misctext string drawn outside a stripped flow
         uint32_t journal_offset = 0, journal_lead = 0; uint8_t journal_previous = 0;
         const int journal_plan = e.render && e.texture_enabled && s[0] == 0x5C5D09 ? e.journal_locate(s[9],journal_offset,&journal_previous) : -1;
         if (journal_plan >= 0) {
@@ -887,6 +905,50 @@ bool Engine::expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length)
         return true;
     } catch (...) { Exclusive lock(mutex); ++journal_alloc_failures; }
     return false;
+}
+// P10-1 M1: replace the constructed misctext cache obj+0 with `marker + slots` from the game allocator.
+// Called without the engine lock: the native free below re-enters free_hook.
+bool Engine::mark_misc(uintptr_t object, uint32_t plan) noexcept {
+    const auto& p = pack.plans[plan];
+    const auto cache = word(object), wide = word(object+8);
+    char marker[MiscMarkerSize];
+    if (p.is_name() || p.is_book() || !cache || !wide || !encode_misc_marker(plan,marker) ||
+        std::memcmp(reinterpret_cast<void*>(wide),p.wide.data(),(size_t(p.length)+1)*2) != 0 ||
+        std::memcmp(reinterpret_cast<void*>(cache),p.slots.data(),size_t(p.length)+1) != 0) {
+        Exclusive lock(mutex); ++misc_mark_failures; return false;
+    }
+    auto* copy = reinterpret_cast<char*(__cdecl*)(size_t)>(0x7108F0)(size_t(MiscMarkerSize)+p.length+1);
+    if (!copy) { Exclusive lock(mutex); ++misc_mark_failures; return false; }
+    std::memcpy(copy,marker,MiscMarkerSize);
+    std::memcpy(copy+MiscMarkerSize,p.slots.data(),size_t(p.length)+1);
+    *reinterpret_cast<uintptr_t*>(object) = reinterpret_cast<uintptr_t>(copy);
+    reinterpret_cast<void(__cdecl*)(uintptr_t)>(0x7108E0)(cache);
+    return true;
+}
+// P10-1 M1: strips markers from a flow text in place (the buffer only shrinks) and records the plan segments
+// for the journal/book width and texture glyph path. Called without the engine lock.
+void Engine::strip_misc(uintptr_t text, uint32_t length) noexcept {
+    try {
+        std::vector<uint8_t> copy(size_t(length)+1);
+        if (!copy_guarded(text,reinterpret_cast<char*>(copy.data()),length+1)) return;
+        if (std::find(copy.begin(),copy.begin()+length,MiscMarkerLead) == copy.begin()+length) return;
+        const auto r = strip_misc_markers(copy.data(),length,[&](uint32_t plan, uint32_t& n) -> const uint8_t* {
+            if (plan >= pack.count) return nullptr;
+            const auto& p = pack.plans[plan];
+            if (p.is_name() || p.is_book()) return nullptr;
+            n = p.length; return p.slots.data();
+        });
+        if (r.markers && !write_guarded(text,copy.data(),r.length+1)) { Exclusive lock(mutex); ++misc_mark_failures; return; }
+        Exclusive lock(mutex);
+        misc_stripped += r.markers; misc_invalid += r.invalid; misc_partial += r.partial;
+        if (r.segments.empty()) return;
+        for (auto& b : journal_buffers) if (b.base == text) b = {};
+        auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
+        b = {}; b.base = text; b.size = r.length+1; b.entries = r.markers;
+        b.segments.reserve(r.segments.size());
+        for (const auto& g : r.segments) b.segments.push_back({g.offset,g.plan,0,g.length});
+        ++misc_buffers;
+    } catch (...) { Exclusive lock(mutex); ++journal_alloc_failures; }
 }
 void Engine::count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept {
     for (auto& c : table) {
@@ -1359,7 +1421,11 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"alloc_failures\":"+std::to_string(journal_alloc_failures)+",\"glyphs\":"+std::to_string(texture_glyphs)+
               ",\"pixels\":"+std::to_string(texture_pixels)+",\"faults\":"+std::to_string(texture_faults)+
               ",\"rejects\":["+std::to_string(texture_rejects[0])+","+std::to_string(texture_rejects[1])+","+
-              std::to_string(texture_rejects[2])+","+std::to_string(texture_rejects[3])+"],\"inks\":[";
+              std::to_string(texture_rejects[2])+","+std::to_string(texture_rejects[3])+"]"+
+              ",\"misc\":{\"marked\":"+std::to_string(misc_marked)+",\"mark_failures\":"+std::to_string(misc_mark_failures)+
+              ",\"stripped\":"+std::to_string(misc_stripped)+",\"buffers\":"+std::to_string(misc_buffers)+
+              ",\"invalid\":"+std::to_string(misc_invalid)+",\"partial\":"+std::to_string(misc_partial)+
+              ",\"leaks\":"+std::to_string(misc_leaks)+"},\"inks\":[";
           for (uint32_t i = 0; i < ink_count; ++i) {
               const auto& v = inks[i]; if (i) fields += ',';
               fields += "{\"blob\":"+std::to_string(v.blob)+",\"type\":"+std::to_string(v.type)+
