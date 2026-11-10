@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from . import TOOL_VERSION
+from ..books import GARGISH_REF, expand_gargish
 from .adapters import ADAPTERS
 from .glossary import (annotation_issues, annotation_mode, first_occurrences, glossary_issues,
                        parse_glossary, terminology_issues)
@@ -120,6 +121,25 @@ def metrics_from_font(font_path, font_meta, scalars):
     return metrics
 
 
+def expand_source_references(records, all_units, issues):
+    """In memory only: replace {{gargish:N}} in book targets with the local source run.
+
+    The tracked store never holds the Gargish text; a record whose source is unavailable or
+    drifted keeps its reference and fails the source checks as usual.
+    """
+    out = []
+    for record in records:
+        unit = all_units.get(record["resource"], {}).get(record["entry_id"])
+        if (record["resource"] == "BOOKS-EN.FLX" and GARGISH_REF.search(record["target"]) and
+                unit is not None and unit.sha256 == record["source_sha256"]):
+            try:
+                record = dict(record, target=expand_gargish(record["target"], unit.text))
+            except ValueError as error:
+                issues.append(Issue("error", "source-reference", record["key"], str(error)))
+        out.append(record)
+    return out
+
+
 def _capability(capabilities, resource, name):
     return capabilities["resources"].get(resource, {}).get(name, {}).get("value", False)
 
@@ -150,8 +170,12 @@ def analyze(paths=None, game_dir=None, metrics_provider=None, profile="developme
     a.checks["source"] = "NOT EXECUTED (no game directory)" if game_dir is None else "EXECUTED"
     if game_dir is not None:
         for resource, data in a.game.items():
+            all_units[resource] = ADAPTERS[resource].units(data)
+        records = a.records = expand_source_references(records, all_units, a.issues)
+        by_key = {r["key"]: r for r in records}
+        for resource, data in a.game.items():
             adapter = ADAPTERS[resource]
-            units = all_units[resource] = adapter.units(data)
+            units = all_units[resource]
             for record in (r for r in records if r["resource"] == resource):
                 unit = units.get(record["entry_id"])
                 a.issues += source_issues(record, units, adapter.unit_name)
@@ -193,7 +217,7 @@ def analyze(paths=None, game_dir=None, metrics_provider=None, profile="developme
                 a.excluded.append({"key": record["key"], "status": record["status"], "reason": reason})
             continue
         a.included.setdefault(resource, []).append(record)
-        if resource == "TYPENAME.FLX" or (resource in ("text.flx", "BOOKS-EN.FLX") and non_ascii):
+        if resource == "TYPENAME.FLX" or (resource in ("text.flx", "BOOKS-EN.FLX", "misctext.flx") and non_ascii):
             a.runtime.append(record)
 
     # Renderer capability and font / layout QA on what would enter the runtime.

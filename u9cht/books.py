@@ -14,6 +14,27 @@ TEXT_TOKENS = re.compile(r"`[fF][0-9]|`[pP]|\r\n|\x00")
 # converted from UTF-16 by the game itself. The reader overwrites the final UTF-16 unit with NUL, so a
 # Unicode body always ends with one explicit NUL unit that is not part of the text.
 UTF16_BOM = b"\xff\xfe"
+# Gargish passages (font `f5) are printed as written. A canonical target refers to the N-th
+# such source run with {{gargish:N}} so original text never enters the tracked store; the
+# build expands it from the local source.
+GARGISH_RUN = re.compile(r"`f5(.*?)(?=`[fFpP]|\Z)", re.S)
+GARGISH_REF = re.compile(r"\{\{gargish:([1-9][0-9]?)\}\}")
+
+
+def gargish_runs(source):
+    return GARGISH_RUN.findall(source or "")
+
+
+def expand_gargish(target, source):
+    """Replace each {{gargish:N}} with the N-th `f5 run of the local source (1-based)."""
+    runs = gargish_runs(source)
+
+    def run(match):
+        n = int(match.group(1))
+        if n > len(runs):
+            raise ValueError(f"{{{{gargish:{n}}}}} but the source has {len(runs)} Gargish run(s)")
+        return runs[n - 1]
+    return GARGISH_REF.sub(run, target)
 
 
 def ascii_body(raw):

@@ -43,7 +43,7 @@ def text_sha(s):
 
 
 def rec(resource, entry_id, target, source, status="draft", category="dialogue", **extra):
-    if resource == "text.flx":
+    if resource in ("text.flx", "misctext.flx"):
         sha, units = text_sha(source), len(source.encode("utf-16-le")) // 2
     else:
         raw = source.encode("ascii")
@@ -71,7 +71,8 @@ def metrics(missing=(), odd=()):
 class Env:
     """Synthetic game + canonical store in a temporary directory."""
 
-    def __init__(self, records, texts=TEXTS, names=None, books=None, glossary="", game_mutator=None):
+    def __init__(self, records, texts=TEXTS, names=None, books=None, glossary="", game_mutator=None,
+                 misc=("Locked.", "Options")):
         self.tmp = tempfile.TemporaryDirectory()
         root = Path(self.tmp.name)
         self.game = root / "game"
@@ -80,6 +81,7 @@ class Env:
             "text.flx": text_fixture(tuple(texts)),
             "TYPENAME.FLX": name_fixture(names) if names else name_fixture(),
             "BOOKS-EN.FLX": name_fixture(books or [book()]),
+            "misctext.flx": text_fixture(tuple(misc)),
         }
         sources = {"schema": "u9cht-source-baseline-v1", "resources": {}}
         for resource, data in self.files.items():
@@ -119,7 +121,7 @@ class SchemaAndStoreTests(unittest.TestCase):
         self.assertEqual(parse_key("text.flx:4041"), ("text.flx", 4041))
         self.assertEqual(parse_key("TYPENAME.FLX:5290"), ("TYPENAME.FLX", 5290))
         self.assertEqual(parse_key("BOOKS-EN.FLX:0"), ("BOOKS-EN.FLX", 0))
-        for bad in ("text.flx:01", "TEXT.FLX:1", "text.flx:-1", "misctext.flx:1", "text.flx",
+        for bad in ("text.flx:01", "TEXT.FLX:1", "text.flx:-1", "misctext.flx:01", "text.flx",
                     "Honesty", "text.flx:1 ", 4041, None):
             with self.assertRaises(ValueError):
                 parse_key(bad)
@@ -749,7 +751,7 @@ class PackAndMigrationTests(unittest.TestCase):
             migrate(ROOT, broken)
 
     def test_tracked_store_contains_no_original_source_text(self):
-        for name in ("text.jsonl", "typename.jsonl", "books.jsonl"):
+        for name in ("text.jsonl", "typename.jsonl", "books.jsonl", "misctext.jsonl"):
             for line in (ROOT / "translation/zh-TW" / name).read_text(encoding="utf-8").splitlines():
                 row = json.loads(line)
                 self.assertFalse({"source", "text", "english"} & set(row))
