@@ -356,11 +356,11 @@ bool probe_ink(uintptr_t raster, InkProbe& ink, const ProbeBuffers& q) noexcept 
                 }
                 ink.core_light = core; ink.dark_pixels = dark;
                 if (hi > lo && core >= 4 && dark*2 >= written && core_distinct) {
-                    uint32_t c = 0;
+                    uint32_t top = 0;
                     for (uint32_t k = 1; k < core_distinct; ++k)
-                        if (core_counts[k] > core_counts[c] || (core_counts[k] == core_counts[c] && luma(core_values[k]) > luma(core_values[c]))) c = k;
+                        if (core_counts[k] > core_counts[top] || (core_counts[k] == core_counts[top] && luma(core_values[k]) > luma(core_values[top]))) top = k;
                     ink.outline = true; ink.shadow_value = ink.value; ink.shadow_dx = ink.dx; ink.shadow_dy = ink.dy;
-                    ink.value = core_values[c]; ink.dx = X-cx[c]; ink.dy = Y-cy[c]; ink.solid = core_counts[c];
+                    ink.value = core_values[top]; ink.dx = X-cx[top]; ink.dy = Y-cy[top]; ink.solid = core_counts[top];
                     return true;
                 }
             }
