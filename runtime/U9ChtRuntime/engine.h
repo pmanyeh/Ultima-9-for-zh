@@ -70,6 +70,11 @@ struct InkProbe {
     uint32_t type = 0, reference = 0, value = 0, solid = 0, written = 0;
     int32_t dx = 0, dy = 0;
     bool usable = false;
+    // P10-1: outlined fonts (screen messages) fill with a light shade inside a dark outline. The fill is the ink;
+    // the darker outline shade becomes a one-pixel drop shadow drawn first.
+    bool shadow = false;
+    uint32_t shadow_value = 0;
+    int32_t shadow_dx = 0, shadow_dy = 0;
 };
 // P9-2: one contiguous run of plan slots inside an expanded diary buffer. Authored line breaks are dropped
 // on expansion (English journal sources contain none; the native flow wraps to the page), so one entry

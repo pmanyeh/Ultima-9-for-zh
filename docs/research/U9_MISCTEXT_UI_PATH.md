@@ -227,3 +227,25 @@ Counters: `message_insets=1`, `measures=26`, `leaks=0`, `errors=0`.
   - Otherwise, markers in the holder's copy are stripped in place. Counter: `misc.misc_message_strips`.
   - Both use the texture glyph path. The message raster is low resolution, so this is not the subtitle compositor.
 - `bind_book` and `strip_misc` gained a `locked` flag so they can run inside dispatch without re-taking the lock.
+
+## Session-6 result (runtime 0.2.24-p10-1)
+
+Private session `.local/p10-misc/session-6`, log `fc0da18b…e8a7`, exit 0. finish restored everything.
+
+- Signs now show Chinese in the screen message area (screenshots: 禁止露營, 野花保護區). `misc.book_messages=6`.
+  - The text is hard to read: the probe chose ink `0x8000` (RGB1555 black) for the message font
+    (blob height 21, reference `I`). That font is a light fill inside a dark outline; the P9-4 rule
+    "darkest recurring shade" picks the outline.
+- The message box shows the inset on first display, but a mouse-over re-flow loses it. The re-flowed buffer is already
+  stripped, so `strip_misc` reports no Chinese.
+
+## Runtime 0.2.25-p10-1
+
+- Ink rule: for each recurring shade, compute its most enclosed pixel (equal solid neighbours in the 3×3 cell).
+  The ink is the darkest shade whose enclosure is within 2 of the best.
+  - Thin light edge tones of anti-aliased book fonts stay excluded.
+  - An outlined font picks its fill.
+  - When the pick is not the darkest shade, the darkest becomes a 1-pixel down-right drop shadow, drawn first.
+  - Logged as `inks[].shadow` / `shadow_value`.
+  - Book and journal inks should be unchanged. This still needs a visual check.
+- Message box: a re-flow of a buffer already registered with Chinese segments is inset as well.

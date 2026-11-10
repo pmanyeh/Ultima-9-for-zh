@@ -201,13 +201,16 @@ uint32_t texture_glyph(uintptr_t raster, const InkProbe& ink, const uint8_t* alp
         std::memcpy(clip,reinterpret_cast<const void*>(raster+4),sizeof clip);
         saved = true;
         auto* live = reinterpret_cast<int32_t*>(raster+4);
-        for (uint32_t row = 0; row < height; ++row) for (uint32_t col = 0; col < width; ++col) {
-            if (alpha[size_t(row)*width+col] < 112) continue;
-            const int32_t x = left+int32_t(col), y = top+int32_t(row);
-            if (x < clip[0] || y < clip[1] || x > clip[2] || y > clip[3]) continue;
-            live[0] = x; live[1] = y; live[2] = x; live[3] = y;
-            native_blit(raster,ink.glyph,x+ink.dx,y+ink.dy);
-            ++written;
+        for (int pass = ink.shadow ? 0 : 1; pass < 2; ++pass) {
+            const int32_t shift = pass ? 0 : 1, dx = pass ? ink.dx : ink.shadow_dx, dy = pass ? ink.dy : ink.shadow_dy;
+            for (uint32_t row = 0; row < height; ++row) for (uint32_t col = 0; col < width; ++col) {
+                if (alpha[size_t(row)*width+col] < 112) continue;
+                const int32_t x = left+int32_t(col)+shift, y = top+int32_t(row)+shift;
+                if (x < clip[0] || y < clip[1] || x > clip[2] || y > clip[3]) continue;
+                live[0] = x; live[1] = y; live[2] = x; live[3] = y;
+                native_blit(raster,ink.glyph,x+dx,y+dy);
+                ++written;
+            }
         }
         std::memcpy(reinterpret_cast<void*>(raster+4),clip,sizeof clip);
         return written;
@@ -264,24 +267,47 @@ bool probe_ink(uintptr_t raster, InkProbe& ink, const ProbeBuffers& q) noexcept 
             // The ink is the darkest shade that recurs (luminance from 5-bit fields; the order is the same
             // for RGB555 and RGB565). A single-shade journal font yields its only value as before.
             const auto luma = [&](uint32_t v) { return sixteen ? 2*((v>>10)&31)+5*((v>>5)&31)+(v&31) : v; };
-            int32_t pick = -1;
-            for (uint32_t k = 0; k < distinct; ++k)
-                if (counts[k] >= 2 && (pick < 0 || luma(values[k]) < luma(values[uint32_t(pick)]))) pick = int32_t(k);
+            // Most enclosed pixel of one shade (count of equal solid neighbours in its 3x3 cell).
+            const auto most_enclosed = [&](uint32_t value, int32_t& px, int32_t& py) {
+                uint32_t enclosed = 0; px = -1; py = -1;
+                for (uint32_t y = 1; y+1 < size; ++y) for (uint32_t x = 1; x+1 < size; ++x) {
+                    bool solid = false;
+                    if (probe_value(q,sixteen,x,y,solid) != value || !solid) continue;
+                    uint32_t n = 0;
+                    for (int dy = -1; dy <= 1; ++dy) for (int dx = -1; dx <= 1; ++dx) {
+                        bool s2 = false; n += probe_value(q,sixteen,x+dx,y+dy,s2) == value && s2;
+                    }
+                    if (px < 0 || n > enclosed) { px = int32_t(x); py = int32_t(y); enclosed = n; }
+                }
+                return enclosed;
+            };
+            // P10-1: the ink is the darkest recurring shade among those whose stroke interior is within two
+            // neighbours of the most enclosed one. Anti-aliased book fonts keep their dark stroke (light edge tones
+            // are thinner); an outlined message font picks its fill instead of the thin dark outline.
+            uint32_t enclosure[32]{}, best_enclosure = 0;
+            for (uint32_t k = 0; k < distinct; ++k) if (counts[k] >= 2) {
+                int32_t ex = 0, ey = 0; enclosure[k] = most_enclosed(values[k],ex,ey);
+                best_enclosure = std::max(best_enclosure,enclosure[k]);
+            }
+            int32_t pick = -1, darkest = -1;
+            for (uint32_t k = 0; k < distinct; ++k) if (counts[k] >= 2 && enclosure[k]) {
+                if (darkest < 0 || luma(values[k]) < luma(values[uint32_t(darkest)])) darkest = int32_t(k);
+                if (enclosure[k]+2 >= best_enclosure && (pick < 0 || luma(values[k]) < luma(values[uint32_t(pick)]))) pick = int32_t(k);
+            }
             if (pick < 0) continue;
             const uint32_t best = uint32_t(pick);
-            int32_t px = -1, py = -1; uint32_t enclosed = 0;
-            for (uint32_t y = 1; y+1 < size; ++y) for (uint32_t x = 1; x+1 < size; ++x) {
-                bool solid = false;
-                if (probe_value(q,sixteen,x,y,solid) != values[best] || !solid) continue;
-                uint32_t n = 0;
-                for (int dy = -1; dy <= 1; ++dy) for (int dx = -1; dx <= 1; ++dx) {
-                    bool s2 = false; n += probe_value(q,sixteen,x+dx,y+dy,s2) == values[best] && s2;
-                }
-                if (px < 0 || n > enclosed) { px = int32_t(x); py = int32_t(y); enclosed = n; }
-            }
+            int32_t px = -1, py = -1;
+            const uint32_t enclosed = most_enclosed(values[best],px,py);
             if (px < 0) continue;
             ink.glyph = glyph; ink.dx = X-px; ink.dy = Y-py; ink.value = values[best];
             ink.solid = enclosed; ink.written = written; ink.reference = c; ink.usable = true;
+            ink.shadow = false;
+            if (darkest >= 0 && darkest != pick) {
+                int32_t sx = -1, sy = -1;
+                if (most_enclosed(values[uint32_t(darkest)],sx,sy) && sx >= 0) {
+                    ink.shadow = true; ink.shadow_value = values[uint32_t(darkest)]; ink.shadow_dx = X-sx; ink.shadow_dy = Y-sy;
+                }
+            }
             return true;
         }
         return true;
@@ -313,7 +339,12 @@ uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_
     }
     // P10-1 M1: any other flow may hold copies of marked misctext strings; strip them in place.
     if (guard.state->render && guard.state->texture_enabled && caller != 0x426648 && readable && t.text && t.length) {
-        const bool chinese = guard.state->strip_misc(t.text,t.length);
+        bool chinese = guard.state->strip_misc(t.text,t.length);
+        if (!chinese && caller == MessageBoxFlowReturn && t.text) {
+            // A re-flow (for example on mouse hover) sees the already stripped buffer: it is still Chinese.
+            Exclusive lock(guard.state->mutex);
+            for (const auto& b : guard.state->journal_buffers) if (b.base == t.text && !b.segments.empty()) { chinese = true; break; }
+        }
         t = {}; readable = read_flow_text(text_ref,t);
         // P10-1: the message box rectangle is the caller's own stack local; inset it before line positions are fixed.
         if (chinese && caller == MessageBoxFlowReturn && widget && inset_rect(word(widget+4),MessageBoxInset)) {
@@ -1583,7 +1614,7 @@ void Engine::snapshot(const char* event) noexcept {
               fields += "{\"blob\":"+std::to_string(v.blob)+",\"type\":"+std::to_string(v.type)+
                   ",\"usable\":"+(v.usable?"true":"false")+",\"reference\":"+std::to_string(v.reference)+
                   ",\"value\":"+std::to_string(v.value)+",\"solid\":"+std::to_string(v.solid)+
-                  ",\"written\":"+std::to_string(v.written)+",\"dx\":"+std::to_string(v.dx)+",\"dy\":"+std::to_string(v.dy)+"}";
+                  ",\"written\":"+std::to_string(v.written)+",\"dx\":"+std::to_string(v.dx)+",\"dy\":"+std::to_string(v.dy)+",\"shadow\":"+std::string(v.shadow?"true":"false")+",\"shadow_value\":"+std::to_string(v.shadow_value)+"}";
           }
           fields += "]}";
           life_count = 0; raster_fault_count = 0;
