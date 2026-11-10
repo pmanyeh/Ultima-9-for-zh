@@ -299,3 +299,15 @@ Private session `.local/p10-misc/session-9`, log `8ca78dc9…fdd7`, exit 0. fini
   - Height-15 font: not outlined, `0x98C6`.
   - Book fonts (height 18): not outlined, `0x80A8` and `0xA447`. These are the same inks as sessions 4–8.
 - Counters: `book_messages=7`, `message_insets=7`, `errors=0`, texture `faults=0`, `rejects=[0,0,0,0]`.
+
+## P10-2 item 1: font-relative CJK size for misctext UI (runtime 0.2.28-p10-2) — not yet tested in game
+
+- Heights seen (`texture_fonts`, font blob `+4`): 15 for options labels and the message box (font record `0xC`), 18 for books, 21 for screen messages.
+- Rule: `texture_em_for_height(h)` returns 16 for h ≥ 17, 14 for 15–16, and 12 below 15.
+  - The CJK advance scales with it: `texture_advance(16, em)`.
+  - Layout `0x5C7BB3`, bounds `0x5C5F5B`, line breaker `0x5C6378` / `0x5C6F5A`, glyph `0x5C5A80` and width `0x5C6240` all use the same function.
+- Scope: only buffers registered by `strip_misc` (`JournalBuffer::misc`).
+  - Journal, book pages and sign messages keep 16 px, because each is already human-approved in game and the journal font height is not logged.
+- 12 and 14 px glyphs are prewarmed: 5 sizes × 2,724 = 13,620 of 16,384 cache entries. Offline, all advances equal the em. Prewarm takes 5.9 s (was 3.7 s).
+  - If capacity or metrics fail, small sizes are disabled and everything stays at 16 px (`texture_glyphs.small_ems`).
+- New counter: `misc.small_em_glyphs`.

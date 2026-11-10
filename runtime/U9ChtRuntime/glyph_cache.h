@@ -9,6 +9,17 @@ namespace u9cht {
 inline constexpr size_t GlyphCacheCapacity = 16384;
 // P8-3: page textures (journal/books) take glyph pixels 1:1; a 16 px em equals the 16-unit logical cell.
 inline constexpr uint32_t TextureEm = 16;
+// P10-1: misctext UI text in small native fonts (font blob +4 = height) uses a smaller CJK em. Journal, book and
+// sign text keep TextureEm. Heights seen in game: 15 (options labels, message box), 18 (books), 21 (messages).
+inline constexpr uint32_t TextureSmallEm = 14, TextureTinyEm = 12;
+inline constexpr uint32_t texture_em_for_height(uint32_t height) noexcept {
+    return height >= 17 ? TextureEm : height >= 15 ? TextureSmallEm : TextureTinyEm;
+}
+// Logical advance of a CJK cell at a texture em (the 16-unit cell scaled to the em).
+inline constexpr uint32_t texture_advance(uint32_t base, uint32_t em) noexcept { return base*em/TextureEm; }
+static_assert(texture_em_for_height(21) == 16 && texture_em_for_height(18) == 16 && texture_em_for_height(17) == 16);
+static_assert(texture_em_for_height(16) == 14 && texture_em_for_height(15) == 14 && texture_em_for_height(14) == 12);
+static_assert(texture_advance(16,16) == 16 && texture_advance(16,14) == 14 && texture_advance(16,12) == 12);
 // Offline layout assumes every CJK glyph advances exactly one cell (u9cht/l10n runtime contract).
 inline constexpr uint32_t LayoutCellUnits = 16;
 struct GlyphKey {

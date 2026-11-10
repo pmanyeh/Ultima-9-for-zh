@@ -15,11 +15,13 @@ int wmain(int argc, wchar_t** argv) {
         log.event("offline_font","\"family\":\""+utf8(cache->font_family())+"\",\"sha256\":\""+utf8(cache->font_sha256())+"\"");
         // Mirrors Engine::install: the page-texture size is warmed only when capacity allows.
         const bool texture = pack->glyph_count*3 <= GlyphCacheCapacity;
+        const bool small = texture && pack->glyph_count*5 <= GlyphCacheCapacity;
         const auto started = GetTickCount64();
         for (uint32_t i = 0; i < pack->glyph_count; ++i) {
             const auto scalar = pack->scalars[i];
-            for (auto em : {20U,40U,TextureEm}) {
+            for (auto em : {20U,40U,TextureEm,TextureSmallEm,TextureTinyEm}) {
                 if (em == TextureEm && !texture) continue;
+                if ((em == TextureSmallEm || em == TextureTinyEm) && !small) continue;
                 cache->warm(scalar,em); const auto* g = cache->get(scalar,em);
                 require(g && g->advance > 0,"missing glyph");
                 log.event("offline_glyph", "\"scalar\":"+std::to_string(scalar)+
@@ -30,10 +32,11 @@ int wmain(int argc, wchar_t** argv) {
             require(a->advance*16/20 == b->advance*16/40,"inconsistent logical advances");
             require(b->advance*16/40 == int32_t(LayoutCellUnits),"font glyph advance differs from the 16-unit layout cell");
         }
-        const auto expected = pack->glyph_count*(texture ? 3 : 2);
+        const auto expected = pack->glyph_count*(small ? 5 : texture ? 3 : 2);
         require(cache->size() == expected && cache->misses == expected,"unexpected warm misses");
-        for (uint32_t i = 0; i < pack->glyph_count; ++i) for (auto em : {20U,40U,TextureEm}) {
+        for (uint32_t i = 0; i < pack->glyph_count; ++i) for (auto em : {20U,40U,TextureEm,TextureSmallEm,TextureTinyEm}) {
             if (em == TextureEm && !texture) continue;
+            if ((em == TextureSmallEm || em == TextureTinyEm) && !small) continue;
             const auto* first = cache->get(pack->scalars[i],em);
             cache->warm(pack->scalars[i],em);
             require(cache->get(pack->scalars[i],em) == first,"cache entry not reused");

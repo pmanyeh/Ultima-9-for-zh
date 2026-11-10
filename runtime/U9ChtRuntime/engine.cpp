@@ -715,13 +715,14 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
             }
         } else {
             // P9-4: book pages measure through these points; widths of verified book slots follow the journal rule.
-            uint32_t offset = 0, lead = 0; uint8_t previous = 0;
+            uint32_t offset = 0, lead = 0; uint8_t previous = 0; bool misc = false;
             const auto source = stage == 1 ? f->ebp : f->edi;
-            const int plan = e.render && e.texture_enabled ? e.journal_locate(source,offset,&previous) : -1;
+            const int plan = e.render && e.texture_enabled ? e.journal_locate(source,offset,&previous,&misc) : -1;
             if (plan >= 0 && e.pack.plans[size_t(plan)].wide[offset] >= 128) {
                 const auto font = stage == 1 ? f->ecx : f->edx;
                 const auto record = stage == 1 ? f->esi : f->ecx;
-                const auto metric = logical_metric(word(record+4),e.journal_advance(previous,e.pack.plans[size_t(plan)].advances[offset],lead));
+                const auto base = texture_advance(e.pack.plans[size_t(plan)].advances[offset],e.texture_em(record,misc));
+                const auto metric = logical_metric(word(record+4),e.journal_advance(previous,base,lead));
                 if (!metric) e.fail(16);
                 else { metric_header[0] = metric; f->eax = reinterpret_cast<uintptr_t>(metric_header.data())-font; ++e.book_width_overrides; }
             } else e.probe_flow_source(source, stage);
@@ -729,13 +730,14 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
     } else if (stage == 6 || stage == 7) {
         // P9-2: journal line breaking (0x5C6B10). Stage 6 = word measure 0x5C6378 (text ESI, font ECX,
         // record EDX); stage 7 = overlong-word character trim 0x5C6F5A (text EBX, font EDX, record ECX).
-        uint32_t offset = 0, lead = 0; uint8_t previous = 0;
+        uint32_t offset = 0, lead = 0; uint8_t previous = 0; bool misc = false;
         const auto source = stage == 6 ? f->esi : f->ebx;
-        const int plan = e.render && e.texture_enabled ? e.journal_locate(source,offset,&previous) : -1;
+        const int plan = e.render && e.texture_enabled ? e.journal_locate(source,offset,&previous,&misc) : -1;
         if (plan >= 0 && e.pack.plans[size_t(plan)].wide[offset] >= 128) {
             const auto font = stage == 6 ? f->ecx : f->edx;
             const auto record = stage == 6 ? f->edx : f->ecx;
-            const auto metric = logical_metric(word(record+4),e.journal_advance(previous,e.pack.plans[size_t(plan)].advances[offset],lead));
+            const auto base = texture_advance(e.pack.plans[size_t(plan)].advances[offset],e.texture_em(record,misc));
+            const auto metric = logical_metric(word(record+4),e.journal_advance(previous,base,lead));
             if (!metric) e.fail(16);
             else {
                 metric_header[0] = metric;
@@ -748,7 +750,8 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
         e.count_caller(e.glyph_callers,s[0]);
         if ((s[3]&255) == MiscMarkerLead) ++e.misc_leaks; // a marked misctext string drawn outside a stripped flow
         uint32_t journal_offset = 0, journal_lead = 0; uint8_t journal_previous = 0;
-        const int journal_plan = e.render && e.texture_enabled && s[0] == 0x5C5D09 ? e.journal_locate(s[9],journal_offset,&journal_previous) : -1;
+        bool journal_misc = false;
+        const int journal_plan = e.render && e.texture_enabled && s[0] == 0x5C5D09 ? e.journal_locate(s[9],journal_offset,&journal_previous,&journal_misc) : -1;
         if (journal_plan >= 0) {
             // P8-3: a journal span drawn into a page raster. Chinese is written into the raster itself.
             const auto& p = e.pack.plans[size_t(journal_plan)];
@@ -760,8 +763,10 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                     if (!v.blob) { v.blob = blob; v.height = word(blob+4); v.spacing = word(f->ecx+4); v.extra = word(f->ecx+8); v.glyphs = 1; break; }
                 }
             }
-            const auto metric = logical_metric(word(f->ecx+4),e.journal_advance(journal_previous,p.advances[journal_offset],journal_lead));
-            const auto* g = e.glyphs.get(p.wide[journal_offset],TextureEm);
+            const auto em = e.texture_em(f->ecx,journal_misc);
+            if (em != TextureEm) ++e.small_em_glyphs;
+            const auto metric = logical_metric(word(f->ecx+4),e.journal_advance(journal_previous,texture_advance(p.advances[journal_offset],em),journal_lead));
+            const auto* g = e.glyphs.get(p.wide[journal_offset],em);
             const auto raster = word(0x133393C);
             const InkProbe* ink = (s[3]&255) == 0x7F && metric && g ? e.ink_for(f->ecx,raster) : nullptr;
             if ((s[3]&255) != 0x7F) ++e.texture_rejects[0];
@@ -1002,7 +1007,15 @@ uint32_t Engine::journal_advance(uint8_t previous, uint32_t base, uint32_t& lead
     lead = journal_letter/2 + gap;
     return base + journal_letter + gap;
 }
-int Engine::journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous) noexcept {
+bool read_byte(uintptr_t address, uint8_t& out) noexcept;
+uint32_t Engine::texture_em(uintptr_t record, bool misc) const noexcept {
+    if (!misc || !small_ems || !record) return TextureEm;
+    uint8_t probe = 0;
+    const auto blob = word(record);
+    if (!blob || !read_byte(blob+4,probe)) return TextureEm;
+    return texture_em_for_height(word(blob+4));
+}
+int Engine::journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous, bool* misc) noexcept {
     for (auto& b : journal_buffers) {
         if (!b.base || source < b.base || source >= b.base+b.size) continue;
         const auto at = uint32_t(source-b.base);
@@ -1015,6 +1028,7 @@ int Engine::journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous
         offset = g.plan_offset+(at-g.offset);
         if (*reinterpret_cast<const uint8_t*>(source) != p.slots[offset]) { ++journal_stale; b = {}; return -1; }
         if (previous) *previous = at ? *reinterpret_cast<const uint8_t*>(source-1) : 0;
+        if (misc) *misc = b.misc;
         return int(g.plan);
     }
     return -1;
@@ -1135,7 +1149,7 @@ bool Engine::strip_misc(uintptr_t text, uint32_t length, bool locked) noexcept {
             if (r.segments.empty()) return false;
             for (auto& b : journal_buffers) if (b.base == text) b = {};
             auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
-            b = {}; b.base = text; b.size = r.length+1; b.entries = r.markers;
+            b = {}; b.base = text; b.size = r.length+1; b.entries = r.markers; b.misc = true;
             b.segments.reserve(r.segments.size());
             for (const auto& g : r.segments) b.segments.push_back({g.offset,g.plan,0,g.length});
             ++misc_buffers;
@@ -1169,7 +1183,7 @@ int32_t Engine::measure_misc(uintptr_t record, uintptr_t text, uint32_t length, 
             for (uint32_t j = 0; j < g.length; ++j) if (p.wide[j] >= 128) {
                 uint32_t lead = 0;
                 const uint8_t previous = g.offset+j ? copy[g.offset+j-1] : 0;
-                width += int32_t(journal_advance(previous,p.advances[j],lead)) - (int32_t(slot_width)+spacing);
+                width += int32_t(journal_advance(previous,texture_advance(p.advances[j],texture_em(record,true)),lead)) - (int32_t(slot_width)+spacing);
             }
         }
         Exclusive lock(mutex); ++misc_measures;
@@ -1464,8 +1478,16 @@ void Engine::install(const Config& config, Logger& logger) {
             const auto* t = glyphs.get(pack.scalars[i],TextureEm); const auto* b = glyphs.get(pack.scalars[i],40);
             if (!t || !b || t->advance*16/int32_t(TextureEm) != b->advance*16/40) texture_enabled = false;
         }
-        log->event("texture_glyphs","\"enabled\":"+std::string(texture_enabled?"true":"false")+",\"em\":"+std::to_string(TextureEm));
-        for (uint32_t i = 0; i < pack.glyph_count; ++i) for (auto em : {20U,40U,TextureEm}) if (const auto* g = glyphs.get(pack.scalars[i],em))
+        // P10-1: smaller ems for misctext UI text in small fonts; disabled (16 px everywhere) when capacity or metrics disagree.
+        small_ems = texture_enabled && pack.glyph_count*5 <= GlyphCacheCapacity;
+        if (small_ems) for (uint32_t i = 0; i < pack.glyph_count && small_ems; ++i) for (auto em : {TextureSmallEm,TextureTinyEm}) {
+            glyphs.warm(pack.scalars[i],em);
+            const auto* t = glyphs.get(pack.scalars[i],em);
+            if (!t || t->advance <= 0 || uint32_t(t->advance) > em) small_ems = false;
+        }
+        log->event("texture_glyphs","\"enabled\":"+std::string(texture_enabled?"true":"false")+",\"em\":"+std::to_string(TextureEm)+
+            ",\"small_ems\":"+std::string(small_ems?"true":"false"));
+        for (uint32_t i = 0; i < pack.glyph_count; ++i) for (auto em : {20U,40U,TextureEm,TextureSmallEm,TextureTinyEm}) if (const auto* g = glyphs.get(pack.scalars[i],em))
         { const auto scalar = pack.scalars[i];
             log->event("glyph_cache_warm", "\"scalar\":"+std::to_string(scalar)+",\"em\":"+std::to_string(em)+
                 ",\"index\":"+std::to_string(g->index)+",\"width\":"+std::to_string(g->width)+
@@ -1681,7 +1703,7 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"leaks\":"+std::to_string(misc_leaks)+",\"draw_strips\":"+std::to_string(misc_draw_strips)+
               ",\"bounded\":"+std::to_string(misc_bounded)+",\"book_overwritten\":"+std::to_string(book_overwritten)+
               ",\"measures\":"+std::to_string(misc_measures)+",\"measure_faults\":"+std::to_string(misc_measure_faults)+
-              ",\"message_insets\":"+std::to_string(message_insets)+",\"book_messages\":"+std::to_string(book_messages)+
+              ",\"message_insets\":"+std::to_string(message_insets)+",\"small_em_glyphs\":"+std::to_string(small_em_glyphs)+",\"book_messages\":"+std::to_string(book_messages)+
               ",\"misc_message_strips\":"+std::to_string(misc_message_strips)+"}";
           fields += ",\"flow_misses\":[";
           { bool first = true; for (const auto& m : flow_misses) if (m.caller) { if (!first) fields += ','; first = false;

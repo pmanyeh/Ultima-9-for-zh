@@ -92,6 +92,7 @@ struct JournalSegment { uint32_t offset = 0, plan = 0, plan_offset = 0, length =
 struct JournalBuffer {
     uintptr_t base = 0;
     uint32_t size = 0, entries = 0;
+    bool misc = false; // P10-1: stripped misctext UI text; its CJK em follows the native font height
     std::vector<JournalSegment> segments;
 };
 struct FlowProbe {
@@ -177,7 +178,11 @@ struct Engine {
     std::array<uint64_t,4> texture_rejects{}; // slot byte, metric, glyph cache, ink
     const InkProbe* ink_for(uintptr_t record, uintptr_t raster) noexcept;
     int plan_for_entry(uint32_t entry) const noexcept;
-    int journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous = nullptr) noexcept;
+    int journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous = nullptr, bool* misc = nullptr) noexcept;
+    bool small_ems = false; // 12/14 px texture glyphs warmed and consistent
+    uint64_t small_em_glyphs = 0;
+    // CJK em for a font record: TextureEm unless `misc` text and the font is small.
+    uint32_t texture_em(uintptr_t record, bool misc) const noexcept;
     bool expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept;
     // P10-1 M1: misctext UI marker bridge (see misc_marker.h).
     uint64_t misc_marked = 0, misc_mark_failures = 0, misc_stripped = 0, misc_buffers = 0;
