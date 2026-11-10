@@ -180,3 +180,23 @@ Private session `.local/p10-misc/session-3`, log `083698e3…0a85`, exit 0. fini
   - `flow_misses` records unlocated 0x7F glyphs inside a recorded flow text, with the covering ring buffer if any.
   - `texture_fonts` records, per font blob used by texture glyphs, its height (`blob+4`), spacing and extra leading.
     This is input for font-relative CJK sizing (dialog overflow), which is not yet implemented.
+
+## Session-4 result (runtime 0.2.22-p10-1) — PASS WITH LIMITATIONS
+
+Private session `.local/p10-misc/session-4`, log `27dc21be…813d`, exit 0. finish restored everything.
+
+- The bestiary title rendered as full Chinese (drop-cap fix works).
+  - The human prefers the original decorative English title, so misctext 255 is now kept in English (store record removed).
+- Counters: `marked=143`, `stripped=92`, `draw_strips=40`, `measures=20`, `measure_faults=0`, `leaks=0`, `invalid=0`, `errors=0`.
+- Texture fonts seen: blob heights 15 (2,755 glyphs), 18 (6,205) and 18 (147). Spacing is 0 for all; extra leading is −1.
+- Sign (book 340): `bound=true` again, and the flow probe counted 30 unlocated glyphs inside its text range.
+  `flow_misses` stayed empty because the 0.2.22 filter only recorded bytes equal to `0x7F`.
+  So the bytes at the unlocated glyph sources were **not** `0x7F` when drawn. Cause still UNKNOWN.
+
+## Runtime 0.2.23-p10-1
+
+- Message box (`0x41F2C3` → flow return `0x41F305`): the text rectangle `(0x1C,0x26,0x9C,0x50)` is the caller's
+  own stack local (CONFIRMED, static). When the flow holds misctext Chinese, it is inset by 8 raster px on both sides
+  before line positions are fixed. Width goes from 128 to 112. Counter: `misc.message_insets`.
+- `flow_misses` now records any unlocated byte inside a flow text: the first 8 byte values, plus `slot_misses` for `0x7F`.
+- Translation: BOOKS-EN 1 heading "Beasts" → 怪獸／敵人, because the list includes human foes (human review).

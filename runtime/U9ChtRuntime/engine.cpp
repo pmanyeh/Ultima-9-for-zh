@@ -287,6 +287,15 @@ bool probe_ink(uintptr_t raster, InkProbe& ink, const ProbeBuffers& q) noexcept 
         return true;
     } __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
 }
+// P10-1: rect {left,top,right,bottom}; shrinks it horizontally when it stays at least 32 px wide.
+bool inset_rect(uintptr_t rect, int32_t inset) noexcept {
+    __try {
+        if (!rect) return false;
+        auto* r = reinterpret_cast<int32_t*>(rect);
+        if (r[2]-r[0] < 2*inset+32) return false;
+        r[0] += inset; r[2] -= inset; return true;
+    } __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+}
 // P8-2 probe: paged text-flow initializer 0x5C7620 (thiscall, 4 args). Observe only.
 uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_t text_ref, uintptr_t a3, uintptr_t a4) {
     Guard guard;
@@ -304,8 +313,12 @@ uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_
     }
     // P10-1 M1: any other flow may hold copies of marked misctext strings; strip them in place.
     if (guard.state->render && guard.state->texture_enabled && caller != 0x426648 && readable && t.text && t.length) {
-        guard.state->strip_misc(t.text,t.length);
+        const bool chinese = guard.state->strip_misc(t.text,t.length);
         t = {}; readable = read_flow_text(text_ref,t);
+        // P10-1: the message box rectangle is the caller's own stack local; inset it before line positions are fixed.
+        if (chinese && caller == MessageBoxFlowReturn && widget && inset_rect(word(widget+4),MessageBoxInset)) {
+            Exclusive lock(guard.state->mutex); ++guard.state->message_insets;
+        }
     }
     {   // P9-4: a book converted just before this call (0x42E560 -> strdup -> 0x5C7620).
         int book = -1;
@@ -983,28 +996,30 @@ bool Engine::mark_misc(uintptr_t object, uint32_t plan) noexcept {
 }
 // P10-1 M1: strips markers from a flow text in place (the buffer only shrinks) and records the plan segments
 // for the journal/book width and texture glyph path. Called without the engine lock.
-void Engine::strip_misc(uintptr_t text, uint32_t length) noexcept {
+bool Engine::strip_misc(uintptr_t text, uint32_t length) noexcept {
     try {
         std::vector<uint8_t> copy(size_t(length)+1);
-        if (!copy_guarded(text,reinterpret_cast<char*>(copy.data()),length+1)) return;
-        if (std::find(copy.begin(),copy.begin()+length,MiscMarkerLead) == copy.begin()+length) return;
+        if (!copy_guarded(text,reinterpret_cast<char*>(copy.data()),length+1)) return false;
+        if (std::find(copy.begin(),copy.begin()+length,MiscMarkerLead) == copy.begin()+length) return false;
         const auto r = strip_misc_markers(copy.data(),length,[&](uint32_t plan, uint32_t& n) -> const uint8_t* {
             if (plan >= pack.count) return nullptr;
             const auto& p = pack.plans[plan];
             if (p.is_name() || p.is_book()) return nullptr;
             n = p.length; return p.slots.data();
         });
-        if (r.markers && !write_guarded(text,copy.data(),r.length+1)) { Exclusive lock(mutex); ++misc_mark_failures; return; }
+        if (r.markers && !write_guarded(text,copy.data(),r.length+1)) { Exclusive lock(mutex); ++misc_mark_failures; return false; }
         Exclusive lock(mutex);
         misc_stripped += r.markers; misc_invalid += r.invalid; misc_partial += r.partial;
-        if (r.segments.empty()) return;
+        if (r.segments.empty()) return false;
         for (auto& b : journal_buffers) if (b.base == text) b = {};
         auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
         b = {}; b.base = text; b.size = r.length+1; b.entries = r.markers;
         b.segments.reserve(r.segments.size());
         for (const auto& g : r.segments) b.segments.push_back({g.offset,g.plan,0,g.length});
         ++misc_buffers;
+        return true;
     } catch (...) { Exclusive lock(mutex); ++journal_alloc_failures; }
+    return false;
 }
 bool read_byte(uintptr_t address, uint8_t& out) noexcept {
     __try { out = *reinterpret_cast<const uint8_t*>(address); return true; }
@@ -1062,7 +1077,7 @@ void Engine::probe_flow_source(uintptr_t source, uint32_t stage) noexcept {
             ++f.glyph[range];
             if (!paint_generation) ++f.glyph_outside_paint;
             uint8_t byte = 0;
-            if (range == 0 && read_byte(source,byte) && byte == 0x7F) {
+            if (range == 0 && read_byte(source,byte)) {
                 FlowMiss* m = nullptr;
                 for (auto& v : flow_misses) if (v.caller == f.caller && v.text == f.text) { m = &v; break; }
                 if (!m) for (auto& v : flow_misses) if (!v.caller) {
@@ -1073,7 +1088,10 @@ void Engine::probe_flow_source(uintptr_t source, uint32_t stage) noexcept {
                     }
                     break;
                 }
-                if (m) ++m->count;
+                if (m) {
+                    ++m->count; m->slot_misses += byte == 0x7F;
+                    if (m->byte_count < m->bytes.size()) m->bytes[m->byte_count++] = byte;
+                }
             }
             f.glyph_paint_caller = paint_caller; f.glyph_paint_owner = paint_owner; f.glyph_paint_widget = paint_widget;
             const auto raster = word(0x133393C);
@@ -1532,12 +1550,16 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"invalid\":"+std::to_string(misc_invalid)+",\"partial\":"+std::to_string(misc_partial)+
               ",\"leaks\":"+std::to_string(misc_leaks)+",\"draw_strips\":"+std::to_string(misc_draw_strips)+
               ",\"bounded\":"+std::to_string(misc_bounded)+",\"book_overwritten\":"+std::to_string(book_overwritten)+
-              ",\"measures\":"+std::to_string(misc_measures)+",\"measure_faults\":"+std::to_string(misc_measure_faults)+"}";
+              ",\"measures\":"+std::to_string(misc_measures)+",\"measure_faults\":"+std::to_string(misc_measure_faults)+
+              ",\"message_insets\":"+std::to_string(message_insets)+"}";
           fields += ",\"flow_misses\":[";
           { bool first = true; for (const auto& m : flow_misses) if (m.caller) { if (!first) fields += ','; first = false;
               fields += "{\"caller\":"+std::to_string(m.caller)+",\"text\":"+std::to_string(m.text)+",\"offset\":"+std::to_string(m.offset)+
                   ",\"buffer\":"+std::to_string(m.buffer)+",\"buffer_size\":"+std::to_string(m.buffer_size)+",\"segments\":"+std::to_string(m.segments)+
-                  ",\"first_segment\":"+std::to_string(m.first_segment)+",\"count\":"+std::to_string(m.count)+"}"; } }
+                  ",\"first_segment\":"+std::to_string(m.first_segment)+",\"count\":"+std::to_string(m.count)+
+                  ",\"slot_misses\":"+std::to_string(m.slot_misses)+",\"bytes\":[";
+              for (uint32_t i = 0; i < m.byte_count; ++i) { if (i) fields += ','; fields += std::to_string(m.bytes[i]); }
+              fields += "]}"; } }
           fields += "],\"texture_fonts\":[";
           { bool first = true; for (const auto& v : texture_fonts) if (v.blob) { if (!first) fields += ','; first = false;
               fields += "{\"blob\":"+std::to_string(v.blob)+",\"height\":"+std::to_string(v.height)+",\"spacing\":"+std::to_string(v.spacing)+

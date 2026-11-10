@@ -22,6 +22,11 @@ inline constexpr uint32_t DrawStringUnbounded = 0xFFFFFFFF;
 // 0x4260F1 builds the bestiary title from misctext 255: text[0] becomes a "\x0C\x11%c" drop cap and text+1 the
 // title. Its marked cache gets a sacrificial leading space so the whole Chinese title stays in text+1.
 inline constexpr uint32_t MiscDropCapEntry = 0xC000 + 255;
+// 0x41F2C3/0x41F300: the message box builds its text rectangle (0x1C,0x26,0x9C,0x50) on its own stack and passes
+// {1,&rect} to the flow initializer (return 0x41F305). Chinese fills every line to the frame edge, so a flow
+// holding misctext Chinese is inset by this many raster pixels on both sides.
+inline constexpr uintptr_t MessageBoxFlowReturn = 0x41F305;
+inline constexpr int32_t MessageBoxInset = 8;
 
 inline bool encode_misc_marker(uint32_t plan, char* out) noexcept {
     if (plan >= MiscMarkerLimit) return false;
