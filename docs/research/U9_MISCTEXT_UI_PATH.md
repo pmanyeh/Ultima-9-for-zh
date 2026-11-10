@@ -345,3 +345,31 @@ Runtime and pack:
   - If the conversion buffer is too small, the plain slots are used instead (`misc.shop_short`).
   - The parsers copy marker + name. The label draw / width / flow / holder strip points then bind it like any marked misctext.
 - Counters: `misc.shop_converts`, `misc.shop_short`.
+
+## P10-2 item 3: clock message (runtime 0.2.30-p10-2) — not yet tested in game
+
+Static findings (CONFIRMED, `0x654D00…0x655210`, strings `0x7A8A38…0x7A8B54`):
+
+- Hour phrase: `midnight`, `one`…`eleven` or `noon`. When applicable, the routine appends ` in the morning`, ` in the afternoon` or ` in the evening`.
+- Sentences, built with `sprintf` into `[ebp+0x1C]` and shown with `0x624680(text, 2, 1)`:
+  - `It is %s.`
+  - `It is %s %s.` with `a quarter past`, `half past` or `a quarter till`.
+  - `It is %d minute%s%s %s.` with minutes, `" "` or `"s "`, `past` or `till`, then the hour.
+  - Above 30 minutes the game itself switches to `till` and the next hour (`0x655174`: `cmp edx,0x1E` … `60-m`).
+- `0x624680` constructs the message holder; its full copy is the existing hook site `0x41BC61`.
+
+Implementation (no executable bytes changed, no new hook site):
+
+- `clock_text.h` `clock_to_chinese()` accepts exactly these shapes. Outputs:
+  - 現在是早上七點。
+  - 現在是早上七點十五分。 / 現在是中午十二點半。
+  - 現在差十五分就是晚上八點了。
+  - 現在是早上七點三分。 / 現在差二十二分就是下午一點了。
+  - Midnight and noon become 午夜十二點 and 中午十二點; the hour 2 is written 兩.
+- Unit test `U9ChtClockTextTests`: all 6,344 generated sentences parse. Every produced scalar is in `ClockScalars`, and
+  the Chinese is never longer in bytes than the English. Malformed and non-clock sentences return nothing.
+- At `0x41BC61` (stage 0, unbound source), the holder's own copy of a clock sentence is rewritten in place as slots.
+  Each slot is bound to a one-character clock plan, then drawn by the texture glyph path (message font, 16 px).
+  Counters: `misc.clock_rewrites`, `clock_unmatched`, `clock_too_long`. Event `clock_text.enabled`.
+- Pack: one-character text-domain plans from `0xF000` for `clock_scalars` (27 added; 2 already exist as identical targets).
+  They are added only when the build includes misctext, so historical subset packs stay byte-identical.

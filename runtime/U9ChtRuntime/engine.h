@@ -5,6 +5,7 @@
 #include "compositor.h"
 #include "raster_runs.h"
 #include "misc_marker.h"
+#include "clock_text.h"
 #include <atomic>
 
 namespace u9cht {
@@ -168,6 +169,11 @@ struct Engine {
     // P10-1: output buffer of the last book conversion (0x42E64A); signs pass it to the message holder.
     uintptr_t pending_book_buffer = 0;
     uint64_t book_messages = 0, misc_message_strips = 0, shop_converts = 0, shop_short = 0;
+    // P10-2 clock: one-character plan per ClockScalars entry (-1 when the pack lacks it; then clock is off).
+    std::array<int32_t,sizeof(ClockScalars)/sizeof(char16_t)-1> clock_plans{};
+    bool clock_enabled = false;
+    uint64_t clock_rewrites = 0, clock_unmatched = 0, clock_too_long = 0;
+    bool rewrite_clock(uintptr_t dest, uint32_t length) noexcept; // caller holds `mutex`
     uint32_t journal_next = 0;
     uint64_t journal_markers = 0, journal_marker_short = 0, journal_expansions = 0, journal_spans = 0;
     uint64_t journal_width_overrides = 0, journal_breaks_dropped = 0, journal_spaces_kept = 0, journal_leading_applied = 0;

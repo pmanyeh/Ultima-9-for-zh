@@ -127,6 +127,29 @@ python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-1
   - 存讀檔頁和法術書還沒有在這輪逐一確認；
   - `reports/P10_1_MISCTEXT.md` 尚未撰寫。
 
+## 3c. P10-2（2026-11-11，使用者不在時完成，全部尚未進遊戲測試）
+
+最新 runtime：`0.2.30-p10-2`（`.local/p10-misc/build/Release`），輸出：`.local/p10-misc/out-m11`，離線檢查：`.local/p10-misc/off-m11-huninn.jsonl`。
+
+1. 小字型的中文縮放（`0eb7bf3`）：只套用在 misctext UI 文字。字型高度 15–16 用 14 px，≤14 用 12 px。日誌、書頁和路牌維持 16 px。
+2. 商店清單（`abe15b3`）：
+   - 56 個商店檔的商品名稱改用 TYPENAME 的譯文（依型別編號對應）。
+   - pack 新增 173 個商店名稱方案（0xE000 起）。
+   - runtime 在讀取商店書本時，替每個商品名稱插入標記。
+3. 時鐘訊息（本次提交）：在訊息容器的複製點 0x41BC61 辨識英文句型，就地改寫成中文。單字方案 0xF000 起。
+
+下一場測試的啟動指令：
+
+```sh
+python scripts/run_p8_0_session.py start --session .local/p10-misc/session-10   --label "P10-2 small em / shops / clock" --build .local/p10-misc/out-m11   --runtime .local/p10-misc/build/Release --config .local/p9-2/u9cht.ini --preserve-saves   --seed-saves .local/p10-misc/session-1/final-savegame   --keymap .local/p10-misc/keymap/U9CHT-TEST.kmp --offline .local/p10-misc/off-m11-huninn.jsonl
+```
+
+這場要檢查：
+- 選項頁和離開遊戲對話框的字變小後是否正常；
+- 點地球家裡的時鐘；
+- 進 Britannia 找一間商店，看買／賣清單；
+- 順便看存讀檔頁、法術書、屬性頁。
+
 ## 4. 之後的待辦
 
 - 寫 `reports/P10_1_MISCTEXT.md`（遊戲內結果出來後再寫；capabilities 已引用這個檔名）。

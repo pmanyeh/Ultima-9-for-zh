@@ -696,6 +696,19 @@ class PackAndMigrationTests(unittest.TestCase):
         self.assertEqual([e for e, t in plans if t == "長劍"], [4])
         self.assertEqual(sum(1 for e, _ in plans if base <= e <= RUNTIME_CONTRACT["shop_name_entry_max"]), 1)
 
+    def test_clock_scalars_match_runtime_header(self):
+        header = (ROOT / "runtime" / "U9ChtRuntime" / "clock_text.h").read_text(encoding="utf-8")
+        m = re.search(r'ClockScalars\[\] = u"([^"]+)"', header)
+        self.assertIsNotNone(m)
+        self.assertEqual(m.group(1), RUNTIME_CONTRACT["clock_scalars"])
+        # clock plans are added only when asked, and never duplicate an identical one-character text target.
+        rows = [rec("text.flx", 1, "是", "x"), rec("text.flx", 2, "測試", "y")]
+        plain = decode_pack(encode_pack(rows, "0" * 64))[3]
+        clocked = decode_pack(encode_pack(rows, "0" * 64, clock=True))[3]
+        self.assertEqual(plain, [(1, "是"), (2, "測試")])
+        extra = [p for p in clocked if p[0] >= RUNTIME_CONTRACT["clock_entry_base"]]
+        self.assertEqual("".join(t for _, t in extra), RUNTIME_CONTRACT["clock_scalars"].replace("是", ""))
+
     def test_pack_decode_round_trip(self):
         rows = [rec("text.flx", 7, "測試", "x"), rec("TYPENAME.FLX", 3, "工具", "tool", category="item-name")]
         pack = encode_pack(rows, "a" * 64, "b" * 64)

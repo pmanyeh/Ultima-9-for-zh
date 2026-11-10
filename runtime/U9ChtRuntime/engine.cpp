@@ -734,7 +734,8 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
         } else if (!m.binding && e.render && e.texture_enabled && f->eax > 1) {
             // P10-1: the message holder 0x41BBB0 copied an unbound text. Signs (0x5E9701) pass the book reader's
             // converted buffer; misctext messages (0x63BB3F) pass a marked cache. Bind the holder's own copy.
-            if (e.pending_book >= 0 && source == e.pending_book_buffer) {
+            if (e.clock_enabled && e.rewrite_clock(dest,f->eax-1)) ++e.clock_rewrites;
+            else if (e.pending_book >= 0 && source == e.pending_book_buffer) {
                 if (e.bind_book(dest,f->eax-1,uint32_t(e.pending_book),true)) ++e.book_messages;
                 e.pending_book = -1; e.pending_book_buffer = 0;
             } else if (e.strip_misc(dest,f->eax-1,true)) ++e.misc_message_strips;
@@ -1233,6 +1234,31 @@ int32_t Engine::measure_misc(uintptr_t record, uintptr_t text, uint32_t length, 
         return width;
     } catch (...) { Exclusive lock(mutex); ++misc_measure_faults; return native; }
 }
+// P10-2: the holder's copy of an English clock sentence becomes Chinese slots in place (never longer: one byte
+// per scalar), each slot bound to its one-character clock plan. Caller holds `mutex`; no game calls.
+bool Engine::rewrite_clock(uintptr_t dest, uint32_t length) noexcept {
+    try {
+        if (length < 8 || length > ClockMaxEnglish) return false;
+        char english[ClockMaxEnglish+1]{};
+        if (!copy_guarded(dest,english,length) || std::memcmp(english,"It is ",6) != 0) return false;
+        const auto zh = clock_to_chinese(std::string_view(english,length));
+        if (zh.empty()) { ++clock_unmatched; return false; }
+        if (zh.size() > length) { ++clock_too_long; return false; }
+        std::string slots; std::vector<JournalSegment> segments;
+        const std::u16string_view scalars = ClockScalars;
+        for (const auto c : zh) {
+            const auto k = scalars.find(c);
+            if (k == std::u16string_view::npos || clock_plans[k] < 0) { ++clock_unmatched; return false; }
+            segments.push_back({uint32_t(slots.size()),uint32_t(clock_plans[k]),0,1});
+            slots += char(0x7F);
+        }
+        if (!write_guarded(dest,slots.c_str(),uint32_t(slots.size()+1))) return false;
+        for (auto& b : journal_buffers) if (b.base == dest) b = {};
+        auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
+        b = {}; b.base = dest; b.size = uint32_t(slots.size()+1); b.entries = 1; b.segments = std::move(segments);
+        return true;
+    } catch (...) { ++journal_alloc_failures; return false; }
+}
 void Engine::count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept {
     for (auto& c : table) {
         if (c.caller == caller) { ++c.count; return; }
@@ -1530,6 +1556,14 @@ void Engine::install(const Config& config, Logger& logger) {
         }
         log->event("texture_glyphs","\"enabled\":"+std::string(texture_enabled?"true":"false")+",\"em\":"+std::to_string(TextureEm)+
             ",\"small_ems\":"+std::string(small_ems?"true":"false"));
+        // P10-2: the clock needs a one-character plan for every scalar it can produce.
+        clock_enabled = texture_enabled;
+        for (size_t k = 0; k < clock_plans.size(); ++k) {
+            const wchar_t one[2] = {wchar_t(ClockScalars[k]),0};
+            clock_plans[k] = pack.match(one);
+            if (clock_plans[k] < 0) clock_enabled = false;
+        }
+        log->event("clock_text","\"enabled\":"+std::string(clock_enabled?"true":"false"));
         for (uint32_t i = 0; i < pack.glyph_count; ++i) for (auto em : {20U,40U,TextureEm,TextureSmallEm,TextureTinyEm}) if (const auto* g = glyphs.get(pack.scalars[i],em))
         { const auto scalar = pack.scalars[i];
             log->event("glyph_cache_warm", "\"scalar\":"+std::to_string(scalar)+",\"em\":"+std::to_string(em)+
@@ -1748,7 +1782,8 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"measures\":"+std::to_string(misc_measures)+",\"measure_faults\":"+std::to_string(misc_measure_faults)+
               ",\"message_insets\":"+std::to_string(message_insets)+",\"small_em_glyphs\":"+std::to_string(small_em_glyphs)+",\"book_messages\":"+std::to_string(book_messages)+
               ",\"misc_message_strips\":"+std::to_string(misc_message_strips)+",\"shop_converts\":"+std::to_string(shop_converts)+
-              ",\"shop_short\":"+std::to_string(shop_short)+"}";
+              ",\"shop_short\":"+std::to_string(shop_short)+",\"clock_rewrites\":"+std::to_string(clock_rewrites)+
+              ",\"clock_unmatched\":"+std::to_string(clock_unmatched)+",\"clock_too_long\":"+std::to_string(clock_too_long)+"}";
           fields += ",\"flow_misses\":[";
           { bool first = true; for (const auto& m : flow_misses) if (m.caller) { if (!first) fields += ','; first = false;
               fields += "{\"caller\":"+std::to_string(m.caller)+",\"text\":"+std::to_string(m.text)+",\"offset\":"+std::to_string(m.offset)+

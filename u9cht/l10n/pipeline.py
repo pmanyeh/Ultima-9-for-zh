@@ -342,7 +342,10 @@ def build(a, output, game_dir=None):
         names = outputs.get("TYPENAME.FLX")
         books = outputs.get("BOOKS-EN.FLX")
         pack = encode_pack(a.runtime, text_hash, hashlib.sha256(names).hexdigest() if names else None,
-                           hashlib.sha256(books).hexdigest() if books else None)
+                           hashlib.sha256(books).hexdigest() if books else None,
+                           # P10-2: the runtime clock text is a misctext UI feature; selections without misctext
+                           # (for example the historical showcase subsets) keep their exact packs.
+                           clock=any(r.get("resource") == "misctext.flx" for r in a.runtime))
         files["runtime/allowlist.u9ct"] = pack
         a.glyphs["generated_pack_sha256"] = hashlib.sha256(pack).hexdigest()
     report = qa_report(a)

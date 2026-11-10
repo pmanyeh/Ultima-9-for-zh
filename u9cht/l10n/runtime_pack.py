@@ -14,7 +14,7 @@ from fractions import Fraction
 from ..flx import digest
 
 RUNTIME_CONTRACT = {
-    "runtime": "U9ChtRuntime/0.2.29-p10-2",
+    "runtime": "U9ChtRuntime/0.2.30-p10-2",
     "magic": "U9CTP51",
     "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans",
                       "4": "text.flx, TYPENAME and UTF-16 BOOKS-EN plans"},
@@ -48,7 +48,11 @@ RUNTIME_CONTRACT = {
     # P10-2: item names inside translated shop lists (BOOKS-EN '#type "name" $price' lines) get their own
     # text-domain plans from this base; the runtime marks each name when the shop book is converted.
     "shop_name_entry_base": 0xE000,
-    "shop_name_entry_max": 0xFFFF,
+    "shop_name_entry_max": 0xEFFF,
+    # P10-2 clock: the runtime rewrites the executable's English time sentences in the screen message holder
+    # (runtime/U9ChtRuntime/clock_text.h); each scalar it can produce has a one-character text-domain plan.
+    "clock_entry_base": 0xF000,
+    "clock_scalars": "現在是差分就了。早上下午晚中夜點半十一二兩三四五六七八九",
     "name_entry_max": 8191,
     "name_marker": "U9T%04X",
     "identical_text_targets_share_one_plan": True,
@@ -195,11 +199,19 @@ def shop_name_plans(records, text_targets):
     return [(SHOP_NAME_BASE + i, n) for i, n in enumerate(extra)]
 
 
-def encode_pack(records, text_sha256, typename_sha256=None, books_sha256=None):
+def clock_plans(text_targets):
+    """One-character plans for the runtime clock text, except characters that already are a whole text target."""
+    base = RUNTIME_CONTRACT["clock_entry_base"]
+    return [(base + i, c) for i, c in enumerate(RUNTIME_CONTRACT["clock_scalars"]) if c not in text_targets]
+
+
+def encode_pack(records, text_sha256, typename_sha256=None, books_sha256=None, clock=False):
     """Encode v2 (text only), v3 (text + names) or v4 (text, names and books)."""
     shared = shared_text_targets(records)
     plans = [(plan_entry(r), r["target"]) for r in records if r["key"] not in shared]
     plans += shop_name_plans(records, {t for e, t in plans if e < 0x10000})
+    if clock and any(e < 0x10000 for e, _ in plans):
+        plans += clock_plans({t for e, t in plans if e < 0x10000})
     plans.sort(key=lambda p: p[0])
     has_names = any(e & 0xF0000000 == RUNTIME_CONTRACT["name_domain"] for e, _ in plans)
     has_books = any(e & 0xF0000000 == BOOK_DOMAIN for e, _ in plans)

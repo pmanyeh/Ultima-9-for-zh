@@ -6,7 +6,7 @@ from test_p7_pipeline import Env, rec
 from u9cht.books import expand_gargish, gargish_runs
 from u9cht.l10n.adapters import ADAPTERS, MiscTextAdapter
 from u9cht.l10n.pipeline import build
-from u9cht.l10n.runtime_pack import MISC_ENTRY_BASE, decode_pack, plan_entry, shared_text_targets
+from u9cht.l10n.runtime_pack import MISC_ENTRY_BASE, RUNTIME_CONTRACT, decode_pack, plan_entry, shared_text_targets
 
 
 class MiscTextTests(unittest.TestCase):
@@ -33,7 +33,10 @@ class MiscTextTests(unittest.TestCase):
             manifest = build(a, env.root / "out", env.game)
             self.assertEqual(manifest["mutation_audit_status"], "PASS")
             plans = decode_pack((env.root / "out/runtime/allowlist.u9ct").read_bytes())[3]
-            self.assertEqual(plans, [(MISC_ENTRY_BASE, "鎖住了。")])
+            # P10-2: a build with misctext also carries the one-character clock plans.
+            clock = RUNTIME_CONTRACT["clock_scalars"]
+            self.assertEqual(plans[0], (MISC_ENTRY_BASE, "鎖住了。"))
+            self.assertEqual(plans[1:], [(RUNTIME_CONTRACT["clock_entry_base"] + i, c) for i, c in enumerate(clock)])
         finally:
             env.close()
 
