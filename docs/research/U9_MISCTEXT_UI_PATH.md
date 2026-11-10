@@ -288,3 +288,14 @@ Private session `.local/p10-misc/session-8`, log `6d670301…9551`, exit 0. fini
   - Logged as `inks[].outline`, `core_light`, `dark_pixels`.
 - From the session-8 samples, book fonts fail the dark-majority test.
   - The height-15 font passes it, but its light pixels are edge pixels, so it is expected to fail the core test. Needs an in-game check.
+
+## Session-9 result (runtime 0.2.27-p10-1) — PASS
+
+Private session `.local/p10-misc/session-9`, log `8ca78dc9…fdd7`, exit 0. finish restored everything.
+
+- Signs render readable Chinese in the message area: a light fill with a dark outline (human-confirmed, screenshots).
+- Ink decisions:
+  - Message font (height 21): outlined, fill `0xD73B` (18 core pixels, 60 of 78 dark).
+  - Height-15 font: not outlined, `0x98C6`.
+  - Book fonts (height 18): not outlined, `0x80A8` and `0xA447`. These are the same inks as sessions 4–8.
+- Counters: `book_messages=7`, `message_insets=7`, `errors=0`, texture `faults=0`, `rejects=[0,0,0,0]`.

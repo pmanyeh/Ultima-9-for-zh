@@ -103,6 +103,30 @@ python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-1
 - 日誌 Day 1 條目仍是英文（ASCII flow_text），和既有的日誌橋接狀況一致。
 - 在研究出解法之前，build 不應帶入 misctext UI 方案，否則畫面會比英文原版還差。
 
+## 3b. P10-1 M1 修正歷程（session-2～9，2026-11-10）
+
+詳細證據見 `docs/research/U9_MISCTEXT_UI_PATH.md`。最新 runtime：`0.2.27-p10-1`（建置在 `.local/p10-misc/build/Release`），輸出在 `.local/p10-misc/out-m8`。
+
+- 已經在遊戲裡確認顯示中文：選項頁、目錄、主選單按鈕、離開遊戲對話框（內縮 8 px，滑鼠移過去也不會跑掉）、圖鑑內容、路牌（亮字加黑框）。
+- 做法 M1：misctext 工廠（建構函式返回位址 0x6161AB）建出的字串，前面加 4 個位元組的標記（0x8F 加 3 位 base-94 數字）。標記在以下幾個地方就地移除：
+  - 0x5C7620（文字排版）；
+  - 0x5C5C00（繪字，只處理沒有長度上限的呼叫）；
+  - 0x41BC61（訊息容器複製）。
+- 新增的 hook（使用者已授權）：
+  - 0x5C5C00 draw_string；
+  - 0x5C6240 string_width（讓帶標記的標籤能正確置中）。
+- 路牌：路牌本身是書本（0x5E9701 → 0x42E560 → 訊息列 0x624680）。在 0x41BC61 用書頁的方式綁定。
+- 訊息字型是外框字型：中文用字身色畫，外框色往 8 個方向各擴 1 px。
+- 翻譯調整（人工審閱）：
+  - misctext 255「Bestiary of Britannia」保留英文花體字；
+  - BOOKS 1 的標題 Beasts 改成「怪獸／敵人」。
+- 尚未處理：
+  - 小字型裡中文偏大（字型高度已記錄在 `texture_fonts`）；
+  - 時鐘訊息是 u9.exe 內的字串；
+  - 商店清單；
+  - 存讀檔頁和法術書還沒有在這輪逐一確認；
+  - `reports/P10_1_MISCTEXT.md` 尚未撰寫。
+
 ## 4. 之後的待辦
 
 - 寫 `reports/P10_1_MISCTEXT.md`（遊戲內結果出來後再寫；capabilities 已引用這個檔名）。
