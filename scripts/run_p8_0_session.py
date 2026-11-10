@@ -25,6 +25,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ("Options.ini", "dxcfg.ini", "Default.kmp")
+TEST_KEYMAP = "U9CHT-TEST.kmp"
 WRAPPER_SHA256 = "f045795c50eb1e5bf93853a32ca00ebe58d47b94da61842558aeecd3f755a502"
 FAILURE_EVENTS = {"runtime_fail", "launcher_fail", "runtime_restore_failed", "handshake_fail"}
 ZERO_COUNTERS = ("errors", "first_error", "lifecycle_dropped", "lock_failures", "unlock_failures")
@@ -121,8 +122,25 @@ def start(args):
             # Test-only journal content in the private copy; the preserved originals return at finish.
             shutil.copyfile(args.diary_fixture, game / "savegame/diary.txt")
             receipt["diary_fixture_sha256"] = sha(args.diary_fixture)
-    elif args.diary_fixture:
-        raise SystemExit("--diary-fixture requires --preserve-saves")
+        if args.seed_saves:
+            # Continue from an earlier session's progress; the preserved originals return at finish.
+            for path in (game / "savegame").iterdir():
+                path.unlink()
+            for path in sorted(args.seed_saves.iterdir()):
+                shutil.copyfile(path, game / "savegame" / path.name)
+            receipt["seed_saves"] = {p.name: sha(p) for p in sorted(args.seed_saves.iterdir())}
+            receipt["save_sha256_at_start"] = {p.name: sha(p) for p in sorted((game / "savegame").glob("*.sav"))}
+    elif args.diary_fixture or args.seed_saves:
+        raise SystemExit("--diary-fixture/--seed-saves require --preserve-saves")
+    if args.keymap:
+        # Options.ini is restored at finish; the test keymap file is removed there. Default.kmp is untouched.
+        shutil.copyfile(args.keymap, game / TEST_KEYMAP)
+        options = (game / "Options.ini").read_bytes()
+        if not re.search(rb"Current_Keymap=[^\r\n]+", options):
+            raise SystemExit("STOP: Options.ini has no Current_Keymap")
+        (game / "Options.ini").write_bytes(re.sub(rb"Current_Keymap=[^\r\n]+",
+                                                  b"Current_Keymap=" + TEST_KEYMAP.encode(), options))
+        receipt["test_keymap_sha256"] = sha(args.keymap)
     write_json(session / "launch.json", receipt)
     command = [str(exe), "--game-dir", str(game), "--runtime", str(dll), "--log", str(session / "runtime.jsonl"),
                "--mode", "render", "--allowlist", str(pack)]
@@ -144,6 +162,9 @@ def restore(session, game, receipt):
         shutil.copyfile(session / "backup" / name, game / name)
     for name in receipt["installed_resources"]:
         shutil.copyfile(session / "backup" / Path(name).name, game / name)
+    if "test_keymap_sha256" in receipt and (game / TEST_KEYMAP).exists():
+        shutil.copyfile(game / TEST_KEYMAP, session / "final-test-keymap.kmp")
+        (game / TEST_KEYMAP).unlink()
     mismatched = [a["filename"] for a in baseline() if sha(game / a["filename"]) != a["sha256"]]
     keymap_same = sha(game / "Default.kmp") == sha(session / "backup/Default.kmp")
     saves_restored = None
@@ -311,6 +332,12 @@ def main(argv=None):
                         help="back up the whole savegame directory (including diary.txt) and restore it after the session")
     parser.add_argument("--diary-fixture", type=Path,
                         help="with --preserve-saves: replace savegame/diary.txt for this session only")
+    parser.add_argument("--seed-saves", type=Path,
+                        help="with --preserve-saves: copy this directory's files into savegame/ for this session "
+                             "only (for example an earlier session's final-savegame)")
+    parser.add_argument("--keymap", type=Path,
+                        help="test keymap installed as U9CHT-TEST.kmp and selected for this session only; "
+                             "Default.kmp is never modified")
     args = parser.parse_args(argv)
     args.session, args.game_dir = args.session.resolve(), args.game_dir.resolve()
     args.font = args.font.resolve()
