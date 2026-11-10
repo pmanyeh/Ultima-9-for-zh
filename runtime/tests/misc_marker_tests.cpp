@@ -23,6 +23,8 @@ int main() {
             for (char c : std::string(m+1,3)) check(c >= 0x21 && c <= 0x7E,"printable digits");
         }
         { char m[4]; check(!encode_misc_marker(MiscMarkerLimit,m),"limit"); }
+        // Every marker byte must survive the native draw-string routine (no byte below 0x20).
+        { char m[4]; encode_misc_marker(12345,m); for (char c : std::string(m,4)) check(uint8_t(c) >= 0x20,"printable marker"); }
 
         // Concatenated page: two markers, ASCII between them and digits directly after a plan.
         std::string page = "\x0C" + marked(1) + plans[1] + "30/30\n" + marked(0) + plans[0] + "-";
@@ -44,7 +46,7 @@ int main() {
               std::string(cut.c_str()) == "\x7F\x7F","truncated prefix");
 
         // Unknown plan, malformed digits and a lone lead byte stay untouched.
-        std::string bad = marked(7) + "x" + std::string("\x1E\x20!!") + "\x1E"; bad.push_back('\0');
+        std::string bad = marked(7) + "x" + std::string("\x8F\x20!!") + "\x8F"; bad.push_back('\0');
         const std::string before = bad;
         r = strip_misc_markers(reinterpret_cast<uint8_t*>(bad.data()),uint32_t(bad.size()-1),slots);
         check(r.markers == 0 && r.invalid == 3 && r.segments.empty() && bad == before,"invalid markers kept");

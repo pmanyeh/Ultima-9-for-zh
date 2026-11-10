@@ -11,10 +11,14 @@
 #include <vector>
 
 namespace u9cht {
-inline constexpr uint8_t MiscMarkerLead = 0x1E;     // ASCII RS: never in misctext sources or plan slots
+// Must be >= 0x20: the draw-string routine 0x5C5C00 sends every byte above 0x0D to the glyph function 0x5C5A80,
+// which returns NULL below 0x20 and the game then quits ("Invalid character encountered in print.", session-2).
+// 0x8F is undefined in Windows-1252 (never produced from real text) and never appears in plan slots.
+inline constexpr uint8_t MiscMarkerLead = 0x8F;
 inline constexpr uint32_t MiscMarkerSize = 4;       // lead + three base-94 digits (0x21..0x7E)
 inline constexpr uint32_t MiscMarkerLimit = 94*94*94;
 inline constexpr uintptr_t MiscTextCtorReturn = 0x6161AB;
+inline constexpr uint32_t DrawStringUnbounded = 0xFFFFFFFF;
 
 inline bool encode_misc_marker(uint32_t plan, char* out) noexcept {
     if (plan >= MiscMarkerLimit) return false;

@@ -25,6 +25,7 @@ void* free_gateway = nullptr;
 void* name_copy_gateway = nullptr;
 void* name_destroy_gateway = nullptr;
 void* flip_gateway = nullptr;
+void* draw_gateway = nullptr;
 void* flow_gateway = nullptr;
 void* triangle_original = reinterpret_cast<void*>(0x589F50);
 decltype(&WideCharToMultiByte) wide_original = nullptr;
@@ -109,6 +110,7 @@ int WINAPI wide_hook(UINT cp, DWORD flags, LPCWCH wide, int length, LPSTR out, i
             if (out && capacity >= int(p.length+1)) {
                 std::memcpy(out, p.slots.data(), p.length+1);
                 if (used) *used = FALSE;
+                if (e.pending_book >= 0) ++e.book_overwritten;
                 e.pending_book = plan; ++e.book_converts;
                 return int(p.length+1);
             }
@@ -307,8 +309,15 @@ uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_
     {   // P9-4: a book converted just before this call (0x42E560 -> strdup -> 0x5C7620).
         int book = -1;
         { Exclusive lock(guard.state->mutex); book = guard.state->pending_book; guard.state->pending_book = -1; }
-        if (book >= 0 && readable && t.text && t.length && guard.state->bind_book(t.text,t.length,uint32_t(book)))
-            leading = leading || guard.state->journal_line;
+        if (book >= 0) {
+            const bool bound = readable && t.text && t.length && guard.state->bind_book(t.text,t.length,uint32_t(book));
+            if (bound) leading = leading || guard.state->journal_line;
+            // P10-1 diagnostic: which flow consumed a converted book (sign pages showed unbound slots).
+            Exclusive lock(guard.state->mutex);
+            guard.state->log->event("book_flow","\"caller\":"+std::to_string(caller)+",\"entry\":"+
+                std::to_string(guard.state->pack.plans[size_t(book)].entry & 0xFFFF)+",\"length\":"+std::to_string(t.length)+
+                ",\"readable\":"+std::string(readable?"true":"false")+",\"bound\":"+std::string(bound?"true":"false"));
+        }
     }
     // P9-2: line positions are computed inside this initializer (0x5C6B10) from font record +8 (extra line
     // spacing). Raise it for every font record only while the journal is laid out, then restore it.
@@ -421,6 +430,31 @@ uintptr_t __fastcall queue_hook(uintptr_t self, void*, uintptr_t raster, uintptr
         }
     }
     return result;
+}
+// P10-1 M1: finds a marker lead in a draw-string argument; `length` is the NUL-terminated length when unbounded.
+bool scan_misc_lead(uintptr_t text, uintptr_t end, uint32_t& length, bool& found) noexcept {
+    __try {
+        const auto* p = reinterpret_cast<const uint8_t*>(text);
+        const uint32_t limit = end == DrawStringUnbounded ? 0x10000 : uint32_t(std::min<uintptr_t>(end > text ? end-text : 0, 0x10000));
+        while (length < limit && (end != DrawStringUnbounded || p[length])) { found = found || p[length] == MiscMarkerLead; ++length; }
+        return true;
+    } __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+}
+// P10-1 M1: draw-string routine 0x5C5C00 (thiscall, text, end). Labels such as the options page (widget vtable
+// 0x742D18, text +0x24, draw 0x41F710) draw marked misctext copies here without a text flow. An unbounded call
+// strips the label's own buffer in place before the native loop reads it; bounded calls are only counted.
+uintptr_t __fastcall draw_hook(uintptr_t self, void*, uintptr_t text, uintptr_t end) {
+    Guard guard;
+    const auto fn = reinterpret_cast<uintptr_t(__thiscall*)(uintptr_t,uintptr_t,uintptr_t)>(draw_gateway);
+    if (guard.state && guard.state->render && guard.state->texture_enabled && text) {
+        uint32_t length = 0; bool found = false;
+        if (scan_misc_lead(text,end,length,found) && found) {
+            auto& e = *guard.state;
+            if (end == DrawStringUnbounded) { e.strip_misc(text,length); Exclusive lock(e.mutex); ++e.misc_draw_strips; }
+            else { Exclusive lock(e.mutex); ++e.misc_bounded; }
+        }
+    }
+    return fn(self,text,end);
 }
 uintptr_t __fastcall paint_hook(uintptr_t self, void*, uintptr_t widget) {
     Guard guard;
@@ -1256,6 +1290,7 @@ void Engine::install(const Config& config, Logger& logger) {
         name_destroy_gateway = prepare("name_destroy",0x41AE40,name_destroy_hook,{0x56,0x8B,0xF1,0x8B,0x46,0x6C},{1,2,3});
     }
     flow_gateway = prepare("text_flow_init",0x5C7620,flow_hook,{0x8B,0x44,0x24,0x08,0x53},{4,1});
+    draw_gateway = prepare("draw_string",0x5C5C00,draw_hook,{0x8B,0x44,0x24,0x08,0x53},{4,1});
     flip_gateway = prepare("pre_flip",0x597B00,flip_hook,{0x56,0x8B,0xF1,0x8A,0x86,9,0xC5,0x3F,0},{1,2,6});
     wide_original = &WideCharToMultiByte;
     exit_original = &ExitProcess;
@@ -1425,7 +1460,8 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"misc\":{\"marked\":"+std::to_string(misc_marked)+",\"mark_failures\":"+std::to_string(misc_mark_failures)+
               ",\"stripped\":"+std::to_string(misc_stripped)+",\"buffers\":"+std::to_string(misc_buffers)+
               ",\"invalid\":"+std::to_string(misc_invalid)+",\"partial\":"+std::to_string(misc_partial)+
-              ",\"leaks\":"+std::to_string(misc_leaks)+"},\"inks\":[";
+              ",\"leaks\":"+std::to_string(misc_leaks)+",\"draw_strips\":"+std::to_string(misc_draw_strips)+
+              ",\"bounded\":"+std::to_string(misc_bounded)+",\"book_overwritten\":"+std::to_string(book_overwritten)+"},\"inks\":[";
           for (uint32_t i = 0; i < ink_count; ++i) {
               const auto& v = inks[i]; if (i) fields += ',';
               fields += "{\"blob\":"+std::to_string(v.blob)+",\"type\":"+std::to_string(v.type)+

@@ -112,3 +112,42 @@ Remaining risks:
 
 Unit tests: `runtime/tests/misc_marker_tests.cpp`, which covers encode/decode, concatenation, digits after a plan,
 truncation, malformed markers, and re-flowed text.
+
+## Session-2 result (runtime 0.2.20-p10-1, 2026-11-10) — FAIL, crash
+
+Private session `.local/p10-misc/session-2`, log `c66ab8a9…b13f`. Exit code `0xC0000005` on Ctrl+O.
+finish restored every protected asset, save and config.
+
+- Counters: `marked=46`, `stripped=0`, `leaks=0`, `errors=0`.
+  - Marked at load: spellbook entries 102–158.
+  - Marked on Ctrl+O, just before the crash: options labels 69–89 and save-slot texts 231–234.
+- **Cause (CONFIRMED, static):** the draw-string routine `0x5C5C00(text,end)` dispatches bytes `0x00–0x0D`
+  through its own control-code table (`0x5C5C2B`). Every other byte goes to the glyph function `0x5C5A80`.
+  That function returns NULL for bytes `< 0x20` (`0x5C5A84`). The caller then raises the fatal
+  "Invalid character encountered in print." (`0x5C5D0D` → `0x556480`, string `0x7A16E4`).
+  The marker lead `0x1E` hits exactly this. → **The marker lead must be ≥ 0x20.**
+- Options labels are **not** text flows. 0x428AEF… measures each label with `0x5C6240`
+  (control bytes count as 4 spaces), then copies it inline into a label widget (`vtable 0x742D18`, text at `+0x24`).
+  The label's draw method `0x41F710` passes `[+0x24]` to `0x5C5C00` (call at `0x41F751`).
+- `0x5C5C00` has 21 direct callers. These include the label draw (`0x41F751`), the flow line draw (`0x5C66F0`) and the
+  dialogue/name labels (`0x41ACAD`, `0x41AEBD`). Its prologue `8B 44 24 08 53` matches the existing
+  `0x5C7620` hook pattern.
+- The sign description (flow `0x426DF3`, same FNV hash as session-1) contained `0x7F` slots but no marker.
+  It is **not** a misctext string. It is a text-domain string from another constructor caller (UNKNOWN which one).
+
+## Runtime 0.2.21-p10-1 (fix for session-2)
+
+- Marker lead changed to **`0x8F`**.
+  - It is ≥ 0x20, so it is never dispatched to the NULL-returning glyph branch.
+  - It is undefined in Windows-1252 and never appears in plan slots.
+  - All four marker bytes are now ≥ 0x20; a unit test checks this.
+- New hook **`draw_string` at `0x5C5C00`**, authorized by the human on 2026-11-10.
+  - Original bytes are `8B 44 24 08 53`, instruction lengths 4/1, the same pattern as `0x5C7620`.
+  - Unbounded calls (`end == 0xFFFFFFFF`, as from the label draw `0x41F751`) strip markers from the label's own buffer in place before the native loop runs.
+  - Bounded calls are only counted (`misc.bounded`).
+  - New counters: `misc.draw_strips`, `misc.bounded`.
+- Book diagnostic for the sign page (flow `0x426DF3` after the book reader `0x42E560`):
+  - one `book_flow` event per consumed conversion, giving caller, entry, length and whether it was bound;
+  - `misc.book_overwritten` counts conversions that replaced an unconsumed pending book.
+  - Session evidence so far: session-1 converted 11 and bound 5; session-2 converted 3 and bound 1, with 0 mismatches.
+- Known limit: label centring is computed by `0x5C6240` on the marked string before stripping, so a label may be off-centre by up to 4 native character widths.
