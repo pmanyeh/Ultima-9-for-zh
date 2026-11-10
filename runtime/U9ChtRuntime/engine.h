@@ -147,7 +147,11 @@ struct Engine {
     // P9-4 books: the plan converted at 0x42E64A, consumed by the next flow initializer.
     int pending_book = -1;
     uint64_t book_converts = 0, book_short = 0, book_bound = 0, book_mismatch = 0, book_width_overrides = 0;
-    bool bind_book(uintptr_t text, uint32_t length, uint32_t plan) noexcept;
+    // `locked`: the caller already holds `mutex` (dispatch stages). Both never call into the game.
+    bool bind_book(uintptr_t text, uint32_t length, uint32_t plan, bool locked = false) noexcept;
+    // P10-1: output buffer of the last book conversion (0x42E64A); signs pass it to the message holder.
+    uintptr_t pending_book_buffer = 0;
+    uint64_t book_messages = 0, misc_message_strips = 0;
     uint32_t journal_next = 0;
     uint64_t journal_markers = 0, journal_marker_short = 0, journal_expansions = 0, journal_spans = 0;
     uint64_t journal_width_overrides = 0, journal_breaks_dropped = 0, journal_spaces_kept = 0, journal_leading_applied = 0;
@@ -172,7 +176,7 @@ struct Engine {
     std::array<TextureFont,16> texture_fonts{};
     int32_t measure_misc(uintptr_t record, uintptr_t text, uint32_t length, int32_t native, void* original) noexcept;
     bool mark_misc(uintptr_t object, uint32_t plan) noexcept;
-    bool strip_misc(uintptr_t text, uint32_t length) noexcept;
+    bool strip_misc(uintptr_t text, uint32_t length, bool locked = false) noexcept;
     uint64_t message_insets = 0;
     void count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept;
     void probe_flow_source(uintptr_t source, uint32_t stage) noexcept;

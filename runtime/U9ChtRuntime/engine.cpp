@@ -112,7 +112,7 @@ int WINAPI wide_hook(UINT cp, DWORD flags, LPCWCH wide, int length, LPSTR out, i
                 std::memcpy(out, p.slots.data(), p.length+1);
                 if (used) *used = FALSE;
                 if (e.pending_book >= 0) ++e.book_overwritten;
-                e.pending_book = plan; ++e.book_converts;
+                e.pending_book = plan; e.pending_book_buffer = reinterpret_cast<uintptr_t>(out); ++e.book_converts;
                 return int(p.length+1);
             }
             ++e.book_short;
@@ -322,7 +322,7 @@ uintptr_t __fastcall flow_hook(uintptr_t self, void*, uintptr_t widget, uintptr_
     }
     {   // P9-4: a book converted just before this call (0x42E560 -> strdup -> 0x5C7620).
         int book = -1;
-        { Exclusive lock(guard.state->mutex); book = guard.state->pending_book; guard.state->pending_book = -1; }
+        { Exclusive lock(guard.state->mutex); book = guard.state->pending_book; guard.state->pending_book = -1; guard.state->pending_book_buffer = 0; }
         if (book >= 0) {
             const bool bound = readable && t.text && t.length && guard.state->bind_book(t.text,t.length,uint32_t(book));
             if (bound) leading = leading || guard.state->journal_line;
@@ -578,6 +578,13 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
                 std::memcmp(reinterpret_cast<void*>(dest), p.slots.data(), b.length) != 0 ||
                 !e.bind_buffer(dest, b.length, b.plan, b.identity,Life::Copy,source)) e.fail(9);
             else ++e.stats[b.plan].copies;
+        } else if (!m.binding && e.render && e.texture_enabled && f->eax > 1) {
+            // P10-1: the message holder 0x41BBB0 copied an unbound text. Signs (0x5E9701) pass the book reader's
+            // converted buffer; misctext messages (0x63BB3F) pass a marked cache. Bind the holder's own copy.
+            if (e.pending_book >= 0 && source == e.pending_book_buffer) {
+                if (e.bind_book(dest,f->eax-1,uint32_t(e.pending_book),true)) ++e.book_messages;
+                e.pending_book = -1; e.pending_book_buffer = 0;
+            } else if (e.strip_misc(dest,f->eax-1,true)) ++e.misc_message_strips;
         }
     } else if (stage == 1 || stage == 2) {
         auto m = e.locate(stage == 1 ? f->ebp : f->edi);
@@ -906,7 +913,9 @@ int Engine::journal_locate(uintptr_t source, uint32_t& offset, uint8_t* previous
 // the game allocator; the old copy is freed with the game's free. Called without the engine lock held.
 // P9-4: maps the k-th 0x7F slot of a converted book's flow text to the k-th non-ASCII scalar of its plan.
 // The game's markup pass only compacts bytes, so order is preserved; a count mismatch binds nothing.
-bool Engine::bind_book(uintptr_t text, uint32_t length, uint32_t plan) noexcept {
+bool Engine::bind_book(uintptr_t text, uint32_t length, uint32_t plan, bool locked) noexcept {
+    // Runs `fn` with the engine lock held, taking it only when the caller does not already hold it.
+    const auto with_lock = [&](auto&& fn) { if (locked) return fn(); Exclusive lock(mutex); return fn(); };
     try {
         const auto& p = pack.plans[plan];
         std::vector<JournalSegment> segments; segments.reserve(p.length);
@@ -915,16 +924,18 @@ bool Engine::bind_book(uintptr_t text, uint32_t length, uint32_t plan) noexcept 
         std::vector<char> copy(length);
         if (!copy_guarded(text,copy.data(),length)) return false;
         for (uint32_t i = 0, k = 0; i < length; ++i) if (uint8_t(copy[i]) == 0x7F) {
-            if (k >= wides.size()) { Exclusive lock(mutex); ++book_mismatch; return false; }
+            if (k >= wides.size()) return with_lock([&] { ++book_mismatch; return false; });
             segments.push_back({i,plan,wides[k++],1});
         }
-        if (segments.size() != wides.size()) { Exclusive lock(mutex); ++book_mismatch; return false; }
-        Exclusive lock(mutex);
-        auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
-        b = {}; b.base = text; b.size = length+1; b.entries = 1; b.segments = std::move(segments);
-        ++book_bound;
-        return true;
-    } catch (...) { Exclusive lock(mutex); ++journal_alloc_failures; return false; }
+        if (segments.size() != wides.size()) return with_lock([&] { ++book_mismatch; return false; });
+        return with_lock([&] {
+            for (auto& v : journal_buffers) if (v.base == text) v = {};
+            auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
+            b = {}; b.base = text; b.size = length+1; b.entries = 1; b.segments = std::move(segments);
+            ++book_bound;
+            return true;
+        });
+    } catch (...) { return with_lock([&] { ++journal_alloc_failures; return false; }); }
 }
 bool Engine::expand_journal(uintptr_t text_ref, uintptr_t text, uint32_t length) noexcept {
     try {
@@ -996,7 +1007,8 @@ bool Engine::mark_misc(uintptr_t object, uint32_t plan) noexcept {
 }
 // P10-1 M1: strips markers from a flow text in place (the buffer only shrinks) and records the plan segments
 // for the journal/book width and texture glyph path. Called without the engine lock.
-bool Engine::strip_misc(uintptr_t text, uint32_t length) noexcept {
+bool Engine::strip_misc(uintptr_t text, uint32_t length, bool locked) noexcept {
+    const auto with_lock = [&](auto&& fn) { if (locked) return fn(); Exclusive lock(mutex); return fn(); };
     try {
         std::vector<uint8_t> copy(size_t(length)+1);
         if (!copy_guarded(text,reinterpret_cast<char*>(copy.data()),length+1)) return false;
@@ -1007,19 +1019,19 @@ bool Engine::strip_misc(uintptr_t text, uint32_t length) noexcept {
             if (p.is_name() || p.is_book()) return nullptr;
             n = p.length; return p.slots.data();
         });
-        if (r.markers && !write_guarded(text,copy.data(),r.length+1)) { Exclusive lock(mutex); ++misc_mark_failures; return false; }
-        Exclusive lock(mutex);
-        misc_stripped += r.markers; misc_invalid += r.invalid; misc_partial += r.partial;
-        if (r.segments.empty()) return false;
-        for (auto& b : journal_buffers) if (b.base == text) b = {};
-        auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
-        b = {}; b.base = text; b.size = r.length+1; b.entries = r.markers;
-        b.segments.reserve(r.segments.size());
-        for (const auto& g : r.segments) b.segments.push_back({g.offset,g.plan,0,g.length});
-        ++misc_buffers;
-        return true;
-    } catch (...) { Exclusive lock(mutex); ++journal_alloc_failures; }
-    return false;
+        if (r.markers && !write_guarded(text,copy.data(),r.length+1)) return with_lock([&] { ++misc_mark_failures; return false; });
+        return with_lock([&] {
+            misc_stripped += r.markers; misc_invalid += r.invalid; misc_partial += r.partial;
+            if (r.segments.empty()) return false;
+            for (auto& b : journal_buffers) if (b.base == text) b = {};
+            auto& b = journal_buffers[journal_next++ % journal_buffers.size()];
+            b = {}; b.base = text; b.size = r.length+1; b.entries = r.markers;
+            b.segments.reserve(r.segments.size());
+            for (const auto& g : r.segments) b.segments.push_back({g.offset,g.plan,0,g.length});
+            ++misc_buffers;
+            return true;
+        });
+    } catch (...) { return with_lock([&] { ++journal_alloc_failures; return false; }); }
 }
 bool read_byte(uintptr_t address, uint8_t& out) noexcept {
     __try { out = *reinterpret_cast<const uint8_t*>(address); return true; }
@@ -1551,7 +1563,8 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"leaks\":"+std::to_string(misc_leaks)+",\"draw_strips\":"+std::to_string(misc_draw_strips)+
               ",\"bounded\":"+std::to_string(misc_bounded)+",\"book_overwritten\":"+std::to_string(book_overwritten)+
               ",\"measures\":"+std::to_string(misc_measures)+",\"measure_faults\":"+std::to_string(misc_measure_faults)+
-              ",\"message_insets\":"+std::to_string(message_insets)+"}";
+              ",\"message_insets\":"+std::to_string(message_insets)+",\"book_messages\":"+std::to_string(book_messages)+
+              ",\"misc_message_strips\":"+std::to_string(misc_message_strips)+"}";
           fields += ",\"flow_misses\":[";
           { bool first = true; for (const auto& m : flow_misses) if (m.caller) { if (!first) fields += ','; first = false;
               fields += "{\"caller\":"+std::to_string(m.caller)+",\"text\":"+std::to_string(m.text)+",\"offset\":"+std::to_string(m.offset)+

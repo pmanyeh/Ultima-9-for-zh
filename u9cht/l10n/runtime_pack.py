@@ -13,7 +13,7 @@ from fractions import Fraction
 from ..flx import digest
 
 RUNTIME_CONTRACT = {
-    "runtime": "U9ChtRuntime/0.2.23-p10-1",
+    "runtime": "U9ChtRuntime/0.2.24-p10-1",
     "magic": "U9CTP51",
     "pack_versions": {"2": "text.flx plans only", "3": "text.flx plus TYPENAME marker plans",
                       "4": "text.flx, TYPENAME and UTF-16 BOOKS-EN plans"},
@@ -42,7 +42,8 @@ RUNTIME_CONTRACT = {
     "misc_ui_marker": {"lead": 0x8F, "digits": 3, "base": 94, "ctor_return": 0x6161AB,
                        "strip_points": ["text_flow_init 0x5C7620", "draw_string 0x5C5C00 (unbounded)"],
                        "width_point": "string_width 0x5C6240", "drop_cap_entry": 255,
-                       "message_box_inset_px": 8},
+                       "message_box_inset_px": 8,
+                       "message_holder_copy": "0x41BC61 binds sign books (0x5E9701) and marked misctext messages"},
     "name_entry_max": 8191,
     "name_marker": "U9T%04X",
     "identical_text_targets_share_one_plan": True,

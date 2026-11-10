@@ -200,3 +200,30 @@ Private session `.local/p10-misc/session-4`, log `27dc21be…813d`, exit 0. fini
   before line positions are fixed. Width goes from 128 to 112. Counter: `misc.message_insets`.
 - `flow_misses` now records any unlocated byte inside a flow text: the first 8 byte values, plus `slot_misses` for `0x7F`.
 - Translation: BOOKS-EN 1 heading "Beasts" → 怪獸／敵人, because the list includes human foes (human review).
+
+## Session-5 result (runtime 0.2.23-p10-1) and the sign path
+
+Private session `.local/p10-misc/session-5`, log `5a7c4f94…0110`, exit 0. finish restored everything.
+Counters: `message_insets=1`, `measures=26`, `leaks=0`, `errors=0`.
+
+- `flow_misses` showed that every unlocated glyph inside bound book flows was ASCII (`slot_misses=0`).
+  Book 340 is the save/load help page, not a sign. Its Chinese was drawn.
+- **Signs (CONFIRMED, static):** `0x5E96F0` reads the sign's book id (object property `0x4D` via `0x4C5640`),
+  then calls the book reader `0x42E560` (call `0x5E9701`). It passes the returned buffer to the screen message
+  routine `0x624680(text, len/10+2, 1)` and frees the buffer.
+  - So signs never reach a text flow. Their converted book stays a pending book, which explains `book_overwritten`.
+  - The text is shown in the on-screen message area, the same place as the clock message.
+- `0x42E560` converts into its own buffer at `0x42E644`. It compacts markup in place (CRLF and backtick codes,
+  `0x42E692…`) and returns that buffer.
+- `0x624680` constructs the message holder `0x41BBB0`. Its full copy is the existing copy hook site `0x41BC61`.
+- Misctext messages 3–6 (`0x63BB19` → `0x63BB3F`) pass a marked string object cache to the same routine.
+
+## Runtime 0.2.24-p10-1
+
+- The book conversion records its output buffer (`pending_book_buffer`).
+- At the existing copy hook `0x41BC61` (dispatch stage 0, lock held), an unbound source is handled in two ways:
+  - If it equals the pending book buffer, the holder's copy is bound like a book page
+    (k-th `0x7F` → k-th CJK scalar) and the pending book is consumed. Counter: `misc.book_messages`.
+  - Otherwise, markers in the holder's copy are stripped in place. Counter: `misc.misc_message_strips`.
+  - Both use the texture glyph path. The message raster is low resolution, so this is not the subtitle compositor.
+- `bind_book` and `strip_misc` gained a `locked` flag so they can run inside dispatch without re-taking the lock.
