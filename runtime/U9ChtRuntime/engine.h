@@ -80,6 +80,10 @@ struct InkProbe {
     std::array<Sample,8> samples{};
     uint32_t sample_count = 0, sample_overflow = 0, aux_only = 0, aux_enclosure = 0;
     bool aux_fill = false; // ink taken from an aux-only (main plane untouched) fill pixel
+    // P10-1: outlined font (screen messages): a light core inside a thick dark outline. The core shade is the
+    // ink and the dark shade is drawn first at all 8 one-pixel offsets.
+    bool outline = false;
+    uint32_t core_light = 0, dark_pixels = 0;
 };
 // P9-2: one contiguous run of plan slots inside an expanded diary buffer. Authored line breaks are dropped
 // on expansion (English journal sources contain none; the native flow wraps to the page), so one entry

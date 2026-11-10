@@ -268,3 +268,23 @@ Private session `.local/p10-misc/session-7`, log `f133b72e…d1fa`, exit 0. fini
   (main on 0x0000, main on 0xFFFF, aux on 0, aux on ~0, count). It also logs `aux_only` (main differs, aux equal) and `aux_enclosure`.
 - If aux-only pixels form a stroke interior (enclosure ≥ 5, within 2 of the solid ink), they become the ink and the
   solid shade becomes the 1-pixel shadow (`aux_fill=true`). Otherwise the behaviour is unchanged.
+
+## Session-8 result (runtime 0.2.26-p10-1)
+
+Private session `.local/p10-misc/session-8`, log `6d670301…9551`, exit 0. finish restored everything. Signs were still dark.
+
+- Pixel classes (CONFIRMED). The message font (height 21), reference `I`, 78 solid pixels:
+  - `0x8000` ×56 (thick dark outline);
+  - light shades `0xDA1D` ×5, `0xD73B` ×5, `0xC631` ×4, `0xEF7D` ×2, `0xEB5A` ×2, plus `0x8066` ×4.
+  - The aux plane is untouched; the aux-fill hypothesis is disproven.
+- The fill is a thin anti-aliased light core spread over several shades. Each shade has low enclosure, so the enclosure rule kept the outline.
+- Other fonts: the height-15 font is `0x98C6` ×22 plus a light edge tone ×4. Book fonts (height 18) have many shades, with dark below half of the pixels.
+
+## Runtime 0.2.27-p10-1
+
+- Outlined-font test: split the solid shades at the luma midpoint. A light pixel is *core* when all four neighbours are solid.
+  - If dark pixels are at least half of the written pixels and there are at least 4 core pixels, the font is outlined.
+  - Ink = the most frequent core shade; outline = the previous (dark) ink, drawn first at all 8 one-pixel offsets.
+  - Logged as `inks[].outline`, `core_light`, `dark_pixels`.
+- From the session-8 samples, book fonts fail the dark-majority test.
+  - The height-15 font passes it, but its light pixels are edge pixels, so it is expected to fail the core test. Needs an in-game check.

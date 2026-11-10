@@ -201,11 +201,18 @@ uint32_t texture_glyph(uintptr_t raster, const InkProbe& ink, const uint8_t* alp
         std::memcpy(clip,reinterpret_cast<const void*>(raster+4),sizeof clip);
         saved = true;
         auto* live = reinterpret_cast<int32_t*>(raster+4);
-        for (int pass = ink.shadow ? 0 : 1; pass < 2; ++pass) {
-            const int32_t shift = pass ? 0 : 1, dx = pass ? ink.dx : ink.shadow_dx, dy = pass ? ink.dy : ink.shadow_dy;
+        // Shadow passes: one down-right offset, or all 8 neighbours for an outlined font; then the fill pass.
+        static constexpr int32_t ring[9][2] = {{-1,-1},{0,-1},{1,-1},{-1,0},{1,0},{-1,1},{0,1},{1,1},{0,0}};
+        static constexpr int32_t drop[2][2] = {{1,1},{0,0}};
+        const auto* offsets = ink.outline ? ring : drop;
+        const int passes = ink.outline ? 9 : 2;
+        for (int pass = (ink.shadow || ink.outline) ? 0 : passes-1; pass < passes; ++pass) {
+            const bool fill = pass == passes-1;
+            const int32_t sx = offsets[pass][0], sy = offsets[pass][1];
+            const int32_t dx = fill ? ink.dx : ink.shadow_dx, dy = fill ? ink.dy : ink.shadow_dy;
             for (uint32_t row = 0; row < height; ++row) for (uint32_t col = 0; col < width; ++col) {
                 if (alpha[size_t(row)*width+col] < 112) continue;
-                const int32_t x = left+int32_t(col)+shift, y = top+int32_t(row)+shift;
+                const int32_t x = left+int32_t(col)+sx, y = top+int32_t(row)+sy;
                 if (x < clip[0] || y < clip[1] || x > clip[2] || y > clip[3]) continue;
                 live[0] = x; live[1] = y; live[2] = x; live[3] = y;
                 native_blit(raster,ink.glyph,x+dx,y+dy);
@@ -325,7 +332,38 @@ bool probe_ink(uintptr_t raster, InkProbe& ink, const ProbeBuffers& q) noexcept 
             if (px < 0) continue;
             ink.glyph = glyph; ink.dx = X-px; ink.dy = Y-py; ink.value = values[best];
             ink.solid = enclosed; ink.written = written; ink.reference = c; ink.usable = true;
-            ink.shadow = false; ink.aux_fill = false; ink.aux_enclosure = 0;
+            ink.shadow = false; ink.aux_fill = false; ink.aux_enclosure = 0; ink.outline = false;
+            {
+                // P10-1 outlined font test: dark pixels are those below the midpoint between the darkest and the
+                // lightest solid shades; a light core pixel has all four neighbours written (solid).
+                uint32_t lo = UINT32_MAX, hi = 0;
+                for (uint32_t k = 0; k < distinct; ++k) { lo = std::min<uint32_t>(lo,luma(values[k])); hi = std::max<uint32_t>(hi,luma(values[k])); }
+                const uint32_t mid = (lo+hi)/2;
+                uint32_t dark = 0, core = 0, core_values[32]{}, core_counts[32]{}, core_distinct = 0;
+                int32_t cx[32]{}, cy[32]{};
+                for (uint32_t y = 1; y+1 < size; ++y) for (uint32_t x = 1; x+1 < size; ++x) {
+                    bool solid = false; const auto v = probe_value(q,sixteen,x,y,solid);
+                    if (!solid) continue;
+                    if (luma(v) <= mid) { ++dark; continue; }
+                    bool s1 = false, s2 = false, s3 = false, s4 = false;
+                    probe_value(q,sixteen,x-1,y,s1); probe_value(q,sixteen,x+1,y,s2);
+                    probe_value(q,sixteen,x,y-1,s3); probe_value(q,sixteen,x,y+1,s4);
+                    if (!(s1 && s2 && s3 && s4)) continue;
+                    ++core;
+                    uint32_t k = 0; while (k < core_distinct && core_values[k] != v) ++k;
+                    if (k == core_distinct) { if (k == 32) continue; core_values[k] = v; cx[k] = int32_t(x); cy[k] = int32_t(y); ++core_distinct; }
+                    ++core_counts[k];
+                }
+                ink.core_light = core; ink.dark_pixels = dark;
+                if (hi > lo && core >= 4 && dark*2 >= written && core_distinct) {
+                    uint32_t c = 0;
+                    for (uint32_t k = 1; k < core_distinct; ++k)
+                        if (core_counts[k] > core_counts[c] || (core_counts[k] == core_counts[c] && luma(core_values[k]) > luma(core_values[c]))) c = k;
+                    ink.outline = true; ink.shadow_value = ink.value; ink.shadow_dx = ink.dx; ink.shadow_dy = ink.dy;
+                    ink.value = core_values[c]; ink.dx = X-cx[c]; ink.dy = Y-cy[c]; ink.solid = core_counts[c];
+                    return true;
+                }
+            }
             // P10-1: a fill that only writes the aux plane (main plane keeps the background) is invisible to the
             // solid test. When such pixels form a stroke interior, they are the ink and the solid shade the shadow.
             {
@@ -1663,7 +1701,7 @@ void Engine::snapshot(const char* event) noexcept {
               fields += "{\"blob\":"+std::to_string(v.blob)+",\"type\":"+std::to_string(v.type)+
                   ",\"usable\":"+(v.usable?"true":"false")+",\"reference\":"+std::to_string(v.reference)+
                   ",\"value\":"+std::to_string(v.value)+",\"solid\":"+std::to_string(v.solid)+
-                  ",\"written\":"+std::to_string(v.written)+",\"dx\":"+std::to_string(v.dx)+",\"dy\":"+std::to_string(v.dy)+",\"shadow\":"+std::string(v.shadow?"true":"false")+",\"shadow_value\":"+std::to_string(v.shadow_value)+",\"aux_fill\":"+std::string(v.aux_fill?"true":"false")+",\"aux_only\":"+std::to_string(v.aux_only)+",\"aux_enclosure\":"+std::to_string(v.aux_enclosure)+",\"sample_overflow\":"+std::to_string(v.sample_overflow)+",\"samples\":["+ink_samples(v)+"]}";
+                  ",\"written\":"+std::to_string(v.written)+",\"dx\":"+std::to_string(v.dx)+",\"dy\":"+std::to_string(v.dy)+",\"shadow\":"+std::string(v.shadow?"true":"false")+",\"shadow_value\":"+std::to_string(v.shadow_value)+",\"outline\":"+std::string(v.outline?"true":"false")+",\"core_light\":"+std::to_string(v.core_light)+",\"dark_pixels\":"+std::to_string(v.dark_pixels)+",\"aux_fill\":"+std::string(v.aux_fill?"true":"false")+",\"aux_only\":"+std::to_string(v.aux_only)+",\"aux_enclosure\":"+std::to_string(v.aux_enclosure)+",\"sample_overflow\":"+std::to_string(v.sample_overflow)+",\"samples\":["+ink_samples(v)+"]}";
           }
           fields += "]}";
           life_count = 0; raster_fault_count = 0;
