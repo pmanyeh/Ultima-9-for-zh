@@ -35,9 +35,9 @@
       "source_unit": "UTF-16LE code units of the entry text, excluding one NUL terminator",
       "decode": {"value": true, "status": "CONFIRMED", "evidence": "reports/P10_1_MISCTEXT.md (340 used of 348 slots; UTF-16LE, no BOM, one NUL)"},
       "roundtrip": {"value": "byte-perfect", "status": "CONFIRMED", "evidence": "reports/P10_1_MISCTEXT.md (14618 bytes, 0 differences)"},
-      "translate_build": {"value": true, "status": "STRONG EVIDENCE", "evidence": "reports/P10_1_MISCTEXT.md (TextArchive writer; scoped mutation audit)"},
-      "unicode_runtime": {"value": "bounded", "status": "HYPOTHESIS", "evidence": "reports/P10_1_MISCTEXT.md (plans share the text domain; per-surface runtime check pending)"},
-      "notes": "Menus, stat names, prompts, spellbook and save/load labels. Each UI surface may use its own draw path; only surfaces confirmed in game count as supported."
+      "translate_build": {"value": true, "status": "CONFIRMED", "evidence": "reports/P10_1_MISCTEXT.md (TextArchive writer; scoped mutation audit; game loaded rebuilt archive in sessions 1-9)"},
+      "unicode_runtime": {"value": "bounded", "status": "CONFIRMED", "evidence": "reports/P10_1_MISCTEXT.md (runtime 0.2.27-p10-1 marker bridge M1; human-confirmed surfaces listed in notes)"},
+      "notes": "Confirmed in game: options page, table of contents, main-menu buttons, message box, bestiary. Not yet individually confirmed: save/load labels, spellbook, stats page. Each UI surface may use its own draw path; only confirmed surfaces count as supported."
     }
   },
   "layout_profiles": [
