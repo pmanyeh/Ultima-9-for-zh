@@ -249,3 +249,22 @@ Private session `.local/p10-misc/session-6`, log `fc0da18b…e8a7`, exit 0. fini
   - Logged as `inks[].shadow` / `shadow_value`.
   - Book and journal inks should be unchanged. This still needs a visual check.
 - Message box: a re-flow of a buffer already registered with Chinese segments is inset as well.
+
+## Session-7 result (runtime 0.2.25-p10-1)
+
+Private session `.local/p10-misc/session-7`, log `f133b72e…d1fa`, exit 0. finish restored everything.
+
+- Signs are still dark. For the message font (height 21), the probe's reference glyph `I` has a single solid
+  shade, `0x8000`: 78 written pixels, enclosure 8, no shadow chosen.
+  - The light fill seen on English messages is therefore **not** a solid main-plane shade.
+  - HYPOTHESIS: the fill is written to the aux plane only, or blended with the background.
+- The probe's two passes shared one aux buffer, so the aux plane of the black-background pass was overwritten. This was unobserved until now.
+- `message_insets=5`: the message box inset now survives re-flows.
+
+## Runtime 0.2.26-p10-1
+
+- Separate aux buffers for the two probe passes.
+- `inks[].samples` lists up to 8 distinct written pixel classes of the reference glyph:
+  (main on 0x0000, main on 0xFFFF, aux on 0, aux on ~0, count). It also logs `aux_only` (main differs, aux equal) and `aux_enclosure`.
+- If aux-only pixels form a stroke interior (enclosure ≥ 5, within 2 of the solid ink), they become the ink and the
+  solid shade becomes the 1-pixel shadow (`aux_fill=true`). Otherwise the behaviour is unchanged.

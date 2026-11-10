@@ -219,7 +219,7 @@ uint32_t texture_glyph(uintptr_t raster, const InkProbe& ink, const uint8_t* alp
         return UINT32_MAX;
     }
 }
-struct ProbeBuffers { uint16_t* a; uint16_t* b; uint16_t* aux; uint32_t size; };
+struct ProbeBuffers { uint16_t* a; uint16_t* b; uint16_t* aux; uint32_t size; uint16_t* aux_b; };
 uint32_t probe_value(const ProbeBuffers& q, bool sixteen, uint32_t x, uint32_t y, bool& solid) noexcept {
     const size_t i = size_t(y)*q.size+x;
     if (sixteen) { solid = q.a[i] == q.b[i]; return q.a[i]; }
@@ -252,8 +252,32 @@ bool probe_ink(uintptr_t raster, InkProbe& ink, const ProbeBuffers& q) noexcept 
             if (has_aux) std::memset(q.aux,0x00,size_t(size)*size*4);
             fake_set(fake,0x43C,reinterpret_cast<uintptr_t>(q.a)); native_blit(address,glyph,X,Y);
             std::memset(q.b,0xFF,size_t(size)*size*2);
-            if (has_aux) std::memset(q.aux,0xFF,size_t(size)*size*4);
+            if (has_aux) { std::memset(q.aux_b,0xFF,size_t(size)*size*4); fake_set(fake,0x444,reinterpret_cast<uintptr_t>(q.aux_b)); }
             fake_set(fake,0x43C,reinterpret_cast<uintptr_t>(q.b)); native_blit(address,glyph,X,Y);
+            if (has_aux) fake_set(fake,0x444,reinterpret_cast<uintptr_t>(q.aux));
+            // P10-1: aux plane values per pixel (4 bytes each), black-background pass in q.aux, white in q.aux_b.
+            const auto* aux_a = reinterpret_cast<const uint32_t*>(q.aux);
+            const auto* aux_b = reinterpret_cast<const uint32_t*>(q.aux_b);
+            const auto aux_only_at = [&](uint32_t x, uint32_t y) {
+                const size_t i = size_t(y)*size+x;
+                return has_aux && sixteen && q.a[i] != q.b[i] && aux_a[i] == aux_b[i];
+            };
+            ink.sample_count = 0; ink.sample_overflow = 0; ink.aux_only = 0;
+            for (uint32_t y = 0; y < size; ++y) for (uint32_t x = 0; x < size; ++x) {
+                const size_t i = size_t(y)*size+x;
+                const uint32_t xa = has_aux ? aux_a[i] : 0, xb = has_aux ? aux_b[i] : 0xFFFFFFFF;
+                const bool touched = sixteen ? (q.a[i] != 0 || q.b[i] != 0xFFFF || xa != 0 || xb != 0xFFFFFFFF) : false;
+                if (!touched) continue;
+                ink.aux_only += aux_only_at(x,y);
+                uint32_t k = 0;
+                while (k < ink.sample_count && !(ink.samples[k].a == q.a[i] && ink.samples[k].b == q.b[i] &&
+                       ink.samples[k].aux_a == xa && ink.samples[k].aux_b == xb)) ++k;
+                if (k == ink.sample_count) {
+                    if (k == ink.samples.size()) { ++ink.sample_overflow; continue; }
+                    ink.samples[k] = {q.a[i],q.b[i],xa,xb,0}; ++ink.sample_count;
+                }
+                ++ink.samples[k].count;
+            }
             uint32_t values[32]{}, counts[32]{}, distinct = 0, written = 0;
             for (uint32_t y = 0; y < size; ++y) for (uint32_t x = 0; x < size; ++x) {
                 bool solid = false; const auto v = probe_value(q,sixteen,x,y,solid);
@@ -301,7 +325,24 @@ bool probe_ink(uintptr_t raster, InkProbe& ink, const ProbeBuffers& q) noexcept 
             if (px < 0) continue;
             ink.glyph = glyph; ink.dx = X-px; ink.dy = Y-py; ink.value = values[best];
             ink.solid = enclosed; ink.written = written; ink.reference = c; ink.usable = true;
-            ink.shadow = false;
+            ink.shadow = false; ink.aux_fill = false; ink.aux_enclosure = 0;
+            // P10-1: a fill that only writes the aux plane (main plane keeps the background) is invisible to the
+            // solid test. When such pixels form a stroke interior, they are the ink and the solid shade the shadow.
+            {
+                int32_t fx = -1, fy = -1; uint32_t best_fill = 0;
+                for (uint32_t y = 1; y+1 < size; ++y) for (uint32_t x = 1; x+1 < size; ++x) {
+                    if (!aux_only_at(x,y)) continue;
+                    uint32_t n = 0;
+                    for (int dy = -1; dy <= 1; ++dy) for (int dx = -1; dx <= 1; ++dx) n += aux_only_at(x+dx,y+dy);
+                    if (fx < 0 || n > best_fill) { fx = int32_t(x); fy = int32_t(y); best_fill = n; }
+                }
+                ink.aux_enclosure = best_fill;
+                if (fx >= 0 && best_fill >= 5 && best_fill+2 >= enclosed) {
+                    ink.shadow = true; ink.shadow_value = ink.value; ink.shadow_dx = ink.dx; ink.shadow_dy = ink.dy;
+                    ink.dx = X-fx; ink.dy = Y-fy; ink.aux_fill = true; ink.solid = best_fill;
+                    return true;
+                }
+            }
             if (darkest >= 0 && darkest != pick) {
                 int32_t sx = -1, sy = -1;
                 if (most_enclosed(values[uint32_t(darkest)],sx,sy) && sx >= 0) {
@@ -908,7 +949,7 @@ const InkProbe* Engine::ink_for(uintptr_t record, uintptr_t raster) noexcept {
     if (ink_count == inks.size()) return nullptr;
     auto& ink = inks[ink_count++];
     ink = {}; ink.blob = blob; ink.type = type;
-    if (!probe_ink(raster,ink,{probe_a.data(),probe_b.data(),sample_aux.data(),SampleSize})) { ink.usable = false; ++texture_faults; }
+    if (!probe_ink(raster,ink,{probe_a.data(),probe_b.data(),sample_aux.data(),SampleSize,probe_aux_b.data()})) { ink.usable = false; ++texture_faults; }
     return ink.usable ? &ink : nullptr;
 }
 int Engine::plan_for_entry(uint32_t entry) const noexcept {
@@ -1446,6 +1487,14 @@ void Engine::install(const Config& config, Logger& logger) {
     worker.reset(CreateThread(nullptr,0,diagnostics_worker,this,0,nullptr));
     require(bool(worker), "diagnostics worker failed");
 }
+std::string ink_samples(const InkProbe& v) {
+    std::string out;
+    for (uint32_t i = 0; i < v.sample_count; ++i) {
+        const auto& p = v.samples[i]; if (i) out += ',';
+        out += "["+std::to_string(p.a)+","+std::to_string(p.b)+","+std::to_string(p.aux_a)+","+std::to_string(p.aux_b)+","+std::to_string(p.count)+"]";
+    }
+    return out;
+}
 void Engine::snapshot(const char* event) noexcept {
     try {
         std::string fields;
@@ -1614,7 +1663,7 @@ void Engine::snapshot(const char* event) noexcept {
               fields += "{\"blob\":"+std::to_string(v.blob)+",\"type\":"+std::to_string(v.type)+
                   ",\"usable\":"+(v.usable?"true":"false")+",\"reference\":"+std::to_string(v.reference)+
                   ",\"value\":"+std::to_string(v.value)+",\"solid\":"+std::to_string(v.solid)+
-                  ",\"written\":"+std::to_string(v.written)+",\"dx\":"+std::to_string(v.dx)+",\"dy\":"+std::to_string(v.dy)+",\"shadow\":"+std::string(v.shadow?"true":"false")+",\"shadow_value\":"+std::to_string(v.shadow_value)+"}";
+                  ",\"written\":"+std::to_string(v.written)+",\"dx\":"+std::to_string(v.dx)+",\"dy\":"+std::to_string(v.dy)+",\"shadow\":"+std::string(v.shadow?"true":"false")+",\"shadow_value\":"+std::to_string(v.shadow_value)+",\"aux_fill\":"+std::string(v.aux_fill?"true":"false")+",\"aux_only\":"+std::to_string(v.aux_only)+",\"aux_enclosure\":"+std::to_string(v.aux_enclosure)+",\"sample_overflow\":"+std::to_string(v.sample_overflow)+",\"samples\":["+ink_samples(v)+"]}";
           }
           fields += "]}";
           life_count = 0; raster_fault_count = 0;

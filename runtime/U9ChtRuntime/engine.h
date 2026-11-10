@@ -75,6 +75,11 @@ struct InkProbe {
     bool shadow = false;
     uint32_t shadow_value = 0;
     int32_t shadow_dx = 0, shadow_dy = 0;
+    // P10-1 diagnostics: the reference glyph's written pixels, as (main on black, main on white, aux on 0, aux on ~0).
+    struct Sample { uint16_t a = 0, b = 0; uint32_t aux_a = 0, aux_b = 0, count = 0; };
+    std::array<Sample,8> samples{};
+    uint32_t sample_count = 0, sample_overflow = 0, aux_only = 0, aux_enclosure = 0;
+    bool aux_fill = false; // ink taken from an aux-only (main plane untouched) fill pixel
 };
 // P9-2: one contiguous run of plan slots inside an expanded diary buffer. Authored line breaks are dropped
 // on expansion (English journal sources contain none; the native flow wraps to the page), so one entry
@@ -116,6 +121,7 @@ struct Engine {
     static constexpr uint32_t SampleSize = 128;
     std::array<uint16_t,SampleSize*SampleSize> sample{};
     std::array<uint16_t,SampleSize*SampleSize*2> sample_aux{};
+    std::array<uint16_t,SampleSize*SampleSize*2> probe_aux_b{}; // P10-1: aux plane of the white-background pass
     uint64_t occluder_masks = 0;
     std::array<uint64_t,6> occluder_rejects{}; // masks full, tiles, raster fields, size, fault, mostly opaque
     std::array<uint64_t,5> skip_reasons{};     // not current, device lost, backbuffer, stale source, empty
