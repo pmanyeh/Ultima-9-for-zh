@@ -164,6 +164,13 @@ struct Engine {
     uint64_t misc_marked = 0, misc_mark_failures = 0, misc_stripped = 0, misc_buffers = 0;
     uint64_t misc_invalid = 0, misc_partial = 0, misc_leaks = 0, misc_draw_strips = 0, misc_bounded = 0;
     uint64_t book_overwritten = 0; // P10-1: a book conversion replaced a pending book not yet bound
+    uint64_t misc_measures = 0, misc_measure_faults = 0;
+    // P10-1 diagnostics: unbound 0x7F glyphs inside a recorded flow text, and fonts used by texture glyphs.
+    struct FlowMiss { uintptr_t caller = 0, text = 0, buffer = 0; uint32_t offset = 0, buffer_size = 0, segments = 0, first_segment = 0; uint64_t count = 0; };
+    std::array<FlowMiss,16> flow_misses{};
+    struct TextureFont { uintptr_t blob = 0; uint32_t height = 0, spacing = 0, extra = 0; uint64_t glyphs = 0; };
+    std::array<TextureFont,16> texture_fonts{};
+    int32_t measure_misc(uintptr_t record, uintptr_t text, uint32_t length, int32_t native, void* original) noexcept;
     bool mark_misc(uintptr_t object, uint32_t plan) noexcept;
     void strip_misc(uintptr_t text, uint32_t length) noexcept;
     void count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept;

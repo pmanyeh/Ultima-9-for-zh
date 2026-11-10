@@ -19,6 +19,9 @@ inline constexpr uint32_t MiscMarkerSize = 4;       // lead + three base-94 digi
 inline constexpr uint32_t MiscMarkerLimit = 94*94*94;
 inline constexpr uintptr_t MiscTextCtorReturn = 0x6161AB;
 inline constexpr uint32_t DrawStringUnbounded = 0xFFFFFFFF;
+// 0x4260F1 builds the bestiary title from misctext 255: text[0] becomes a "\x0C\x11%c" drop cap and text+1 the
+// title. Its marked cache gets a sacrificial leading space so the whole Chinese title stays in text+1.
+inline constexpr uint32_t MiscDropCapEntry = 0xC000 + 255;
 
 inline bool encode_misc_marker(uint32_t plan, char* out) noexcept {
     if (plan >= MiscMarkerLimit) return false;

@@ -151,3 +151,32 @@ finish restored every protected asset, save and config.
   - `misc.book_overwritten` counts conversions that replaced an unconsumed pending book.
   - Session evidence so far: session-1 converted 11 and bound 5; session-2 converted 3 and bound 1, with 0 mismatches.
 - Known limit: label centring is computed by `0x5C6240` on the marked string before stripping, so a label may be off-centre by up to 4 native character widths.
+
+## Session-3 result (runtime 0.2.21-p10-1) — PASS WITH LIMITATIONS
+
+Private session `.local/p10-misc/session-3`, log `083698e3…0a85`, exit 0. finish restored everything.
+
+- Ctrl+O no longer crashes. The options page, table of contents, main-menu buttons and quit dialog render Chinese (screenshots).
+- Counters: `marked=419`, `stripped=312`, `draw_strips=105`, `bounded=0`, `invalid=10`, `leaks=10`, `errors=0`.
+- **Bestiary title (CONFIRMED, static + runtime)**: `0x4260F1` loads misctext 255 and
+  `sprintf("\x0C\x11%c", text[0])` (format `0x7846B4` / `0x7846BC`, chosen by `text[0] <= 'M'`) as a decorative
+  drop cap; `text+1` becomes the title label. The marker lead became the drop cap and the three digits leaked
+  (`!n\` = plan 7297 = misctext 255). This is the only reference to either format string.
+- Options buttons are off-centre: the width `0x5C6240` is taken from the still-marked text.
+- The quit dialog (flow `0x41F305`) overflows its frame: texture glyphs are always 16 px, while that dialog's
+  native font is smaller.
+- Sign (book entry 340, flow `0x426DF3`): `book_flow` reports `bound=true`, yet the glyph stage did not locate the
+  slots (unlocated glyphs counted in the flow probe). The 64-entry ring held only 17 buffers then, so this was not
+  eviction. Cause UNKNOWN.
+
+## Runtime 0.2.22-p10-1
+
+- Misctext 255 gets a sacrificial leading space (`MiscDropCapEntry`). The drop cap is a space and the full title stays in `text+1`.
+- New hook **`string_width` at `0x5C6240`**. Original bytes `57 8B 7C 24 08 33 C0`, lengths 1/4/2.
+  The human authorized it on 2026-11-10 ("請繼續調整" in reply to the list naming this hook).
+  - For text holding a marker, the width is the native width of the stripped copy, plus for each CJK slot
+    (texture advance − (native 0x7F width + spacing)). Counters: `misc.measures`, `misc.measure_faults`.
+- Diagnostics:
+  - `flow_misses` records unlocated 0x7F glyphs inside a recorded flow text, with the covering ring buffer if any.
+  - `texture_fonts` records, per font blob used by texture glyphs, its height (`blob+4`), spacing and extra leading.
+    This is input for font-relative CJK sizing (dialog overflow), which is not yet implemented.

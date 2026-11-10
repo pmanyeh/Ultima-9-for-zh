@@ -26,6 +26,7 @@ void* name_copy_gateway = nullptr;
 void* name_destroy_gateway = nullptr;
 void* flip_gateway = nullptr;
 void* draw_gateway = nullptr;
+void* measure_gateway = nullptr;
 void* flow_gateway = nullptr;
 void* triangle_original = reinterpret_cast<void*>(0x589F50);
 decltype(&WideCharToMultiByte) wide_original = nullptr;
@@ -456,6 +457,19 @@ uintptr_t __fastcall draw_hook(uintptr_t self, void*, uintptr_t text, uintptr_t 
     }
     return fn(self,text,end);
 }
+// P10-1 M1: string width 0x5C6240 (thiscall font record, text). Labels are centred from the width of their still
+// marked text (options page 0x428B41). For such text: width of the stripped copy, marker bytes count 0, and each
+// CJK slot counts its texture advance instead of the native 0x7F glyph.
+using MeasureFn = int32_t(__thiscall*)(uintptr_t,uintptr_t);
+int32_t __fastcall measure_hook(uintptr_t record, void*, uintptr_t text) {
+    Guard guard;
+    const auto fn = reinterpret_cast<MeasureFn>(measure_gateway);
+    const int32_t native = fn(record,text);
+    if (!guard.state || !guard.state->render || !guard.state->texture_enabled || !text) return native;
+    uint32_t length = 0; bool found = false;
+    if (!scan_misc_lead(text,DrawStringUnbounded,length,found) || !found) return native;
+    return guard.state->measure_misc(record,text,length,native,measure_gateway);
+}
 uintptr_t __fastcall paint_hook(uintptr_t self, void*, uintptr_t widget) {
     Guard guard;
     const auto previous = paint_generation;
@@ -610,6 +624,12 @@ extern "C" uintptr_t __cdecl dispatch(uint32_t stage, CpuFrame* f) noexcept {
             const auto& p = e.pack.plans[size_t(journal_plan)];
             if (p.wide[journal_offset] < 128) return 0; // ASCII inside the entry stays native
             ++e.texture_glyphs;
+            if (const auto blob = word(f->ecx)) {
+                for (auto& v : e.texture_fonts) {
+                    if (v.blob == blob) { ++v.glyphs; break; }
+                    if (!v.blob) { v.blob = blob; v.height = word(blob+4); v.spacing = word(f->ecx+4); v.extra = word(f->ecx+8); v.glyphs = 1; break; }
+                }
+            }
             const auto metric = logical_metric(word(f->ecx+4),e.journal_advance(journal_previous,p.advances[journal_offset],journal_lead));
             const auto* g = e.glyphs.get(p.wide[journal_offset],TextureEm);
             const auto raster = word(0x133393C);
@@ -951,10 +971,12 @@ bool Engine::mark_misc(uintptr_t object, uint32_t plan) noexcept {
         std::memcmp(reinterpret_cast<void*>(cache),p.slots.data(),size_t(p.length)+1) != 0) {
         Exclusive lock(mutex); ++misc_mark_failures; return false;
     }
-    auto* copy = reinterpret_cast<char*(__cdecl*)(size_t)>(0x7108F0)(size_t(MiscMarkerSize)+p.length+1);
+    const size_t lead = p.entry == MiscDropCapEntry ? 1 : 0;
+    auto* copy = reinterpret_cast<char*(__cdecl*)(size_t)>(0x7108F0)(lead+MiscMarkerSize+p.length+1);
     if (!copy) { Exclusive lock(mutex); ++misc_mark_failures; return false; }
-    std::memcpy(copy,marker,MiscMarkerSize);
-    std::memcpy(copy+MiscMarkerSize,p.slots.data(),size_t(p.length)+1);
+    if (lead) copy[0] = ' ';
+    std::memcpy(copy+lead,marker,MiscMarkerSize);
+    std::memcpy(copy+lead+MiscMarkerSize,p.slots.data(),size_t(p.length)+1);
     *reinterpret_cast<uintptr_t*>(object) = reinterpret_cast<uintptr_t>(copy);
     reinterpret_cast<void(__cdecl*)(uintptr_t)>(0x7108E0)(cache);
     return true;
@@ -984,6 +1006,39 @@ void Engine::strip_misc(uintptr_t text, uint32_t length) noexcept {
         ++misc_buffers;
     } catch (...) { Exclusive lock(mutex); ++journal_alloc_failures; }
 }
+bool read_byte(uintptr_t address, uint8_t& out) noexcept {
+    __try { out = *reinterpret_cast<const uint8_t*>(address); return true; }
+    __except (EXCEPTION_EXECUTE_HANDLER) { return false; }
+}
+int32_t Engine::measure_misc(uintptr_t record, uintptr_t text, uint32_t length, int32_t native, void* original) noexcept {
+    try {
+        std::vector<uint8_t> copy(size_t(length)+1);
+        if (!copy_guarded(text,reinterpret_cast<char*>(copy.data()),length+1)) return native;
+        const auto r = strip_misc_markers(copy.data(),length,[&](uint32_t plan, uint32_t& n) -> const uint8_t* {
+            if (plan >= pack.count) return nullptr;
+            const auto& p = pack.plans[plan];
+            if (p.is_name() || p.is_book()) return nullptr;
+            n = p.length; return p.slots.data();
+        });
+        if (!r.markers) return native;
+        // Native 0x7F width: font blob glyph table (as 0x5C6279 reads it), byte 0 of the glyph record.
+        const auto blob = word(record);
+        uint8_t slot_width = 0;
+        if (!blob || !read_byte(blob+word(blob+0x7F*8-0xF0),slot_width)) { Exclusive lock(mutex); ++misc_measure_faults; return native; }
+        const int32_t spacing = int32_t(word(record+4));
+        int32_t width = reinterpret_cast<MeasureFn>(original)(record,reinterpret_cast<uintptr_t>(copy.data()));
+        for (const auto& g : r.segments) {
+            const auto& p = pack.plans[g.plan];
+            for (uint32_t j = 0; j < g.length; ++j) if (p.wide[j] >= 128) {
+                uint32_t lead = 0;
+                const uint8_t previous = g.offset+j ? copy[g.offset+j-1] : 0;
+                width += int32_t(journal_advance(previous,p.advances[j],lead)) - (int32_t(slot_width)+spacing);
+            }
+        }
+        Exclusive lock(mutex); ++misc_measures;
+        return width;
+    } catch (...) { Exclusive lock(mutex); ++misc_measure_faults; return native; }
+}
 void Engine::count_caller(std::array<CallerCount,32>& table, uintptr_t caller) noexcept {
     for (auto& c : table) {
         if (c.caller == caller) { ++c.count; return; }
@@ -1006,6 +1061,20 @@ void Engine::probe_flow_source(uintptr_t source, uint32_t stage) noexcept {
         else {
             ++f.glyph[range];
             if (!paint_generation) ++f.glyph_outside_paint;
+            uint8_t byte = 0;
+            if (range == 0 && read_byte(source,byte) && byte == 0x7F) {
+                FlowMiss* m = nullptr;
+                for (auto& v : flow_misses) if (v.caller == f.caller && v.text == f.text) { m = &v; break; }
+                if (!m) for (auto& v : flow_misses) if (!v.caller) {
+                    m = &v; *m = {}; m->caller = f.caller; m->text = f.text; m->offset = uint32_t(source-f.text);
+                    for (const auto& b : journal_buffers) if (b.base && f.text >= b.base && f.text < b.base+b.size) {
+                        m->buffer = b.base; m->buffer_size = b.size; m->segments = uint32_t(b.segments.size());
+                        m->first_segment = b.segments.empty() ? 0 : b.segments.front().offset; break;
+                    }
+                    break;
+                }
+                if (m) ++m->count;
+            }
             f.glyph_paint_caller = paint_caller; f.glyph_paint_owner = paint_owner; f.glyph_paint_widget = paint_widget;
             const auto raster = word(0x133393C);
             f.glyph_raster = raster;
@@ -1291,6 +1360,7 @@ void Engine::install(const Config& config, Logger& logger) {
     }
     flow_gateway = prepare("text_flow_init",0x5C7620,flow_hook,{0x8B,0x44,0x24,0x08,0x53},{4,1});
     draw_gateway = prepare("draw_string",0x5C5C00,draw_hook,{0x8B,0x44,0x24,0x08,0x53},{4,1});
+    measure_gateway = prepare("string_width",0x5C6240,measure_hook,{0x57,0x8B,0x7C,0x24,0x08,0x33,0xC0},{1,4,2});
     flip_gateway = prepare("pre_flip",0x597B00,flip_hook,{0x56,0x8B,0xF1,0x8A,0x86,9,0xC5,0x3F,0},{1,2,6});
     wide_original = &WideCharToMultiByte;
     exit_original = &ExitProcess;
@@ -1461,7 +1531,18 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"stripped\":"+std::to_string(misc_stripped)+",\"buffers\":"+std::to_string(misc_buffers)+
               ",\"invalid\":"+std::to_string(misc_invalid)+",\"partial\":"+std::to_string(misc_partial)+
               ",\"leaks\":"+std::to_string(misc_leaks)+",\"draw_strips\":"+std::to_string(misc_draw_strips)+
-              ",\"bounded\":"+std::to_string(misc_bounded)+",\"book_overwritten\":"+std::to_string(book_overwritten)+"},\"inks\":[";
+              ",\"bounded\":"+std::to_string(misc_bounded)+",\"book_overwritten\":"+std::to_string(book_overwritten)+
+              ",\"measures\":"+std::to_string(misc_measures)+",\"measure_faults\":"+std::to_string(misc_measure_faults)+"}";
+          fields += ",\"flow_misses\":[";
+          { bool first = true; for (const auto& m : flow_misses) if (m.caller) { if (!first) fields += ','; first = false;
+              fields += "{\"caller\":"+std::to_string(m.caller)+",\"text\":"+std::to_string(m.text)+",\"offset\":"+std::to_string(m.offset)+
+                  ",\"buffer\":"+std::to_string(m.buffer)+",\"buffer_size\":"+std::to_string(m.buffer_size)+",\"segments\":"+std::to_string(m.segments)+
+                  ",\"first_segment\":"+std::to_string(m.first_segment)+",\"count\":"+std::to_string(m.count)+"}"; } }
+          fields += "],\"texture_fonts\":[";
+          { bool first = true; for (const auto& v : texture_fonts) if (v.blob) { if (!first) fields += ','; first = false;
+              fields += "{\"blob\":"+std::to_string(v.blob)+",\"height\":"+std::to_string(v.height)+",\"spacing\":"+std::to_string(v.spacing)+
+                  ",\"extra\":"+std::to_string(v.extra)+",\"glyphs\":"+std::to_string(v.glyphs)+"}"; } }
+          fields += "],\"inks\":[";
           for (uint32_t i = 0; i < ink_count; ++i) {
               const auto& v = inks[i]; if (i) fields += ',';
               fields += "{\"blob\":"+std::to_string(v.blob)+",\"type\":"+std::to_string(v.type)+

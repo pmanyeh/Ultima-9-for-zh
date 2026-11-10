@@ -7,5 +7,5 @@ inline constexpr wchar_t WrapperHash[] = L"f045795c50eb1e5bf93853a32ca00ebe58d47
 inline constexpr wchar_t TextHash[] = L"378d0bf949a832ea564546159a7a2596d9d5a2512d7ace7441e52550b33e9fa0";
 inline constexpr uintptr_t GameBase = 0x400000;
 inline constexpr uintptr_t WrapperBase = 0x18000000;
-inline constexpr char RuntimeName[] = "U9ChtRuntime/0.2.21-p10-1";
+inline constexpr char RuntimeName[] = "U9ChtRuntime/0.2.22-p10-1";
 }
