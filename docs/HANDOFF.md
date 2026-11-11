@@ -9,10 +9,12 @@
 
 ## 1. 目前狀態一覽
 
-- 分支：`p7-localization-pipeline`，領先 `origin/main` 約 110 個 commit。
-- **推送待決**：本機歷史中有 3 個 commit（`890d0ba`、`a98497f`、`2829a17`）含石像鬼語原文段落，後來由 `3e7033f` 移出 store。直接推送會把這些原文公開到 GitHub。
-  - 要不要改寫歷史（例如 squash 或 filter），或接受推送，**由使用者決定**，不可自行執行。
-  - 2026-11-11 已掃描 `origin/main..HEAD`：除了這 3 個 commit，沒有遊戲檔、store `source` 欄位或本機絕對路徑。
+- 分支：`p7-localization-pipeline`，已推送到 `origin/p7-localization-pipeline`（2026-11-11）。
+- 推送前改寫了本機歷史（使用者決定，2026-11-11）：
+  - 3 個舊 commit 的 `books.jsonl` 含石像鬼語原文，改成和 `89d9118` 相同的 `{{gargish:1}}` 佔位符；只替換那 6 段原文，其他內容不變。
+  - 驗證：最終檔案樹和改寫前完全相同（`900d0fe5…`）；commit 數和訊息都不變；尚未推送的歷史中原文殘留為 0。
+  - 從那 3 個 commit 起，之後所有 commit 的雜湊都改變了；本文件和 P10-1 報告已更新成新雜湊。
+  - 改寫前的歷史只留在本機備份分支 `backup/p7-before-gargish-rewrite`，**不可推送**。確認不再需要後可以刪除。
 - 工作樹：只有不可加入的未追蹤檔：`.vscode/`、`83e7052b…png`、`tools/u9xsb6bt2a*`、`tools/uixtools.zip`。
 - 本機私人遊戲副本 `.local/runtime-game`：已還原成原版，沒有進行中的 session。
 - 測試：
@@ -57,14 +59,14 @@
 
 ### 3b. P10-2（尚未進遊戲目視確認）
 
-- 小字型中文縮放（`0eb7bf3`）：字型高度 15–16 用 14 px，≤14 用 12 px。只套用在 misctext UI，日誌、書頁、路牌維持 16 px。
-- 商店清單（`abe15b3`）：商品名稱取 TYPENAME 譯文；店名方案 0xE000 起；runtime 在每個商品名前插入標記。
-- 時鐘訊息（`cd793e1`）：在 0x41BC61 比對英文句型，改寫成中文；單字方案 0xF000 起。
+- 小字型中文縮放（`38a5916`）：字型高度 15–16 用 14 px，≤14 用 12 px。只套用在 misctext UI，日誌、書頁、路牌維持 16 px。
+- 商店清單（`4c52ab4`）：商品名稱取 TYPENAME 譯文；店名方案 0xE000 起；runtime 在每個商品名前插入標記。
+- 時鐘訊息（`678e474`）：在 0x41BC61 比對英文句型，改寫成中文；單字方案 0xF000 起。
 
 ### 3c. P11 影片字幕（研究：`docs/research/U9_MOVIE_SUBTITLES.md`）
 
 - 12 部影片，只有 4 部有對白：intro、samhayne、raven、ambush。其他 8 部經過關閉 VAD 的整片辨識和 15 秒分段強制辨識，都沒有對白；兩個單字候選由使用者聽過確認不是對白。
-- 做法 B'（`eaf5827`）：runtime 攔截 `CoCreateInstance`（IAT 0x740418）的 FilterGraph，改用自己的播放器播放，以 pl_mpeg（MIT）解碼，用 GDI 畫字幕。GOG 的 `dshow.dll` 不修改。
+- 做法 B'（`6494cff`）：runtime 攔截 `CoCreateInstance`（IAT 0x740418）的 FilterGraph，改用自己的播放器播放，以 pl_mpeg（MIT）解碼，用 GDI 畫字幕。GOG 的 `dshow.dll` 不修改。
   - 只有建置輸出裡有 `runtime/movies.tsv` 時才啟用。
 - 字幕語言：**只放中文**。使用者在 2026-11-11 決定不做中英並呈，因為英文對白散布有版權問題。
 - 檢視工具：`python scripts/movie_review.py <movie> [--scale 2]`。按鍵：空白鍵暫停、←/→ ±5 秒、↑/↓ ±1 秒、PgUp/PgDn 上下一句、R 重新載入。

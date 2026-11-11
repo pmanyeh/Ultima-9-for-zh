@@ -133,8 +133,8 @@ Screenshots were provided by the human in chat. They are not stored in the repos
 - `python -m unittest discover -s tests`: 161 OK, 3 skipped (LOCAL-ONLY asset tests).
 - `scripts/build_localization.py`: PASS, 0 errors, 71 warnings. The warnings are pre-existing and identical in kind and count across builds.
 - Offline pack/font check (`U9ChtShowcaseCheck`, jf-openhuninn): PASS.
-- Integrity note: the first 0.2.27 build failed (C4456 treated as error). It was committed as `29db2fb` before the failure was noticed, and tests had run against the previous binaries.
-  It was fixed in `819552c`, rebuilt, and verified by the DLL version string, the hash match, and a re-run of tests and the offline check.
+- Integrity note: the first 0.2.27 build failed (C4456 treated as error). It was committed as `db17790` before the failure was noticed, and tests had run against the previous binaries.
+  It was fixed in `592e244`, rebuilt, and verified by the DLL version string, the hash match, and a re-run of tests and the offline check.
 
 # Results
 
