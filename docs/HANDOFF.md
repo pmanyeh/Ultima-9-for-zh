@@ -31,8 +31,8 @@
 | 物品名稱 TYPENAME | `typename.jsonl` | 2,026 / 2,032 | ✅ |
 | 書籍 BOOKS-EN（含 56 個商店檔） | `books.jsonl` | 447 | 書本與路牌 ✅；商店清單 ❌ 未測 |
 | 系統訊息 misctext.flx | `misctext.jsonl` | 242 / 340（刻意保留的英文見 3a） | 主要 UI ✅ |
-| 影片字幕 | `movies.jsonl` | 42（draft 34、review 8） | 檢視工具 ✅；遊戲內 ❌ 未測 |
-| 時鐘訊息（u9.exe 內的句型） | `runtime/U9ChtRuntime/clock_text.h` | 規則式改寫 | ❌ 未目視確認 |
+| 影片字幕 | `movies.jsonl` | 42（draft 34、review 8） | 檢視工具 ✅；遊戲內 ✅（開場動畫，session 17；Esc 跳過 session 24） |
+| 時鐘訊息（u9.exe 內的句型） | `runtime/U9ChtRuntime/clock_text.h` | 規則式改寫 | ✅ 遊戲內確認（2026-11-12） |
 
 譯名權威檔 `translation/glossary/U9_TERMS.csv`：1,457 筆，其中 approved 768、todo 669、ignore 20。
 
@@ -57,7 +57,7 @@
   - 圖鑑花體字標題（misctext 255）。
 - 使用者審閱過的翻譯：BOOKS 1 的標題改為「怪獸／敵人」。
 
-### 3b. P10-2（尚未進遊戲目視確認）
+### 3b. P10-2（小字型、時鐘已在 2026-11-12 進遊戲確認；商店尚未）
 
 - 小字型中文縮放（`38a5916`）：字型高度 15–16 用 14 px，≤14 用 12 px。只套用在 misctext UI，日誌、書頁、路牌維持 16 px。
 - 商店清單（`4c52ab4`）：商品名稱取 TYPENAME 譯文；店名方案 0xE000 起；runtime 在每個商品名前插入標記。
@@ -174,7 +174,7 @@ python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-12
 要檢查的項目：
 
 - **影片**：開場動畫是否播放、字幕是否出現、會不會被 ddraw 轉接層蓋住、Esc 能否跳過、播完能否回到遊戲。在 snapshot 的 `movies{}` 計數裡確認。
-- 小字型 UI、時鐘、商店買／賣清單、存讀檔頁、法術書、屬性頁。
+- ~~小字型 UI、時鐘~~（2026-11-12 使用者確認 OK）；尚未確認：商店買／賣清單、存讀檔頁、法術書、屬性頁。
 - 手冊譯名：
   - 法術書的儀式清單：例如「重聚肉體與靈魂儀式」，看標籤會不會超出。
   - 法術名稱：例如「地－召喚不死生物」。
