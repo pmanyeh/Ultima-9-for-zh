@@ -5,7 +5,7 @@
 
 Cue files are regenerated on every start (all statuses, so `review` cues are visible):
 - Chinese cues from translation/zh-TW/movies.jsonl;
-- optional English reference cues from LOCAL ONLY speech recognition output (.local/movie-asr/<movie>.medium.json).
+- optional English reference cues from LOCAL ONLY speech recognition output (.local/movie-asr/<movie>.medium-novad.json, else .medium.json).
 Both are written under .local/movie-review/ (never tracked). Press R or F5 in the viewer after editing
 translation/zh-TW/movies.jsonl and re-running this script's --cues-only mode to reload without restarting.
 """
@@ -33,12 +33,17 @@ def write_cues(out_dir):
     subs.write_bytes(movie_cue_file(recs, STATUSES))
     ref_lines = ["# LOCAL ONLY reference (speech recognition, unreviewed)"]
     for movie in MOVIES:
-        p = LOCAL / "movie-asr" / f"{movie}.medium.json"
+        # Prefer the no-VAD rerun: the VAD pass dropped speech under music (intro 134-160 s).
+        p = LOCAL / "movie-asr" / f"{movie}.medium-novad.json"
+        if not p.exists():
+            p = LOCAL / "movie-asr" / f"{movie}.medium.json"
         if p.exists():
             for s in json.loads(p.read_text(encoding="utf-8")):
                 words = s.get("words") or []
                 start = words[0][0] if words else s["start"]
                 end = words[-1][1] if words else s["end"]
+                if s.get("no_speech", 0) > 0.5 or s.get("logprob", 0) < -0.9:
+                    continue  # music captions / one-word hallucinations of the no-VAD pass
                 if s["text"].strip():
                     ref_lines.append(f"{movie}\t{int(start*1000)}\t{max(int(end*1000), int(start*1000)+500)}\t{s['text'].strip()}")
     ref = out_dir / "reference.tsv"

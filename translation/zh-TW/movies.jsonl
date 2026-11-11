@@ -1,34 +1,40 @@
-{"key":"movies:ambush:01","movie":"ambush","start_ms":16530,"end_ms":20300,"status":"draft","target":"哎呀呀，這不是了不起的聖者(Avatar)嗎。","notes":"P11 draft from local ASR"}
-{"key":"movies:ambush:02","movie":"ambush","start_ms":20590,"end_ms":21500,"status":"draft","target":"黑棘(Blackthorn)！","notes":"P11 draft from local ASR"}
-{"key":"movies:ambush:03","movie":"ambush","start_ms":21590,"end_ms":24700,"status":"review","target":"我早該料到，你會在守護者(Guardian)腳邊搖尾乞憐。","notes":"P11 draft from local ASR; verb uncertain between two ASR models"}
-{"key":"movies:ambush:04","movie":"ambush","start_ms":25910,"end_ms":27900,"status":"draft","target":"把他帶走。","notes":"P11 draft from local ASR"}
-{"key":"movies:ambush:05","movie":"ambush","start_ms":30250,"end_ms":32400,"status":"draft","target":"別把他傷得太重。","notes":"P11 draft from local ASR"}
-{"key":"movies:ambush:06","movie":"ambush","start_ms":53220,"end_ms":55000,"status":"review","target":"可以幫我一下嗎？","notes":"P11 draft from local ASR; ASR low confidence; needs a listening check"}
-{"key":"movies:raven:01","movie":"raven","start_ms":620,"end_ms":5620,"status":"review","target":"這些只是……預防措施。","notes":"P11 draft from local ASR; second half heard only by the small model"}
-{"key":"movies:raven:02","movie":"raven","start_ms":6100,"end_ms":8400,"status":"draft","target":"呃，我其實沒料到……","notes":"P11 draft from local ASR"}
-{"key":"movies:raven:03","movie":"raven","start_ms":23210,"end_ms":25750,"status":"draft","target":"等一下。你要拿那個做什麼？","notes":"P11 draft from local ASR; an isolated early first word was treated as an ASR artefact"}
-{"key":"movies:raven:04","movie":"raven","start_ms":25790,"end_ms":29000,"status":"review","target":"你說過……你信任我的。","notes":"P11 draft from local ASR; ASR low confidence; needs a listening check"}
-{"key":"movies:raven:05","movie":"raven","start_ms":34060,"end_ms":37500,"status":"draft","target":"這可能……會有點刺痛。","notes":"P11 draft from local ASR"}
-{"key":"movies:raven:06","movie":"raven","start_ms":48270,"end_ms":50000,"status":"draft","target":"我不明白。","notes":"P11 draft from local ASR"}
-{"key":"movies:raven:07","movie":"raven","start_ms":57140,"end_ms":58800,"status":"draft","target":"你會明白的。","notes":"P11 draft from local ASR"}
-{"key":"movies:intro:01","movie":"intro","start_ms":95790,"end_ms":102200,"status":"draft","target":"聖者(Avatar)已抵達不列顛尼亞(Britannia)，\n並被我的龍衛(Wyrmguard)輕易解決了。","notes":"P11 draft from local ASR; first speaker addresses the second as lord"}
-{"key":"movies:intro:02","movie":"intro","start_ms":102430,"end_ms":109300,"status":"review","target":"別太篤定。美德可沒那麼容易被擊敗。","notes":"P11 draft from local ASR; subject noun has low ASR confidence"}
-{"key":"movies:intro:03","movie":"intro","start_ms":109480,"end_ms":113000,"status":"draft","target":"當然，吾主。但容我一問，他現在身在何處？","notes":"P11 draft from local ASR"}
-{"key":"movies:intro:04","movie":"intro","start_ms":113400,"end_ms":117000,"status":"review","target":"黑暗之鏡理應能照出不列顛王(Lord British)那名走狗的下落。","notes":"P11 draft from local ASR; Mirror of Darkness has no approved glossary entry; sentence may continue"}
-{"key":"movies:intro:05","movie":"intro","start_ms":117220,"end_ms":122300,"status":"draft","target":"聖者已被傳送到黑暗之鏡也看不見的地方。","notes":"P11 draft from local ASR"}
-{"key":"movies:intro:06","movie":"intro","start_ms":122660,"end_ms":127200,"status":"draft","target":"我們這位美德楷模，只可能被帶往石門(Stonegate)。","notes":"P11 draft from local ASR"}
-{"key":"movies:intro:07","movie":"intro","start_ms":129690,"end_ms":134000,"status":"draft","target":"要我把石門燒成灰燼嗎，吾主？","notes":"P11 draft from local ASR"}
-{"key":"movies:intro:08","movie":"intro","start_ms":162790,"end_ms":164500,"status":"draft","target":"遵命，吾主。","notes":"P11 draft from local ASR; a low-confidence one-word segment near 153 s was not subtitled"}
-{"key":"movies:samhayne:01","movie":"samhayne","start_ms":4460,"end_ms":5900,"status":"draft","target":"啊，聖者(Avatar)。","notes":"P11 draft from local ASR"}
-{"key":"movies:samhayne:02","movie":"samhayne","start_ms":6400,"end_ms":10800,"status":"draft","target":"我的線人回報，我們的航道已經回到手中了。多謝。","notes":"P11 draft from local ASR"}
-{"key":"movies:samhayne:03","movie":"samhayne","start_ms":10960,"end_ms":14400,"status":"draft","target":"多謝你的道謝。我是來完成我們的交易的。","notes":"P11 draft from local ASR"}
-{"key":"movies:samhayne:04","movie":"samhayne","start_ms":14960,"end_ms":20200,"status":"draft","target":"是的，那本書。不巧的是，出了點小狀況。","notes":"P11 draft from local ASR; last word corrected by context (hitch)"}
-{"key":"movies:samhayne:05","movie":"samhayne","start_ms":21420,"end_ms":22600,"status":"review","target":"嗯？","notes":"P11 draft from local ASR; ASR low confidence; needs a listening check"}
-{"key":"movies:samhayne:06","movie":"samhayne","start_ms":22960,"end_ms":28000,"status":"draft","target":"這倒是一種說法。還記得我嗎！","notes":"P11 draft from local ASR"}
-{"key":"movies:samhayne:07","movie":"samhayne","start_ms":33520,"end_ms":34720,"status":"review","target":"你能嗎？","notes":"P11 draft from local ASR; short line, context unclear"}
-{"key":"movies:samhayne:08","movie":"samhayne","start_ms":34720,"end_ms":39200,"status":"draft","target":"好了好了好了。閒話少說！","notes":"P11 draft from local ASR"}
-{"key":"movies:samhayne:09","movie":"samhayne","start_ms":40900,"end_ms":43200,"status":"draft","target":"你可沒提到……","notes":"P11 draft from local ASR"}
-{"key":"movies:samhayne:10","movie":"samhayne","start_ms":43200,"end_ms":47000,"status":"draft","target":"住口！我跟這傢伙有筆舊帳要算。","notes":"P11 draft from local ASR"}
-{"key":"movies:samhayne:11","movie":"samhayne","start_ms":48720,"end_ms":52200,"status":"draft","target":"我想這是你的東西！","notes":"P11 draft from local ASR"}
-{"key":"movies:samhayne:12","movie":"samhayne","start_ms":62540,"end_ms":65500,"status":"draft","target":"但終極智慧法典(Codex)可不在交易條件之內。","notes":"P11 draft from local ASR"}
-{"key":"movies:samhayne:13","movie":"samhayne","start_ms":71130,"end_ms":73300,"status":"draft","target":"這是給你的辛苦費。","notes":"P11 draft from local ASR"}
+{"key": "movies:ambush:01", "movie": "ambush", "start_ms": 16530, "end_ms": 20300, "status": "draft", "target": "哎呀呀，這不是了不起的聖者(Avatar)嗎。", "notes": "P11 draft from local ASR"}
+{"key": "movies:ambush:02", "movie": "ambush", "start_ms": 20590, "end_ms": 21500, "status": "draft", "target": "黑棘(Blackthorn)！", "notes": "P11 draft from local ASR"}
+{"key": "movies:ambush:03", "movie": "ambush", "start_ms": 21590, "end_ms": 24700, "status": "review", "target": "我早該料到，你會在守護者(Guardian)腳邊搖尾乞憐。", "notes": "P11 draft from local ASR; verb uncertain between two ASR models"}
+{"key": "movies:ambush:04", "movie": "ambush", "start_ms": 25910, "end_ms": 27900, "status": "draft", "target": "把他帶走。", "notes": "P11 draft from local ASR"}
+{"key": "movies:ambush:05", "movie": "ambush", "start_ms": 30250, "end_ms": 32400, "status": "draft", "target": "別把他傷得太重。", "notes": "P11 draft from local ASR"}
+{"key": "movies:ambush:06", "movie": "ambush", "start_ms": 53220, "end_ms": 55000, "status": "review", "target": "可以幫我一下嗎？", "notes": "P11 draft from local ASR; ASR low confidence; needs a listening check"}
+{"key": "movies:raven:01", "movie": "raven", "start_ms": 620, "end_ms": 5620, "status": "review", "target": "這些只是……預防措施。", "notes": "P11 draft from local ASR; second half heard only by the small model"}
+{"key": "movies:raven:02", "movie": "raven", "start_ms": 6100, "end_ms": 8400, "status": "draft", "target": "呃，我其實沒料到……", "notes": "P11 draft from local ASR"}
+{"key": "movies:raven:03", "movie": "raven", "start_ms": 23210, "end_ms": 25750, "status": "draft", "target": "等一下。你要拿那個做什麼？", "notes": "P11 draft from local ASR; an isolated early first word was treated as an ASR artefact"}
+{"key": "movies:raven:04", "movie": "raven", "start_ms": 25790, "end_ms": 29000, "status": "review", "target": "你說過……你信任我的。", "notes": "P11 draft from local ASR; ASR low confidence; needs a listening check"}
+{"key": "movies:raven:05", "movie": "raven", "start_ms": 34060, "end_ms": 37500, "status": "draft", "target": "這可能……會有點刺痛。", "notes": "P11 draft from local ASR"}
+{"key": "movies:raven:06", "movie": "raven", "start_ms": 48270, "end_ms": 50000, "status": "draft", "target": "我不明白。", "notes": "P11 draft from local ASR"}
+{"key": "movies:raven:07", "movie": "raven", "start_ms": 57140, "end_ms": 58800, "status": "draft", "target": "你會明白的。", "notes": "P11 draft from local ASR"}
+{"key": "movies:intro:01", "movie": "intro", "start_ms": 93480, "end_ms": 102200, "status": "draft", "target": "吾主，聖者(Avatar)已抵達不列顛尼亞(Britannia)，\n並被我的龍衛(Wyrmguard)輕易解決了。", "notes": "P11 draft from local ASR (no-VAD rerun); first speaker addresses the second as lord"}
+{"key": "movies:intro:02", "movie": "intro", "start_ms": 102430, "end_ms": 109300, "status": "draft", "target": "別太篤定。那個多管閒事的美德勇者，\n可沒那麼容易被擊敗。", "notes": "P11 draft from local ASR (no-VAD rerun); subject noun resolved by the no-VAD rerun"}
+{"key": "movies:intro:03", "movie": "intro", "start_ms": 109480, "end_ms": 113000, "status": "draft", "target": "當然，吾主。但容我一問，他現在身在何處？", "notes": "P11 draft from local ASR (no-VAD rerun)"}
+{"key": "movies:intro:04", "movie": "intro", "start_ms": 113400, "end_ms": 117000, "status": "review", "target": "黑暗之鏡理應能照出不列顛王(Lord British)那名走狗的下落。", "notes": "P11 draft from local ASR (no-VAD rerun); Mirror of Darkness has no approved glossary entry"}
+{"key": "movies:intro:05", "movie": "intro", "start_ms": 117220, "end_ms": 122300, "status": "draft", "target": "聖者已被傳送到黑暗之鏡也看不見的地方。", "notes": "P11 draft from local ASR (no-VAD rerun)"}
+{"key": "movies:intro:06", "movie": "intro", "start_ms": 122660, "end_ms": 129600, "status": "draft", "target": "我們這位美德楷模，只可能被帶往石門(Stonegate)，\n而且帶走他的，是一位力量強大之人。", "notes": "P11 draft from local ASR (no-VAD rerun); second half was dropped by VAD in the first pass"}
+{"key": "movies:intro:07", "movie": "intro", "start_ms": 130100, "end_ms": 134000, "status": "draft", "target": "要我把石門燒成灰燼嗎，吾主？", "notes": "P11 draft from local ASR (no-VAD rerun)"}
+{"key": "movies:intro:08", "movie": "intro", "start_ms": 134300, "end_ms": 140200, "status": "draft", "target": "不。我要讓不列顛尼亞的勇者親眼看看，\n這片土地和它的人民變成了什麼模樣。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
+{"key": "movies:intro:09", "movie": "intro", "start_ms": 140300, "end_ms": 148200, "status": "draft", "target": "當他看見我對不列顛尼亞所做的一切，\n我要感受他那熊熊燃燒的怒火。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
+{"key": "movies:intro:10", "movie": "intro", "start_ms": 148400, "end_ms": 153900, "status": "draft", "target": "你負責牽制聖者，\n好讓我完成征服不列顛尼亞的計畫。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
+{"key": "movies:intro:11", "movie": "intro", "start_ms": 154200, "end_ms": 158400, "status": "draft", "target": "等我完成之後，剩下的就歸你。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
+{"key": "movies:intro:12", "movie": "intro", "start_ms": 159000, "end_ms": 161000, "status": "draft", "target": "退下吧。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
+{"key": "movies:intro:13", "movie": "intro", "start_ms": 162300, "end_ms": 164500, "status": "draft", "target": "遵命，吾主。", "notes": "P11 draft from local ASR (no-VAD rerun)"}
+{"key": "movies:intro:14", "movie": "intro", "start_ms": 175600, "end_ms": 184500, "status": "review", "target": "黑棘(Blackthorn)，你果然是個蠢貨，\n竟想要一個被我玩弄殆盡的不列顛尼亞。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass; closing line spoken alone, tone needs a listening check"}
+{"key": "movies:samhayne:01", "movie": "samhayne", "start_ms": 4460, "end_ms": 5900, "status": "draft", "target": "啊，聖者(Avatar)。", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:02", "movie": "samhayne", "start_ms": 6400, "end_ms": 10800, "status": "draft", "target": "我的線人回報，我們的航道已經回到手中了。多謝。", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:03", "movie": "samhayne", "start_ms": 10960, "end_ms": 14400, "status": "draft", "target": "多謝你的道謝。我是來完成我們的交易的。", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:04", "movie": "samhayne", "start_ms": 14960, "end_ms": 20200, "status": "draft", "target": "是的，那本書。不巧的是，出了點小狀況。", "notes": "P11 draft from local ASR; last word corrected by context (hitch)"}
+{"key": "movies:samhayne:05", "movie": "samhayne", "start_ms": 21420, "end_ms": 22600, "status": "review", "target": "嗯？", "notes": "P11 draft from local ASR; ASR low confidence; needs a listening check"}
+{"key": "movies:samhayne:06", "movie": "samhayne", "start_ms": 22960, "end_ms": 28000, "status": "draft", "target": "這倒是一種說法。還記得我嗎！", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:07", "movie": "samhayne", "start_ms": 33520, "end_ms": 34720, "status": "draft", "target": "你怎麼能這樣？", "notes": "P11 draft from local ASR; line resolved by the no-VAD rerun"}
+{"key": "movies:samhayne:08", "movie": "samhayne", "start_ms": 34720, "end_ms": 39200, "status": "draft", "target": "好了好了好了。閒話少說！", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:09", "movie": "samhayne", "start_ms": 40900, "end_ms": 43200, "status": "draft", "target": "你可沒提到……", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:10", "movie": "samhayne", "start_ms": 43200, "end_ms": 47000, "status": "draft", "target": "住口！我跟這傢伙有筆舊帳要算。", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:11", "movie": "samhayne", "start_ms": 48720, "end_ms": 52200, "status": "draft", "target": "我想這是你的東西！", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:12", "movie": "samhayne", "start_ms": 62540, "end_ms": 65500, "status": "draft", "target": "但終極智慧法典(Codex)可不在交易條件之內。", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:13", "movie": "samhayne", "start_ms": 71130, "end_ms": 73300, "status": "draft", "target": "這是給你的辛苦費。", "notes": "P11 draft from local ASR"}

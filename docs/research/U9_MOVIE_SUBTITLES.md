@@ -109,6 +109,27 @@ Streams (ffprobe): `mpeg1video` 640×320 (column 640×480), with `mp2` audio at 
 - Re-run without VAD: every segment in the 8 movies without speech had no-speech probability ≥ 0.5 or average log-probability ≤ −0.8, which is consistent with music-only tracks.
 - The ASR text still needs a human listening check before translation.
 
+### Correction: VAD dropped speech under music (CONFIRMED, 2026-11-11)
+
+The human reviewed intro in the movie review tool and reported missing subtitles after 2:07. The VAD (Silero, the faster-whisper default) had classified 134–160 s of intro as non-speech: dialogue over loud score.
+
+`medium.en` was re-run on the 4 speech movies with `vad_filter=False`, `condition_on_previous_text=False` and word timestamps. The output is LOCAL ONLY, in `.local/movie-asr/<movie>.medium-novad.json`.
+
+Intro results:
+- 6 lines that the VAD pass had dropped: 134–161 s and 175.6–184.1 s.
+- The second half of the 122.8 s line was also dropped.
+- The low-confidence noun in the 102.5 s line was resolved.
+
+Tests:
+- A filtered 125–175 s excerpt (band-pass 250–3800 Hz with dynaudnorm) gave the same text as the unfiltered excerpt. The no-speech and logprob thresholds tried made no difference.
+- samhayne, raven and ambush had no missing lines. One samhayne line was clarified.
+
+Changes:
+- intro now has 14 cues; all 4 movies total 40.
+- The review script prefers the no-VAD transcript as its reference. It skips segments with no-speech probability above 0.5 or logprob below −0.9 (music captions and one-word hallucinations).
+
+Rule for later ASR passes on game audio: do not trust VAD on scored scenes. Run without VAD and filter by per-segment confidence instead.
+
 ## Tool dependencies (AGENTS §25)
 
 | Name | Version | License | Reason | Scope |
