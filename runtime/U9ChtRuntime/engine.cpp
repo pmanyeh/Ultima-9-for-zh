@@ -1,4 +1,5 @@
 #include "engine.h"
+#include "input_hooks.h"
 #include <intrin.h>
 #include <algorithm>
 #include <cstdio>
@@ -1538,6 +1539,20 @@ void Engine::install(const Config& config, Logger& logger) {
             log->event("movie_subtitles","\"enabled\":"+std::string(movies_enabled?"true":"false")+",\"cues\":"+
                 std::to_string(movie_config.cues.size())+",\"rejected\":"+std::to_string(movie_cue_rejects));
         }
+        {   // Input hooks (input_hooks.h). Marker files next to the allowlist:
+            //   input_probe.on  -> log-only probe;  wheel_pages.off / hover_names.off -> disable a feature.
+            const auto dir = config_path(config.allowlist_path).parent_path();
+            const auto exists = [&](const wchar_t* name) { return std::ifstream(dir / name, std::ios::binary).good(); };
+            input_hooks::Options o;
+            o.probe = exists(L"input_probe.on");
+            o.wheel = !exists(L"wheel_pages.off");
+            o.hover = !exists(L"hover_names.off");
+            input_hooks::configure(o);
+            input_hooks_enabled = input_hooks::any_enabled();
+            log->event("input_hooks","\"probe\":"+std::string(o.probe?"true":"false")+",\"wheel_pages\":"+
+                std::string(o.wheel?"true":"false")+",\"hover_names\":"+std::string(o.hover?"true":"false")+
+                ",\"hover_delay_ms\":"+std::to_string(o.hover_delay_ms));
+        }
         log->event("runtime_font","\"family\":\""+utf8(glyphs.font_family())+"\",\"sha256\":\""+utf8(glyphs.font_sha256())+
             "\",\"file\":\""+utf8(config_path(config.font_path).filename().wstring())+"\"");
         // v1 historical packs carry no explicit glyph list. v2 lists are exact
@@ -1637,6 +1652,21 @@ void Engine::install(const Config& config, Logger& logger) {
                                   reinterpret_cast<uintptr_t>(co_create_original),reinterpret_cast<uintptr_t>(co_create_hook));
         else movies_enabled = false;
     }
+    if (input_hooks_enabled) {
+        // USER32 IAT slots of u9.exe (CONFIRMED from the import table). The current slot value is the original.
+        const auto slot = [](uintptr_t a) { return reinterpret_cast<uintptr_t*>(a); };
+        namespace ip = input_hooks;
+        ip::peek_original = reinterpret_cast<ip::PeekFn>(*slot(0x740374));
+        ip::get_original = reinterpret_cast<ip::GetFn>(*slot(0x740378));
+        ip::async_original = reinterpret_cast<ip::AsyncFn>(*slot(0x7402D4));
+        ip::state_original = reinterpret_cast<ip::StateFn>(*slot(0x7403F4));
+        ip::board_original = reinterpret_cast<ip::BoardFn>(*slot(0x740324));
+        hooks.prepare_pointer("input_peek_message",slot(0x740374),reinterpret_cast<uintptr_t>(ip::peek_original),reinterpret_cast<uintptr_t>(&ip::peek_hook));
+        hooks.prepare_pointer("input_get_message",slot(0x740378),reinterpret_cast<uintptr_t>(ip::get_original),reinterpret_cast<uintptr_t>(&ip::get_hook));
+        hooks.prepare_pointer("input_async_key",slot(0x7402D4),reinterpret_cast<uintptr_t>(ip::async_original),reinterpret_cast<uintptr_t>(&ip::async_hook));
+        hooks.prepare_pointer("input_key_state",slot(0x7403F4),reinterpret_cast<uintptr_t>(ip::state_original),reinterpret_cast<uintptr_t>(&ip::state_hook));
+        hooks.prepare_pointer("input_keyboard_state",slot(0x740324),reinterpret_cast<uintptr_t>(ip::board_original),reinterpret_cast<uintptr_t>(&ip::board_hook));
+    }
     hooks.prepare_pointer("exit",reinterpret_cast<uintptr_t*>(0x74024C),
                           reinterpret_cast<uintptr_t>(exit_original),reinterpret_cast<uintptr_t>(exit_hook));
     hooks.prepare_pointer("native_submission",reinterpret_cast<uintptr_t*>(0x74FBB8+0x60),
@@ -1666,6 +1696,7 @@ std::string ink_samples(const InkProbe& v) {
 }
 void Engine::flush_movie_trace() noexcept {
     try { for (const auto& entry : drain_movie_trace()) log->event("movie_trace",entry); } catch (...) {}
+    if (input_hooks_enabled) try { const auto f = input_hooks::drain_fields(); if (!f.empty()) log->event("input_hooks_counters",f); } catch (...) {}
 }
 
 void Engine::snapshot(const char* event) noexcept {

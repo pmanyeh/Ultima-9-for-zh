@@ -178,6 +178,7 @@ struct Engine {
     // P11: movies play through an own FilterGraph (CoCreateInstance IAT 0x740418) when movies.tsv is present.
     MovieGraphConfig movie_config;
     bool movies_enabled = false;
+    bool input_hooks_enabled = false;  // input probe / wheel pages / hover names (see input_hooks.h)
     uint32_t movie_cue_rejects = 0;
     uint32_t journal_next = 0;
     uint64_t journal_markers = 0, journal_marker_short = 0, journal_expansions = 0, journal_spans = 0;
