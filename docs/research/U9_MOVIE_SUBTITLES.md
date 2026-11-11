@@ -122,13 +122,16 @@ Intro results:
 
 Tests:
 - A filtered 125–175 s excerpt (band-pass 250–3800 Hz with dynaudnorm) gave the same text as the unfiltered excerpt. The no-speech and logprob thresholds tried made no difference.
-- samhayne, raven and ambush had no missing lines. One samhayne line was clarified.
+- An initial manual comparison wrongly reported that samhayne, raven and ambush had no missing lines; the human then found raven 0:51 missing.
+- A word-level coverage check (every confident ASR word must overlap a cue) found raven 50.8 s and a hush at 15.6 s missing, plus two late cue starts (raven 45.7 s, ambush 52.5 s).
+- For ambush, the no-VAD pass is worse than the VAD pass (it merges lines and drops two), so both passes are kept as references.
+- One samhayne line was clarified.
 
 Changes:
-- intro now has 14 cues; all 4 movies total 40.
+- intro has 14 cues and raven 9; all 4 movies total 42.
 - The review script prefers the no-VAD transcript as its reference. It skips segments with no-speech probability above 0.5 or logprob below −0.9 (music captions and one-word hallucinations).
 
-Rule for later ASR passes on game audio: do not trust VAD on scored scenes. Run without VAD and filter by per-segment confidence instead.
+Rule for later ASR passes on game audio: do not trust VAD on scored scenes. Run without VAD, filter by per-segment confidence, and check cue coverage word by word, not by reading.
 
 ## Tool dependencies (AGENTS §25)
 

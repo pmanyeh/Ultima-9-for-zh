@@ -3,14 +3,16 @@
 {"key": "movies:ambush:03", "movie": "ambush", "start_ms": 21590, "end_ms": 24700, "status": "review", "target": "我早該料到，你會在守護者(Guardian)腳邊搖尾乞憐。", "notes": "P11 draft from local ASR; verb uncertain between two ASR models"}
 {"key": "movies:ambush:04", "movie": "ambush", "start_ms": 25910, "end_ms": 27900, "status": "draft", "target": "把他帶走。", "notes": "P11 draft from local ASR"}
 {"key": "movies:ambush:05", "movie": "ambush", "start_ms": 30250, "end_ms": 32400, "status": "draft", "target": "別把他傷得太重。", "notes": "P11 draft from local ASR"}
-{"key": "movies:ambush:06", "movie": "ambush", "start_ms": 53220, "end_ms": 55000, "status": "review", "target": "可以幫我一下嗎？", "notes": "P11 draft from local ASR; ASR low confidence; needs a listening check"}
+{"key": "movies:ambush:06", "movie": "ambush", "start_ms": 52500, "end_ms": 55000, "status": "review", "target": "可以幫我一下嗎？", "notes": "P11 draft from local ASR; ASR low confidence; needs a listening check"}
 {"key": "movies:raven:01", "movie": "raven", "start_ms": 620, "end_ms": 5620, "status": "review", "target": "這些只是……預防措施。", "notes": "P11 draft from local ASR; second half heard only by the small model"}
 {"key": "movies:raven:02", "movie": "raven", "start_ms": 6100, "end_ms": 8400, "status": "draft", "target": "呃，我其實沒料到……", "notes": "P11 draft from local ASR"}
-{"key": "movies:raven:03", "movie": "raven", "start_ms": 23210, "end_ms": 25750, "status": "draft", "target": "等一下。你要拿那個做什麼？", "notes": "P11 draft from local ASR; an isolated early first word was treated as an ASR artefact"}
-{"key": "movies:raven:04", "movie": "raven", "start_ms": 25790, "end_ms": 29000, "status": "review", "target": "你說過……你信任我的。", "notes": "P11 draft from local ASR; ASR low confidence; needs a listening check"}
-{"key": "movies:raven:05", "movie": "raven", "start_ms": 34060, "end_ms": 37500, "status": "draft", "target": "這可能……會有點刺痛。", "notes": "P11 draft from local ASR"}
-{"key": "movies:raven:06", "movie": "raven", "start_ms": 48270, "end_ms": 50000, "status": "draft", "target": "我不明白。", "notes": "P11 draft from local ASR"}
-{"key": "movies:raven:07", "movie": "raven", "start_ms": 57140, "end_ms": 58800, "status": "draft", "target": "你會明白的。", "notes": "P11 draft from local ASR"}
+{"key": "movies:raven:03", "movie": "raven", "start_ms": 15600, "end_ms": 17000, "status": "review", "target": "噓……", "notes": "P11 draft from local ASR (no-VAD rerun); hush sound, decide whether it needs a subtitle"}
+{"key": "movies:raven:04", "movie": "raven", "start_ms": 23210, "end_ms": 25750, "status": "draft", "target": "等一下。你要拿那個做什麼？", "notes": "P11 draft from local ASR; an isolated early first word was treated as an ASR artefact"}
+{"key": "movies:raven:05", "movie": "raven", "start_ms": 25790, "end_ms": 29000, "status": "review", "target": "你說過……你信任我的。", "notes": "P11 draft from local ASR; ASR low confidence; needs a listening check"}
+{"key": "movies:raven:06", "movie": "raven", "start_ms": 34060, "end_ms": 37500, "status": "draft", "target": "這可能……會有點刺痛。", "notes": "P11 draft from local ASR"}
+{"key": "movies:raven:07", "movie": "raven", "start_ms": 45600, "end_ms": 50000, "status": "draft", "target": "我不明白。", "notes": "P11 draft from local ASR"}
+{"key": "movies:raven:08", "movie": "raven", "start_ms": 50800, "end_ms": 53000, "status": "draft", "target": "別擔心。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
+{"key": "movies:raven:09", "movie": "raven", "start_ms": 56680, "end_ms": 58800, "status": "draft", "target": "你會明白的。", "notes": "P11 draft from local ASR"}
 {"key": "movies:intro:01", "movie": "intro", "start_ms": 93480, "end_ms": 102200, "status": "draft", "target": "吾主，聖者(Avatar)已抵達不列顛尼亞(Britannia)，\n並被我的龍衛(Wyrmguard)輕易解決了。", "notes": "P11 draft from local ASR (no-VAD rerun); first speaker addresses the second as lord"}
 {"key": "movies:intro:02", "movie": "intro", "start_ms": 102430, "end_ms": 109300, "status": "draft", "target": "別太篤定。那個多管閒事的美德勇者，\n可沒那麼容易被擊敗。", "notes": "P11 draft from local ASR (no-VAD rerun); subject noun resolved by the no-VAD rerun"}
 {"key": "movies:intro:03", "movie": "intro", "start_ms": 109480, "end_ms": 113000, "status": "draft", "target": "當然，吾主。但容我一問，他現在身在何處？", "notes": "P11 draft from local ASR (no-VAD rerun)"}
