@@ -6,6 +6,8 @@
 #include <cmath>
 #include <ddraw.h>
 #include <psapi.h>
+#include <fstream>
+#include <sstream>
 
 namespace u9cht {
 Engine* engine = nullptr;
@@ -31,6 +33,8 @@ void* flow_gateway = nullptr;
 void* triangle_original = reinterpret_cast<void*>(0x589F50);
 decltype(&WideCharToMultiByte) wide_original = nullptr;
 decltype(&ExitProcess) exit_original = nullptr;
+using CoCreateFn = HRESULT(WINAPI*)(REFCLSID, LPUNKNOWN, DWORD, REFIID, LPVOID*);
+CoCreateFn co_create_original = nullptr;
 struct Constructor { uintptr_t object = 0; int plan = -1; const wchar_t* wide = nullptr; };
 thread_local std::array<Constructor, 16> constructors;
 thread_local uint32_t constructor_depth = 0;
@@ -709,6 +713,14 @@ uintptr_t __fastcall flip_hook(uintptr_t self, void*) {
         ++e.frame; e.draw_list.clear(e.frame);
     }
     return result;
+}
+// P11: u9.exe imports CoCreateInstance from the GOG FFmpeg shim dshow.dll (IAT 0x740418). Only the movie
+// FilterGraph is served here; every other class goes to the original import unchanged.
+HRESULT WINAPI co_create_hook(REFCLSID clsid, LPUNKNOWN outer, DWORD context, REFIID riid, LPVOID* out) {
+    Guard guard;
+    if (guard.state && guard.state->movies_enabled && !outer && clsid == CLSID_FilterGraph)
+        return create_movie_graph(guard.state->movie_config,riid,out);
+    return co_create_original(clsid,outer,context,riid,out);
 }
 void WINAPI exit_hook(UINT code) {
     if (engine) engine->shutdown(false);
@@ -1514,6 +1526,18 @@ void Engine::install(const Config& config, Logger& logger) {
         "\",\"resource_sha256\":\""+utf8(pack.resource_hash)+"\",\"entries\":"+std::to_string(pack.count));
     if (render) {
         glyphs.open(config_path(config.font_path));
+        {   // P11: movie cues next to the allowlist; absent file = original movie playback.
+            const auto cues = config_path(config.allowlist_path).parent_path() / L"movies.tsv";
+            std::ifstream file(cues, std::ios::binary);
+            if (file) {
+                std::ostringstream data; data << file.rdbuf();
+                movie_config.cues = parse_subtitles(data.str(),&movie_cue_rejects);
+                movie_config.style.font_family = glyphs.font_family();
+                movies_enabled = true;
+            }
+            log->event("movie_subtitles","\"enabled\":"+std::string(movies_enabled?"true":"false")+",\"cues\":"+
+                std::to_string(movie_config.cues.size())+",\"rejected\":"+std::to_string(movie_cue_rejects));
+        }
         log->event("runtime_font","\"family\":\""+utf8(glyphs.font_family())+"\",\"sha256\":\""+utf8(glyphs.font_sha256())+
             "\",\"file\":\""+utf8(config_path(config.font_path).filename().wstring())+"\"");
         // v1 historical packs carry no explicit glyph list. v2 lists are exact
@@ -1605,6 +1629,14 @@ void Engine::install(const Config& config, Logger& logger) {
     exit_original = &ExitProcess;
     hooks.prepare_pointer("wide_conversion",reinterpret_cast<uintptr_t*>(0x74010C),
                           reinterpret_cast<uintptr_t>(wide_original),reinterpret_cast<uintptr_t>(wide_hook));
+    if (movies_enabled) {
+        if (const auto shim = GetModuleHandleW(L"dshow.dll"))
+            co_create_original = reinterpret_cast<CoCreateFn>(GetProcAddress(shim,"CoCreateInstance"));
+        if (co_create_original)
+            hooks.prepare_pointer("co_create_instance",reinterpret_cast<uintptr_t*>(0x740418),
+                                  reinterpret_cast<uintptr_t>(co_create_original),reinterpret_cast<uintptr_t>(co_create_hook));
+        else movies_enabled = false;
+    }
     hooks.prepare_pointer("exit",reinterpret_cast<uintptr_t*>(0x74024C),
                           reinterpret_cast<uintptr_t>(exit_original),reinterpret_cast<uintptr_t>(exit_hook));
     hooks.prepare_pointer("native_submission",reinterpret_cast<uintptr_t*>(0x74FBB8+0x60),
@@ -1784,6 +1816,10 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"misc_message_strips\":"+std::to_string(misc_message_strips)+",\"shop_converts\":"+std::to_string(shop_converts)+
               ",\"shop_short\":"+std::to_string(shop_short)+",\"clock_rewrites\":"+std::to_string(clock_rewrites)+
               ",\"clock_unmatched\":"+std::to_string(clock_unmatched)+",\"clock_too_long\":"+std::to_string(clock_too_long)+"}";
+          { const auto m = movie_graph_stats();
+            fields += ",\"movies\":{\"enabled\":"+std::string(movies_enabled?"true":"false")+",\"created\":"+std::to_string(m.created)+
+                ",\"rendered\":"+std::to_string(m.rendered)+",\"render_failures\":"+std::to_string(m.render_failures)+
+                ",\"completed\":"+std::to_string(m.completed)+",\"stopped\":"+std::to_string(m.stopped)+"}"; }
           fields += ",\"flow_misses\":[";
           { bool first = true; for (const auto& m : flow_misses) if (m.caller) { if (!first) fields += ','; first = false;
               fields += "{\"caller\":"+std::to_string(m.caller)+",\"text\":"+std::to_string(m.text)+",\"offset\":"+std::to_string(m.offset)+

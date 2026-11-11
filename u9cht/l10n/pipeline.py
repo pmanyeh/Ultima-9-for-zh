@@ -21,6 +21,7 @@ from .runtime_pack import (RUNTIME_CONTRACT, capacity_issues, collect_scalars, c
                            encode_pack, glyph_manifest, runtime_scalar_issues,
                            shared_text_targets)
 from .store import RESOURCE_FILES, STATUSES, Issue, load_store, parse_key, sort_key, store_digest
+from .movies import load_movie_records, movie_cue_file
 
 ROOT = Path(__file__).resolve().parents[2]
 PRIVATE_DIRS = {".local", "game", "oracle", "research-private", "private-data", "output"}
@@ -52,6 +53,7 @@ class Analysis:
     hashes: dict = field(default_factory=dict)
     game: dict = field(default_factory=dict)            # resource -> bytes
     checks: dict = field(default_factory=dict)
+    movies: list = field(default_factory=list)          # P11 movie subtitle cues (included)
 
     @property
     def errors(self):
@@ -158,6 +160,13 @@ def analyze(paths=None, game_dir=None, metrics_provider=None, profile="developme
                 "capabilities_sha256": sha256_file(paths.capabilities),
                 "sources_sha256": sha256_file(paths.sources),
                 "runtime_contract_sha256": contract_sha256()}
+    # P11: movie subtitles live beside the canonical store; only full builds (no selection) carry them.
+    movie_path = paths.store / "movies.jsonl"
+    if movie_path.exists() and selection is None:
+        movies, problems = load_movie_records(movie_path.read_text(encoding="utf-8"))
+        a.issues += [Issue("error", "movie-subtitle", None, p) for p in problems]
+        a.movies = [r for r in movies if r["status"] in PROFILES[profile]]
+        a.hashes["movie_subtitles_sha256"] = sha256_file(movie_path)
     capabilities, sources = load_json(paths.capabilities), load_json(paths.sources)
     a.hashes["font_sha256"] = capabilities["runtime"]["font"]["sha256"]
     rows, gloss = parse_glossary(paths.glossary.read_bytes())
@@ -347,6 +356,8 @@ def build(a, output, game_dir=None):
                            # (for example the historical showcase subsets) keep their exact packs.
                            clock=any(r.get("resource") == "misctext.flx" for r in a.runtime))
         files["runtime/allowlist.u9ct"] = pack
+        if a.movies:
+            files["runtime/movies.tsv"] = movie_cue_file(a.movies, PROFILES[a.profile])
         a.glyphs["generated_pack_sha256"] = hashlib.sha256(pack).hexdigest()
     report = qa_report(a)
     files["qa/qa-report.json"] = _json(report)

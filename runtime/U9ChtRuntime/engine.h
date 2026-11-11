@@ -6,6 +6,7 @@
 #include "raster_runs.h"
 #include "misc_marker.h"
 #include "clock_text.h"
+#include "movie_graph.h"
 #include <atomic>
 
 namespace u9cht {
@@ -174,6 +175,10 @@ struct Engine {
     bool clock_enabled = false;
     uint64_t clock_rewrites = 0, clock_unmatched = 0, clock_too_long = 0;
     bool rewrite_clock(uintptr_t dest, uint32_t length) noexcept; // caller holds `mutex`
+    // P11: movies play through an own FilterGraph (CoCreateInstance IAT 0x740418) when movies.tsv is present.
+    MovieGraphConfig movie_config;
+    bool movies_enabled = false;
+    uint32_t movie_cue_rejects = 0;
     uint32_t journal_next = 0;
     uint64_t journal_markers = 0, journal_marker_short = 0, journal_expansions = 0, journal_spans = 0;
     uint64_t journal_width_overrides = 0, journal_breaks_dropped = 0, journal_spaces_kept = 0, journal_leading_applied = 0;

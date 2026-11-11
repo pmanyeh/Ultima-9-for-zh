@@ -144,3 +144,28 @@ The human prefers external subtitles over option A.
   - whether a GDI child window stays visible next to the `ddraw.dll` wrapper during the movie's exclusive 640×480 mode;
   - key-skip behaviour;
   - audio device handling.
+
+## Implementation B' (runtime 0.2.31-p11) — authorized by the human 2026-11-11; not yet tested in game
+
+- `runtime/U9ChtMovie` (static library):
+  - `movie_player` uses pl_mpeg (MIT, pinned in `runtime/third_party/pl_mpeg`) for decoding.
+  - Video is presented with a GDI double buffer in a 4:3 area, matching the game's 640×480 mode; letterbox bars remain.
+  - Audio plays through waveOut with a 0.15 s lead.
+  - Subtitles: white text with a black outline. They sit centred in the bottom bar, or at the bottom of the picture when the bar is too small.
+  - `subtitles.h` defines the cue file format and the parser.
+  - `movie_graph` implements the FilterGraph COM object (IGraphBuilder, IMediaControl, IMediaEventEx, IVideoWindow). Only the methods `u9.exe` uses do work; the rest return E_NOTIMPL.
+  - In game, the player window is a disabled, `HTTRANSPARENT` child, so keyboard and mouse stay with the game (Esc skip calls `IMediaControl::Stop`).
+- Runtime: when `movies.tsv` exists next to the runtime pack, the `CoCreateInstance` IAT entry `0x740418` is redirected.
+  - Only `CLSID_FilterGraph` is served by the runtime; any other class goes to `dshow.dll`'s export.
+  - The hook is installed only if the IAT still holds that export.
+  - Counters: `movies` (`created`, `rendered`, `render_failures`, `completed`, `stopped`).
+- Data:
+  - `translation/zh-TW/movies.jsonl` holds 34 Chinese cues (ambush 6, intro 8, raven 7, samhayne 13), timed from word-level ASR. `review` marks low-confidence lines.
+  - The pipeline validates the file and writes `runtime/movies.tsv` for full builds only.
+- Verification so far:
+  - `U9ChtMovieProbe` (LOCAL-ONLY) decodes all 12 movies with pl_mpeg. Frame counts equal ffprobe's or are one lower (the final frame); audio length matches.
+  - The review tool starts, plays and stays responsive.
+  - Unit tests cover cue parsing (C++) and movie records (Python).
+- Review tool: `python scripts/movie_review.py <movie> [--scale 2]`.
+  - Shows the Chinese cues plus the LOCAL ONLY English ASR reference, the time and the cue index.
+  - Keys: Space, ←/→ 5 s, ↑/↓ 1 s, PageUp/PageDown previous/next cue, Home, R/F5 reload, Esc.
