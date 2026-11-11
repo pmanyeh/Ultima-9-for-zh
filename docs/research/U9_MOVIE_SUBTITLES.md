@@ -87,3 +87,60 @@ The native-path options (AGENTS §14 A/B) do not exist: neither executable has a
    - whether the session tool may install and restore rebuilt movie files in the private game copy.
 3. Keep subtitles inside the original 640×320 picture rather than enlarging to 640×480. How `IVideoWindow` is sized for a different frame size was not analysed (UNKNOWN), so changing it could move the picture.
 4. Separately, the session-11 crash (movie plus screenshot) remains UNKNOWN. Compare it once with the unmodified game before attributing it to anything.
+
+## Which movies have speech (STRONG EVIDENCE, offline ASR, 2026-11-11)
+
+Audio extracted locally (FFmpeg, 16 kHz mono) and transcribed with faster-whisper `small.en` (CPU, int8).
+Transcripts are LOCAL ONLY in `.local/movie-asr/` and are not reproduced here.
+
+Streams (ffprobe): `mpeg1video` 640×320 (column 640×480), with `mp2` audio at 44.1 kHz stereo.
+
+| Movie | Speech segments | Speech time | Words |
+| --- | --- | --- | --- |
+| samhayne | 11 | 65.9 s | 89 |
+| intro | 9 | 67.8 s | 85 |
+| raven | 5 | 45.0 s | 30 |
+| ambush | 4 | 49.3 s | 32 |
+| goodendgame | 1 (0.4–2.5 s) | 2.1 s | 1 |
+| armageddon, column, maelstrom, moongate, prison, pyros, skarabrae | 0 | — | — |
+
+- Movies with speech: **4**, plus one single-word line in goodendgame.
+- Altogether about 30 subtitle lines and roughly 240 English words.
+- Re-run without VAD: every segment in the 8 movies without speech had no-speech probability ≥ 0.5 or average log-probability ≤ −0.8, which is consistent with music-only tracks.
+- The ASR text still needs a human listening check before translation.
+
+## Tool dependencies (AGENTS §25)
+
+| Name | Version | License | Reason | Scope |
+| --- | --- | --- | --- | --- |
+| FFmpeg (gyan.dev full build, winget `Gyan.FFmpeg`) | 9.0.2 | GPL (build) | Probe and extract movie audio | Local research tool only; not linked or redistributed |
+| faster-whisper | 1.2.1 | MIT | Offline speech recognition | `.local/tools/asr-venv`, local only |
+| ctranslate2 | 4.9.0 | MIT | faster-whisper backend | Same as above |
+| Whisper `small.en` weights | — | MIT | Speech recognition model | `.local/tools/hf-cache`, local only |
+
+Both tools were authorized by the human on 2026-11-11.
+
+## Option B' — runtime movie player (proposed, not authorized yet)
+
+The human prefers external subtitles over option A.
+
+- Interfaces `u9.exe` uses (CONFIRMED, static `0x584A70`, `0x584E40`, `0x5851A0`):
+
+  | Interface | Methods |
+  | --- | --- |
+  | IGraphBuilder | QueryInterface, RenderFile (`+0x34`), Release |
+  | IMediaControl | Run (`+0x1C`), Stop (`+0x24`) |
+  | IMediaEventEx | SetNotifyWindow (`+0x34`, message `0x40D`), GetEvent (`+0x20`), FreeEventParams (`+0x30`); the loop ends at EC_COMPLETE (1) |
+  | IVideoWindow | put_Owner (`+0x74`), put_WindowStyle (`+0x24`), SetWindowPosition (`+0x9C`), put_Visible (`+0x4C`) |
+
+- Plan:
+  - Redirect the `CoCreateInstance` IAT entry `0x740418` from the runtime, with the same kind of pointer hook as the existing `wide_conversion` hook.
+  - Serve only `CLSID_FilterGraph` with an own player; forward every other request to the original import.
+  - Decode MPEG-1 video and MP2 audio with **pl_mpeg** (single header, MIT).
+  - Present video with GDI in an owned child window and play audio with waveOut, with the audio clock as master.
+  - Draw Chinese subtitles from per-movie external subtitle files into the letterbox.
+  - No asset is modified, no FFmpeg is redistributed, and the GOG `dshow.dll` stays in place.
+- UNKNOWN until a PoC:
+  - whether a GDI child window stays visible next to the `ddraw.dll` wrapper during the movie's exclusive 640×480 mode;
+  - key-skip behaviour;
+  - audio device handling.
