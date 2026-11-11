@@ -670,24 +670,29 @@ uintptr_t __cdecl name_copy_hook(const char* text) {
     Guard guard;
     const auto fn = reinterpret_cast<uintptr_t(__cdecl*)(const char*)>(name_copy_gateway);
     const auto caller = reinterpret_cast<uintptr_t>(_ReturnAddress());
-    const int plan = guard.state ? guard.state->pack.match_name(text,caller) : -1;
+    uint32_t lead = 0;
+    const int plan = guard.state ? guard.state->pack.match_name(text,caller,&lead) : -1;
     if (plan < 0) return fn(text);
     auto& e = *guard.state;
     const auto& p = e.pack.plans[size_t(plan)];
     // The game still allocates/owns/frees the strdup result. Register before
     // constructor0x41ACE0 measures its newly copied label, never after return.
-    const auto copy = fn(reinterpret_cast<const char*>(p.slots.data()));
+    // A stack count "(27) " stays native ASCII in front; only the slots after it are bound.
+    std::string label(text,lead);
+    label.append(reinterpret_cast<const char*>(p.slots.data()),p.length);
+    const auto copy = fn(label.c_str());
     Exclusive lock(e.mutex);
-    if (!copy || std::memcmp(reinterpret_cast<void*>(copy),p.slots.data(),p.length+1) != 0 ||
-        !e.bind_buffer(copy,p.length+1,uint32_t(plan),0,Life::Cache,reinterpret_cast<uintptr_t>(text))) e.fail(29);
-    else { ++e.stats[size_t(plan)].name_copies; ++e.stats[size_t(plan)].cache; }
+    if (!copy || std::memcmp(reinterpret_cast<void*>(copy),label.c_str(),label.size()+1) != 0 ||
+        !e.bind_buffer(copy+lead,p.length+1,uint32_t(plan),0,Life::Cache,reinterpret_cast<uintptr_t>(text))) e.fail(29);
+    else { ++e.stats[size_t(plan)].name_copies; ++e.stats[size_t(plan)].cache; if (lead) ++e.name_count_labels; }
     return copy;
 }
 uintptr_t __fastcall name_destroy_hook(uintptr_t self, void*) {
     Guard guard;
     if (guard.state) {
         auto& e = *guard.state; Exclusive lock(e.mutex);
-        const auto copy = word(self+0x6C);
+        auto copy = word(self+0x6C);
+        if (copy) copy += count_prefix(reinterpret_cast<const char*>(copy)); // "(27) " labels bind after the count
         const auto located = e.registry.locate(copy);
         if (located.binding && located.offset == 0 && e.pack.plans[located.binding->plan].is_name()) {
             ++e.stats[located.binding->plan].freed; e.retire_buffer(copy);
@@ -1848,6 +1853,7 @@ void Engine::snapshot(const char* event) noexcept {
               ",\"bounded\":"+std::to_string(misc_bounded)+",\"book_overwritten\":"+std::to_string(book_overwritten)+
               ",\"measures\":"+std::to_string(misc_measures)+",\"measure_faults\":"+std::to_string(misc_measure_faults)+
               ",\"message_insets\":"+std::to_string(message_insets)+",\"small_em_glyphs\":"+std::to_string(small_em_glyphs)+",\"book_messages\":"+std::to_string(book_messages)+
+              ",\"name_count_labels\":"+std::to_string(name_count_labels)+
               ",\"misc_message_strips\":"+std::to_string(misc_message_strips)+",\"shop_converts\":"+std::to_string(shop_converts)+
               ",\"shop_short\":"+std::to_string(shop_short)+",\"clock_rewrites\":"+std::to_string(clock_rewrites)+
               ",\"clock_unmatched\":"+std::to_string(clock_unmatched)+",\"clock_too_long\":"+std::to_string(clock_too_long)+"}";

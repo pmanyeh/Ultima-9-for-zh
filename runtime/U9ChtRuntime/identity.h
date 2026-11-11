@@ -15,6 +15,16 @@ inline constexpr uint32_t BookDomain = 0x20000000;
 inline constexpr size_t MaxBookText = 8192;
 inline constexpr uintptr_t BookConvertReturn = 0x42E64A;
 inline constexpr uintptr_t NameCopyCaller = 0x41AD54;
+// 0x49A4A5: a stack of more than one item is labelled sprintf("(%d) %s", count, name) before the label constructor
+// copies it (session 24: "(27) U9T05EF" for gold coins). Returns the length of a leading "(digits) " or 0.
+inline constexpr uint32_t MaxCountDigits = 10;
+inline uint32_t count_prefix(const char* text) noexcept {
+    if (!text || text[0] != '(') return 0;
+    uint32_t i = 1;
+    while (i <= MaxCountDigits && text[i] >= '0' && text[i] <= '9') ++i;
+    if (i == 1 || i > MaxCountDigits || text[i] != ')' || text[i+1] != ' ') return 0;
+    return i + 2;
+}
 struct Plan {
     uint32_t entry = 0, length = 0;
     // Each holds length+1 elements; the last is the NUL terminator.
@@ -37,7 +47,8 @@ struct Pack {
     std::array<uint32_t, MaxGlyphScalars> scalars{};
     void load(const std::filesystem::path& path, bool render);
     int match(const wchar_t* text) const noexcept;
-    int match_name(const char* text, uintptr_t caller) const noexcept;
+    // Exact "U9Txxxx", or "(count) U9Txxxx" when `prefix` is given (it receives the count prefix length).
+    int match_name(const char* text, uintptr_t caller, uint32_t* prefix = nullptr) const noexcept;
     int match_book(const wchar_t* text, size_t length) const noexcept;
 private:
     // Sorted by hash at load; lookups never allocate or scan every plan.

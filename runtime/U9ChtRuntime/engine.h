@@ -199,6 +199,7 @@ struct Engine {
     // P10-1 M1: misctext UI marker bridge (see misc_marker.h).
     uint64_t misc_marked = 0, misc_mark_failures = 0, misc_stripped = 0, misc_buffers = 0;
     uint64_t misc_invalid = 0, misc_partial = 0, misc_leaks = 0, misc_draw_strips = 0, misc_bounded = 0;
+    uint64_t name_count_labels = 0; // "(count) name" stack labels bound after the count prefix
     uint64_t book_overwritten = 0; // P10-1: a book conversion replaced a pending book not yet bound
     uint64_t misc_measures = 0, misc_measure_faults = 0;
     // P10-1 diagnostics: unbound 0x7F glyphs inside a recorded flow text, and fonts used by texture glyphs.

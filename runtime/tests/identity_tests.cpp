@@ -102,6 +102,16 @@ int main() {
         check(pack.match_name("U9T14AAx",NameCopyCaller) == -1);
         check(pack.match_name("U9T14aa",NameCopyCaller) == -1);
         check(pack.match_name("U9T14A",NameCopyCaller) == -1);
+        uint32_t lead = 99;
+        check(pack.match_name("(27) U9T14AA",NameCopyCaller,&lead) == 1 && lead == 5);
+        check(pack.match_name("U9T033A",NameCopyCaller,&lead) == 2 && lead == 0);
+        check(pack.match_name("(27) U9T14AA",NameCopyCaller) == -1); // prefix only when asked for
+        check(pack.match_name("(27)U9T14AA",NameCopyCaller,&lead) == -1);
+        check(pack.match_name("() U9T14AA",NameCopyCaller,&lead) == -1);
+        check(pack.match_name("(2x) U9T14AA",NameCopyCaller,&lead) == -1);
+        check(pack.match_name("(27) U9T14AAx",NameCopyCaller,&lead) == -1);
+        check(pack.match_name("(12345678901) U9T14AA",NameCopyCaller,&lead) == -1);
+        check(count_prefix("(1234567890) x") == 0 && count_prefix("(123456789) x") == 12 && count_prefix(nullptr) == 0);
         check(pack.match_name(nullptr,NameCopyCaller) == -1 && rejected(names,false));
         check(rejected(names.substr(0,names.size()-1)) && rejected(names+"x"));
         bad = names; value = NameDomain|8192;

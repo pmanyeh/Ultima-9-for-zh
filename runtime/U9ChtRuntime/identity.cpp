@@ -139,8 +139,11 @@ int Pack::match_book(const wchar_t* text, size_t length) const noexcept {
         return length == plans[i].length && std::memcmp(text, plans[i].wide.data(), length*2) == 0;
     });
 }
-int Pack::match_name(const char* text, uintptr_t caller) const noexcept {
+int Pack::match_name(const char* text, uintptr_t caller, uint32_t* prefix) const noexcept {
     if (!has_names || !text || caller != NameCopyCaller) return -1;
+    const uint32_t lead = prefix ? count_prefix(text) : 0;
+    if (prefix) *prefix = lead;
+    text += lead;
     if (strnlen(text,8) != 7) return -1;
     return find_indexed(name_index_,fnv1a(text,7),[&](uint32_t i) {
         return std::memcmp(text,plans[i].marker.data(),7) == 0;
