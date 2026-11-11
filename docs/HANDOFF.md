@@ -3,7 +3,7 @@
 給下一個工作階段（人或 AI Agent）的交接。
 開工前仍須依 `AGENTS.md` 讀取 `AGENTS.md` 與 `ULTIMA_IX_CHT_MASTER_PLAN.md`。
 
-**下一個 Session 的主題：用台灣當初發行的中文手冊校對文本**（見第 4 節）。
+**手冊譯名校對已完成（2026-11-11，見第 4 節）。** 下一步：進遊戲確認（第 5 節），以及人工校稿。
 
 ---
 
@@ -77,7 +77,28 @@
   - faster-whisper 1.2.1，裝在 `.local/tools/asr-venv`；
   - 辨識稿放在 `.local/movie-asr/`。
 
-## 4. 下一步：用中文手冊校對文本（新 Session）
+## 4. 用中文手冊校對文本（2026-11-11 完成）
+
+### 4.0 結果
+
+- 手冊三冊（Journal、魔法書、安裝指引）逐頁讀完。比對 241 個詞：一致 80、衝突 123、權威檔沒有 38。
+- 使用者逐項裁決（原則與例外見翻譯規範 §1.1）。權威檔改 188 列、新增 35 列；store 改 1,639 筆（text 1,203、TYPENAME 185、BOOKS 173、misctext 72、影片 6），另外 6 筆因譯名變長重新斷行。
+- 驗證：
+  - validate PASS（error 0）；
+  - `python -m unittest discover -s tests` → 166 OK（3 skipped）；
+  - 完整建置 `.local/p10-misc/out-m13` PASS（含 `runtime/movies.tsv`）；
+  - C++ 沒有變動，未重跑 ctest。
+- 本機工作檔（不可提交）在 `.local/manual/`：
+  - 逐頁筆記 `manual_terms_notes.md`；
+  - 裁決表 `DECISIONS.csv`、`MISSING.csv`；
+  - 套用腳本 `apply.py`、`glossary_update.py`；
+  - 修改前後對照 `apply/diff.jsonl`。
+- 手冊掃描檔不在 repo 裡，也沒有複製進 `.local/`；位置問使用者。
+- 遊戲內待確認：
+  - 法術書的儀式清單：標籤變長，例如「重聚肉體與靈魂儀式」9 個字，要看會不會超出。
+  - 狀態頁：例如「長程武器」。
+
+以下是校對前的原始計畫，保留作紀錄。
 
 使用者已取得當初台灣發行的中文手冊。依 `translation/TRANSLATION_GUIDE.md` §1，它是**第 1 順位權威**，高於 U8／U7 系列譯名。
 
@@ -119,9 +140,11 @@
 
 ## 5. 尚未進遊戲測試的項目（需要使用者說「準備好了」）
 
+建置改用手冊校對後的 `out-m13`。
+
 ```sh
 python scripts/run_p8_0_session.py start --session .local/p10-misc/session-12 \
-  --label "P10-2/P11 small em / shops / clock / movies" --build .local/p10-misc/out-m12 \
+  --label "P10-2/P11 small em / shops / clock / movies / manual terms" --build .local/p10-misc/out-m13 \
   --runtime .local/p10-misc/build/Release --config .local/p9-2/u9cht.ini --preserve-saves \
   --seed-saves .local/p10-misc/session-1/final-savegame \
   --keymap .local/p10-misc/keymap/U9CHT-TEST.kmp
@@ -132,6 +155,10 @@ python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-12
 
 - **影片**：開場動畫是否播放、字幕是否出現、會不會被 ddraw 轉接層蓋住、Esc 能否跳過、播完能否回到遊戲。在 snapshot 的 `movies{}` 計數裡確認。
 - 小字型 UI、時鐘、商店買／賣清單、存讀檔頁、法術書、屬性頁。
+- 手冊譯名：
+  - 法術書的儀式清單：例如「重聚肉體與靈魂儀式」，看標籤會不會超出。
+  - 法術名稱：例如「地－召喚不死生物」。
+  - 狀態頁的新用語：機敏、神力、長程武器、生命力。
 - session 11 在播放影片時截圖，遊戲閃退（0xC0000005，原因 UNKNOWN，當時 runtime 閒置）。可以拿原版遊戲比對看看。
 
 ## 6. 其他待辦
