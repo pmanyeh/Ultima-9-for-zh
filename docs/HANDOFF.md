@@ -1,173 +1,141 @@
-# U9-CHT Handoff（2026-11-10）
+# U9-CHT Handoff（2026-11-11）
 
 給下一個工作階段（人或 AI Agent）的交接。
 開工前仍須依 `AGENTS.md` 讀取 `AGENTS.md` 與 `ULTIMA_IX_CHT_MASTER_PLAN.md`。
+
+**下一個 Session 的主題：用台灣當初發行的中文手冊校對文本**（見第 4 節）。
 
 ---
 
 ## 1. 目前狀態一覽
 
-- 分支：`p7-localization-pipeline`，未推送到 GitHub（遠端只有 `origin/main`）。
-- 最新 commit：`133dfbc feat(session): --seed-saves and --keymap for continued test play`。
-- 工作樹：乾淨。只有不可加入的未追蹤檔：`.vscode/`、`83e7052b…png`、`tools/u9xsb6bt2a*`、`tools/uixtools.zip`。
+- 分支：`p7-localization-pipeline`，領先 `origin/main` 約 110 個 commit。
+- **推送待決**：本機歷史中有 3 個 commit（`890d0ba`、`a98497f`、`2829a17`）含石像鬼語原文段落，後來由 `3e7033f` 移出 store。直接推送會把這些原文公開到 GitHub。
+  - 要不要改寫歷史（例如 squash 或 filter），或接受推送，**由使用者決定**，不可自行執行。
+  - 2026-11-11 已掃描 `origin/main..HEAD`：除了這 3 個 commit，沒有遊戲檔、store `source` 欄位或本機絕對路徑。
+- 工作樹：只有不可加入的未追蹤檔：`.vscode/`、`83e7052b…png`、`tools/u9xsb6bt2a*`、`tools/uixtools.zip`。
 - 本機私人遊戲副本 `.local/runtime-game`：已還原成原版，沒有進行中的 session。
-- 測試：`python -m unittest discover -s tests` → 161 tests OK（3 skipped）。
-- Runtime：`U9ChtRuntime/0.2.19-p9-5`，建置在 `.local/p9-5/build/Release`。這輪不需要改 runtime。
+- 測試：
+  - `python -m unittest discover -s tests` → 166 tests OK（3 skipped）；
+  - C++ 在 `.local/p10-misc/build` 執行 `ctest -C Release` → 9/9。
+- Runtime：`U9ChtRuntime/0.2.31-p11`，建置在 `.local/p10-misc/build/Release`。
+- 最新完整建置：`.local/p10-misc/out-m12`（含 `runtime/movies.tsv`），結果 PASS（errors=0）。
 
-### 翻譯進度（全部是 `draft`，尚未人工校稿）
+### 翻譯進度（全部是機器初稿 `draft`，尚未人工校稿）
 
-| 資源 | 進度 | 遊戲內確認 |
-| --- | --- | --- |
-| 對話 text.flx | 7,368 / 7,390 | ✅ |
-| 物品名稱 TYPENAME | 2,026 / 2,032 | ✅ |
-| 書籍 BOOKS-EN | 391 / 451（60 筆刻意保留原文） | 只確認過 2 本 |
-| 系統訊息 misctext.flx | 243 / 340（P10-1，本輪新增） | ❌ 尚未進遊戲 |
-| 商店清單（BOOKS 內 56 筆） | 0 | ❌ 需研究 |
+| 資源 | store 檔 | 筆數 | 遊戲內確認 |
+| --- | --- | --- | --- |
+| 對話 text.flx | `text.jsonl` | 7,368 / 7,390 | ✅ |
+| 物品名稱 TYPENAME | `typename.jsonl` | 2,026 / 2,032 | ✅ |
+| 書籍 BOOKS-EN（含 56 個商店檔） | `books.jsonl` | 447 | 書本與路牌 ✅；商店清單 ❌ 未測 |
+| 系統訊息 misctext.flx | `misctext.jsonl` | 242 / 340（刻意保留的英文見 3a） | 主要 UI ✅ |
+| 影片字幕 | `movies.jsonl` | 42（draft 34、review 8） | 檢視工具 ✅；遊戲內 ❌ 未測 |
+| 時鐘訊息（u9.exe 內的句型） | `runtime/U9ChtRuntime/clock_text.h` | 規則式改寫 | ❌ 未目視確認 |
 
-## 2. 本輪（P10-1）完成的事
+譯名權威檔 `translation/glossary/U9_TERMS.csv`：1,457 筆，其中 approved 768、todo 669、ignore 20。
 
-1. **misctext.flx 支援**（commit `33e1201`）
-   - 格式與 text.flx 相同：UTF-16LE、無 BOM、一個 NUL 結尾；348 slots，使用 340 個。
-   - 用 `TextArchive` 重建與原檔逐位元組相同（BYTE-PERFECT，14,618 bytes）。
-   - `MiscTextAdapter`；store 檔 `translation/zh-TW/misctext.jsonl`；`sources.json` 已加入基準雜湊 `3c5bb884…b570`。
-   - runtime 方案放在 text domain，entry = `0xC000 + id`（`RUNTIME_CONTRACT["misc_entry_base"]`）。runtime 0.2.19 依字串內容比對，不需修改。和 text.flx 相同的譯文會共用方案（`shared_text_targets`）。
-   - 刻意保留英文：力量之語音節（168–193）、咒語（276–311）、秘藥縮寫清單（316–347）。
-   - 暫不翻：日誌目錄標題 `TABLE` / `of` / `CONTENTS`（22–24），要先看排版。
-   - misctext 不套用 `譯名(English)` 標註規則（`ANNOTATION_EXEMPT_RESOURCES`）。
-   - `resource-capabilities.json`：`unicode_runtime` 為 **HYPOTHESIS**。每個 UI 畫面都可能走不同的繪字路徑，要逐畫面在遊戲內確認後才能升級。
-2. **石像鬼語原文移出 store**（commit `3e7033f`）
-   - 書 40–45 的 `` `f5 `` 段落原本整段存在 `books.jsonl`。現在改存 `{{gargish:N}}` 佔位符，`pipeline.analyze()` 會從本機原文在記憶體中展開。
-   - 重建出的 BOOKS-EN.FLX 與 P9-5 完全相同（`aec100af…ed03`）。
-   - **待使用者決定**：這段原文仍在 3 個本機舊 commit 裡（`890d0ba`、`a98497f`、`2829a17`），尚未推送。要不要改寫本機歷史，由使用者決定，不要自行執行。
-   - 更正：P9-5 報告寫「測試全部通過」有誤，當時防護測試 `test_tracked_store_contains_no_original_source_text` 其實失敗。
-3. **書名**：不需要翻（STRONG EVIDENCE，靜態分析）。
-   - 書本檔案物件 `[0x83D270]` 只有開檔 0x42E3C0、關檔 0x42E520、讀取 0x42E560 三處使用。讀取時只讀標題長度來跳過標題，標題位元組從未被讀入。
-   - 標題只是開發者標籤（例如 `185: melvin`）。玩家看到的書名是內文第一行與物品名稱，兩者都已翻譯。
-4. **測試工具**（commit `133dfbc`）
-   - `run_p8_0_session.py` 新增兩個選項：
-     - `--seed-saves DIR`（需搭配 `--preserve-saves`）：用上一場的存檔接續進度；
-     - `--keymap FILE`：測試用按鍵檔以 `U9CHT-TEST.kmp` 名稱放入遊戲目錄，並經 `Options.ini` 選用；兩者在 finish 時還原，`Default.kmp` 不會被修改。
-   - 本機作弊按鍵檔：`.local/p10-misc/keymap/U9CHT-TEST.kmp`。u9.exe 內有隱藏的 `Cheat Commands`：`fill_spellbook`、`recharge_mana`、`toggle_avatar_fast`／`fly`／`invulnerable`、`pass_one_hour` 等。**零售版是否停用：UNKNOWN。**
-   - 按鍵說明：`docs/testing/KEYS_zh-TW.md`。
+## 2. 固定規則（使用者偏好）
 
-## 3. 下一步：遊戲內測試（等使用者說「準備好了」）
-
-使用者的兩個存檔都還在吉普賽人馬車（開局建角）。目前的建置在 `.local/p10-misc/out`：
-
-- pack `6f0d8850…bfbd`，10,028 個方案，2,724 個字形；
-- misctext.flx `2e883335…7d7a`；
-- 離線檢查用 jf-openhuninn 與 Noto 都 PASS。
-
-啟動指令（使用者說「準備好了」之後才執行，不送任何自動輸入）：
-
-```sh
-python scripts/run_p8_0_session.py start --session .local/p10-misc/session-1 \
-  --label "P10-1 misctext surfaces + cheat keys" --build .local/p10-misc/out \
-  --runtime .local/p9-5/build/Release --config .local/p9-2/u9cht.ini --preserve-saves \
-  --keymap .local/p10-misc/keymap/U9CHT-TEST.kmp --offline .local/p10-misc/off-huninn.jsonl
-```
-
-遊戲結束後**一定要**執行：
-
-```sh
-python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-1
-```
-
-沒有 finish 的話，`.local/runtime-game` 會留著翻譯過的資源，本機測試會失敗。
-
-新進度存檔會留在 `.local/p10-misc/session-1/final-savegame`。下一場加 `--seed-saves .local/p10-misc/session-1/final-savegame` 就能接著玩。
-
-### 這場要檢查的項目
-
-1. Esc 主選單、Ctrl+O 選項、Ctrl+S／L 存讀檔、Ctrl+Z 屬性、Ctrl+T 歷史、Ctrl+B 圖鑑。
-2. Ctrl+Shift+1（`fill_spellbook`）有沒有作用。有作用的話接著看法術書：S、0–9、Ctrl+R、Ctrl+G。
-3. 地球家裡的長篇書：鍵盤指令（BOOKS 183）、地球教學書（181/182）。
-4. 時間允許的話推進到 Britannia 找商店，並存檔。
-5. 結束後分析 `runtime.jsonl`：
-   - 每個 misctext 方案的 wide 命中次數；
-   - `flow_text` 事件裡有沒有商店字串（用來判斷商店畫面是否走 flow init 0x5C7620）。
-
-### 判讀方式
-
-- **畫面變中文**：該畫面走 constructor 0x615A10 → 0x615B7C 的轉換和既有的繪字 hook，可以升級為 CONFIRMED。
-- **出現方框、`?` 或空白**：該畫面用了別的繪字路徑，要另外研究。必要時用 `--only` 把該畫面的字串排除在 build 之外。
-
-## 3a. P10-1 遊戲內測試結果（session-1，2026-11-10）
-
-- finish 已執行：受保護資源與 P0 相符、存檔與設定已還原、`Default.kmp` 未變。log `8fbd701d…2b71b`。
-- **結果：FAIL（misctext UI 畫面）**。選單、選項、存讀檔對話框、屬性、圖鑑標題、路牌點擊訊息全部顯示洋紅色點，不是中文。
-- 證據（CONFIRMED）：`flow_text` 事件的字串裡，中文字元已經變成 `0x7F`（例如 `(Avatar)`）。每個 misctext 方案都是 `wide=1`，但 `layout=0`、`unicode_draws=0`，`unicode_drawn_entries` 是空的。
-  → misctext 字串在進入繪字前，先經過另一個 UTF-16 → 8-bit 轉換，非 Latin-1 字元在這裡被換成 0x7F。這個轉換不是 text.flx 對話用的 0x615A10 路徑。
-- 呼叫端（flow_text caller）：0x42687A、0x426DF3、0x4260C6、0x426648、0x425F3E、0x425DC0、0x41F80F、0x41F305。
-- 時鐘訊息「It is 3 minutes past seven…」不在任何 FLX 裡。它是寫死在 u9.exe 的格式字串（`It is %s %s.`、`a quarter till` 等，約在檔案偏移 0x3A70F4）。要翻譯就得處理執行檔字串，屬於另一個題目。
-- 日誌 Day 1 條目仍是英文（ASCII flow_text），和既有的日誌橋接狀況一致。
-- 在研究出解法之前，build 不應帶入 misctext UI 方案，否則畫面會比英文原版還差。
-
-## 3b. P10-1 M1 修正歷程（session-2～9，2026-11-10）
-
-詳細證據見 `docs/research/U9_MISCTEXT_UI_PATH.md`。最新 runtime：`0.2.27-p10-1`（建置在 `.local/p10-misc/build/Release`），輸出在 `.local/p10-misc/out-m8`。
-
-- 已經在遊戲裡確認顯示中文：選項頁、目錄、主選單按鈕、離開遊戲對話框（內縮 8 px，滑鼠移過去也不會跑掉）、圖鑑內容、路牌（亮字加黑框）。
-- 做法 M1：misctext 工廠（建構函式返回位址 0x6161AB）建出的字串，前面加 4 個位元組的標記（0x8F 加 3 位 base-94 數字）。標記在以下幾個地方就地移除：
-  - 0x5C7620（文字排版）；
-  - 0x5C5C00（繪字，只處理沒有長度上限的呼叫）；
-  - 0x41BC61（訊息容器複製）。
-- 新增的 hook（使用者已授權）：
-  - 0x5C5C00 draw_string；
-  - 0x5C6240 string_width（讓帶標記的標籤能正確置中）。
-- 路牌：路牌本身是書本（0x5E9701 → 0x42E560 → 訊息列 0x624680）。在 0x41BC61 用書頁的方式綁定。
-- 訊息字型是外框字型：中文用字身色畫，外框色往 8 個方向各擴 1 px。
-- 翻譯調整（人工審閱）：
-  - misctext 255「Bestiary of Britannia」保留英文花體字；
-  - BOOKS 1 的標題 Beasts 改成「怪獸／敵人」。
-- 尚未處理：
-  - 小字型裡中文偏大（字型高度已記錄在 `texture_fonts`）；
-  - 時鐘訊息是 u9.exe 內的字串；
-  - 商店清單；
-  - 存讀檔頁和法術書還沒有在這輪逐一確認；
-  - `reports/P10_1_MISCTEXT.md` 尚未撰寫。
-
-## 3c. P10-2（2026-11-11，使用者不在時完成，全部尚未進遊戲測試）
-
-最新 runtime：`0.2.30-p10-2`（`.local/p10-misc/build/Release`），輸出：`.local/p10-misc/out-m11`，離線檢查：`.local/p10-misc/off-m11-huninn.jsonl`。
-
-1. 小字型的中文縮放（`0eb7bf3`）：只套用在 misctext UI 文字。字型高度 15–16 用 14 px，≤14 用 12 px。日誌、書頁和路牌維持 16 px。
-2. 商店清單（`abe15b3`）：
-   - 56 個商店檔的商品名稱改用 TYPENAME 的譯文（依型別編號對應）。
-   - pack 新增 173 個商店名稱方案（0xE000 起）。
-   - runtime 在讀取商店書本時，替每個商品名稱插入標記。
-3. 時鐘訊息（本次提交）：在訊息容器的複製點 0x41BC61 辨識英文句型，就地改寫成中文。單字方案 0xF000 起。
-
-下一場測試的啟動指令：
-
-```sh
-python scripts/run_p8_0_session.py start --session .local/p10-misc/session-10   --label "P10-2 small em / shops / clock" --build .local/p10-misc/out-m11   --runtime .local/p10-misc/build/Release --config .local/p9-2/u9cht.ini --preserve-saves   --seed-saves .local/p10-misc/session-1/final-savegame   --keymap .local/p10-misc/keymap/U9CHT-TEST.kmp --offline .local/p10-misc/off-m11-huninn.jsonl
-```
-
-這場要檢查：
-- 選項頁和離開遊戲對話框的字變小後是否正常；
-- 點地球家裡的時鐘；
-- 進 Britannia 找一間商店，看買／賣清單；
-- 順便看存讀檔頁、法術書、屬性頁。
-
-## 4. 之後的待辦
-
-- 寫 `reports/P10_1_MISCTEXT.md`（遊戲內結果出來後再寫；capabilities 已引用這個檔名）。
-- 商店清單：格式是 `店名` + `#類型 "名稱" $價格`。範本註解說名稱長度有限。可能的做法是比照日誌的 ASCII 標記橋接，前提是確認走 flow init。
-- 其他：
-  - 避頭點（行首標點）規則；
-  - 英文單字中途斷行；
-  - 字型設定擴充；
-  - 用 ✕ 關窗時的 0xC000041D 與原版比對；
-  - 人工校稿；
-  - IB-1 滑鼠移過顯示名稱（需使用者授權）。
-
-## 5. 固定規則（使用者偏好）
-
-- 一律用繁體中文回覆。
+- 一律用繁體中文回覆，包括工具呼叫之間的短訊息。
 - 每次啟動遊戲前，先請使用者說「準備好了」。不送自動輸入。使用者會用遊戲內選單離開遊戲。
-- 不提交遊戲原文、字型、本機絕對路徑。含英文原文的 workset 只放在 `.local/`。
-- 本機翻譯工作檔：
-  - `.local/translation-work/p10-misc/`（`m01.py`、`apply.py`、`run.sh`）
-  - `.local/translation-work/p9-books/`
+- 遊戲結束後一定要執行 `finish`，執行前先確認 `u9.exe` 已經結束。未經同意不可強制關閉遊戲。
+- 不提交遊戲原文、字型、本機絕對路徑、英文原文。含英文原文的 workset 和語音辨識稿只放在 `.local/`。
 - commit 結尾加上：`Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`。
+- 新的 hook 或 renderer 工作需要使用者明確授權（AGENTS §13、§14）。
+
+## 3. 已完成的工作（P10～P11）
+
+### 3a. P10-1 misctext UI（報告：`reports/P10_1_MISCTEXT.md`；研究：`docs/research/U9_MISCTEXT_UI_PATH.md`）
+
+- 做法 M1：misctext 字串前面加 4 bytes 標記（`0x8F` 加 3 位 base-94 數字）。在排版 0x5C7620、繪字 0x5C5C00、訊息容器複製 0x41BC61 三處就地移除。
+- 遊戲內已確認：選項頁、目錄、主選單按鈕、離開遊戲對話框（內縮 8 px）、圖鑑、路牌（亮字加黑框）。
+- 刻意保留英文：
+  - 力量之語音節（168–193）、咒語（276–311）、秘藥縮寫（316–347）；
+  - 日誌目錄的 `TABLE of CONTENTS`；
+  - 圖鑑花體字標題（misctext 255）。
+- 使用者審閱過的翻譯：BOOKS 1 的標題改為「怪獸／敵人」。
+
+### 3b. P10-2（尚未進遊戲目視確認）
+
+- 小字型中文縮放（`0eb7bf3`）：字型高度 15–16 用 14 px，≤14 用 12 px。只套用在 misctext UI，日誌、書頁、路牌維持 16 px。
+- 商店清單（`abe15b3`）：商品名稱取 TYPENAME 譯文；店名方案 0xE000 起；runtime 在每個商品名前插入標記。
+- 時鐘訊息（`cd793e1`）：在 0x41BC61 比對英文句型，改寫成中文；單字方案 0xF000 起。
+
+### 3c. P11 影片字幕（研究：`docs/research/U9_MOVIE_SUBTITLES.md`）
+
+- 12 部影片，只有 4 部有對白：intro、samhayne、raven、ambush。其他 8 部經過關閉 VAD 的整片辨識和 15 秒分段強制辨識，都沒有對白；兩個單字候選由使用者聽過確認不是對白。
+- 做法 B'（`eaf5827`）：runtime 攔截 `CoCreateInstance`（IAT 0x740418）的 FilterGraph，改用自己的播放器播放，以 pl_mpeg（MIT）解碼，用 GDI 畫字幕。GOG 的 `dshow.dll` 不修改。
+  - 只有建置輸出裡有 `runtime/movies.tsv` 時才啟用。
+- 字幕語言：**只放中文**。使用者在 2026-11-11 決定不做中英並呈，因為英文對白散布有版權問題。
+- 檢視工具：`python scripts/movie_review.py <movie> [--scale 2]`。按鍵：空白鍵暫停、←/→ ±5 秒、↑/↓ ±1 秒、PgUp/PgDn 上下一句、R 重新載入。
+  - 修改 `movies.jsonl` 後執行 `--cues-only`，再在工具裡按 R。
+- 語音辨識的教訓：VAD 會濾掉壓在配樂下的對白（intro 2:14–2:40 整段遺失）。之後一律關閉 VAD，並逐字檢查字幕是否涵蓋每個辨識出的字。
+- 本機工具（僅本機）：
+  - FFmpeg 9.0.2（winget gyan）；
+  - faster-whisper 1.2.1，裝在 `.local/tools/asr-venv`；
+  - 辨識稿放在 `.local/movie-asr/`。
+
+## 4. 下一步：用中文手冊校對文本（新 Session）
+
+使用者已取得當初台灣發行的中文手冊。依 `translation/TRANSLATION_GUIDE.md` §1，它是**第 1 順位權威**，高於 U8／U7 系列譯名。
+
+### 4.1 手冊的處理規則（AGENTS §17）
+
+- 手冊掃描檔、照片、OCR 全文**只放在本機**，例如 `.local/manual/`（已在 `.gitignore` 涵蓋的 `.local/` 下）。不可提交。
+- repo 只能放：
+  - 核准的譯名；
+  - 出處位置註記，例如「手冊 p.12」；
+  - 簡短的事實引用。
+- 從手冊採用的譯名，要在 `U9_TERMS.csv` 的 notes 註明出處頁碼。之後可以標成「官方譯名」，這是唯一可以這樣標示的來源。
+
+### 4.2 建議流程
+
+1. **整理手冊譯名**：列出手冊中的人名、地名、美德、咒語、秘藥、物品、職業、介面用語，和 `U9_TERMS.csv` 比對，分成三類：一致、衝突、權威檔沒有。
+2. **衝突交給使用者決定**：手冊譯名和已核准的 U8／U7 譯名不同時，不可自行替換。整理成表請使用者裁決，因為這會影響全部 store。
+3. **更新權威檔**：`python scripts/update_terms.py`（用法見翻譯規範 §2.3）。
+4. **找出受影響的譯文**：用 `grep` 搜尋 store 中的舊譯名，列出受影響的筆數與 key。
+5. **改譯文**：
+   - 匯出 workset：`python scripts/export_translation_workset.py --resource <資源> --existing-only --output .local/translation-work/<名稱>.jsonl`（含英文原文，只能放 `.local/`）；
+   - 修改 target；
+   - 匯入：`python scripts/import_translation_workset.py --game-dir .local/runtime-game <workset>`。可先加 `--dry-run` 預覽。
+   - 注意：匯入前要確定 store 自匯出後沒有被改過，否則會衝突，要重新匯出。
+6. **驗證**：
+   - `python scripts/validate_translation.py`；
+   - `python -m unittest discover -s tests`；
+   - 完整建置 `python scripts/build_localization.py --game-dir .local/runtime-game --font .local/p5-highres/font/NotoSansCJKtc-Regular.otf --output .local/p10-misc/out-m13`。
+7. **狀態**：使用者校對通過的條目才改為 `review` 或 `approved`。不可覆寫 `approved` 的譯文而不說明理由（AGENTS §16）。
+
+### 4.3 校對時要注意
+
+- 專有名詞加註英文的規則（翻譯規範 §4.7）：
+  - 一般 NPC 人名每句都加註；
+  - 地名與其他專有名詞，在每個對話檔第一次出現時加註；
+  - 聖者、不列顛王、守護者與同伴只在第一次加註；
+  - misctext 不加註。
+- 保留控制碼、`%s`、換行、`{{gargish:N}}` 佔位符（AGENTS §18）。validate 會檢查。
+- 影片字幕 `movies.jsonl` 裡有 8 句是 `review`。例如「黑暗之鏡」不在權威檔裡；如果手冊有這個詞，就以手冊為準。
+
+## 5. 尚未進遊戲測試的項目（需要使用者說「準備好了」）
+
+```sh
+python scripts/run_p8_0_session.py start --session .local/p10-misc/session-12 \
+  --label "P10-2/P11 small em / shops / clock / movies" --build .local/p10-misc/out-m12 \
+  --runtime .local/p10-misc/build/Release --config .local/p9-2/u9cht.ini --preserve-saves \
+  --seed-saves .local/p10-misc/session-1/final-savegame \
+  --keymap .local/p10-misc/keymap/U9CHT-TEST.kmp
+python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-12
+```
+
+要檢查的項目：
+
+- **影片**：開場動畫是否播放、字幕是否出現、會不會被 ddraw 轉接層蓋住、Esc 能否跳過、播完能否回到遊戲。在 snapshot 的 `movies{}` 計數裡確認。
+- 小字型 UI、時鐘、商店買／賣清單、存讀檔頁、法術書、屬性頁。
+- session 11 在播放影片時截圖，遊戲閃退（0xC0000005，原因 UNKNOWN，當時 runtime 閒置）。可以拿原版遊戲比對看看。
+
+## 6. 其他待辦
+
+- 避頭點（行首標點）規則、英文單字中途斷行。
+- 用 ✕ 關窗時的 0xC000041D 與原版比對。
+- IB-1 滑鼠移過顯示名稱（需使用者授權）。
+- 商店清單 QA：還有 14 個物品和 7 個註解的加註警告（見 P10 文件）。
+- 本機翻譯工作檔：`.local/translation-work/`（p10-misc、p10-shops、p9-books）。
