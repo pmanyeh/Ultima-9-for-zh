@@ -15,4 +15,7 @@ HRESULT create_movie_graph(const MovieGraphConfig& config, REFIID riid, void** o
 // Counters for the runtime log.
 struct MovieGraphStats { long created = 0, rendered = 0, render_failures = 0, completed = 0, stopped = 0; };
 MovieGraphStats movie_graph_stats() noexcept;
+// Diagnostic trace of the calls u9.exe makes on the graph (bounded). Each entry is a JSON object body
+// (no braces) for a "movie_trace" runtime event. Draining empties the buffer.
+std::vector<std::string> drain_movie_trace();
 }

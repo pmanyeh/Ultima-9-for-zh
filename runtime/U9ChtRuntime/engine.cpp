@@ -1004,7 +1004,7 @@ __declspec(naked) void triangle_hook() { SAVE_FRAME CALL_STAGE(4) RESTORE_FRAME 
 #undef RESTORE_FRAME
 DWORD WINAPI diagnostics_worker(void* arg) {
     auto& e = *static_cast<Engine*>(arg);
-    while (WaitForSingleObject(e.stop.get(), 5000) == WAIT_TIMEOUT) e.snapshot("runtime_counters");
+    while (WaitForSingleObject(e.stop.get(), 5000) == WAIT_TIMEOUT) { e.snapshot("runtime_counters"); e.flush_movie_trace(); }
     return 0;
 }
 }
@@ -1664,6 +1664,10 @@ std::string ink_samples(const InkProbe& v) {
     }
     return out;
 }
+void Engine::flush_movie_trace() noexcept {
+    try { for (const auto& entry : drain_movie_trace()) log->event("movie_trace",entry); } catch (...) {}
+}
+
 void Engine::snapshot(const char* event) noexcept {
     try {
         std::string fields;

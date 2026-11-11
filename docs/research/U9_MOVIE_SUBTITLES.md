@@ -201,3 +201,21 @@ The human prefers external subtitles over option A.
 - Review tool: `python scripts/movie_review.py <movie> [--scale 2]`.
   - Shows the Chinese cues plus the LOCAL ONLY English ASR reference, the time and the cue index.
   - Keys: Space, ←/→ 5 s, ↑/↓ 1 s, PageUp/PageDown previous/next cue, Home, R/F5 reload, Esc.
+
+## In-game verification (sessions 12–17, 2026-11-11)
+
+Runtime 0.2.32 added a `movie_trace` runtime event that logs each graph call, its arguments and the u9.exe return addresses. Findings:
+
+- CONFIRMED: the moongate in the Avatar's yard plays `Movies\Intro.dat` (203.5 s). It is not played at game start.
+- CONFIRMED: u9.exe calls `put_Owner` with the game window, which has a 1600×1200 client under the GOG ddraw wrapper, and `SetWindowPosition(0,80,640,320)` in 640×480 movie-mode coordinates.
+  - Using that rectangle directly put a small picture in the top-left corner (session 14).
+  - Scaling it to 2:1 shrank the picture a second time (session 15).
+  - Fix (0.2.34): the player window covers the owner's whole client area. The player already centres the 640×320 picture in a 4:3 area and draws subtitles in the bottom bar. This matches the original black movie screen; the human compared it with an original screenshot.
+- CONFIRMED: the game ends a movie only through `0x584E40`, which calls `IMediaControl::Stop`. The routine is reached from:
+  - `0x58516C`, the key handler (Space, Esc or Enter);
+  - `0x585189`, an input event of type 2;
+  - the start-failure paths.
+
+  The early stops in sessions 14–15 came from the key handler: the stack scan showed return address `0x585171`. Normal completion goes through `GetEvent(EC_COMPLETE)`, CONFIRMED in sessions 16–17 at 203.7 s.
+- Subtitle lag (session 16): the outlined text was drawn on every frame (80 offset `DrawText` calls at 65 px), and it was drawn while the frame lock was held, which stalled the decoder. Fix (0.2.35): the outlined subtitle is rendered once per cue into a cached bitmap and blitted with `TransparentBlt` outside the frame lock. Session 17: no lag (human check).
+- Not yet re-tested in game: skipping with Esc after the fixes.

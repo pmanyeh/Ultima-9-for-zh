@@ -59,6 +59,9 @@ public:
 private:
     static LRESULT CALLBACK proc(HWND, UINT, WPARAM, LPARAM);
     void paint(HDC dc);
+    void render_subtitle(HDC target, const std::u16string& text, int px, int cw, int ch, int picture_bottom);
+    void free_subtitle();
+    static constexpr COLORREF SubtitleKey = RGB(0,0,1);
     void run();
     void open_audio();
     void close_audio();
@@ -81,6 +84,12 @@ private:
     UINT notify_message_ = 0;
     LONG_PTR notify_param_ = 0;
     std::function<void(WPARAM)> key_handler_;
+
+    // Cached outlined subtitle (paint thread only).
+    std::u16string sub_text_;
+    int sub_cw_ = 0, sub_ch_ = 0;
+    HBITMAP sub_bitmap_ = nullptr;
+    RECT sub_rect_{};
 
     std::mutex frame_lock_;
     std::vector<uint32_t> frame_, staging_;

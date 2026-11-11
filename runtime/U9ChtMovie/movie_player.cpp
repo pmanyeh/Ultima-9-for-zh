@@ -43,6 +43,7 @@ void outlined_text(HDC dc, const std::u16string& text, RECT box, UINT format, in
 MoviePlayer::~MoviePlayer() {
     stop();
     destroy_window();
+    free_subtitle();
     if (plm_) { plm_destroy(plm_); plm_ = nullptr; }
 }
 
@@ -115,6 +116,39 @@ LRESULT CALLBACK MoviePlayer::proc(HWND h, UINT m, WPARAM w, LPARAM l) {
     return DefWindowProcW(h,m,w,l);
 }
 
+void MoviePlayer::free_subtitle() {
+    if (sub_bitmap_) { DeleteObject(sub_bitmap_); sub_bitmap_ = nullptr; }
+    sub_rect_ = RECT{};
+}
+
+// Renders the outlined subtitle once. Transparent pixels use SubtitleKey (near-black); antialiased edges blend
+// toward the black outline, so any non-key fringe pixel is near-black and reads as part of the outline.
+void MoviePlayer::render_subtitle(HDC target, const std::u16string& text, int px, int cw, int ch, int picture_bottom) {
+    HDC dc = CreateCompatibleDC(target);
+    HFONT font = CreateFontW(-px,0,0,0,FW_NORMAL,0,0,0,DEFAULT_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
+                             ANTIALIASED_QUALITY,DEFAULT_PITCH,style_.font_family.c_str());
+    auto* of = SelectObject(dc,font);
+    const int ring = std::max(1,px/14);
+    RECT box{px/2,0,cw-px/2,ch};
+    DrawTextW(dc,reinterpret_cast<const wchar_t*>(text.c_str()),-1,&box,DT_CENTER|DT_WORDBREAK|DT_CALCRECT);
+    const int th = box.bottom-box.top, tw = box.right-box.left;
+    const int bar = ch-picture_bottom;
+    const int top = bar >= th+px/2 ? picture_bottom+(bar-th)/2 : picture_bottom-th-px/2;
+    const int bw = tw+2*ring, bh = th+2*ring;
+    sub_bitmap_ = CreateCompatibleBitmap(target,bw,bh);
+    if (sub_bitmap_) {
+        auto* ob = SelectObject(dc,sub_bitmap_);
+        RECT all{0,0,bw,bh};
+        HBRUSH key = CreateSolidBrush(SubtitleKey);
+        FillRect(dc,&all,key); DeleteObject(key);
+        RECT r{ring,ring,ring+tw,ring+th};
+        outlined_text(dc,text,r,DT_CENTER|DT_WORDBREAK,ring,RGB(255,255,255));
+        SelectObject(dc,ob);
+        sub_rect_ = RECT{(cw-tw)/2-ring,top-ring,(cw-tw)/2-ring+bw,top-ring+bh};
+    }
+    SelectObject(dc,of); DeleteObject(font); DeleteDC(dc);
+}
+
 void MoviePlayer::paint(HDC target) {
     RECT client; GetClientRect(hwnd_,&client);
     const int cw = client.right, ch = client.bottom;
@@ -138,26 +172,28 @@ void MoviePlayer::paint(HDC target) {
             SetStretchBltMode(dc,HALFTONE);
             StretchDIBits(dc,vx,vy,vw,vh,0,0,width_,height_,frame_.data(),&bi,DIB_RGB_COLORS,SRCCOPY);
         }
+    }   // the decoder thread waits on frame_lock_; text drawing happens outside it
+    {
         now = active_cues(cues_,stem_,ms);
         if (style_.review) ref = active_cues(reference_,stem_,ms);
         // Subtitles: centred in the bottom bar when it is tall enough, otherwise over the bottom of the picture.
+        // The outlined text (one DrawText per outline offset) is rendered once per cue/size change into a cached
+        // bitmap and only blitted per frame (session 16: per-frame rendering at 1600x1200 made the movie lag).
         const int px = std::max(12,int(style_.subtitle_px_at_480*ch/480));
-        HFONT font = CreateFontW(-px,0,0,0,FW_NORMAL,0,0,0,DEFAULT_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                                 ANTIALIASED_QUALITY,DEFAULT_PITCH,style_.font_family.c_str());
-        auto* of = SelectObject(dc,font);
-        const int ring = std::max(1,px/14);
-        const int bar = ch-(vy+vh);
         std::u16string text;
         for (const auto* c : now) { if (!text.empty()) text += u'\n'; text += c->text; }
-        if (!text.empty()) {
-            RECT box{px/2,0,cw-px/2,ch};
-            DrawTextW(dc,reinterpret_cast<const wchar_t*>(text.c_str()),-1,&box,DT_CENTER|DT_WORDBREAK|DT_CALCRECT);
-            const int th = box.bottom-box.top, tw = box.right-box.left;
-            const int top = bar >= th+px/2 ? vy+vh+(bar-th)/2 : vy+vh-th-px/2;
-            RECT r{(cw-tw)/2,top,(cw+tw)/2,top+th};
-            outlined_text(dc,text,r,DT_CENTER|DT_WORDBREAK,ring,RGB(255,255,255));
+        if (text != sub_text_ || cw != sub_cw_ || ch != sub_ch_) {
+            free_subtitle();
+            sub_text_ = text; sub_cw_ = cw; sub_ch_ = ch;
+            if (!text.empty()) render_subtitle(target,text,px,cw,ch,vy+vh);
         }
-        SelectObject(dc,of); DeleteObject(font);
+        if (sub_bitmap_) {
+            HDC sdc = CreateCompatibleDC(target);
+            auto* so = SelectObject(sdc,sub_bitmap_);
+            TransparentBlt(dc,sub_rect_.left,sub_rect_.top,sub_rect_.right-sub_rect_.left,sub_rect_.bottom-sub_rect_.top,
+                           sdc,0,0,sub_rect_.right-sub_rect_.left,sub_rect_.bottom-sub_rect_.top,SubtitleKey);
+            SelectObject(sdc,so); DeleteDC(sdc);
+        }
         if (style_.review) {
             const int small = std::max(11,px*2/3);
             HFONT info = CreateFontW(-small,0,0,0,FW_NORMAL,0,0,0,DEFAULT_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,

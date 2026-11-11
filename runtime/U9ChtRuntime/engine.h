@@ -216,6 +216,7 @@ struct Engine {
     void install(const Config& config, Logger& logger);
     bool shutdown(bool explicit_unload) noexcept;
     void snapshot(const char* event) noexcept;
+    void flush_movie_trace() noexcept;
     Located locate(uintptr_t source) noexcept;
     RasterBinding* raster(uintptr_t address) noexcept;
     QueueBinding* queue(uintptr_t address) noexcept;
