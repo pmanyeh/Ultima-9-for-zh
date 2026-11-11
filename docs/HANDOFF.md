@@ -88,7 +88,14 @@
   - 滾輪翻頁；Ctrl＋滾輪縮放鏡頭。
   - 已修正 Ctrl+X 誤觸離開確認。
   - session 23 遊戲內全部 PASS。
-- 目前最新建置是 `out-m22`，存檔在 `.local/p10-misc/session-23/final-savegame`。
+- 堆疊物品名稱「(27) 金幣」（`edbf99f`，runtime 0.2.41）：
+  - 遊戲用 `"(%d) %s"` 組標籤，前綴會讓標記比對失敗；
+  - 現在允許數量前綴；
+  - session 25 PASS。
+- 影片 Esc 跳過：session 24 PASS（1.96 秒時由遊戲的按鍵處理停止）。
+- 旁白字幕在某些視角消失：只記錄、不修改。證據強，是原版行為，見 `docs/research/U9_NARRATION_CAMERA_VISIBILITY.md`。
+- session 24 的「閃退」其實是視窗被最小化，遊戲仍在執行；原因不明，可能是焦點被搶走。
+- 目前最新建置是 `out-m23`，存檔在 `.local/p10-misc/session-27/final-savegame`。
 
 ## 4. 用中文手冊校對文本（2026-11-11 完成）
 
