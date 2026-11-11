@@ -131,6 +131,14 @@ Changes:
 - intro has 14 cues and raven 9; all 4 movies total 42.
 - The review script prefers the no-VAD transcript as its reference. It skips segments with no-speech probability above 0.5 or logprob below −0.9 (music captions and one-word hallucinations).
 
+### Re-check of the 8 movies without speech (STRONG EVIDENCE, 2026-11-11)
+
+goodendgame, armageddon, column, maelstrom, moongate, prison, pyros and skarabrae were re-run with `medium.en` and no VAD, as whole files and as forced 15 s windows (3 s overlap).
+
+- Every output is a known music hallucination ("Thanks for watching!", "I'll see you in the next video", music notes), usually spanning a whole window, with logprob ≤ −0.74.
+- Exceptions: two isolated one-word "No!" candidates, at column 96–98 s (no-speech 0.46, logprob −0.79) and goodendgame 72.0–72.5 s (no-speech 0.74, logprob −1.19). They may be a shout or a sound effect; UNKNOWN until a human listens.
+- Conclusion: no sentence dialogue outside intro, samhayne, raven and ambush.
+
 Rule for later ASR passes on game audio: do not trust VAD on scored scenes. Run without VAD, filter by per-segment confidence, and check cue coverage word by word, not by reading.
 
 ## Tool dependencies (AGENTS §25)
