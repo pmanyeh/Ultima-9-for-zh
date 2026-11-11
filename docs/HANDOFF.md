@@ -77,6 +77,19 @@
   - faster-whisper 1.2.1，裝在 `.local/tools/asr-venv`；
   - 辨識稿放在 `.local/movie-asr/`。
 
+### 3d. 影片修正與滑鼠功能（2026-11-11）
+
+- 影片（`5ddc86d`）：
+  - 影片視窗蓋滿遊戲畫面；字幕改用快取點陣圖，播放不再延遲。
+  - 月之門的開場動畫播放完整（session 17）。
+  - Esc 跳過還沒再測。
+- 滑鼠功能（IB-1／IB-2，runtime 0.2.40，見 `docs/IMPROVEMENT_BACKLOG.md`）：
+  - 游標停留 250 ms 顯示物品名稱。
+  - 滾輪翻頁；Ctrl＋滾輪縮放鏡頭。
+  - 已修正 Ctrl+X 誤觸離開確認。
+  - session 23 遊戲內全部 PASS。
+- 目前最新建置是 `out-m22`，存檔在 `.local/p10-misc/session-23/final-savegame`。
+
 ## 4. 用中文手冊校對文本（2026-11-11 完成）
 
 ### 4.0 結果
@@ -165,6 +178,5 @@ python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-12
 
 - 避頭點（行首標點）規則、英文單字中途斷行。
 - 用 ✕ 關窗時的 0xC000041D 與原版比對。
-- IB-1 滑鼠移過顯示名稱（需使用者授權）。
 - 商店清單 QA：還有 14 個物品和 7 個註解的加註警告（見 P10 文件）。
 - 本機翻譯工作檔：`.local/translation-work/`（p10-misc、p10-shops、p9-books）。
