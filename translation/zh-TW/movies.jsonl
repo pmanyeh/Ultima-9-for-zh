@@ -13,20 +13,20 @@
 {"key": "movies:raven:07", "movie": "raven", "start_ms": 45600, "end_ms": 50000, "status": "draft", "target": "我不明白。", "notes": "P11 draft from local ASR"}
 {"key": "movies:raven:08", "movie": "raven", "start_ms": 50800, "end_ms": 53000, "status": "draft", "target": "別擔心。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
 {"key": "movies:raven:09", "movie": "raven", "start_ms": 56680, "end_ms": 58800, "status": "draft", "target": "你會明白的。", "notes": "P11 draft from local ASR"}
-{"key": "movies:intro:01", "movie": "intro", "start_ms": 93480, "end_ms": 102200, "status": "draft", "target": "吾主，聖者(Avatar)已抵達不列顛尼亞(Britannia)，\n並被我的龍衛(Wyrmguard)輕易解決了。", "notes": "P11 draft from local ASR (no-VAD rerun); first speaker addresses the second as lord"}
+{"key": "movies:intro:01", "movie": "intro", "start_ms": 93480, "end_ms": 102200, "status": "draft", "target": "吾主，聖者(Avatar)已抵達不列塔尼亞(Britannia)，\n並被我的龍衛(Wyrmguard)輕易解決了。", "notes": "P11 draft from local ASR (no-VAD rerun); first speaker addresses the second as lord"}
 {"key": "movies:intro:02", "movie": "intro", "start_ms": 102430, "end_ms": 109300, "status": "draft", "target": "別太篤定。那個多管閒事的美德勇者，\n可沒那麼容易被擊敗。", "notes": "P11 draft from local ASR (no-VAD rerun); subject noun resolved by the no-VAD rerun"}
 {"key": "movies:intro:03", "movie": "intro", "start_ms": 109480, "end_ms": 113000, "status": "draft", "target": "當然，吾主。但容我一問，他現在身在何處？", "notes": "P11 draft from local ASR (no-VAD rerun)"}
 {"key": "movies:intro:04", "movie": "intro", "start_ms": 113400, "end_ms": 117000, "status": "review", "target": "黑暗之鏡理應能照出不列顛王(Lord British)那名走狗的下落。", "notes": "P11 draft from local ASR (no-VAD rerun); Mirror of Darkness has no approved glossary entry"}
 {"key": "movies:intro:05", "movie": "intro", "start_ms": 117220, "end_ms": 122300, "status": "draft", "target": "聖者已被傳送到黑暗之鏡也看不見的地方。", "notes": "P11 draft from local ASR (no-VAD rerun)"}
 {"key": "movies:intro:06", "movie": "intro", "start_ms": 122660, "end_ms": 129600, "status": "draft", "target": "我們這位美德楷模，只可能被帶往石門(Stonegate)，\n而且帶走他的，是一位力量強大之人。", "notes": "P11 draft from local ASR (no-VAD rerun); second half was dropped by VAD in the first pass"}
 {"key": "movies:intro:07", "movie": "intro", "start_ms": 130100, "end_ms": 134000, "status": "draft", "target": "要我把石門燒成灰燼嗎，吾主？", "notes": "P11 draft from local ASR (no-VAD rerun)"}
-{"key": "movies:intro:08", "movie": "intro", "start_ms": 134300, "end_ms": 140200, "status": "draft", "target": "不。我要讓不列顛尼亞的勇者親眼看看，\n這片土地和它的人民變成了什麼模樣。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
-{"key": "movies:intro:09", "movie": "intro", "start_ms": 140300, "end_ms": 148200, "status": "draft", "target": "當他看見我對不列顛尼亞所做的一切，\n我要感受他那熊熊燃燒的怒火。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
-{"key": "movies:intro:10", "movie": "intro", "start_ms": 148400, "end_ms": 153900, "status": "draft", "target": "你負責牽制聖者，\n好讓我完成征服不列顛尼亞的計畫。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
+{"key": "movies:intro:08", "movie": "intro", "start_ms": 134300, "end_ms": 140200, "status": "draft", "target": "不。我要讓不列塔尼亞的勇者親眼看看，\n這片土地和它的人民變成了什麼模樣。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
+{"key": "movies:intro:09", "movie": "intro", "start_ms": 140300, "end_ms": 148200, "status": "draft", "target": "當他看見我對不列塔尼亞所做的一切，\n我要感受他那熊熊燃燒的怒火。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
+{"key": "movies:intro:10", "movie": "intro", "start_ms": 148400, "end_ms": 153900, "status": "draft", "target": "你負責牽制聖者，\n好讓我完成征服不列塔尼亞的計畫。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
 {"key": "movies:intro:11", "movie": "intro", "start_ms": 154200, "end_ms": 158400, "status": "draft", "target": "等我完成之後，剩下的就歸你。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
 {"key": "movies:intro:12", "movie": "intro", "start_ms": 159000, "end_ms": 161000, "status": "draft", "target": "退下吧。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass"}
 {"key": "movies:intro:13", "movie": "intro", "start_ms": 162300, "end_ms": 164500, "status": "draft", "target": "遵命，吾主。", "notes": "P11 draft from local ASR (no-VAD rerun)"}
-{"key": "movies:intro:14", "movie": "intro", "start_ms": 175600, "end_ms": 184500, "status": "review", "target": "黑棘(Blackthorn)，你果然是個蠢貨，\n竟想要一個被我玩弄殆盡的不列顛尼亞。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass; closing line spoken alone, tone needs a listening check"}
+{"key": "movies:intro:14", "movie": "intro", "start_ms": 175600, "end_ms": 184500, "status": "review", "target": "黑棘(Blackthorn)，你果然是個蠢貨，\n竟想要一個被我玩弄殆盡的不列塔尼亞。", "notes": "P11 draft from local ASR (no-VAD rerun); dropped by VAD in the first pass; closing line spoken alone, tone needs a listening check"}
 {"key": "movies:samhayne:01", "movie": "samhayne", "start_ms": 4460, "end_ms": 5900, "status": "draft", "target": "啊，聖者(Avatar)。", "notes": "P11 draft from local ASR"}
 {"key": "movies:samhayne:02", "movie": "samhayne", "start_ms": 6400, "end_ms": 10800, "status": "draft", "target": "我的線人回報，我們的航道已經回到手中了。多謝。", "notes": "P11 draft from local ASR"}
 {"key": "movies:samhayne:03", "movie": "samhayne", "start_ms": 10960, "end_ms": 14400, "status": "draft", "target": "多謝你的道謝。我是來完成我們的交易的。", "notes": "P11 draft from local ASR"}
@@ -38,5 +38,5 @@
 {"key": "movies:samhayne:09", "movie": "samhayne", "start_ms": 40900, "end_ms": 43200, "status": "draft", "target": "你可沒提到……", "notes": "P11 draft from local ASR"}
 {"key": "movies:samhayne:10", "movie": "samhayne", "start_ms": 43200, "end_ms": 47000, "status": "draft", "target": "住口！我跟這傢伙有筆舊帳要算。", "notes": "P11 draft from local ASR"}
 {"key": "movies:samhayne:11", "movie": "samhayne", "start_ms": 48720, "end_ms": 52200, "status": "draft", "target": "我想這是你的東西！", "notes": "P11 draft from local ASR"}
-{"key": "movies:samhayne:12", "movie": "samhayne", "start_ms": 62540, "end_ms": 65500, "status": "draft", "target": "但終極智慧法典(Codex)可不在交易條件之內。", "notes": "P11 draft from local ASR"}
+{"key": "movies:samhayne:12", "movie": "samhayne", "start_ms": 62540, "end_ms": 65500, "status": "draft", "target": "但聖典(Codex)可不在交易條件之內。", "notes": "P11 draft from local ASR"}
 {"key": "movies:samhayne:13", "movie": "samhayne", "start_ms": 71130, "end_ms": 73300, "status": "draft", "target": "這是給你的辛苦費。", "notes": "P11 draft from local ASR"}

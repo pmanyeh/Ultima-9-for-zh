@@ -37,7 +37,7 @@ Desbet,德斯貝特,person,approved,recommended,9,text.flx:7162,P8-A candidate s
 Drake,德雷克,person,approved,recommended,3,text.flx:7114,P8-A candidate scan,瓦洛利亞騎士德雷克,always
 Duncan,鄧肯,person,approved,recommended,10,text.flx:5590,P8-A candidate scan,月光城被奪匕首的學者,always
 Dunston,鄧斯頓,person,approved,recommended,3,text.flx:2305,P8-A candidate scan,海盜窩商人,always
-Dupre,杜普雷,person,approved,recommended,18,text.flx:4648,P8-A candidate scan,榮譽聖友、殉道聖騎士幽靈,first
+Dupre,杜普利,person,approved,recommended,18,text.flx:4648,台灣中文手冊 Journal p.14,官方譯名：台灣中文手冊 Journal p.14；2026-11-11 由「杜普雷」改為手冊譯名（手冊為第 1 順位權威）; 榮譽聖友、殉道聖騎士幽靈,first
 Elaina,艾蓮娜,person,approved,recommended,2,text.flx:7196,U8 authority.tsv (proposed),U8 authority.tsv (proposed),always
 Elena,依蓮娜,person,approved,recommended,4,text.flx:2910,P8-A candidate scan,米諾克魔法店店主（避同音相撞作依蓮娜）,always
 Elizabeth,伊莉莎白,person,approved,recommended,3,text.flx:3819,P8-A candidate scan,斯卡拉布雷亡魂之一,always
@@ -57,7 +57,7 @@ Groldek,格羅德克,person,approved,recommended,2,text.flx:3987,P8-A candidate 
 Grond,格隆德,person,approved,recommended,2,text.flx:46,P8-A candidate scan,半獸人/巨魔頭目,always
 Guardian,守護者,person,approved,informational,143,text.flx:460,U8 authority.tsv (approved),U8 authority.tsv (approved),first
 Gwenno,桂諾,person,approved,recommended,8,text.flx:946,P8-A candidate scan,伊歐洛之妻，曾涉足巨蛇之島的傳奇女冒險者,always
-Hawkwind,鷹風,person,approved,recommended,2,BOOKS-EN.FLX:109,P8-A candidate scan,時間之主 Time Lord 化身，引導聖者的大導師,always
+Hawkwind,霍克溫,person,approved,recommended,2,BOOKS-EN.FLX:109,台灣中文手冊 魔法書 p.3–9,官方譯名：台灣中文手冊 魔法書 p.3–9；2026-11-11 由「鷹風」改為手冊譯名（手冊為第 1 順位權威）；Journal 保留英文，依魔法書譯名（負責人決定）; 時間之主 Time Lord 化身，引導聖者的大導師,always
 Hayley,海莉,person,approved,recommended,9,text.flx:6188,P8-A candidate scan,波斯鎮貧民,always
 Hennington,漢寧頓,person,approved,recommended,2,text.flx:1019,P8-A candidate scan,不列顛城鎮主管官,always
 Herzog,赫佐格,person,approved,recommended,3,text.flx:2323,P8-A candidate scan,海盜窩海盜首領之一,always
@@ -142,7 +142,7 @@ Shamino,夏米諾,person,approved,recommended,19,text.flx:1954,P8-A candidate sc
 Siona,席歐娜,person,approved,recommended,2,text.flx:2100,P8-A candidate scan,不列顛城堡侍女/學者,always
 Sir Artos,阿托斯爵士,person,approved,recommended,5,text.flx:7019,P8-A candidate scan,瓦洛利亞勇敢無畏之聖騎士,always
 Sir Drake,德雷克爵士,person,approved,recommended,4,text.flx:6921,P8-A candidate scan,瓦洛利亞知曉通關密語之騎士,always
-Sir Dupre,杜普雷爵士,person,approved,recommended,8,text.flx:6358,P8-A candidate scan,殉道聖友杜普雷爵士幽靈,always
+Sir Dupre,杜普利爵士,person,approved,recommended,8,text.flx:6358,P8-A candidate scan,2026-11-11 依手冊譯名連動：「杜普雷爵士」→「杜普利爵士」; 殉道聖友杜普雷爵士幽靈,always
 Sir Ricardo,理卡多爵士,person,approved,recommended,4,BOOKS-EN.FLX:13,P8-A candidate scan,古代傳奇騎士墓誌銘主角,always
 Sir Robin,羅賓爵士,person,approved,recommended,4,text.flx:7125,P8-A candidate scan,瓦洛利亞臨陣退縮之怯懦騎士,always
 Smith,史密斯,person,approved,recommended,6,text.flx:3757,P8-A candidate scan,會說話的馬史密斯或平民,always
@@ -170,58 +170,58 @@ Ambrosia,安布羅西亞,place,approved,recommended,13,text.flx:15,P8-A candidat
 Bastion,堡壘,place,approved,recommended,8,text.flx:6483,P8-A candidate scan,要塞要衝,first
 Blackrock Mines,黑石礦坑,place,approved,recommended,4,text.flx:2965,P8-A candidate scan,米諾克附近的黑石礦場,first
 Britain,不列顛城,place,approved,recommended,118,text.flx:247,P8-A candidate scan,不列顛尼亞之首善之都、慈悲之城，區別於國家不列顛尼亞,first
-Britannia,不列顛尼亞,place,approved,informational,201,text.flx:306,U8 authority.tsv (approved),U8 approved (approved),first
+Britannia,不列塔尼亞,place,approved,informational,201,text.flx:306,台灣中文手冊 Journal p.3 起全書,官方譯名：台灣中文手冊 Journal p.3 起全書；2026-11-11 由「不列顛尼亞」改為手冊譯名（手冊為第 1 順位權威）; U8 approved (approved),first
 Buc's Den,海盜窩,place,approved,recommended,7,text.flx:2404,P8-A candidate scan,Buccaneer's Den 簡稱; variant of Buccaneer's Den,first
 Buccaneer's Den,海盜窩,place,approved,recommended,24,text.flx:593,P8-A candidate scan,海盜與不法之徒聚集的走私巢穴島嶼,first
 Cathedral,大教堂,place,approved,recommended,4,text.flx:1268,P8-A candidate scan,不列顛城大教堂,first
 Cathedral of Love,博愛大教堂,place,approved,recommended,5,text.flx:547,P8-A candidate scan,供奉愛之原則的大教堂,first
-Cove,科夫鎮,place,approved,recommended,38,text.flx:510,P8-A candidate scan,海邊小鎮科夫，沉沒於海灣附近,first
-Covetous,貪婪地城,place,approved,recommended,5,text.flx:3239,P8-A candidate scan,對應犧牲美德之反美德地城,first
+Cove,小灣鎮,place,approved,recommended,38,text.flx:510,台灣中文手冊 Journal p.18,官方譯名：台灣中文手冊 Journal p.18；2026-11-11 由「科夫鎮」改為手冊譯名（手冊為第 1 順位權威）；手冊寫「小灣（小灣鎮）」，採用「小灣鎮」; 海邊小鎮科夫，沉沒於海灣附近,first
+Covetous,貪婪地城,place,approved,recommended,5,text.flx:3239,台灣中文手冊 Journal p.26,官方譯名：台灣中文手冊 Journal p.26；手冊名稱「貪婪」，保留「地城」字尾（負責人決定）; 對應犧牲美德之反美德地城,first
 Dawn,破曉村,place,approved,recommended,6,text.flx:2715,P8-A candidate scan,傳奇神秘隱世村落，曾出現在U3與U9,first
-Deceit,欺瞞地城,place,approved,recommended,7,text.flx:4259,P8-A candidate scan,對應誠實美德之反美德地城,first
-Despise,蔑視地城,place,approved,recommended,31,text.flx:711,P8-A candidate scan,對應慈悲美德之反美德地城,first
-Destard,怯懦地城,place,approved,recommended,27,text.flx:831,P8-A candidate scan,對應英勇美德之反美德地城，火龍巢穴,first
+Deceit,欺騙地城,place,approved,recommended,7,text.flx:4259,台灣中文手冊 Journal p.27,官方譯名：台灣中文手冊 Journal p.27；2026-11-11 由「欺瞞地城」改為手冊譯名（手冊為第 1 順位權威）；手冊名稱「欺騙」，保留「地城」字尾（負責人決定）; 對應誠實美德之反美德地城,first
+Despise,輕視地城,place,approved,recommended,31,text.flx:711,台灣中文手冊 Journal p.27,官方譯名：台灣中文手冊 Journal p.27；2026-11-11 由「蔑視地城」改為手冊譯名（手冊為第 1 順位權威）；手冊名稱「輕視」，保留「地城」字尾（負責人決定）; 對應慈悲美德之反美德地城,first
+Destard,怯懦地城,place,approved,recommended,27,text.flx:831,台灣中文手冊 Journal p.27,官方譯名：台灣中文手冊 Journal p.27；手冊名稱「怯懦」，保留「地城」字尾（負責人決定）; 對應英勇美德之反美德地城，火龍巢穴,first
 Earth,地球,place,approved,recommended,3,text.flx:4078,P8-A candidate scan,聖者的故鄉行星,first
 Empath Abbey,共情修道院,place,approved,recommended,14,text.flx:553,U7 Translation_Guide.md,U7定名共情修道院（Empath意指同理心/共情，愛之原則聖地）,first
-Ethereal Void,乙太虛空,place,approved,recommended,4,text.flx:1573,P8-A candidate scan,星界靈界虛空空間,first
-Hythloth,卑劣地城,place,approved,recommended,16,text.flx:102,P8-A candidate scan,對應謙遜美德之反美德地城,first
+Ethereal Void,以太虛空,place,approved,recommended,4,text.flx:1573,台灣中文手冊 魔法書 p.38 字彙集；Journal p.29,官方譯名：台灣中文手冊 魔法書 p.38 字彙集；Journal p.29；2026-11-11 由「乙太虛空」改為手冊譯名（手冊為第 1 順位權威）；手冊內另有「虛無靈界」，依字彙集採「以太虛空」（負責人決定）; 星界靈界虛空空間,first
+Hythloth,希斯洛斯地城,place,approved,recommended,16,text.flx:102,台灣中文手冊 Journal p.28,官方譯名：台灣中文手冊 Journal p.28；2026-11-11 由「卑劣地城」改為手冊譯名（手冊為第 1 順位權威）；手冊名稱「希斯洛斯」，保留「地城」字尾（負責人決定）; 對應謙遜美德之反美德地城,first
 Isle of the Avatar,聖者之島,place,approved,recommended,14,text.flx:445,P8-A candidate scan,法典安置所與大深淵所在地,first
-Lycaeum,理學苑,place,approved,recommended,28,text.flx:559,P8-A candidate scan,位於月光城附近的真理與智慧聖殿,first
+Lycaeum,大講堂,place,approved,recommended,28,text.flx:559,台灣中文手冊 Journal p.20,官方譯名：台灣中文手冊 Journal p.20；2026-11-11 由「理學苑」改為手冊譯名（手冊為第 1 順位權威）; 位於月光城附近的真理與智慧聖殿,first
 Magic Shop,魔法店,place,approved,recommended,4,BOOKS-EN.FLX:193,P8-A candidate scan,販售藥水與施法材料之店舖,first
 Minoc,米諾克,place,approved,recommended,21,text.flx:1720,P8-A candidate scan,工匠與採礦之城、犧牲之城,first
-Moonglow,月光城,place,approved,recommended,47,text.flx:499,P8-A candidate scan,智者與法師之島城、誠實之城,first
+Moonglow,昇月城,place,approved,recommended,47,text.flx:499,台灣中文手冊 Journal p.19,官方譯名：台灣中文手冊 Journal p.19；2026-11-11 由「月光城」改為手冊譯名（手冊為第 1 順位權威）; 智者與法師之島城、誠實之城,first
 New Magincia,新瑪津西亞,place,approved,recommended,30,text.flx:2152,P8-A candidate scan,謙遜之島城，原瑪津西亞因驕傲滅亡後重建,first
 Pagan,佩根,place,approved,recommended,4,text.flx:466,U8 authority.tsv (proposed),U8 authority.tsv (proposed),first
-Paws,波斯鎮,place,approved,recommended,69,text.flx:262,P8-A candidate scan,不列顛城南方沼澤貧民小聚落，台灣舊譯波斯鎮,first
-Serpent's Hold,巨蛇堡壘,place,approved,recommended,11,text.flx:559,P8-A candidate scan,原英勇之城、要塞島嶼,first
-Serpent's Spine,巨蛇山脈,place,approved,recommended,4,text.flx:564,P8-A candidate scan,橫貫不列顛尼亞中部的巨蛇山脈,first
-Shame,羞恥地城,place,approved,recommended,5,text.flx:4267,P8-A candidate scan,對應榮譽美德之反美德地城,first
-Shrine,美德聖壇,place,approved,recommended,29,text.flx:1722,P8-A candidate scan,泛指八大美德聖壇,first
-Shrine of Compassion,慈悲聖壇,place,approved,recommended,9,text.flx:338,P8-A candidate scan,慈悲美德聖壇,first
-Shrine of Honesty,誠實聖壇,place,approved,recommended,4,text.flx:1744,P8-A candidate scan,誠實美德聖壇,first
-Shrine of Honor,榮譽聖壇,place,approved,recommended,7,text.flx:3622,P8-A candidate scan,榮譽美德聖壇,first
-Shrine of Humility,謙遜聖壇,place,approved,recommended,7,text.flx:4853,P8-A candidate scan,謙遜美德聖壇,first
-Shrine of Justice,正義聖壇,place,approved,recommended,7,text.flx:1527,P8-A candidate scan,正義美德聖壇,first
-Shrine of Sacrifice,犧牲聖壇,place,approved,recommended,6,text.flx:3347,P8-A candidate scan,犧牲美德聖壇,first
-Shrine of Spirituality,靈性聖壇,place,approved,recommended,12,text.flx:1573,P8-A candidate scan,靈性美德聖壇,first
-Skara Brae,斯卡拉布雷,place,approved,recommended,18,text.flx:4008,P8-A candidate scan,靈性之城，曾遭詛咒之火焚毀的幽靈島城,first
+Paws,獸爪村,place,approved,recommended,69,text.flx:262,"台灣中文手冊 Journal p.17,20","官方譯名：台灣中文手冊 Journal p.17,20；2026-11-11 由「波斯鎮」改為手冊譯名（手冊為第 1 順位權威）; 不列顛城南方沼澤貧民小聚落，台灣舊譯波斯鎮",first
+Serpent's Hold,巨蛇堡,place,approved,recommended,11,text.flx:559,台灣中文手冊 Journal p.23,官方譯名：台灣中文手冊 Journal p.23；2026-11-11 由「巨蛇堡壘」改為手冊譯名（手冊為第 1 順位權威）; 原英勇之城、要塞島嶼,first
+Serpent's Spine,巨蛇之脊,place,approved,recommended,4,text.flx:564,台灣中文手冊 Journal p.21,官方譯名：台灣中文手冊 Journal p.21；2026-11-11 由「巨蛇山脈」改為手冊譯名（手冊為第 1 順位權威）; 橫貫不列顛尼亞中部的巨蛇山脈,first
+Shame,羞恥地城,place,approved,recommended,5,text.flx:4267,台灣中文手冊 Journal p.28,官方譯名：台灣中文手冊 Journal p.28；手冊名稱「羞恥」，保留「地城」字尾（負責人決定）; 對應榮譽美德之反美德地城,first
+Shrine,神殿,place,approved,recommended,29,text.flx:1722,台灣中文手冊 Journal p.58 字彙集,官方譯名：台灣中文手冊 Journal p.58 字彙集；2026-11-11 由「美德聖壇」改為手冊譯名（手冊為第 1 順位權威）; 泛指八大美德聖壇,first
+Shrine of Compassion,同情神殿,place,approved,recommended,9,text.flx:338,P8-A candidate scan,2026-11-11 依手冊譯名連動：「慈悲聖壇」→「同情神殿」; 慈悲美德聖壇,first
+Shrine of Honesty,誠實神殿,place,approved,recommended,4,text.flx:1744,P8-A candidate scan,2026-11-11 依手冊譯名連動：「誠實聖壇」→「誠實神殿」; 誠實美德聖壇,first
+Shrine of Honor,榮譽神殿,place,approved,recommended,7,text.flx:3622,P8-A candidate scan,2026-11-11 依手冊譯名連動：「榮譽聖壇」→「榮譽神殿」; 榮譽美德聖壇,first
+Shrine of Humility,謙遜神殿,place,approved,recommended,7,text.flx:4853,P8-A candidate scan,2026-11-11 依手冊譯名連動：「謙遜聖壇」→「謙遜神殿」; 謙遜美德聖壇,first
+Shrine of Justice,公正神殿,place,approved,recommended,7,text.flx:1527,P8-A candidate scan,2026-11-11 依手冊譯名連動：「正義聖壇」→「公正神殿」; 正義美德聖壇,first
+Shrine of Sacrifice,犧牲神殿,place,approved,recommended,6,text.flx:3347,P8-A candidate scan,2026-11-11 依手冊譯名連動：「犧牲聖壇」→「犧牲神殿」; 犧牲美德聖壇,first
+Shrine of Spirituality,靈性神殿,place,approved,recommended,12,text.flx:1573,P8-A candidate scan,2026-11-11 依手冊譯名連動：「靈性聖壇」→「靈性神殿」; 靈性美德聖壇,first
+Skara Brae,史卡拉・布瑞,place,approved,recommended,18,text.flx:4008,台灣中文手冊 Journal p.21,官方譯名：台灣中文手冊 Journal p.21；2026-11-11 由「斯卡拉布雷」改為手冊譯名（手冊為第 1 順位權威）; 靈性之城，曾遭詛咒之火焚毀的幽靈島城,first
 Sosaria,索沙利亞,place,approved,recommended,9,text.flx:4216,U8 authority.tsv (approved),不列顛尼亞古名，創世紀前三部曲的世界,first
 Stonegate,石門,place,approved,recommended,4,text.flx:4074,P8-A candidate scan,歷史要塞石門城堡,first
-Temple of Singularity,唯一神廟,place,approved,recommended,4,text.flx:153,P8-A candidate scan,石像鬼之歸一哲學聖廟,first
+Temple of Singularity,單一論神廟,place,approved,recommended,4,text.flx:153,P8-A candidate scan,2026-11-11 依手冊譯名連動：「唯一神廟」→「單一論神廟」; 石像鬼之歸一哲學聖廟,first
 Temple of Souls,靈魂神殿,place,approved,recommended,5,text.flx:5202,P8-A candidate scan,供奉亡者與靈魂的神殿,first
-Terfin,特芬島,place,approved,recommended,11,text.flx:1611,P8-A candidate scan,石像鬼與翼族聚居島嶼,first
-Trinsic,特林錫克,place,approved,recommended,70,text.flx:933,P8-A candidate scan,榮譽之城，聖騎士之都,first
-Valoria,瓦洛利亞,place,approved,recommended,29,text.flx:914,P8-A candidate scan,英勇之城，由英勇騎士在Jhelom沉沒後建立,first
-Wrong,冤屈地城,place,approved,recommended,8,text.flx:3768,P8-A candidate scan,對應正義美德之反美德地城,first
+Terfin,泰芬島,place,approved,recommended,11,text.flx:1611,台灣中文手冊 Journal p.22,官方譯名：台灣中文手冊 Journal p.22；2026-11-11 由「特芬島」改為手冊譯名（手冊為第 1 順位權威）；手冊寫「泰芬（泰芬島）」，採用「泰芬島」; 石像鬼與翼族聚居島嶼,first
+Trinsic,特林希克,place,approved,recommended,70,text.flx:933,台灣中文手冊 Journal p.22,官方譯名：台灣中文手冊 Journal p.22；2026-11-11 由「特林錫克」改為手冊譯名（手冊為第 1 順位權威）; 榮譽之城，聖騎士之都,first
+Valoria,瓦羅尼亞,place,approved,recommended,29,text.flx:914,台灣中文手冊 Journal p.23,官方譯名：台灣中文手冊 Journal p.23；2026-11-11 由「瓦洛利亞」改為手冊譯名（手冊為第 1 順位權威）; 英勇之城，由英勇騎士在Jhelom沉沒後建立,first
+Wrong,錯誤地城,place,approved,recommended,8,text.flx:3768,"台灣中文手冊 Journal p.24,28","官方譯名：台灣中文手冊 Journal p.24,28；2026-11-11 由「冤屈地城」改為手冊譯名（手冊為第 1 順位權威）；手冊名稱「錯誤」，保留「地城」字尾（負責人決定）; 對應正義美德之反美德地城",first
 Yew,紫杉城,place,approved,recommended,52,text.flx:564,P8-A candidate scan,正義之城，正義高等法院所在地,first
-Britannian,不列顛尼亞人,organization,approved,recommended,5,text.flx:4346,U8 authority.tsv (proposed),不列顛尼亞臣民,first
+Britannian,不列塔尼亞人,organization,approved,recommended,5,text.flx:4346,U8 authority.tsv (proposed),2026-11-11 依手冊譯名連動：「不列顛尼亞人」→「不列塔尼亞人」; 不列顛尼亞臣民,first
 Guild,公會,organization,approved,recommended,9,text.flx:1700,P8-A candidate scan,盜賊公會或商行,first
 Gypsies,吉普賽人,organization,approved,recommended,6,text.flx:3192,P8-A candidate scan,不列顛尼亞的流浪吉普賽族群,first
 Paladins,聖騎士,organization,approved,recommended,6,text.flx:6564,P8-A candidate scan,特林錫克聖騎士軍團,first
 Shadow Lords,暗影領主,organization,approved,recommended,3,text.flx:1550,P8-A candidate scan,U5暗影領主三人組，虛偽、仇恨、怯懦之化身; variant of Shadowlords,first
 Shadowlords,暗影領主,organization,approved,recommended,8,text.flx:4228,P8-A candidate scan,U5暗影領主三人組,first
-Valorian,瓦洛利亞騎士,organization,approved,recommended,3,text.flx:6266,P8-A candidate scan,瓦洛利亞騎士或居民,first
-Valorian Knights,瓦洛利亞騎士團,organization,approved,recommended,7,text.flx:4818,P8-A candidate scan,駐守瓦洛利亞的英勇聖騎士團,first
+Valorian,瓦羅尼亞騎士,organization,approved,recommended,3,text.flx:6266,P8-A candidate scan,2026-11-11 依手冊譯名連動：「瓦洛利亞騎士」→「瓦羅尼亞騎士」; 瓦洛利亞騎士或居民,first
+Valorian Knights,瓦羅尼亞騎士團,organization,approved,recommended,7,text.flx:4818,P8-A candidate scan,2026-11-11 依手冊譯名連動：「瓦洛利亞騎士團」→「瓦羅尼亞騎士團」; 駐守瓦洛利亞的英勇聖騎士團,first
 Winged,有翼種,organization,approved,recommended,16,text.flx:6,P8-A candidate scan,石像鬼階級：天生有翼之智者、統治者與施法者階層,first
 Wingless,無翼種,organization,approved,recommended,11,text.flx:6,P8-A candidate scan,石像鬼階級：天生無翼之勞動與工匠階層,first
 Wyrmguard,龍衛,organization,approved,recommended,40,text.flx:978,P8-A candidate scan,守護者麾下的墮落巨龍侍衛，由八位聖友夥伴被腐化而化身,first
@@ -234,7 +234,7 @@ Emperor,皇帝,title,approved,recommended,3,BOOKS-EN.FLX:69,P8-A candidate scan,
 False Prophet,偽善者,title,approved,recommended,16,text.flx:4,P8-A candidate scan,U6石像鬼預言中摧毀石像鬼世界的「偽善者/假先知」聖者,first
 First Citizen,第一公民,title,approved,recommended,22,text.flx:1713,P8-A candidate scan,米諾克城邦領袖官方頭銜,first
 Great Leader,偉大領袖,title,approved,recommended,7,text.flx:3062,P8-A candidate scan,石像鬼族人或守護者尊稱,first
-Hero of Britannia,不列顛尼亞英雄,title,approved,recommended,3,text.flx:3468,P8-A candidate scan,不列顛尼亞人民對救世英雄的尊稱,first
+Hero of Britannia,不列塔尼亞英雄,title,approved,recommended,3,text.flx:3468,P8-A candidate scan,2026-11-11 依手冊譯名連動：「不列顛尼亞英雄」→「不列塔尼亞英雄」; 不列顛尼亞人民對救世英雄的尊稱,first
 Knight,騎士,title,approved,recommended,3,text.flx:4133,P8-A candidate scan,英勇或榮譽騎士,first
 Mayor,市長,title,approved,recommended,4,text.flx:1246,P8-A candidate scan,城鎮市長,first
 Paladin,聖騎士,title,approved,recommended,3,text.flx:6413,P8-A candidate scan,特林錫克美德騎士頭銜; variant of Paladins,first
@@ -242,20 +242,20 @@ Provisioner,雜貨商,title,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candida
 Queen,女王,title,approved,recommended,25,text.flx:135,P8-A candidate scan,石像鬼女王查赫 Queen Zhah 或王后,first
 Rogue,遊蕩者,title,approved,recommended,3,text.flx:2648,P8-A candidate scan,盜賊或流浪者,first
 Rom Baro,羅姆巴羅,title,approved,recommended,34,text.flx:3024,P8-A candidate scan,吉普賽大酋長/首領頭銜,first
-Compassion,慈悲,virtue,approved,recommended,22,text.flx:285,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，對應愛之原則與不列顛城,never
+Compassion,同情,virtue,approved,recommended,22,text.flx:285,台灣中文手冊 Journal p.6,官方譯名：台灣中文手冊 Journal p.6；2026-11-11 由「慈悲」改為手冊譯名（手冊為第 1 順位權威）; 八大美德之一，對應愛之原則與不列顛城,never
 Courage,勇氣,virtue,approved,recommended,9,text.flx:559,P8-A candidate scan,三大原則之一，對應英勇、榮譽、犧牲、靈性美德,never
 Honesty,誠實,virtue,approved,recommended,12,text.flx:525,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，對應真理之原則與月光城,never
 Honor,榮譽,virtue,approved,recommended,19,text.flx:4091,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，由真理與勇氣結合，對應特林錫克,never
 Humility,謙遜,virtue,approved,recommended,12,text.flx:4097,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，獨立於三原則之外，對應新瑪津西亞,never
-Justice,正義,virtue,approved,recommended,13,text.flx:4085,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，由真理與愛結合，對應紫杉城,never
+Justice,公正,virtue,approved,recommended,13,text.flx:4085,台灣中文手冊 Journal p.7,官方譯名：台灣中文手冊 Journal p.7；2026-11-11 由「正義」改為手冊譯名（手冊為第 1 順位權威）; 八大美德之一，由真理與愛結合，對應紫杉城,never
 Love,愛,virtue,approved,recommended,10,text.flx:559,P8-A candidate scan,三大原則之一，對應慈悲、正義、犧牲、靈性美德,never
 Sacrifice,犧牲,virtue,approved,recommended,13,text.flx:1720,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，由愛與勇氣結合，對應米諾克,never
 Spirituality,靈性,virtue,approved,recommended,16,text.flx:4094,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，由真理、愛、勇氣三者合一，對應斯卡拉布雷,never
 Truth,真理,virtue,approved,recommended,10,text.flx:519,P8-A candidate scan,三大原則之一，對應誠實、正義、榮譽、靈性美德,never
-Valor,英勇,virtue,approved,recommended,11,text.flx:4082,ULTIMA_IX_CHT_MASTER_PLAN.md Gate P5 render sample (project draft),八大美德之一，對應勇氣之原則與瓦洛利亞,never
-Armageddon,末日決戰,spell,approved,recommended,3,text.flx:4300,U7 Translation_Guide.md,U7第八環終極禁咒定名末日決戰,first
-Barrier of Life,生命屏障,spell,approved,recommended,4,text.flx:4300,P8-A candidate scan,強大的防護結界法術,first
-Restore Ritual,復原儀式,spell,approved,recommended,5,text.flx:5774,P8-A candidate scan,淨化被腐化聖壇的大型神聖儀式,first
+Valor,勇敢,virtue,approved,recommended,11,text.flx:4082,台灣中文手冊 Journal p.6,官方譯名：台灣中文手冊 Journal p.6；2026-11-11 由「英勇」改為手冊譯名（手冊為第 1 順位權威）; 八大美德之一，對應勇氣之原則與瓦洛利亞,never
+Armageddon,末日毀滅儀式,spell,approved,recommended,3,text.flx:4300,台灣中文手冊 魔法書 p.35,官方譯名：台灣中文手冊 魔法書 p.35；2026-11-11 由「末日決戰」改為手冊譯名（手冊為第 1 順位權威）; U7第八環終極禁咒定名末日決戰,first
+Barrier of Life,生命屏障儀式,spell,approved,recommended,4,text.flx:4300,台灣中文手冊 魔法書 p.35,官方譯名：台灣中文手冊 魔法書 p.35；2026-11-11 由「生命屏障」改為手冊譯名（手冊為第 1 順位權威）; 強大的防護結界法術,first
+Restore Ritual,回復儀式,spell,approved,recommended,5,text.flx:5774,P8-A candidate scan,2026-11-11 依手冊譯名連動：「復原儀式」→「回復儀式」; 淨化被腐化聖壇的大型神聖儀式,first
 Ritual of Appeasement,安撫儀式,spell,approved,recommended,3,text.flx:760,P8-A candidate scan,平息災厄或惡龍的儀式,first
 Gargoyle,石像鬼,monster,approved,recommended,33,text.flx:78,U8 authority.tsv (proposed),U8 proposed (proposed),first
 Gargoyles,石像鬼族,monster,approved,recommended,34,text.flx:12,plural of Gargoyle,石像鬼種族整體,first
@@ -271,10 +271,10 @@ Alchemy Lab,鍊金實驗台,item,approved,recommended,1,TYPENAME.FLX:5649,P8-A c
 Altara's Sceptre,阿爾塔拉的權杖,item,approved,recommended,1,TYPENAME.FLX:5670,P8-A candidate scan,,never
 Amande,杏仁,item,approved,recommended,1,TYPENAME.FLX:90,P8-A candidate scan,,never
 Amethyst,紫水晶,item,approved,recommended,1,TYPENAME.FLX:876,P8-A candidate scan,,never
-Amulet of Singularity,唯一護符,item,approved,recommended,6,text.flx:136,P8-A candidate scan,,never
+Amulet of Singularity,單一論護符,item,approved,recommended,6,text.flx:136,P8-A candidate scan,2026-11-11 依手冊譯名連動：「唯一護符」→「單一論護符」,never
 Anchor,船錨,item,approved,recommended,1,TYPENAME.FLX:1905,P8-A candidate scan,,never
-Ankh,安卡,item,approved,informational,6,text.flx:4169,P6-S corpus terminology_review (retained English),生命之符，象徵靈性與美德,never
-Ankh of Spirituality,靈性安卡,item,approved,recommended,5,text.flx:5293,P8-A candidate scan,靈性美德之安卡十字聖物,never
+Ankh,聖符,item,approved,informational,6,text.flx:4169,台灣中文手冊 Journal p.57 字彙集,官方譯名：台灣中文手冊 Journal p.57 字彙集；2026-11-11 由「安卡」改為手冊譯名（手冊為第 1 順位權威）; 生命之符，象徵靈性與美德,never
+Ankh of Spirituality,靈性聖符,item,approved,recommended,5,text.flx:5293,P8-A candidate scan,2026-11-11 依手冊譯名連動：「靈性安卡」→「靈性聖符」; 靈性美德之安卡十字聖物,never
 Anvil,鐵砧,item,approved,recommended,1,TYPENAME.FLX:605,P8-A candidate scan,,never
 Apple,蘋果,item,approved,recommended,1,TYPENAME.FLX:743,P8-A candidate scan,,never
 Archer,,item,todo,recommended,1,TYPENAME.FLX:50,P8-A candidate scan,,
@@ -305,14 +305,14 @@ Bakura,巴庫拉,item,approved,recommended,1,TYPENAME.FLX:99,P8-A candidate scan
 Bandages,繃帶,item,approved,recommended,9,BOOKS-EN.FLX:195,P8-A candidate scan,,never
 Bandit,,item,todo,recommended,2,TYPENAME.FLX:19,P8-A candidate scan,,
 Banner,旗幟,item,approved,recommended,9,TYPENAME.FLX:4498,P8-A candidate scan,,never
-Banner of Compassion,慈悲旗幟,item,approved,recommended,1,TYPENAME.FLX:3815,P8-A candidate scan,,never
+Banner of Compassion,同情旗幟,item,approved,recommended,1,TYPENAME.FLX:3815,P8-A candidate scan,2026-11-11 依手冊譯名連動：「慈悲旗幟」→「同情旗幟」,never
 Banner of Honesty,誠實旗幟,item,approved,recommended,1,TYPENAME.FLX:3816,P8-A candidate scan,,never
 Banner of Honor,榮譽旗幟,item,approved,recommended,1,TYPENAME.FLX:3817,P8-A candidate scan,,never
 Banner of Humility,謙遜旗幟,item,approved,recommended,1,TYPENAME.FLX:3818,P8-A candidate scan,,never
-Banner of Justice,正義旗幟,item,approved,recommended,1,TYPENAME.FLX:3819,P8-A candidate scan,,never
+Banner of Justice,公正旗幟,item,approved,recommended,1,TYPENAME.FLX:3819,P8-A candidate scan,2026-11-11 依手冊譯名連動：「正義旗幟」→「公正旗幟」,never
 Banner of Sacrifice,犧牲旗幟,item,approved,recommended,1,TYPENAME.FLX:3821,P8-A candidate scan,,never
 Banner of Spirit,靈性旗幟,item,approved,recommended,1,TYPENAME.FLX:3822,P8-A candidate scan,,never
-Banner of Valor,英勇旗幟,item,approved,recommended,1,TYPENAME.FLX:3823,P8-A candidate scan,,never
+Banner of Valor,勇敢旗幟,item,approved,recommended,1,TYPENAME.FLX:3823,P8-A candidate scan,2026-11-11 依手冊譯名連動：「英勇旗幟」→「勇敢旗幟」,never
 Barrel,木桶,item,approved,recommended,2,TYPENAME.FLX:534,P8-A candidate scan,,never
 Basket,提籃,item,approved,recommended,4,TYPENAME.FLX:751,P8-A candidate scan,,never
 Bastion Key,堡壘鑰匙,item,approved,recommended,1,TYPENAME.FLX:5490,P8-A candidate scan,,never
@@ -333,7 +333,7 @@ Black Gate,黑門,item,approved,recommended,4,text.flx:4235,P8-A candidate scan,
 Black Gate Fragments,黑門碎片,item,approved,recommended,3,TYPENAME.FLX:5483,P8-A candidate scan,,never
 Black Pearl,黑珍珠,item,approved,recommended,12,BOOKS-EN.FLX:193,P8-A candidate scan,經典施法材料之一，賦予投射與動力,never
 Black pearl,黑珍珠,item,approved,recommended,1,TYPENAME.FLX:2192,P8-A candidate scan,variant of Black Pearl,never
-Black Potion,黑色藥水,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,,never
+Black Potion,黑色藥劑,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,2026-11-11 依手冊譯名連動：「黑色藥水」→「黑色藥劑」,never
 Black Rock,黑石,item,approved,recommended,7,BOOKS-EN.FLX:49,P8-A candidate scan,同 Blackrock; variant of Blackrock,never
 Blackrock,黑石,item,approved,recommended,21,text.flx:932,U8 authority.tsv (approved),U8 authority.tsv (approved),never
 Blackrock Arms,黑石護臂,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
@@ -353,7 +353,7 @@ Blackrock Sword,黑石劍,item,approved,recommended,8,text.flx:6613,P8-A candida
 Blackthorn's Note,黑棘的紙條,item,approved,recommended,1,TYPENAME.FLX:5469,P8-A candidate scan,,never
 Blackthorne's Badge,黑棘領主的徽章,item,approved,recommended,1,TYPENAME.FLX:5664,P8-A candidate scan,,never
 Blade,,item,todo,recommended,1,TYPENAME.FLX:2860,P8-A candidate scan,,
-Bladed Staff,刃杖,item,approved,recommended,9,BOOKS-EN.FLX:189,P8-A candidate scan,,never
+Bladed Staff,劍杖,item,approved,recommended,9,BOOKS-EN.FLX:189,台灣中文手冊 Journal p.39,官方譯名：台灣中文手冊 Journal p.39；2026-11-11 由「刃杖」改為手冊譯名（手冊為第 1 順位權威）,never
 Blanket,毯子,item,approved,recommended,5,TYPENAME.FLX:3403,P8-A candidate scan,,never
 Blood,鮮血,item,approved,recommended,12,TYPENAME.FLX:1322,P8-A candidate scan,,never
 Blood Flask,鮮血長頸瓶,item,approved,recommended,1,TYPENAME.FLX:3475,P8-A candidate scan,,never
@@ -367,13 +367,13 @@ Blue globe,,item,todo,recommended,1,TYPENAME.FLX:2436,P8-A candidate scan,,
 Blue Lens,藍色透鏡,item,approved,recommended,1,TYPENAME.FLX:5449,P8-A candidate scan,variant of Blue lens,never
 Blue lens,藍色透鏡,item,approved,recommended,1,TYPENAME.FLX:5519,P8-A candidate scan,,never
 Blue orb,,item,todo,recommended,1,TYPENAME.FLX:3742,P8-A candidate scan,,
-Blue Potion,藍色藥水,item,approved,recommended,5,BOOKS-EN.FLX:193,P8-A candidate scan,,never
+Blue Potion,藍色藥劑,item,approved,recommended,5,BOOKS-EN.FLX:193,P8-A candidate scan,2026-11-11 依手冊譯名連動：「藍色藥水」→「藍色藥劑」,never
 Blue tassel,,item,todo,recommended,1,TYPENAME.FLX:5661,P8-A candidate scan,,
 Board,,item,todo,recommended,1,TYPENAME.FLX:888,P8-A candidate scan,,
 Boat,小船,item,approved,recommended,1,TYPENAME.FLX:2017,P8-A candidate scan,,never
 Body,,item,todo,recommended,2,TYPENAME.FLX:3338,P8-A candidate scan,,
 Bolt,,item,todo,recommended,2,TYPENAME.FLX:1301,P8-A candidate scan,,
-Bolt of Flame Scroll,火箭術捲軸,item,approved,recommended,3,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Bolt of Flame Scroll,烈焰之球卷軸,item,approved,recommended,3,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「火箭術捲軸」→「烈焰之球卷軸」,never
 Bone,,item,todo,recommended,5,TYPENAME.FLX:2764,P8-A candidate scan,,
 Bone Arms,骨製護臂,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-A candidate scan,,never
 Bone arms,骨製護臂,item,approved,recommended,1,TYPENAME.FLX:4618,P8-A candidate scan,variant of Bone Arms,never
@@ -391,11 +391,11 @@ Bones,白骨,item,approved,recommended,8,TYPENAME.FLX:2663,P8-A candidate scan,,
 Bonfire,營火,item,approved,recommended,1,TYPENAME.FLX:5461,P8-A candidate scan,,never
 Book,書籍,item,approved,recommended,16,text.flx:5297,P8-A candidate scan,,never
 Book of Balance,平衡之書,item,approved,recommended,1,TYPENAME.FLX:5307,P8-A candidate scan,,never
-Book of Control,掌控之書,item,approved,recommended,1,TYPENAME.FLX:5308,P8-A candidate scan,,never
+Book of Control,控制之書,item,approved,recommended,1,TYPENAME.FLX:5308,P8-A candidate scan,2026-11-11 依手冊譯名連動：「掌控之書」→「控制之書」,never
 Book of Diligence,勤勉之書,item,approved,recommended,1,TYPENAME.FLX:5310,P8-A candidate scan,,never
-Book of Justice,正義之書,item,approved,recommended,6,text.flx:7237,P8-A candidate scan,,never
+Book of Justice,公正之書,item,approved,recommended,6,text.flx:7237,P8-A candidate scan,2026-11-11 依手冊譯名連動：「正義之書」→「公正之書」,never
 Book of Order,秩序之書,item,approved,recommended,1,TYPENAME.FLX:5311,P8-A candidate scan,,never
-Book of Passion,熱忱之書,item,approved,recommended,1,TYPENAME.FLX:5309,P8-A candidate scan,,never
+Book of Passion,激情之書,item,approved,recommended,1,TYPENAME.FLX:5309,P8-A candidate scan,2026-11-11 依手冊譯名連動：「熱忱之書」→「激情之書」,never
 Book of Prophecy,預言之書,item,approved,recommended,5,text.flx:109,P8-A candidate scan,石像鬼族記載命運與末日的聖典,first
 Book of Three,三原則之書,item,approved,recommended,1,TYPENAME.FLX:5210,P8-A candidate scan,,never
 Book of Truth,真理之書,item,approved,recommended,18,text.flx:3668,P8-A candidate scan,,never
@@ -425,7 +425,7 @@ Bread Pan,麵包烤盤,item,approved,recommended,7,BOOKS-EN.FLX:196,P8-A candida
 Bread pan,麵包烤盤,item,approved,recommended,1,TYPENAME.FLX:4727,P8-A candidate scan,variant of Bread Pan,never
 Breadmaker,麵包機,item,approved,recommended,1,TYPENAME.FLX:4614,P8-A candidate scan,,never
 Bridge,橋樑,item,approved,recommended,1,TYPENAME.FLX:4176,P8-A candidate scan,,never
-Britannian Star,不列顛尼亞之星,item,approved,recommended,6,text.flx:3562,P8-A candidate scan,,never
+Britannian Star,不列塔尼亞之星,item,approved,recommended,6,text.flx:3562,P8-A candidate scan,2026-11-11 依手冊譯名連動：「不列顛尼亞之星」→「不列塔尼亞之星」,never
 Broadsword,闊劍,item,approved,recommended,10,BOOKS-EN.FLX:189,P8-A candidate scan,,never
 Broken  Egg,,item,todo,recommended,1,TYPENAME.FLX:5447,P8-A candidate scan,,
 Broken barrel,,item,todo,recommended,4,TYPENAME.FLX:3310,P8-A candidate scan,,
@@ -450,7 +450,7 @@ Bronwyn,布朗溫,item,approved,recommended,1,TYPENAME.FLX:8,P8-A candidate scan
 Broom,掃帚,item,approved,recommended,1,TYPENAME.FLX:607,P8-A candidate scan,,never
 Brother Brock,布洛克修士,item,approved,recommended,1,TYPENAME.FLX:102,P8-A candidate scan,,never
 Brown egg,,item,todo,recommended,1,TYPENAME.FLX:539,P8-A candidate scan,,
-Brute,,item,todo,recommended,1,TYPENAME.FLX:207,P8-A candidate scan,,
+Brute,暴漢,item,approved,recommended,1,TYPENAME.FLX:207,台灣中文手冊 Journal p.44,官方譯名：台灣中文手冊 Journal p.44,
 Brutus,布魯特斯,item,approved,recommended,1,TYPENAME.FLX:346,P8-A candidate scan,,never
 Bucket,水桶,item,approved,recommended,11,BOOKS-EN.FLX:196,P8-A candidate scan,,never
 Buckler,小圓盾,item,approved,recommended,1,TYPENAME.FLX:753,P8-A candidate scan,,never
@@ -458,7 +458,7 @@ Bug Spray,,item,todo,recommended,1,TYPENAME.FLX:5238,P8-A candidate scan,,
 Bunkbeds,,item,todo,recommended,1,TYPENAME.FLX:2356,P8-A candidate scan,,
 Burnt board,,item,todo,recommended,4,TYPENAME.FLX:2521,P8-A candidate scan,,
 Burnt pentagram,,item,todo,recommended,1,TYPENAME.FLX:3122,P8-A candidate scan,,
-Burnt scroll,燒焦的捲軸,item,approved,recommended,1,TYPENAME.FLX:2178,P8-A candidate scan,,never
+Burnt scroll,燒焦的卷軸,item,approved,recommended,1,TYPENAME.FLX:2178,P8-A candidate scan,2026-11-11 依手冊譯名連動：「燒焦的捲軸」→「燒焦的卷軸」,never
 Burnt stool,,item,todo,recommended,1,TYPENAME.FLX:2519,P8-A candidate scan,,
 Burnt wood,,item,todo,recommended,2,TYPENAME.FLX:2523,P8-A candidate scan,,
 Butter churn,,item,todo,recommended,1,TYPENAME.FLX:2204,P8-A candidate scan,,
@@ -507,11 +507,11 @@ Chain Leggings,,item,todo,recommended,11,BOOKS-EN.FLX:188,P8-A candidate scan,,
 Chain leggings,鎖子護腿,item,approved,recommended,1,TYPENAME.FLX:4630,P8-A candidate scan,,never
 Chair,椅子,item,approved,recommended,13,TYPENAME.FLX:551,P8-A candidate scan,,never
 Chalice,,item,todo,recommended,10,text.flx:6413,P8-A candidate scan,,
-Chalice of Honor,榮譽聖杯,item,approved,recommended,20,text.flx:6352,P8-A candidate scan,,never
-Chalice of Honor pieces,榮譽聖杯碎片,item,approved,recommended,1,TYPENAME.FLX:5533,P8-A candidate scan,,never
+Chalice of Honor,榮譽之杯,item,approved,recommended,20,text.flx:6352,台灣中文手冊 Journal p.28,官方譯名：台灣中文手冊 Journal p.28；2026-11-11 由「榮譽聖杯」改為手冊譯名（手冊為第 1 順位權威）,never
+Chalice of Honor pieces,榮譽之杯碎片,item,approved,recommended,1,TYPENAME.FLX:5533,P8-A candidate scan,2026-11-11 依手冊譯名連動：「榮譽聖杯碎片」→「榮譽之杯碎片」,never
 Chandelier,,item,todo,recommended,3,TYPENAME.FLX:3062,P8-A candidate scan,,
-Charm Scroll,迷惑術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Charm 迷惑術,,never
-Charts of Britannia,不列顛尼亞海圖,item,approved,recommended,1,TYPENAME.FLX:5507,P8-A candidate scan,,never
+Charm Scroll,媚惑術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Charm 迷惑術,2026-11-11 依手冊譯名連動：「迷惑術捲軸」→「媚惑術卷軸」,never
+Charts of Britannia,不列塔尼亞海圖,item,approved,recommended,1,TYPENAME.FLX:5507,P8-A candidate scan,2026-11-11 依手冊譯名連動：「不列顛尼亞海圖」→「不列塔尼亞海圖」,never
 Checker board,,item,todo,recommended,1,TYPENAME.FLX:587,P8-A candidate scan,,
 Cheese,乳酪,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,never
 Chest,箱子,item,approved,recommended,4,TYPENAME.FLX:186,P8-A candidate scan,,never
@@ -530,13 +530,13 @@ Cloth,布料,item,approved,recommended,5,TYPENAME.FLX:2724,P8-A candidate scan,,
 Clothes,衣服,item,approved,recommended,17,TYPENAME.FLX:3379,P8-A candidate scan,,never
 Club,木棒,item,approved,recommended,1,TYPENAME.FLX:2645,P8-A candidate scan,,never
 Cobweb,蜘蛛網,item,approved,recommended,11,TYPENAME.FLX:1345,P8-A candidate scan,,never
-Codex,終極智慧法典,item,approved,recommended,43,text.flx:106,P8-A candidate scan,法典 Codex of Ultimate Wisdom，不列顛尼亞至高智慧之書,first
-Codex of Ultimate Wisdom,終極智慧法典,item,approved,recommended,25,text.flx:105,P8-A candidate scan,variant of Codex,never
+Codex,聖典,item,approved,recommended,43,text.flx:106,台灣中文手冊 Journal p.57 字彙集,官方譯名：台灣中文手冊 Journal p.57 字彙集；2026-11-11 由「終極智慧法典」改為手冊譯名（手冊為第 1 順位權威）；依手冊字彙集；全名 Codex of Ultimate Wisdom 為「終極智慧聖典」（負責人決定）; 法典 Codex of Ultimate Wisdom，不列顛尼亞至高智慧之書,first
+Codex of Ultimate Wisdom,終極智慧聖典,item,approved,recommended,25,text.flx:105,P8-A candidate scan,2026-11-11 依手冊譯名連動：「終極智慧法典」→「終極智慧聖典」; 與 Codex 聖典分立（負責人決定全名譯「終極智慧聖典」）,never
 Coffin,棺材,item,approved,recommended,5,TYPENAME.FLX:1048,P8-A candidate scan,,never
 Coin,硬幣,item,approved,recommended,1,TYPENAME.FLX:1279,P8-A candidate scan,,never
 Coins,錢幣,item,approved,recommended,4,TYPENAME.FLX:1280,P8-A candidate scan,,never
 Colando,科蘭多,item,approved,recommended,1,TYPENAME.FLX:235,P8-A candidate scan,,never
-Column,巨石柱,item,approved,recommended,8,TYPENAME.FLX:1006,P8-A candidate scan,,never
+Column,巨大石柱,item,approved,recommended,8,TYPENAME.FLX:1006,台灣中文手冊 Journal p.15–16,官方譯名：台灣中文手冊 Journal p.15–16；2026-11-11 由「巨石柱」改為手冊譯名（手冊為第 1 順位權威）,never
 Compass,指南針,item,approved,recommended,2,TYPENAME.FLX:2516,P8-A candidate scan,,never
 Computer,電腦,item,approved,recommended,1,TYPENAME.FLX:4976,P8-A candidate scan,,never
 Computer chair,電腦椅,item,approved,recommended,1,TYPENAME.FLX:4803,P8-A candidate scan,,never
@@ -550,10 +550,10 @@ Corner Table,,item,todo,recommended,1,TYPENAME.FLX:2213,P8-A candidate scan,,
 Corner table,,item,todo,recommended,2,TYPENAME.FLX:1989,P8-A candidate scan,,
 Couch,沙發,item,approved,recommended,1,TYPENAME.FLX:1981,P8-A candidate scan,,never
 Counter,,item,todo,recommended,1,TYPENAME.FLX:4597,P8-A candidate scan,,
-Court of Justice,正義法院,item,approved,recommended,3,text.flx:7608,P8-A candidate scan,,never
+Court of Justice,公正法院,item,approved,recommended,3,text.flx:7608,P8-A candidate scan,2026-11-11 依手冊譯名連動：「正義法院」→「公正法院」,never
 Coverstone,遮蓋石板,item,approved,recommended,1,TYPENAME.FLX:3660,P8-A candidate scan,,never
 Crate,木箱,item,approved,recommended,9,TYPENAME.FLX:1881,P8-A candidate scan,,never
-Create Reagents Scroll,製造材料術捲軸,item,approved,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Create Reagents Scroll,製造藥材卷軸,item,approved,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「製造材料術捲軸」→「製造藥材卷軸」,never
 Creeper Plant,,item,todo,recommended,1,TYPENAME.FLX:45,P8-A candidate scan,,
 Crook of Charming,迷惑牧羊杖,item,approved,recommended,7,BOOKS-EN.FLX:189,U7 Translation_Guide.md: Charm 迷惑術,,never
 Crook of Humility,謙遜牧羊杖,item,approved,recommended,4,text.flx:6089,P8-A candidate scan,,never
@@ -562,11 +562,11 @@ Crow's nest,,item,todo,recommended,1,TYPENAME.FLX:1869,P8-A candidate scan,,
 Crusty,克拉斯蒂,item,approved,recommended,1,TYPENAME.FLX:142,P8-A candidate scan,,never
 Crystal,水晶,item,approved,recommended,5,TYPENAME.FLX:3671,P8-A candidate scan,,never
 Crystal ball,,item,todo,recommended,3,TYPENAME.FLX:1408,P8-A candidate scan,,
-Crystal Barrier Scroll,水晶屏障捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Crystal Barrier Scroll,水晶屏障卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「水晶屏障捲軸」→「水晶屏障卷軸」,never
 Crystal Shard,水晶碎片,item,approved,recommended,1,TYPENAME.FLX:4496,P8-A candidate scan,,never
 Cult Member,邪教信徒,item,approved,recommended,1,TYPENAME.FLX:253,P8-A candidate scan,,never
 Cupboard,,item,todo,recommended,1,TYPENAME.FLX:2207,P8-A candidate scan,,
-Cure Scroll,解毒術捲軸,item,approved,recommended,7,BOOKS-EN.FLX:178,P8-A candidate scan,,never
+Cure Scroll,治療術卷軸,item,approved,recommended,7,BOOKS-EN.FLX:178,P8-A candidate scan,2026-11-11 依手冊譯名連動：「解毒術捲軸」→「治療術卷軸」,never
 Cushions,,item,todo,recommended,4,TYPENAME.FLX:2601,P8-A candidate scan,,
 Cut Amethyst,切割紫水晶,item,approved,recommended,1,TYPENAME.FLX:2856,P8-A candidate scan,,never
 Cut Diamond,切割鑽石,item,approved,recommended,1,TYPENAME.FLX:2858,P8-A candidate scan,,never
@@ -574,16 +574,16 @@ Cut Emerald,切割祖母綠,item,approved,recommended,1,TYPENAME.FLX:2855,P8-A c
 Cut Ruby,切割紅寶石,item,approved,recommended,1,TYPENAME.FLX:2857,P8-A candidate scan,,never
 Cut Sapphire,切割藍寶石,item,approved,recommended,1,TYPENAME.FLX:2854,P8-A candidate scan,,never
 Cut Topaz,切割黃玉,item,approved,recommended,1,TYPENAME.FLX:2859,P8-A candidate scan,,never
-Cutlass,水手彎刀,item,approved,recommended,10,BOOKS-EN.FLX:174,P8-A candidate scan,,never
+Cutlass,砍刀,item,approved,recommended,10,BOOKS-EN.FLX:174,台灣中文手冊 Journal p.36,官方譯名：台灣中文手冊 Journal p.36；2026-11-11 由「水手彎刀」改為手冊譯名（手冊為第 1 順位權威）,never
 Dagger,匕首,item,approved,recommended,26,BOOKS-EN.FLX:3,P8-A candidate scan,,never
-Dagger of Valor,英勇匕首,item,approved,recommended,6,text.flx:7035,P8-A candidate scan,,never
+Dagger of Valor,勇敢匕首,item,approved,recommended,6,text.flx:7035,P8-A candidate scan,2026-11-11 依手冊譯名連動：「英勇匕首」→「勇敢匕首」,never
 Darim's Journal,達林的日誌,item,approved,recommended,1,TYPENAME.FLX:5495,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Davey,戴維,item,approved,recommended,1,TYPENAME.FLX:182,P8-A candidate scan,,never
-Day Scroll,白晝術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Day Scroll,白晝術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「白晝術捲軸」→「白晝術卷軸」,never
 Dayla's Doll,黛拉的洋娃娃,item,approved,recommended,1,TYPENAME.FLX:5432,P8-A candidate scan,,never
 Dead body,死者遺體,item,approved,recommended,3,TYPENAME.FLX:4891,U8 authority.tsv (proposed),,
 Dead Drone,,item,todo,recommended,1,TYPENAME.FLX:5524,P8-A candidate scan,,
-Death Scroll,死亡術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Death Scroll,致死術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「死亡術捲軸」→「致死術卷軸」,never
 Debris,,item,todo,recommended,1,TYPENAME.FLX:4653,P8-A candidate scan,,
 Decaying limb,,item,todo,recommended,1,TYPENAME.FLX:2160,P8-A candidate scan,,
 Decorative axes,,item,todo,recommended,1,TYPENAME.FLX:3267,P8-A candidate scan,,
@@ -612,8 +612,8 @@ Dome,,item,todo,recommended,7,text.flx:162,P8-A candidate scan,,
 Dont use me use gringolet,,item,todo,recommended,1,TYPENAME.FLX:5695,P8-A candidate scan,,
 Door,門,item,approved,recommended,5,TYPENAME.FLX:1034,P8-A candidate scan,,never
 Dough,,item,todo,recommended,1,TYPENAME.FLX:4781,P8-A candidate scan,,
-Dragon,巨龍,item,approved,recommended,13,text.flx:2882,P8-A candidate scan,,never
-dragon,巨龍,item,approved,recommended,1,TYPENAME.FLX:5584,P8-A candidate scan,variant of Dragon,never
+Dragon,飛龍,item,approved,recommended,13,text.flx:2882,台灣中文手冊 Journal p.45,官方譯名：台灣中文手冊 Journal p.45；2026-11-11 由「巨龍」改為手冊譯名（手冊為第 1 順位權威）,never
+dragon,飛龍,item,approved,recommended,1,TYPENAME.FLX:5584,P8-A candidate scan,2026-11-11 依手冊譯名連動：「巨龍」→「飛龍」; variant of Dragon,never
 Dragonfly,,item,todo,recommended,1,TYPENAME.FLX:297,P8-A candidate scan,,
 Drain,,item,todo,recommended,1,TYPENAME.FLX:3657,P8-A candidate scan,,
 Drako,德拉科,item,approved,recommended,1,TYPENAME.FLX:43,P8-A candidate scan,,never
@@ -627,11 +627,11 @@ Dulcimer,,item,todo,recommended,1,TYPENAME.FLX:3249,P8-A candidate scan,,
 Dum Dum Staff,,item,todo,recommended,4,BOOKS-EN.FLX:215,P8-A candidate scan,,
 Dum-dum,,item,todo,recommended,1,TYPENAME.FLX:4835,P8-A candidate scan,,
 Duncan's Dagger,鄧肯的匕首,item,approved,recommended,1,TYPENAME.FLX:4935,P8-A candidate scan,,never
-Dupre's Ashes,杜普雷的骨灰,item,approved,recommended,1,TYPENAME.FLX:5518,P8-A candidate scan,,never
-Dupre's Ghost,杜普雷的幽靈,item,approved,recommended,1,TYPENAME.FLX:244,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Dupre's Ashes,杜普利的骨灰,item,approved,recommended,1,TYPENAME.FLX:5518,P8-A candidate scan,2026-11-11 依手冊譯名連動：「杜普雷的骨灰」→「杜普利的骨灰」,never
+Dupre's Ghost,杜普利的鬼魂,item,approved,recommended,1,TYPENAME.FLX:244,P8-A candidate scan,2026-11-11 依手冊譯名連動：「杜普雷的幽靈」→「杜普利的鬼魂」; P9: replaced auto-derived target that kept English,never
 Dutch oven,,item,todo,recommended,1,TYPENAME.FLX:1415,P8-A candidate scan,,
 Dye tub,,item,todo,recommended,1,TYPENAME.FLX:2705,P8-A candidate scan,,
-Earthquake Scroll,地震術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Earthquake Scroll,天崩地裂卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「地震術捲軸」→「天崩地裂卷軸」,never
 Egg,,item,todo,recommended,11,BOOKS-EN.FLX:196,P8-A candidate scan,,
 Egg Goo,,item,todo,recommended,1,TYPENAME.FLX:5463,P8-A candidate scan,,
 Eggplant,,item,todo,recommended,1,TYPENAME.FLX:2270,P8-A candidate scan,,
@@ -645,17 +645,17 @@ Empty bottle,,item,todo,recommended,4,TYPENAME.FLX:3131,P8-A candidate scan,,
 Empty Flask,空長頸瓶,item,approved,recommended,3,BOOKS-EN.FLX:194,P8-A candidate scan,,never
 Entrails,,item,todo,recommended,1,TYPENAME.FLX:3759,P8-A candidate scan,,
 Ether cloud,,item,todo,recommended,6,TYPENAME.FLX:3743,P8-A candidate scan,,
-Ethereal Sight Scroll,乙太靈視捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,"U7 Translation_Guide.md: Ether 乙太, Peer 靈視術",,never
+Ethereal Sight Scroll,透視術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,"U7 Translation_Guide.md: Ether 乙太, Peer 靈視術",2026-11-11 依手冊譯名連動：「乙太靈視捲軸」→「透視術卷軸」,never
 Execution block,,item,todo,recommended,1,TYPENAME.FLX:2701,P8-A candidate scan,,
 Exodus Cards,,item,todo,recommended,1,TYPENAME.FLX:5662,P8-A candidate scan,,
 Eyeglasses,,item,todo,recommended,1,TYPENAME.FLX:4214,P8-A candidate scan,,
 Farmer Bob,,item,todo,recommended,1,TYPENAME.FLX:49,P8-A candidate scan,,
-Fellowship Medallion,友誼會徽章,item,approved,recommended,1,TYPENAME.FLX:5667,P8-A candidate scan,U7 Translation_Guide.md: Fellowship 友誼會,never
+Fellowship Medallion,共濟會徽章,item,approved,recommended,1,TYPENAME.FLX:5667,P8-A candidate scan,2026-11-11 依手冊譯名連動：「友誼會徽章」→「共濟會徽章」; U7 Translation_Guide.md: Fellowship 友誼會,never
 Fence,,item,todo,recommended,4,TYPENAME.FLX:582,P8-A candidate scan,,
 Fencepost,,item,todo,recommended,3,TYPENAME.FLX:584,P8-A candidate scan,,
 Ferry,,item,todo,recommended,1,TYPENAME.FLX:4128,P8-A candidate scan,,
 Fire,,item,todo,recommended,6,TYPENAME.FLX:2147,P8-A candidate scan,,
-Fireball Scroll,火球術捲軸,item,approved,recommended,7,BOOKS-EN.FLX:174,P8-A candidate scan,,never
+Fireball Scroll,火球術卷軸,item,approved,recommended,7,BOOKS-EN.FLX:174,P8-A candidate scan,2026-11-11 依手冊譯名連動：「火球術捲軸」→「火球術卷軸」,never
 Fireplace,,item,todo,recommended,2,TYPENAME.FLX:1902,P8-A candidate scan,,
 First Aid Kit,急救箱,item,approved,recommended,1,TYPENAME.FLX:5290,TYPENAME.FLX:5290 (P6-S2 single-item proof),Taiwan Traditional Chinese draft for the native examine label,
 Fish,魚,item,approved,recommended,3,TYPENAME.FLX:37,P8-A candidate scan,,never
@@ -669,7 +669,7 @@ Flask,長頸瓶,item,approved,recommended,17,BOOKS-EN.FLX:196,P8-A candidate sca
 Flask of water,,item,todo,recommended,1,TYPENAME.FLX:5627,P8-A candidate scan,,
 Flasks,長頸瓶,item,approved,recommended,1,TYPENAME.FLX:2175,plural of Flask,,
 Flour,,item,todo,recommended,3,TYPENAME.FLX:881,P8-A candidate scan,,
-Fog Scroll,雲霧術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Fog Scroll,迷霧術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「雲霧術捲軸」→「迷霧術卷軸」,never
 Food crumbs,,item,todo,recommended,1,TYPENAME.FLX:3528,P8-A candidate scan,,
 Footprints,,item,todo,recommended,4,TYPENAME.FLX:3123,P8-A candidate scan,,
 Force field,,item,todo,recommended,1,TYPENAME.FLX:2283,P8-A candidate scan,,
@@ -678,10 +678,10 @@ Forge,,item,todo,recommended,2,TYPENAME.FLX:1940,P8-A candidate scan,,
 Fork,叉子,item,approved,recommended,1,TYPENAME.FLX:803,P8-A candidate scan,,never
 Fountain,,item,todo,recommended,5,TYPENAME.FLX:1861,P8-A candidate scan,,
 Foxglove,,item,todo,recommended,1,TYPENAME.FLX:3474,P8-A candidate scan,,
-Freeze Scroll,凍結術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
-Frost Storm Scroll,冰霜風暴捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Freeze Scroll,冷凍術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「凍結術捲軸」→「冷凍術卷軸」,never
+Frost Storm Scroll,霜風暴卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「冰霜風暴捲軸」→「霜風暴卷軸」,never
 Frying pan,,item,todo,recommended,2,TYPENAME.FLX:1420,P8-A candidate scan,,
-Full Heal Scroll,完全治癒術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Full Heal Scroll,完全醫療術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「完全治癒術捲軸」→「完全醫療術卷軸」,never
 Fungus,,item,todo,recommended,2,TYPENAME.FLX:1040,P8-A candidate scan,,
 Furs,,item,todo,recommended,1,TYPENAME.FLX:2643,P8-A candidate scan,,
 Gabe,,item,todo,recommended,1,TYPENAME.FLX:351,P8-A candidate scan,,
@@ -695,12 +695,12 @@ Garlic,大蒜,item,approved,recommended,19,BOOKS-EN.FLX:178,P8-A candidate scan,
 Gate,大門,item,approved,recommended,6,TYPENAME.FLX:580,P8-A candidate scan,,never
 Gauntlets of Fury,狂怒護手,item,approved,recommended,6,BOOKS-EN.FLX:189,P8-A candidate scan,,never
 Gazebo,,item,todo,recommended,1,TYPENAME.FLX:2085,P8-A candidate scan,,
-Gazer,,item,todo,recommended,2,TYPENAME.FLX:191,P8-A candidate scan,,
+Gazer,眼魔,item,approved,recommended,2,TYPENAME.FLX:191,台灣中文手冊 Journal p.46,官方譯名：台灣中文手冊 Journal p.46,
 Gem of Death,,item,todo,recommended,1,TYPENAME.FLX:3160,P8-A candidate scan,,
 Gems,,item,todo,recommended,1,TYPENAME.FLX:1697,P8-A candidate scan,,
-Geoffrey's Ghost,傑弗瑞的幽靈,item,approved,recommended,1,TYPENAME.FLX:177,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
-Ghost,幽靈,item,approved,recommended,2,TYPENAME.FLX:66,U8 authority.tsv (proposed),,
-Ghost of Sir Reynald,雷納德爵士的幽靈,item,approved,recommended,1,TYPENAME.FLX:48,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Geoffrey's Ghost,傑弗瑞的鬼魂,item,approved,recommended,1,TYPENAME.FLX:177,P8-A candidate scan,2026-11-11 依手冊譯名連動：「傑弗瑞的幽靈」→「傑弗瑞的鬼魂」; P9: replaced auto-derived target that kept English,never
+Ghost,鬼魂,item,approved,recommended,2,TYPENAME.FLX:66,台灣中文手冊 Journal p.47,官方譯名：台灣中文手冊 Journal p.47；2026-11-11 由「幽靈」改為手冊譯名（手冊為第 1 順位權威）,
+Ghost of Sir Reynald,雷納德爵士的鬼魂,item,approved,recommended,1,TYPENAME.FLX:48,P8-A candidate scan,2026-11-11 依手冊譯名連動：「雷納德爵士的幽靈」→「雷納德爵士的鬼魂」; P9: replaced auto-derived target that kept English,never
 Ghost Sword,,item,todo,recommended,4,text.flx:4384,P8-A candidate scan,,
 Ghost's Bracelet,,item,todo,recommended,1,TYPENAME.FLX:5541,P8-A candidate scan,,
 Ghost's Necklace,,item,todo,recommended,1,TYPENAME.FLX:5430,P8-A candidate scan,,
@@ -711,18 +711,18 @@ Ginwoo,,item,todo,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,
 Glass,,item,todo,recommended,7,TYPENAME.FLX:2665,P8-A candidate scan,,
 Glass Sword,,item,todo,recommended,8,BOOKS-EN.FLX:189,P8-A candidate scan,,
 Globe,,item,todo,recommended,9,TYPENAME.FLX:3375,P8-A candidate scan,,
-Glyph of  Honesty,誠實神符,item,approved,recommended,1,TYPENAME.FLX:4889,P8-A candidate scan,,never
-Glyph of Compassion,慈悲神符,item,approved,recommended,1,TYPENAME.FLX:4883,P8-A candidate scan,,never
-Glyph of Honor,榮譽神符,item,approved,recommended,1,TYPENAME.FLX:4884,P8-A candidate scan,,never
-Glyph of Humility,謙遜神符,item,approved,recommended,1,TYPENAME.FLX:4885,P8-A candidate scan,,never
-Glyph of Justice,正義神符,item,approved,recommended,1,TYPENAME.FLX:4886,P8-A candidate scan,,never
-Glyph of Sacrifice,犧牲神符,item,approved,recommended,1,TYPENAME.FLX:4887,P8-A candidate scan,,never
-Glyph of Spirituality,靈性神符,item,approved,recommended,4,text.flx:1578,P8-A candidate scan,,never
-Glyph of Valor,英勇神符,item,approved,recommended,1,TYPENAME.FLX:4890,P8-A candidate scan,,never
-Gnarled staff,,item,todo,recommended,1,TYPENAME.FLX:4832,P8-A candidate scan,,
+Glyph of  Honesty,誠實邪符,item,approved,recommended,1,TYPENAME.FLX:4889,P8-A candidate scan,2026-11-11 依手冊譯名連動：「誠實神符」→「誠實邪符」,never
+Glyph of Compassion,同情邪符,item,approved,recommended,1,TYPENAME.FLX:4883,P8-A candidate scan,2026-11-11 依手冊譯名連動：「慈悲神符」→「同情邪符」,never
+Glyph of Honor,榮譽邪符,item,approved,recommended,1,TYPENAME.FLX:4884,P8-A candidate scan,2026-11-11 依手冊譯名連動：「榮譽神符」→「榮譽邪符」,never
+Glyph of Humility,謙遜邪符,item,approved,recommended,1,TYPENAME.FLX:4885,P8-A candidate scan,2026-11-11 依手冊譯名連動：「謙遜神符」→「謙遜邪符」,never
+Glyph of Justice,公正邪符,item,approved,recommended,1,TYPENAME.FLX:4886,P8-A candidate scan,2026-11-11 依手冊譯名連動：「正義神符」→「公正邪符」,never
+Glyph of Sacrifice,犧牲邪符,item,approved,recommended,1,TYPENAME.FLX:4887,P8-A candidate scan,2026-11-11 依手冊譯名連動：「犧牲神符」→「犧牲邪符」,never
+Glyph of Spirituality,靈性邪符,item,approved,recommended,4,text.flx:1578,P8-A candidate scan,2026-11-11 依手冊譯名連動：「靈性神符」→「靈性邪符」,never
+Glyph of Valor,勇敢邪符,item,approved,recommended,1,TYPENAME.FLX:4890,P8-A candidate scan,2026-11-11 依手冊譯名連動：「英勇神符」→「勇敢邪符」,never
+Gnarled staff,多節木杖,item,approved,recommended,1,TYPENAME.FLX:4832,台灣中文手冊 Journal p.38,官方譯名：台灣中文手冊 Journal p.38,
 Goat,,item,todo,recommended,2,TYPENAME.FLX:293,P8-A candidate scan,,
 Goblet,高腳杯,item,approved,recommended,1,TYPENAME.FLX:804,P8-A candidate scan,,never
-Goblin Boss,哥布林頭目,item,approved,recommended,1,TYPENAME.FLX:272,P8-A candidate scan,,never
+Goblin Boss,惡鬼頭目,item,approved,recommended,1,TYPENAME.FLX:272,P8-A candidate scan,2026-11-11 依手冊譯名連動：「哥布林頭目」→「惡鬼頭目」,never
 Goblin Captain,,item,todo,recommended,1,TYPENAME.FLX:34,P8-A candidate scan,,
 Goblin Commander,,item,todo,recommended,1,TYPENAME.FLX:17,P8-A candidate scan,,
 Goblin Grunt,,item,todo,recommended,1,TYPENAME.FLX:192,P8-A candidate scan,,
@@ -742,7 +742,7 @@ Grate,,item,todo,recommended,4,TYPENAME.FLX:1304,P8-A candidate scan,,
 Grave,,item,todo,recommended,1,TYPENAME.FLX:886,P8-A candidate scan,,
 Grave marker,,item,todo,recommended,4,TYPENAME.FLX:2077,P8-A candidate scan,,
 Green globe,,item,todo,recommended,1,TYPENAME.FLX:2439,P8-A candidate scan,,
-Green Potion,綠色藥水,item,approved,recommended,1,TYPENAME.FLX:835,P8-A candidate scan,,never
+Green Potion,綠色藥劑,item,approved,recommended,1,TYPENAME.FLX:835,P8-A candidate scan,2026-11-11 依手冊譯名連動：「綠色藥水」→「綠色藥劑」,never
 Greens,,item,todo,recommended,1,TYPENAME.FLX:2456,P8-A candidate scan,,
 Grill,,item,todo,recommended,1,TYPENAME.FLX:4704,P8-A candidate scan,,
 Gringolet,,item,todo,recommended,15,text.flx:4384,P8-A candidate scan,,
@@ -778,22 +778,22 @@ Herb,,item,todo,recommended,3,TYPENAME.FLX:2621,P8-A candidate scan,,
 Hoe,,item,todo,recommended,1,TYPENAME.FLX:5630,P8-A candidate scan,,
 Holding Cell Crystal,,item,todo,recommended,1,TYPENAME.FLX:5629,P8-A candidate scan,,
 Hole,,item,todo,recommended,1,TYPENAME.FLX:3670,P8-A candidate scan,,
-Hythloth Key,卑劣地城鑰匙,item,approved,recommended,1,TYPENAME.FLX:5476,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
-Ice Hound,冰獵犬,item,approved,recommended,1,TYPENAME.FLX:5626,P8-A candidate scan,,never
+Hythloth Key,希斯洛斯地城鑰匙,item,approved,recommended,1,TYPENAME.FLX:5476,P8-A candidate scan,2026-11-11 依手冊譯名連動：「卑劣地城鑰匙」→「希斯洛斯地城鑰匙」; P9: replaced auto-derived target that kept English,never
+Ice Hound,冰魔犬,item,approved,recommended,1,TYPENAME.FLX:5626,台灣中文手冊 Journal p.48,官方譯名：台灣中文手冊 Journal p.48；2026-11-11 由「冰獵犬」改為手冊譯名（手冊為第 1 順位權威）,never
 Icehound,,item,todo,recommended,1,TYPENAME.FLX:46,P8-A candidate scan,,
-Infernal Armor Scroll,地獄護甲捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
-Inferno Scroll,煉獄火海捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Infernal Armor Scroll,煉獄護甲卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「地獄護甲捲軸」→「煉獄護甲卷軸」,never
+Inferno Scroll,地獄業火卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「煉獄火海捲軸」→「地獄業火卷軸」,never
 Ingot,,item,todo,recommended,1,TYPENAME.FLX:1388,P8-A candidate scan,,
 Inkwell,墨水瓶,item,approved,recommended,1,TYPENAME.FLX:588,P8-A candidate scan,,never
 Instrument,,item,todo,recommended,1,TYPENAME.FLX:3477,P8-A candidate scan,,
-Invisibility Scroll,隱身術捲軸,item,approved,recommended,5,BOOKS-EN.FLX:175,U7 Translation_Guide.md: Invisibility 隱身術,,never
+Invisibility Scroll,隱身術卷軸,item,approved,recommended,5,BOOKS-EN.FLX:175,U7 Translation_Guide.md: Invisibility 隱身術,2026-11-11 依手冊譯名連動：「隱身術捲軸」→「隱身術卷軸」,never
 Iolo's Bow,,item,todo,recommended,7,BOOKS-EN.FLX:192,P8-A candidate scan,,
 Iolo's bow,,item,todo,recommended,1,TYPENAME.FLX:5689,P8-A candidate scan,,
-Iolo's Ghost,伊歐洛的幽靈,item,approved,recommended,1,TYPENAME.FLX:200,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Iolo's Ghost,伊歐洛的鬼魂,item,approved,recommended,1,TYPENAME.FLX:200,P8-A candidate scan,2026-11-11 依手冊譯名連動：「伊歐洛的幽靈」→「伊歐洛的鬼魂」; P9: replaced auto-derived target that kept English,never
 Iolo's Journal,伊歐洛的日誌,item,approved,recommended,1,TYPENAME.FLX:4974,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Iron key,鐵鑰匙,item,approved,recommended,2,TYPENAME.FLX:871,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Iron Maiden,,item,todo,recommended,1,TYPENAME.FLX:2728,P8-A candidate scan,,
-Jaana's Ghost,潔娜的幽靈,item,approved,recommended,1,TYPENAME.FLX:153,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Jaana's Ghost,潔娜的鬼魂,item,approved,recommended,1,TYPENAME.FLX:153,P8-A candidate scan,2026-11-11 依手冊譯名連動：「潔娜的幽靈」→「潔娜的鬼魂」; P9: replaced auto-derived target that kept English,never
 Jade Ring,翡翠戒指,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,翡翠寶石戒指,never
 Jail Key,牢房鑰匙,item,approved,recommended,1,TYPENAME.FLX:5492,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Janus,雅努斯,item,approved,recommended,1,TYPENAME.FLX:71,P8-A candidate scan,,never
@@ -803,9 +803,9 @@ Jean Paul,,item,todo,recommended,4,text.flx:7453,P8-A candidate scan,,
 Jeans,,item,todo,recommended,1,TYPENAME.FLX:4958,P8-A candidate scan,,
 Jonah,,item,todo,recommended,1,TYPENAME.FLX:335,P8-A candidate scan,,
 Jordan's Journal,喬丹的日誌,item,approved,recommended,1,TYPENAME.FLX:5592,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
-Journal,,item,todo,recommended,6,text.flx:4188,P8-A candidate scan,,
+Journal,冒險日誌,item,approved,recommended,6,text.flx:4188,"台灣中文手冊 安裝指引 p.14,19","官方譯名：台灣中文手冊 安裝指引 p.14,19",
 Jug,大酒壺,item,approved,recommended,4,TYPENAME.FLX:541,P8-A candidate scan,,never
-Julia's Ghost,茱莉亞的幽靈,item,approved,recommended,1,TYPENAME.FLX:178,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Julia's Ghost,茱莉亞的鬼魂,item,approved,recommended,1,TYPENAME.FLX:178,P8-A candidate scan,2026-11-11 依手冊譯名連動：「茱莉亞的幽靈」→「茱莉亞的鬼魂」; P9: replaced auto-derived target that kept English,never
 Julia's Journal,茱莉亞的日誌,item,approved,recommended,1,TYPENAME.FLX:5440,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Katie's Letter,,item,todo,recommended,1,TYPENAME.FLX:5346,P8-A candidate scan,,
 Kettle,,item,todo,recommended,2,TYPENAME.FLX:1418,P8-A candidate scan,,
@@ -847,16 +847,16 @@ Leggings of Sentri,桑崔護腿,item,approved,recommended,5,BOOKS-EN.FLX:189,P8-
 Legs of Sentri,,item,todo,recommended,1,TYPENAME.FLX:5425,P8-A candidate scan,,
 Lemon,,item,todo,recommended,1,TYPENAME.FLX:747,P8-A candidate scan,,
 Lever,拉桿,item,approved,recommended,2,TYPENAME.FLX:1022,P8-A candidate scan,,never
-Levitate Scroll,漂浮術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Levitate Scroll,漂浮術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「漂浮術捲軸」→「漂浮術卷軸」,never
 Lich,,item,todo,recommended,1,TYPENAME.FLX:300,P8-A candidate scan,,
 Lift,,item,todo,recommended,4,TYPENAME.FLX:2032,P8-A candidate scan,,
 Lift Gear,,item,todo,recommended,1,TYPENAME.FLX:5377,P8-A candidate scan,,
-Lighning Storm Scroll,閃電風暴捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,variant of Scroll: Lightning Storm,never
-Light Heal Scroll,次級治癒術捲軸,item,approved,recommended,7,BOOKS-EN.FLX:194,P8-A candidate scan,基礎治療法術,never
-Light Scroll,亮光術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Light 亮光術,,never
+Lighning Storm Scroll,閃電風暴卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「閃電風暴捲軸」→「閃電風暴卷軸」; variant of Scroll: Lightning Storm,never
+Light Heal Scroll,小醫療術卷軸,item,approved,recommended,7,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「次級治癒術捲軸」→「小醫療術卷軸」; 基礎治療法術,never
+Light Scroll,照明術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Light 亮光術,2026-11-11 依手冊譯名連動：「亮光術捲軸」→「照明術卷軸」,never
 Light switch,電燈開關,item,approved,recommended,1,TYPENAME.FLX:4713,P8-A candidate scan,地球聖者家中物品,never
 Lightning Arrow,雷光箭,item,approved,recommended,1,TYPENAME.FLX:5688,P8-A candidate scan,,never
-Lightning Bolt Scroll,閃電箭捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Lightning Bolt Scroll,閃電術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「閃電箭捲軸」→「閃電術卷軸」,never
 Lily,,item,todo,recommended,2,TYPENAME.FLX:722,P8-A candidate scan,,
 Lilypad,,item,todo,recommended,5,TYPENAME.FLX:724,P8-A candidate scan,,
 Lime,,item,todo,recommended,1,TYPENAME.FLX:748,P8-A candidate scan,,
@@ -874,14 +874,14 @@ Lute,魯特琴,item,approved,recommended,1,TYPENAME.FLX:591,P8-A candidate scan,
 Lycaeum Oracle,,item,todo,recommended,1,TYPENAME.FLX:292,P8-A candidate scan,,
 Lydia,,item,todo,recommended,1,TYPENAME.FLX:150,P8-A candidate scan,,
 Mace,釘頭槌,item,approved,recommended,17,BOOKS-EN.FLX:187,P8-A candidate scan,,never
-Mage,法師,item,approved,recommended,1,TYPENAME.FLX:76,U8 authority.tsv (proposed),,
+Mage,魔法師,item,approved,recommended,1,TYPENAME.FLX:76,台灣中文手冊 Journal p.48,官方譯名：台灣中文手冊 Journal p.48；2026-11-11 由「法師」改為手冊譯名（手冊為第 1 順位權威）,
 Mage Shield,,item,todo,recommended,9,text.flx:5517,P8-A candidate scan,,
 Magic Dart,,item,todo,recommended,1,TYPENAME.FLX:97,P8-A candidate scan,,
 Magic eggshell,,item,todo,recommended,5,TYPENAME.FLX:5473,P8-A candidate scan,,
 Magic Shop of the Two Moons,,item,todo,recommended,1,TYPENAME.FLX:1306,P8-A candidate scan,,
 Mallet,,item,todo,recommended,2,TYPENAME.FLX:2429,P8-A candidate scan,,
 Mana Arrow,,item,todo,recommended,1,TYPENAME.FLX:5686,P8-A candidate scan,,
-Mana Breath Scroll,法力之息捲軸,item,approved,recommended,5,BOOKS-EN.FLX:175,P8-A candidate scan,,never
+Mana Breath Scroll,呼吸術卷軸,item,approved,recommended,5,BOOKS-EN.FLX:175,P8-A candidate scan,2026-11-11 依手冊譯名連動：「法力之息捲軸」→「呼吸術卷軸」,never
 Mandrake Root,曼陀羅根,item,approved,recommended,9,BOOKS-EN.FLX:175,P8-A candidate scan,經典施法材料之一，蘊含極大純淨魔力,never
 Mandrake root,曼陀羅根,item,approved,recommended,1,TYPENAME.FLX:2196,P8-A candidate scan,variant of Mandrake Root,never
 Mantra of Compassion,,item,todo,recommended,3,text.flx:415,P8-A candidate scan,,
@@ -901,7 +901,7 @@ Map of Valoria,,item,todo,recommended,1,TYPENAME.FLX:5712,P8-A candidate scan,,
 Map of Yew,,item,todo,recommended,1,TYPENAME.FLX:5708,P8-A candidate scan,,
 Marble bench,,item,todo,recommended,1,TYPENAME.FLX:1005,P8-A candidate scan,,
 Maria,,item,todo,recommended,1,TYPENAME.FLX:331,P8-A candidate scan,,
-Mariah's Ghost,瑪莉亞的幽靈,item,approved,recommended,1,TYPENAME.FLX:93,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Mariah's Ghost,瑪莉亞的鬼魂,item,approved,recommended,1,TYPENAME.FLX:93,P8-A candidate scan,2026-11-11 依手冊譯名連動：「瑪莉亞的幽靈」→「瑪莉亞的鬼魂」; P9: replaced auto-derived target that kept English,never
 Markus,,item,todo,recommended,1,TYPENAME.FLX:95,P8-A candidate scan,,
 Mason,,item,todo,recommended,1,TYPENAME.FLX:320,P8-A candidate scan,,
 Mast,,item,todo,recommended,1,TYPENAME.FLX:1896,P8-A candidate scan,,
@@ -911,7 +911,7 @@ Medical bag,,item,todo,recommended,1,TYPENAME.FLX:3481,P8-A candidate scan,,
 Medium Round Shield,,item,todo,recommended,12,BOOKS-EN.FLX:189,P8-A candidate scan,,
 Melvin the Mad,瘋子梅爾文,item,approved,recommended,1,TYPENAME.FLX:219,P8-A candidate scan,,never
 Meteor,,item,todo,recommended,2,TYPENAME.FLX:3652,P8-A candidate scan,,
-Meteorite Scroll,隕石術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Meteorite Scroll,隕石術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「隕石術捲軸」→「隕石術卷軸」,never
 Microwave oven,,item,todo,recommended,1,TYPENAME.FLX:4608,P8-A candidate scan,,
 Mill,,item,todo,recommended,1,TYPENAME.FLX:3922,P8-A candidate scan,,
 Mine cart,,item,todo,recommended,2,TYPENAME.FLX:2865,P8-A candidate scan,,
@@ -952,9 +952,9 @@ Onion,,item,todo,recommended,4,BOOKS-EN.FLX:174,P8-A candidate scan,,
 Ooli,,item,todo,recommended,1,TYPENAME.FLX:57,P8-A candidate scan,,
 Operating table,,item,todo,recommended,1,TYPENAME.FLX:3400,P8-A candidate scan,,
 Orange,,item,todo,recommended,7,BOOKS-EN.FLX:194,P8-A candidate scan,,
-Orange Potion,橙色藥水,item,approved,recommended,6,BOOKS-EN.FLX:193,P8-A candidate scan,,never
+Orange Potion,橙色藥劑,item,approved,recommended,6,BOOKS-EN.FLX:193,P8-A candidate scan,2026-11-11 依手冊譯名連動：「橙色藥水」→「橙色藥劑」,never
 Orb,,item,todo,recommended,1,TYPENAME.FLX:2131,P8-A candidate scan,,
-Orb of the Moons,,item,todo,recommended,4,text.flx:1742,P8-A candidate scan,,
+Orb of the Moons,月之石,item,approved,recommended,4,text.flx:1742,台灣中文手冊 魔法書 p.39 字彙集,官方譯名：台灣中文手冊 魔法書 p.39 字彙集,
 Ornament,,item,todo,recommended,1,TYPENAME.FLX:1893,P8-A candidate scan,,
 Orrery,,item,todo,recommended,1,TYPENAME.FLX:3380,P8-A candidate scan,,
 Oven,,item,todo,recommended,2,TYPENAME.FLX:2398,P8-A candidate scan,,
@@ -1021,7 +1021,7 @@ Portcullis,,item,todo,recommended,3,TYPENAME.FLX:1033,P8-A candidate scan,,
 Post,,item,todo,recommended,2,TYPENAME.FLX:2748,P8-A candidate scan,,
 Poster,,item,todo,recommended,2,TYPENAME.FLX:4769,P8-A candidate scan,,
 Potential Chalice of Honor,,item,todo,recommended,1,TYPENAME.FLX:5474,P8-A candidate scan,,
-Potion,,item,todo,recommended,10,BOOKS-EN.FLX:390,P8-A candidate scan,,
+Potion,藥劑,item,approved,recommended,10,BOOKS-EN.FLX:390,台灣中文手冊 魔法書 p.39 字彙集,官方譯名：台灣中文手冊 魔法書 p.39 字彙集,
 Potted fern,,item,todo,recommended,1,TYPENAME.FLX:3145,P8-A candidate scan,,
 Potted plant,,item,todo,recommended,9,TYPENAME.FLX:3146,P8-A candidate scan,,
 Powder Keg,,item,todo,recommended,1,TYPENAME.FLX:1220,P8-A candidate scan,,
@@ -1033,7 +1033,7 @@ Puddle,,item,todo,recommended,3,TYPENAME.FLX:1311,P8-A candidate scan,,
 Pump,,item,todo,recommended,1,TYPENAME.FLX:2907,P8-A candidate scan,,
 Pumpkin,,item,todo,recommended,1,TYPENAME.FLX:808,P8-A candidate scan,,
 Purple Gem,,item,todo,recommended,3,BOOKS-EN.FLX:3,P8-A candidate scan,,
-Purple Potion,紫色藥水,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,,never
+Purple Potion,紫色藥劑,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,2026-11-11 依手冊譯名連動：「紫色藥水」→「紫色藥劑」,never
 Pylon,,item,todo,recommended,1,TYPENAME.FLX:4650,P8-A candidate scan,,
 Queen Egg,女王之卵,item,approved,recommended,5,text.flx:7168,P8-A candidate scan,石像鬼女王之卵，拯救石像鬼種族的最後希望,first
 Queen Zhah,,item,todo,recommended,1,TYPENAME.FLX:217,P8-A candidate scan,,
@@ -1062,7 +1062,7 @@ Red Candle,,item,todo,recommended,1,TYPENAME.FLX:5478,P8-A candidate scan,,
 Red dye,,item,todo,recommended,1,TYPENAME.FLX:2706,P8-A candidate scan,,
 Red Lens,,item,todo,recommended,1,TYPENAME.FLX:5450,P8-A candidate scan,,
 Red lens,,item,todo,recommended,1,TYPENAME.FLX:5520,P8-A candidate scan,,
-Red Potion,紅色藥水,item,approved,recommended,7,BOOKS-EN.FLX:193,P8-A candidate scan,,never
+Red Potion,紅色藥劑,item,approved,recommended,7,BOOKS-EN.FLX:193,P8-A candidate scan,2026-11-11 依手冊譯名連動：「紅色藥水」→「紅色藥劑」,never
 Red Skull,,item,todo,recommended,1,TYPENAME.FLX:5566,P8-A candidate scan,,
 Reef,,item,todo,recommended,5,TYPENAME.FLX:4669,P8-A candidate scan,,
 Refrigerator,,item,todo,recommended,1,TYPENAME.FLX:4609,P8-A candidate scan,,
@@ -1072,7 +1072,7 @@ Reynald's Note,,item,todo,recommended,1,TYPENAME.FLX:5314,P8-A candidate scan,,
 Richter,,item,todo,recommended,1,TYPENAME.FLX:281,P8-A candidate scan,,
 Rigging,,item,todo,recommended,1,TYPENAME.FLX:1939,P8-A candidate scan,,
 Ring,戒指,item,approved,recommended,5,TYPENAME.FLX:3428,P8-A candidate scan,,never
-Ring of Fire Scroll,火環術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Fire Ring 火環術,,never
+Ring of Fire Scroll,火焰之環卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Fire Ring 火環術,2026-11-11 依手冊譯名連動：「火環術捲軸」→「火焰之環卷軸」,never
 Road,,item,todo,recommended,1,TYPENAME.FLX:4694,P8-A candidate scan,,
 Roast fowl,,item,todo,recommended,2,TYPENAME.FLX:760,P8-A candidate scan,,
 Roast pig,,item,todo,recommended,1,TYPENAME.FLX:809,P8-A candidate scan,,
@@ -1093,15 +1093,15 @@ Ruby Bracelet,,item,todo,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,,
 Ruby Ring,紅寶石戒指,item,approved,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,鑲嵌紅寶石之魔法戒指,never
 Rug,地毯,item,approved,recommended,2,TYPENAME.FLX:4725,P8-A candidate scan,,never
 Rum,,item,todo,recommended,1,TYPENAME.FLX:5488,P8-A candidate scan,,
-Rune of Compassion,慈悲符石,item,approved,recommended,2,TYPENAME.FLX:2940,P8-A candidate scan,,never
+Rune of Compassion,同情符石,item,approved,recommended,2,TYPENAME.FLX:2940,P8-A candidate scan,2026-11-11 依手冊譯名連動：「慈悲符石」→「同情符石」,never
 Rune of Honesty,誠實符石,item,approved,recommended,2,TYPENAME.FLX:2941,P8-A candidate scan,,never
 Rune of Honor,榮譽符石,item,approved,recommended,2,TYPENAME.FLX:2942,P8-A candidate scan,,never
 Rune of Humility,謙遜符石,item,approved,recommended,2,TYPENAME.FLX:2943,P8-A candidate scan,,never
-Rune of Justice,正義符石,item,approved,recommended,2,TYPENAME.FLX:2944,P8-A candidate scan,,never
+Rune of Justice,公正符石,item,approved,recommended,2,TYPENAME.FLX:2944,P8-A candidate scan,2026-11-11 依手冊譯名連動：「正義符石」→「公正符石」,never
 Rune of Sacrifice,犧牲符石,item,approved,recommended,2,TYPENAME.FLX:2945,P8-A candidate scan,,never
 Rune of Spirit,靈性符石,item,approved,recommended,1,TYPENAME.FLX:3245,P8-A candidate scan,,never
 Rune of Spirituality,靈性符石,item,approved,recommended,1,TYPENAME.FLX:2946,P8-A candidate scan,variant of Rune of Spirit,never
-Rune of Valor,英勇符石,item,approved,recommended,2,TYPENAME.FLX:2947,P8-A candidate scan,,never
+Rune of Valor,勇敢符石,item,approved,recommended,2,TYPENAME.FLX:2947,P8-A candidate scan,2026-11-11 依手冊譯名連動：「英勇符石」→「勇敢符石」,never
 Runes of Virtue,美德符石,item,approved,recommended,3,text.flx:395,P8-A candidate scan,八大美德符石，用以解開封印或淨化聖壇,first
 Sack of Flour,,item,todo,recommended,6,BOOKS-EN.FLX:196,P8-A candidate scan,,
 Sage's Journal,賢者的日誌,item,approved,recommended,1,TYPENAME.FLX:4934,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
@@ -1121,56 +1121,56 @@ Scales,,item,todo,recommended,2,TYPENAME.FLX:2869,P8-A candidate scan,,
 Scalpel,,item,todo,recommended,1,TYPENAME.FLX:3478,P8-A candidate scan,,
 Scimitar,彎刀,item,approved,recommended,10,BOOKS-EN.FLX:174,P8-A candidate scan,,never
 Screech,,item,todo,recommended,1,TYPENAME.FLX:267,P8-A candidate scan,,
-Scroll,捲軸,item,approved,recommended,14,TYPENAME.FLX:1256,P8-A candidate scan,,never
-Scroll:  Lightning Bolt,閃電箭捲軸,item,approved,recommended,1,TYPENAME.FLX:5345,P8-A candidate scan,variant of Lightning Bolt Scroll,never
-Scroll: Bolt of Flame,火箭術捲軸,item,approved,recommended,1,TYPENAME.FLX:5359,P8-A candidate scan,variant of Bolt of Flame Scroll,never
-Scroll: Charm,迷惑術捲軸,item,approved,recommended,1,TYPENAME.FLX:5349,U7 Translation_Guide.md: Charm 迷惑術,variant of Charm Scroll,never
-Scroll: Crystal Barrier,水晶屏障捲軸,item,approved,recommended,1,TYPENAME.FLX:5344,P8-A candidate scan,variant of Crystal Barrier Scroll,never
-Scroll: Cure,解毒術捲軸,item,approved,recommended,1,TYPENAME.FLX:5348,P8-A candidate scan,variant of Cure Scroll,never
-Scroll: Day,白晝術捲軸,item,approved,recommended,1,TYPENAME.FLX:5355,P8-A candidate scan,variant of Day Scroll,never
-Scroll: Death,死亡術捲軸,item,approved,recommended,1,TYPENAME.FLX:5330,P8-A candidate scan,variant of Death Scroll,never
-Scroll: Douse,熄滅術捲軸,item,approved,recommended,1,TYPENAME.FLX:5339,U7 Translation_Guide.md: Great Douse 大熄滅術,,never
-Scroll: Earthquake,地震術捲軸,item,approved,recommended,1,TYPENAME.FLX:5368,P8-A candidate scan,variant of Earthquake Scroll,never
-Scroll: Ethereal Sight,乙太靈視捲軸,item,approved,recommended,1,TYPENAME.FLX:5341,"U7 Translation_Guide.md: Ether 乙太, Peer 靈視術",variant of Ethereal Sight Scroll,never
-Scroll: Fireball,火球術捲軸,item,approved,recommended,1,TYPENAME.FLX:5351,P8-A candidate scan,variant of Fireball Scroll,never
-Scroll: Fog,雲霧術捲軸,item,approved,recommended,1,TYPENAME.FLX:5352,P8-A candidate scan,variant of Fog Scroll,never
-Scroll: Freeze,冰凍術捲軸,item,approved,recommended,1,TYPENAME.FLX:5356,P8-A candidate scan,,never
-Scroll: Frost Storm,冰霜風暴捲軸,item,approved,recommended,1,TYPENAME.FLX:5367,P8-A candidate scan,variant of Frost Storm Scroll,never
-Scroll: Full Heal,完全治癒術捲軸,item,approved,recommended,1,TYPENAME.FLX:5360,P8-A candidate scan,variant of Full Heal Scroll,never
-Scroll: Gust,狂風術捲軸,item,approved,recommended,1,TYPENAME.FLX:5337,P8-A candidate scan,,never
-Scroll: Ignite,點燃術捲軸,item,approved,recommended,1,TYPENAME.FLX:5338,U7 Translation_Guide.md: Great Ignite 大點燃術,,never
-Scroll: Infernal Armor,地獄護甲捲軸,item,approved,recommended,1,TYPENAME.FLX:5347,P8-A candidate scan,variant of Infernal Armor Scroll,never
-Scroll: Inferno,煉獄火海捲軸,item,approved,recommended,1,TYPENAME.FLX:5370,P8-A candidate scan,variant of Inferno Scroll,never
-Scroll: Invisibility,隱身術捲軸,item,approved,recommended,1,TYPENAME.FLX:5362,U7 Translation_Guide.md: Invisibility 隱身術,variant of Invisibility Scroll,never
-Scroll: Levitate,漂浮術捲軸,item,approved,recommended,1,TYPENAME.FLX:5358,P8-A candidate scan,variant of Levitate Scroll,never
-Scroll: Light,亮光術捲軸,item,approved,recommended,1,TYPENAME.FLX:5342,U7 Translation_Guide.md: Light 亮光術,variant of Light Scroll,never
-Scroll: Light Heal,次級治癒術捲軸,item,approved,recommended,1,TYPENAME.FLX:5343,P8-A candidate scan,基礎治療法術; variant of Light Heal Scroll,never
-Scroll: Lightning Storm,閃電風暴捲軸,item,approved,recommended,1,TYPENAME.FLX:5369,P8-A candidate scan,,never
-Scroll: Mana Breath,法力之息捲軸,item,approved,recommended,1,TYPENAME.FLX:5364,P8-A candidate scan,variant of Mana Breath Scroll,never
-Scroll: Meteorite,隕石術捲軸,item,approved,recommended,1,TYPENAME.FLX:5361,P8-A candidate scan,variant of Meteorite Scroll,never
-Scroll: Ring of Fire,火環術捲軸,item,approved,recommended,1,TYPENAME.FLX:5363,U7 Translation_Guide.md: Fire Ring 火環術,variant of Ring of Fire Scroll,never
-Scroll: Searing Rain,熾烈火雨捲軸,item,approved,recommended,1,TYPENAME.FLX:5371,P8-A candidate scan,variant of Searing Rain Scroll,never
-Scroll: Stone,石化術捲軸,item,approved,recommended,1,TYPENAME.FLX:5335,P8-A candidate scan,,never
-Scroll: Summon Daemon,召喚惡魔捲軸,item,approved,recommended,1,TYPENAME.FLX:5366,P8-A candidate scan,U7 Translation_Guide.md: daemon 惡魔; variant of Summon Demon Scroll,never
-Scroll: Summon Reagents,召喚材料捲軸,item,approved,recommended,1,TYPENAME.FLX:5340,P8-A candidate scan,U7 Translation_Guide.md: reagents 藥材,never
-Scroll: Summon Undead,召喚亡靈捲軸,item,approved,recommended,1,TYPENAME.FLX:5357,P8-A candidate scan,variant of Summon Undead Scroll,never
-Scroll: Telekinesis,遙控術捲軸,item,approved,recommended,1,TYPENAME.FLX:5350,U7 Translation_Guide.md: Telekinesis 遙控術,variant of Telekinesis Scroll,never
-Scroll: Teleport,傳送術捲軸,item,approved,recommended,1,TYPENAME.FLX:5365,P8-A candidate scan,variant of Teleport Scroll,never
-Scroll: Time Stop,時間暫停捲軸,item,approved,recommended,1,TYPENAME.FLX:5353,U7 Translation_Guide.md: Time Stop 時間暫停,variant of Time Stop Scroll,never
-Scroll: Wizard Eye,巫師眼捲軸,item,approved,recommended,1,TYPENAME.FLX:5354,P8-A candidate scan,U7 Translation_Guide.md: Wizard Eye 巫師眼; variant of Wizard Eye Scroll,never
+Scroll,卷軸,item,approved,recommended,14,TYPENAME.FLX:1256,台灣中文手冊 魔法書 p.40 字彙集,官方譯名：台灣中文手冊 魔法書 p.40 字彙集；2026-11-11 由「捲軸」改為手冊譯名（手冊為第 1 順位權威）,never
+Scroll:  Lightning Bolt,閃電術卷軸,item,approved,recommended,1,TYPENAME.FLX:5345,P8-A candidate scan,2026-11-11 依手冊譯名連動：「閃電箭捲軸」→「閃電術卷軸」; variant of Lightning Bolt Scroll,never
+Scroll: Bolt of Flame,烈焰之球卷軸,item,approved,recommended,1,TYPENAME.FLX:5359,P8-A candidate scan,2026-11-11 依手冊譯名連動：「火箭術捲軸」→「烈焰之球卷軸」; variant of Bolt of Flame Scroll,never
+Scroll: Charm,媚惑術卷軸,item,approved,recommended,1,TYPENAME.FLX:5349,U7 Translation_Guide.md: Charm 迷惑術,2026-11-11 依手冊譯名連動：「迷惑術捲軸」→「媚惑術卷軸」; variant of Charm Scroll,never
+Scroll: Crystal Barrier,水晶屏障卷軸,item,approved,recommended,1,TYPENAME.FLX:5344,P8-A candidate scan,2026-11-11 依手冊譯名連動：「水晶屏障捲軸」→「水晶屏障卷軸」; variant of Crystal Barrier Scroll,never
+Scroll: Cure,治療術卷軸,item,approved,recommended,1,TYPENAME.FLX:5348,P8-A candidate scan,2026-11-11 依手冊譯名連動：「解毒術捲軸」→「治療術卷軸」; variant of Cure Scroll,never
+Scroll: Day,白晝術卷軸,item,approved,recommended,1,TYPENAME.FLX:5355,P8-A candidate scan,2026-11-11 依手冊譯名連動：「白晝術捲軸」→「白晝術卷軸」; variant of Day Scroll,never
+Scroll: Death,致死術卷軸,item,approved,recommended,1,TYPENAME.FLX:5330,P8-A candidate scan,2026-11-11 依手冊譯名連動：「死亡術捲軸」→「致死術卷軸」; variant of Death Scroll,never
+Scroll: Douse,熄滅術卷軸,item,approved,recommended,1,TYPENAME.FLX:5339,U7 Translation_Guide.md: Great Douse 大熄滅術,2026-11-11 依手冊譯名連動：「熄滅術捲軸」→「熄滅術卷軸」,never
+Scroll: Earthquake,天崩地裂卷軸,item,approved,recommended,1,TYPENAME.FLX:5368,P8-A candidate scan,2026-11-11 依手冊譯名連動：「地震術捲軸」→「天崩地裂卷軸」; variant of Earthquake Scroll,never
+Scroll: Ethereal Sight,透視術卷軸,item,approved,recommended,1,TYPENAME.FLX:5341,"U7 Translation_Guide.md: Ether 乙太, Peer 靈視術",2026-11-11 依手冊譯名連動：「乙太靈視捲軸」→「透視術卷軸」; variant of Ethereal Sight Scroll,never
+Scroll: Fireball,火球術卷軸,item,approved,recommended,1,TYPENAME.FLX:5351,P8-A candidate scan,2026-11-11 依手冊譯名連動：「火球術捲軸」→「火球術卷軸」; variant of Fireball Scroll,never
+Scroll: Fog,迷霧術卷軸,item,approved,recommended,1,TYPENAME.FLX:5352,P8-A candidate scan,2026-11-11 依手冊譯名連動：「雲霧術捲軸」→「迷霧術卷軸」; variant of Fog Scroll,never
+Scroll: Freeze,冷凍術卷軸,item,approved,recommended,1,TYPENAME.FLX:5356,P8-A candidate scan,2026-11-11 依手冊譯名連動：「冰凍術捲軸」→「冷凍術卷軸」; variant of Freeze Scroll,never
+Scroll: Frost Storm,霜風暴卷軸,item,approved,recommended,1,TYPENAME.FLX:5367,P8-A candidate scan,2026-11-11 依手冊譯名連動：「冰霜風暴捲軸」→「霜風暴卷軸」; variant of Frost Storm Scroll,never
+Scroll: Full Heal,完全醫療術卷軸,item,approved,recommended,1,TYPENAME.FLX:5360,P8-A candidate scan,2026-11-11 依手冊譯名連動：「完全治癒術捲軸」→「完全醫療術卷軸」; variant of Full Heal Scroll,never
+Scroll: Gust,御風術卷軸,item,approved,recommended,1,TYPENAME.FLX:5337,P8-A candidate scan,2026-11-11 依手冊譯名連動：「狂風術捲軸」→「御風術卷軸」,never
+Scroll: Ignite,引燃術卷軸,item,approved,recommended,1,TYPENAME.FLX:5338,U7 Translation_Guide.md: Great Ignite 大點燃術,2026-11-11 依手冊譯名連動：「點燃術捲軸」→「引燃術卷軸」,never
+Scroll: Infernal Armor,煉獄護甲卷軸,item,approved,recommended,1,TYPENAME.FLX:5347,P8-A candidate scan,2026-11-11 依手冊譯名連動：「地獄護甲捲軸」→「煉獄護甲卷軸」; variant of Infernal Armor Scroll,never
+Scroll: Inferno,地獄業火卷軸,item,approved,recommended,1,TYPENAME.FLX:5370,P8-A candidate scan,2026-11-11 依手冊譯名連動：「煉獄火海捲軸」→「地獄業火卷軸」; variant of Inferno Scroll,never
+Scroll: Invisibility,隱身術卷軸,item,approved,recommended,1,TYPENAME.FLX:5362,U7 Translation_Guide.md: Invisibility 隱身術,2026-11-11 依手冊譯名連動：「隱身術捲軸」→「隱身術卷軸」; variant of Invisibility Scroll,never
+Scroll: Levitate,漂浮術卷軸,item,approved,recommended,1,TYPENAME.FLX:5358,P8-A candidate scan,2026-11-11 依手冊譯名連動：「漂浮術捲軸」→「漂浮術卷軸」; variant of Levitate Scroll,never
+Scroll: Light,照明術卷軸,item,approved,recommended,1,TYPENAME.FLX:5342,U7 Translation_Guide.md: Light 亮光術,2026-11-11 依手冊譯名連動：「亮光術捲軸」→「照明術卷軸」; variant of Light Scroll,never
+Scroll: Light Heal,小醫療術卷軸,item,approved,recommended,1,TYPENAME.FLX:5343,P8-A candidate scan,2026-11-11 依手冊譯名連動：「次級治癒術捲軸」→「小醫療術卷軸」; 基礎治療法術; variant of Light Heal Scroll,never
+Scroll: Lightning Storm,閃電風暴卷軸,item,approved,recommended,1,TYPENAME.FLX:5369,P8-A candidate scan,2026-11-11 依手冊譯名連動：「閃電風暴捲軸」→「閃電風暴卷軸」,never
+Scroll: Mana Breath,呼吸術卷軸,item,approved,recommended,1,TYPENAME.FLX:5364,P8-A candidate scan,2026-11-11 依手冊譯名連動：「法力之息捲軸」→「呼吸術卷軸」; variant of Mana Breath Scroll,never
+Scroll: Meteorite,隕石術卷軸,item,approved,recommended,1,TYPENAME.FLX:5361,P8-A candidate scan,2026-11-11 依手冊譯名連動：「隕石術捲軸」→「隕石術卷軸」; variant of Meteorite Scroll,never
+Scroll: Ring of Fire,火焰之環卷軸,item,approved,recommended,1,TYPENAME.FLX:5363,U7 Translation_Guide.md: Fire Ring 火環術,2026-11-11 依手冊譯名連動：「火環術捲軸」→「火焰之環卷軸」; variant of Ring of Fire Scroll,never
+Scroll: Searing Rain,灼熱之雨卷軸,item,approved,recommended,1,TYPENAME.FLX:5371,P8-A candidate scan,2026-11-11 依手冊譯名連動：「熾烈火雨捲軸」→「灼熱之雨卷軸」; variant of Searing Rain Scroll,never
+Scroll: Stone,投石術卷軸,item,approved,recommended,1,TYPENAME.FLX:5335,P8-A candidate scan,2026-11-11 依手冊譯名連動：「石化術捲軸」→「投石術卷軸」,never
+Scroll: Summon Daemon,召喚惡魔卷軸,item,approved,recommended,1,TYPENAME.FLX:5366,P8-A candidate scan,2026-11-11 依手冊譯名連動：「召喚惡魔捲軸」→「召喚惡魔卷軸」; U7 Translation_Guide.md: daemon 惡魔; variant of Summon Demon Scroll,never
+Scroll: Summon Reagents,製造藥材卷軸,item,approved,recommended,1,TYPENAME.FLX:5340,P8-A candidate scan,2026-11-11 依手冊譯名連動：「召喚材料捲軸」→「製造藥材卷軸」; U7 Translation_Guide.md: reagents 藥材; variant of Create Reagents Scroll,never
+Scroll: Summon Undead,召喚不死生物卷軸,item,approved,recommended,1,TYPENAME.FLX:5357,P8-A candidate scan,2026-11-11 依手冊譯名連動：「召喚亡靈捲軸」→「召喚不死生物卷軸」; variant of Summon Undead Scroll,never
+Scroll: Telekinesis,念動術卷軸,item,approved,recommended,1,TYPENAME.FLX:5350,U7 Translation_Guide.md: Telekinesis 遙控術,2026-11-11 依手冊譯名連動：「遙控術捲軸」→「念動術卷軸」; variant of Telekinesis Scroll,never
+Scroll: Teleport,傳送術卷軸,item,approved,recommended,1,TYPENAME.FLX:5365,P8-A candidate scan,2026-11-11 依手冊譯名連動：「傳送術捲軸」→「傳送術卷軸」; variant of Teleport Scroll,never
+Scroll: Time Stop,停時術卷軸,item,approved,recommended,1,TYPENAME.FLX:5353,U7 Translation_Guide.md: Time Stop 時間暫停,2026-11-11 依手冊譯名連動：「時間暫停捲軸」→「停時術卷軸」; variant of Time Stop Scroll,never
+Scroll: Wizard Eye,巫師之眼卷軸,item,approved,recommended,1,TYPENAME.FLX:5354,P8-A candidate scan,2026-11-11 依手冊譯名連動：「巫師眼捲軸」→「巫師之眼卷軸」; U7 Translation_Guide.md: Wizard Eye 巫師眼; variant of Wizard Eye Scroll,never
 Sculpture,,item,todo,recommended,1,TYPENAME.FLX:4853,P8-A candidate scan,,
 Sculpture Power Cube,,item,todo,recommended,1,TYPENAME.FLX:5498,P8-A candidate scan,,
-Scythe,,item,todo,recommended,8,BOOKS-EN.FLX:189,P8-A candidate scan,,
+Scythe,大鐮刀,item,approved,recommended,8,BOOKS-EN.FLX:189,台灣中文手冊 Journal p.38,官方譯名：台灣中文手冊 Journal p.38,
 Sea anenome,,item,todo,recommended,1,TYPENAME.FLX:4682,P8-A candidate scan,,
 Sea Monster,,item,todo,recommended,1,TYPENAME.FLX:155,P8-A candidate scan,,
 Sea urchin,,item,todo,recommended,1,TYPENAME.FLX:4684,P8-A candidate scan,,
-Searing Rain Scroll,熾烈火雨捲軸,item,approved,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Searing Rain Scroll,灼熱之雨卷軸,item,approved,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「熾烈火雨捲軸」→「灼熱之雨卷軸」,never
 Seed,,item,todo,recommended,1,TYPENAME.FLX:5479,P8-A candidate scan,,
 Sentinel of Skara Brae,,item,todo,recommended,2,TYPENAME.FLX:237,P8-A candidate scan,,
 Sergeant Lambert,,item,todo,recommended,1,TYPENAME.FLX:67,P8-A candidate scan,,
 Serpent Venom,,item,todo,recommended,6,text.flx:1340,P8-A candidate scan,,
 Serpent Wyne vat,,item,todo,recommended,1,TYPENAME.FLX:3121,P8-A candidate scan,,
-Serpentwyne,,item,todo,recommended,26,text.flx:903,P8-A candidate scan,,
+Serpentwyne,巨蛇藥酒,item,approved,recommended,26,text.flx:903,台灣中文手冊 魔法書 p.40 字彙集,官方譯名：台灣中文手冊 魔法書 p.40 字彙集,
 Serpentwyne vat,,item,todo,recommended,3,TYPENAME.FLX:3110,P8-A candidate scan,,
 Serving spoon,,item,todo,recommended,1,TYPENAME.FLX:2545,P8-A candidate scan,,
 Severed head,,item,todo,recommended,2,TYPENAME.FLX:5723,P8-A candidate scan,,
@@ -1194,7 +1194,7 @@ Shower,,item,todo,recommended,1,TYPENAME.FLX:4598,P8-A candidate scan,,
 Shrine of Valor,,item,todo,recommended,1,TYPENAME.FLX:68,P8-A candidate scan,,
 Sickle,,item,todo,recommended,1,TYPENAME.FLX:2209,P8-A candidate scan,,
 Siege Bow,,item,todo,recommended,9,BOOKS-EN.FLX:192,P8-A candidate scan,,
-Sigil of Compassion,慈悲聖印,item,approved,recommended,5,text.flx:301,P8-A candidate scan,,never
+Sigil of Compassion,同情印記,item,approved,recommended,5,text.flx:301,P8-A candidate scan,2026-11-11 依手冊譯名連動：「慈悲聖印」→「同情印記」,never
 Sign,,item,todo,recommended,46,TYPENAME.FLX:578,P8-A candidate scan,,
 Signpost,,item,todo,recommended,5,TYPENAME.FLX:1644,P8-A candidate scan,,
 Silk,,item,todo,recommended,1,TYPENAME.FLX:2198,P8-A candidate scan,,
@@ -1210,7 +1210,7 @@ Sink,,item,todo,recommended,1,TYPENAME.FLX:4607,P8-A candidate scan,,
 Sir Eris,,item,todo,recommended,1,TYPENAME.FLX:63,P8-A candidate scan,,
 Sir Reynald,,item,todo,recommended,1,TYPENAME.FLX:64,P8-A candidate scan,,
 Siran,,item,todo,recommended,1,TYPENAME.FLX:323,P8-A candidate scan,,
-Skeleton,骷髏,item,approved,recommended,5,TYPENAME.FLX:196,U8 authority.tsv (proposed),,
+Skeleton,骷髏怪,item,approved,recommended,5,TYPENAME.FLX:196,台灣中文手冊 Journal p.50,官方譯名：台灣中文手冊 Journal p.50；2026-11-11 由「骷髏」改為手冊譯名（手冊為第 1 順位權威）,
 Skull,頭骨,item,approved,recommended,7,TYPENAME.FLX:2653,P8-A candidate scan,,never
 Skull of Mondain,蒙丹的頭骨,item,approved,recommended,1,TYPENAME.FLX:5666,P8-A candidate scan,,never
 Skull Poll,,item,todo,recommended,1,TYPENAME.FLX:5249,P8-A candidate scan,,
@@ -1228,7 +1228,7 @@ Snowdrops,,item,todo,recommended,1,TYPENAME.FLX:848,P8-A candidate scan,,
 Sofa,,item,todo,recommended,1,TYPENAME.FLX:4444,P8-A candidate scan,,
 Sparkler,,item,todo,recommended,1,TYPENAME.FLX:1479,P8-A candidate scan,,
 Spatula,,item,todo,recommended,1,TYPENAME.FLX:2543,P8-A candidate scan,,
-Spectre,,item,todo,recommended,1,TYPENAME.FLX:210,P8-A candidate scan,,
+Spectre,惡靈,item,approved,recommended,1,TYPENAME.FLX:210,台灣中文手冊 Journal p.51,官方譯名：台灣中文手冊 Journal p.51,
 Spellbook,,item,todo,recommended,1,TYPENAME.FLX:945,P8-A candidate scan,,
 Spider Silk,蜘蛛絲,item,approved,recommended,14,text.flx:4486,P8-A candidate scan,經典施法材料之一，束縛與聯結魔力,never
 Spike,,item,todo,recommended,1,TYPENAME.FLX:3441,P8-A candidate scan,,
@@ -1241,7 +1241,7 @@ Spoiled vegetables,,item,todo,recommended,1,TYPENAME.FLX:3526,P8-A candidate sca
 Sponge,,item,todo,recommended,5,TYPENAME.FLX:4677,P8-A candidate scan,,
 Spoon,湯匙,item,approved,recommended,1,TYPENAME.FLX:811,P8-A candidate scan,,never
 Square,,item,todo,recommended,1,TYPENAME.FLX:2563,P8-A candidate scan,,
-Staff,,item,todo,recommended,5,text.flx:3563,P8-A candidate scan,,
+Staff,木杖,item,approved,recommended,5,text.flx:3563,台灣中文手冊 Journal p.38,官方譯名：台灣中文手冊 Journal p.38,
 Staff of the Dead,,item,todo,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,
 Staff of Wisdom,智慧法杖,item,approved,recommended,4,text.flx:5919,P8-A candidate scan,月光城的傳奇法杖神器,first
 Stairs,,item,todo,recommended,2,TYPENAME.FLX:697,P8-A candidate scan,,
@@ -1274,8 +1274,8 @@ String peas,,item,todo,recommended,1,TYPENAME.FLX:2458,P8-A candidate scan,,
 Suit of Armor,,item,todo,recommended,3,TYPENAME.FLX:3423,P8-A candidate scan,,
 Suit of armor,,item,todo,recommended,1,TYPENAME.FLX:4814,P8-A candidate scan,,
 Sulphurous Ash,,item,todo,recommended,14,text.flx:4486,P8-A candidate scan,,
-Summon Demon Scroll,召喚惡魔捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
-Summon Undead Scroll,召喚亡靈捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Summon Demon Scroll,召喚惡魔卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「召喚惡魔捲軸」→「召喚惡魔卷軸」,never
+Summon Undead Scroll,召喚不死生物卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「召喚亡靈捲軸」→「召喚不死生物卷軸」,never
 Swamp Boots,,item,todo,recommended,7,BOOKS-EN.FLX:189,P8-A candidate scan,,
 Swan,,item,todo,recommended,1,TYPENAME.FLX:144,P8-A candidate scan,,
 Sword,長劍,item,approved,recommended,6,TYPENAME.FLX:2622,P8-A candidate scan,variant of Longsword,never
@@ -1289,28 +1289,28 @@ Talisman of Infinity,無限護符,item,approved,recommended,1,TYPENAME.FLX:5668,
 Tankard,,item,todo,recommended,1,TYPENAME.FLX:821,P8-A candidate scan,,
 Tapestry,壁毯,item,approved,recommended,14,TYPENAME.FLX:565,P8-A candidate scan,,never
 tapestry,,item,todo,recommended,3,TYPENAME.FLX:5392,P8-A candidate scan,,
-Tapestry of Ages,時代織錦,item,approved,recommended,7,text.flx:271,P8-A candidate scan,記載不列顛尼亞時代興衰命運的魔法掛毯,first
+Tapestry of Ages,歲月的錦繪,item,approved,recommended,7,text.flx:271,台灣中文手冊 Journal p.10；安裝指引 p.14,官方譯名：台灣中文手冊 Journal p.10；安裝指引 p.14；2026-11-11 由「時代織錦」改為手冊譯名（手冊為第 1 順位權威）; 記載不列顛尼亞時代興衰命運的魔法掛毯,first
 Target,,item,todo,recommended,3,TYPENAME.FLX:1700,P8-A candidate scan,,
 Target Bow,練習弓,item,approved,recommended,9,BOOKS-EN.FLX:179,P8-A candidate scan,,never
 Target buoy,,item,todo,recommended,1,TYPENAME.FLX:4201,P8-A candidate scan,,
 Tarot cards,,item,todo,recommended,1,TYPENAME.FLX:2548,P8-A candidate scan,,
 Tear of Sacrifice,,item,todo,recommended,1,TYPENAME.FLX:5468,P8-A candidate scan,,
-Telekinesis Scroll,遙控術捲軸,item,approved,recommended,6,BOOKS-EN.FLX:174,U7 Translation_Guide.md: Telekinesis 遙控術,,never
+Telekinesis Scroll,念動術卷軸,item,approved,recommended,6,BOOKS-EN.FLX:174,U7 Translation_Guide.md: Telekinesis 遙控術,2026-11-11 依手冊譯名連動：「遙控術捲軸」→「念動術卷軸」,never
 Telephone,,item,todo,recommended,1,TYPENAME.FLX:4787,P8-A candidate scan,,
 Telephone pole,,item,todo,recommended,3,TYPENAME.FLX:4689,P8-A candidate scan,,
-Teleport Scroll,傳送術捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,,never
+Teleport Scroll,傳送術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「傳送術捲軸」→「傳送術卷軸」,never
 Teleporter,,item,todo,recommended,2,TYPENAME.FLX:2121,P8-A candidate scan,,
 Telescope,望遠鏡,item,approved,recommended,2,TYPENAME.FLX:3183,P8-A candidate scan,,never
 Television,,item,todo,recommended,1,TYPENAME.FLX:857,P8-A candidate scan,,
 Television Set,,item,todo,recommended,2,TYPENAME.FLX:4471,P8-A candidate scan,,
 The destroyed Black Gate,,item,todo,recommended,1,TYPENAME.FLX:5482,P8-A candidate scan,,
-Thief,,item,todo,recommended,1,TYPENAME.FLX:44,P8-A candidate scan,,
+Thief,盜賊,item,approved,recommended,1,TYPENAME.FLX:44,台灣中文手冊 Journal p.51,官方譯名：台灣中文手冊 Journal p.51,
 Thieves' Journal,盜賊的日誌,item,approved,recommended,1,TYPENAME.FLX:5384,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
 Thread,,item,todo,recommended,1,TYPENAME.FLX:2736,P8-A candidate scan,,
 Thresher,,item,todo,recommended,1,TYPENAME.FLX:2895,P8-A candidate scan,,
 Throne,王座,item,approved,recommended,1,TYPENAME.FLX:2707,P8-A candidate scan,,never
 Thug,,item,todo,recommended,1,TYPENAME.FLX:288,P8-A candidate scan,,
-Time Stop Scroll,時間暫停捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Time Stop 時間暫停,,never
+Time Stop Scroll,停時術卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,U7 Translation_Guide.md: Time Stop 時間暫停,2026-11-11 依手冊譯名連動：「時間暫停捲軸」→「停時術卷軸」,never
 Tinder box,,item,todo,recommended,1,TYPENAME.FLX:880,P8-A candidate scan,,
 To Northern Trail and Wrong,,item,todo,recommended,1,TYPENAME.FLX:3156,P8-A candidate scan,,
 Toilet,,item,todo,recommended,1,TYPENAME.FLX:4596,P8-A candidate scan,,
@@ -1329,13 +1329,13 @@ Treasure Map,,item,todo,recommended,10,TYPENAME.FLX:5373,P8-A candidate scan,,
 Treasure map,,item,todo,recommended,1,TYPENAME.FLX:3148,P8-A candidate scan,,
 Tree,,item,todo,recommended,5,TYPENAME.FLX:4706,P8-A candidate scan,,
 Tree stump,,item,todo,recommended,3,TYPENAME.FLX:736,P8-A candidate scan,,
-Trinsic Inn Key,特林錫克旅店鑰匙,item,approved,recommended,1,TYPENAME.FLX:5598,P8-A candidate scan,P9: replaced auto-derived target that kept English,never
+Trinsic Inn Key,特林希克旅店鑰匙,item,approved,recommended,1,TYPENAME.FLX:5598,P8-A candidate scan,2026-11-11 依手冊譯名連動：「特林錫克旅店鑰匙」→「特林希克旅店鑰匙」; P9: replaced auto-derived target that kept English,never
 Tripod,,item,todo,recommended,1,TYPENAME.FLX:2477,P8-A candidate scan,,
 Trough,,item,todo,recommended,2,TYPENAME.FLX:2820,P8-A candidate scan,,
 Trout,,item,todo,recommended,5,BOOKS-EN.FLX:174,P8-A candidate scan,,
 Turkey leg,,item,todo,recommended,1,TYPENAME.FLX:2457,P8-A candidate scan,,
 Two Handed Axe,,item,todo,recommended,2,TYPENAME.FLX:2642,P8-A candidate scan,,
-Two Handed Sword,,item,todo,recommended,2,TYPENAME.FLX:4565,P8-A candidate scan,,
+Two Handed Sword,雙手劍,item,approved,recommended,2,TYPENAME.FLX:4565,台灣中文手冊 Journal p.37,官方譯名：台灣中文手冊 Journal p.37,
 Ugh,,item,todo,recommended,1,TYPENAME.FLX:269,P8-A candidate scan,,
 Unpolished Diamond,,item,todo,recommended,1,TYPENAME.FLX:5219,P8-A candidate scan,,
 Unpolished Emerald,,item,todo,recommended,1,TYPENAME.FLX:5221,P8-A candidate scan,,
@@ -1353,7 +1353,7 @@ Vidos,,item,todo,recommended,1,TYPENAME.FLX:321,P8-A candidate scan,,
 Vine,,item,todo,recommended,1,TYPENAME.FLX:4712,P8-A candidate scan,,
 Violet gem,,item,todo,recommended,1,TYPENAME.FLX:3659,P8-A candidate scan,,
 Vortex Cube,,item,todo,recommended,1,TYPENAME.FLX:5665,P8-A candidate scan,,
-Vulture,,item,todo,recommended,1,TYPENAME.FLX:187,P8-A candidate scan,,
+Vulture,兀鷹,item,approved,recommended,1,TYPENAME.FLX:187,台灣中文手冊 Journal p.52,官方譯名：台灣中文手冊 Journal p.52,
 Wagon,,item,todo,recommended,2,TYPENAME.FLX:3841,P8-A candidate scan,,
 Wall,,item,todo,recommended,2,TYPENAME.FLX:3975,P8-A candidate scan,,
 Walter,,item,todo,recommended,1,TYPENAME.FLX:165,P8-A candidate scan,,
@@ -1371,7 +1371,7 @@ Weapons rack,,item,todo,recommended,1,TYPENAME.FLX:2813,P8-A candidate scan,,
 Well,,item,todo,recommended,2,TYPENAME.FLX:2461,P8-A candidate scan,,
 Wheat,小麥,item,approved,recommended,1,TYPENAME.FLX:4860,P8-A candidate scan,,never
 Wheel,,item,todo,recommended,1,TYPENAME.FLX:2472,P8-A candidate scan,,
-White Potion,白色藥水,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,,never
+White Potion,白色藥劑,item,approved,recommended,4,BOOKS-EN.FLX:207,P8-A candidate scan,2026-11-11 依手冊譯名連動：「白色藥水」→「白色藥劑」,never
 Willow tree,,item,todo,recommended,2,TYPENAME.FLX:3444,P8-A candidate scan,,
 Wilma,,item,todo,recommended,1,TYPENAME.FLX:109,P8-A candidate scan,,
 Winch,,item,todo,recommended,2,TYPENAME.FLX:3500,P8-A candidate scan,,
@@ -1382,7 +1382,7 @@ Winged corpse,,item,todo,recommended,3,TYPENAME.FLX:5262,P8-A candidate scan,,
 Winged Gargoyle,,item,todo,recommended,1,TYPENAME.FLX:16,P8-A candidate scan,,
 Winged Medallion,,item,todo,recommended,1,TYPENAME.FLX:5329,P8-A candidate scan,,
 Wislem's Crystal,,item,todo,recommended,1,TYPENAME.FLX:5501,P8-A candidate scan,,
-Wizard Eye Scroll,巫師眼捲軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,U7 Translation_Guide.md: Wizard Eye 巫師眼,never
+Wizard Eye Scroll,巫師之眼卷軸,item,approved,recommended,4,BOOKS-EN.FLX:194,P8-A candidate scan,2026-11-11 依手冊譯名連動：「巫師眼捲軸」→「巫師之眼卷軸」; U7 Translation_Guide.md: Wizard Eye 巫師眼,never
 Wolf,野狼,item,approved,recommended,1,TYPENAME.FLX:198,P8-A candidate scan,,never
 Wood,,item,todo,recommended,7,TYPENAME.FLX:3591,P8-A candidate scan,,
 Wood chips,,item,todo,recommended,1,TYPENAME.FLX:2560,P8-A candidate scan,,
@@ -1413,9 +1413,9 @@ Yarn,,item,todo,recommended,5,TYPENAME.FLX:2731,P8-A candidate scan,,
 Yellow dye,,item,todo,recommended,1,TYPENAME.FLX:2770,P8-A candidate scan,,
 Yellow globe,,item,todo,recommended,1,TYPENAME.FLX:2441,P8-A candidate scan,,
 Yellow poppies,,item,todo,recommended,1,TYPENAME.FLX:851,P8-A candidate scan,,
-Yellow Potion,黃色藥水,item,approved,recommended,8,BOOKS-EN.FLX:193,P8-A candidate scan,,never
+Yellow Potion,黃色藥劑,item,approved,recommended,8,BOOKS-EN.FLX:193,P8-A candidate scan,2026-11-11 依手冊譯名連動：「黃色藥水」→「黃色藥劑」,never
 Zhah's Sculpture,,item,todo,recommended,1,TYPENAME.FLX:4709,P8-A candidate scan,,
-Zombie,,item,todo,recommended,1,TYPENAME.FLX:206,P8-A candidate scan,,
+Zombie,僵屍,item,approved,recommended,1,TYPENAME.FLX:206,台灣中文手冊 Journal p.52,官方譯名：台灣中文手冊 Journal p.52,
 Zombie Legs,,item,todo,recommended,1,TYPENAME.FLX:204,P8-A candidate scan,,
 Zombie Torso,,item,todo,recommended,1,TYPENAME.FLX:205,P8-A candidate scan,,
 Karma,業力,system,approved,recommended,11,text.flx:3144,P8-A candidate scan,創世紀經典道德善惡值系統,never
@@ -1428,7 +1428,7 @@ Brae,,other,ignore,recommended,3,text.flx:5041,P8-A candidate scan,系統噪訊�
 Breathing,,other,ignore,recommended,3,BOOKS-EN.FLX:391,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
 British,,other,ignore,recommended,4,text.flx:1557,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
 Chaos,混沌,other,approved,recommended,5,BOOKS-EN.FLX:43,P8-A candidate scan,與唯一對立之混亂力量,first
-Control,掌控,other,approved,recommended,10,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼宇宙觀三原則之一,first
+Control,控制,other,approved,recommended,10,BOOKS-EN.FLX:43,台灣中文手冊 Journal p.58,官方譯名：台灣中文手冊 Journal p.58；2026-11-11 由「掌控」改為手冊譯名（手冊為第 1 順位權威）; 石像鬼宇宙觀三原則之一,first
 Diligence,勤勉,other,approved,recommended,17,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼宇宙觀三原則之一,first
 Direction,方向,other,approved,recommended,3,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼美德（掌控＋勤勉）,first
 Feeling,感應,other,approved,recommended,3,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼美德（熱忱＋勤勉）,first
@@ -1436,8 +1436,8 @@ Goods,,other,ignore,recommended,4,BOOKS-EN.FLX:211,P8-A candidate scan,系統噪
 Healing,,other,ignore,recommended,5,BOOKS-EN.FLX:196,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
 Holmgang,霍姆岡決鬥,other,approved,recommended,6,text.flx:4591,P8-A candidate scan,瓦洛利亞騎士團傳統的生死決鬥榮譽審判,first
 Honestly,,other,ignore,recommended,3,text.flx:4080,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
-Mantra,真言,other,approved,recommended,5,text.flx:5319,P8-A candidate scan,八大美德與法術的禱念真言,first
-Passion,熱忱,other,approved,recommended,14,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼宇宙觀三原則之一,first
+Mantra,祈禱詞,other,approved,recommended,5,text.flx:5319,台灣中文手冊 Journal p.57 字彙集,官方譯名：台灣中文手冊 Journal p.57 字彙集；2026-11-11 由「真言」改為手冊譯名（手冊為第 1 順位權威）; 八大美德與法術的禱念真言,first
+Passion,激情,other,approved,recommended,14,BOOKS-EN.FLX:43,台灣中文手冊 Journal p.58,官方譯名：台灣中文手冊 Journal p.58；2026-11-11 由「熱忱」改為手冊譯名（手冊為第 1 順位權威）; 石像鬼宇宙觀三原則之一,first
 Persistence,堅毅,other,approved,recommended,3,BOOKS-EN.FLX:43,P8-A candidate scan,石像鬼美德（掌控＋熱忱）,first
 Poison,,other,todo,recommended,4,BOOKS-EN.FLX:389,P8-A candidate scan,,
 Precision,,other,todo,recommended,4,BOOKS-EN.FLX:43,P8-A candidate scan,,
@@ -1451,8 +1451,43 @@ Serpent,巨蛇,other,approved,recommended,16,text.flx:1282,P8-A candidate scan,�
 Shop,,other,ignore,recommended,10,BOOKS-EN.FLX:3,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
 Shop Sell,,other,ignore,recommended,5,BOOKS-EN.FLX:192,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
 Silver,,other,ignore,recommended,8,BOOKS-EN.FLX:196,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
-Singularity,唯一,other,approved,recommended,5,text.flx:136,P8-A candidate scan,石像鬼核心宇宙觀哲學：歸一、萬物本源,first
+Singularity,單一論,other,approved,recommended,5,text.flx:136,台灣中文手冊 Journal p.58 字彙集,官方譯名：台灣中文手冊 Journal p.58 字彙集；2026-11-11 由「唯一」改為手冊譯名（手冊為第 1 順位權威）; 石像鬼核心宇宙觀哲學：歸一、萬物本源,first
 Spiritual,,other,ignore,recommended,5,text.flx:4096,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
 Tome,,other,ignore,recommended,4,text.flx:6841,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
 White,,other,ignore,recommended,5,BOOKS-EN.FLX:194,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
 Yellow,,other,ignore,recommended,8,BOOKS-EN.FLX:194,P8-A candidate scan,系統噪訊或非專有名詞，予以忽略,
+Ether,以太,other,approved,recommended,0,,台灣中文手冊 魔法書 p.38 字彙集,官方譯名：台灣中文手冊 魔法書 p.38 字彙集；2026-11-11 新增,never
+Xerces,吉爾瑟斯,person,approved,recommended,0,,台灣中文手冊 Journal p.16,官方譯名：台灣中文手冊 Journal p.16；2026-11-11 新增,
+Genser,簡舍,person,approved,recommended,0,,台灣中文手冊 魔法書 p.5,官方譯名：台灣中文手冊 魔法書 p.5；2026-11-11 新增,
+Arduin,阿杜恩,person,approved,recommended,0,,台灣中文手冊 魔法書 p.3,官方譯名：台灣中文手冊 魔法書 p.3；2026-11-11 新增,
+Grimwar,格林瓦,person,approved,recommended,0,,台灣中文手冊 魔法書 p.3,官方譯名：台灣中文手冊 魔法書 p.3；2026-11-11 新增,
+Baldir,巴爾迪,person,approved,recommended,0,,台灣中文手冊 魔法書 p.23,官方譯名：台灣中文手冊 魔法書 p.23；2026-11-11 新增,
+Muirak,穆伊拉,person,approved,recommended,0,,台灣中文手冊 魔法書 p.21,官方譯名：台灣中文手冊 魔法書 p.21；2026-11-11 新增,
+Ulthar,烏薩爾,person,approved,recommended,0,,台灣中文手冊 Journal p.48,官方譯名：台灣中文手冊 Journal p.48；2026-11-11 新增,
+Pom,彭,person,approved,recommended,0,,台灣中文手冊 Journal p.28,官方譯名：台灣中文手冊 Journal p.28；2026-11-11 新增,
+Titans,泰坦神,other,approved,recommended,0,,台灣中文手冊 Journal p.15,官方譯名：台灣中文手冊 Journal p.15；2026-11-11 新增,never
+Jhelom,傑倫,place,approved,recommended,0,,台灣中文手冊 Journal p.23,官方譯名：台灣中文手冊 Journal p.23；2026-11-11 新增,
+Lost Hope Bay,失望灣,place,approved,recommended,0,,台灣中文手冊 Journal p.19,官方譯名：台灣中文手冊 Journal p.19；2026-11-11 新增,
+Isle of Dagger,匕首之島,place,approved,recommended,0,,台灣中文手冊 Journal p.19,官方譯名：台灣中文手冊 Journal p.19；2026-11-11 新增,
+Maelstrom,大旋渦,place,approved,recommended,0,,台灣中文手冊 Journal p.57 字彙集,官方譯名：台灣中文手冊 Journal p.57 字彙集；2026-11-11 新增,
+Two-Handed Hammer,雙手戰鎚,item,approved,recommended,0,,台灣中文手冊 Journal p.37,官方譯名：台灣中文手冊 Journal p.37；2026-11-11 新增,
+Codex of Infinite Wisdom,無限智慧的典籍,item,approved,recommended,0,,"台灣中文手冊 Journal p.17,24","官方譯名：台灣中文手冊 Journal p.17,24；2026-11-11 新增",
+Glyph,邪符,item,approved,recommended,0,,台灣中文手冊 Journal p.57 字彙集,官方譯名：台灣中文手冊 Journal p.57 字彙集；2026-11-11 新增,
+Rune,符石,item,approved,recommended,0,,台灣中文手冊 Journal p.58 字彙集,官方譯名：台灣中文手冊 Journal p.58 字彙集；2026-11-11 新增,
+Sigil,印記,item,approved,recommended,0,,台灣中文手冊 Journal p.58 字彙集,官方譯名：台灣中文手冊 Journal p.58 字彙集；2026-11-11 新增,
+Relic,聖物,item,approved,recommended,0,,台灣中文手冊 Journal p.57 字彙集,官方譯名：台灣中文手冊 Journal p.57 字彙集；2026-11-11 新增,
+Gem,寶石,item,approved,recommended,0,,台灣中文手冊 魔法書 p.38 字彙集,官方譯名：台灣中文手冊 魔法書 p.38 字彙集；2026-11-11 新增,
+Bat,蝙蝠,monster,approved,recommended,0,,台灣中文手冊 Journal p.44,官方譯名：台灣中文手冊 Journal p.44；2026-11-11 新增,never
+Goblin,惡鬼,monster,approved,recommended,0,,台灣中文手冊 Journal p.47,官方譯名：台灣中文手冊 Journal p.47；2026-11-11 新增,never
+Goblins,惡鬼,monster,approved,recommended,0,,台灣中文手冊 Journal p.47,官方譯名：台灣中文手冊 Journal p.47；2026-11-11 新增; variant of Goblin,never
+Mimic,擬箱怪,monster,approved,recommended,0,,台灣中文手冊 Journal p.49,官方譯名：台灣中文手冊 Journal p.49；2026-11-11 新增,never
+Sea Serpent,巨海蛇,monster,approved,recommended,0,,台灣中文手冊 Journal p.50,官方譯名：台灣中文手冊 Journal p.50；2026-11-11 新增,never
+Spider,蜘蛛,monster,approved,recommended,0,,台灣中文手冊 Journal p.51,官方譯名：台灣中文手冊 Journal p.51；2026-11-11 新增,never
+Daemon,惡魔,monster,approved,recommended,0,,台灣中文手冊 Journal p.45,官方譯名：台灣中文手冊 Journal p.45；2026-11-11 新增,never
+Gargoyle Drone,下級石像鬼,monster,approved,recommended,0,,台灣中文手冊 Journal p.46,官方譯名：台灣中文手冊 Journal p.46；2026-11-11 新增,never
+Crustacean,甲殼怪,monster,approved,recommended,0,,台灣中文手冊 Journal p.45,官方譯名：台灣中文手冊 Journal p.45；2026-11-11 新增,never
+Fellowship,共濟會,organization,approved,recommended,0,,台灣中文手冊 Journal p.14,官方譯名：台灣中文手冊 Journal p.14；2026-11-11 新增,
+Order of the Silver Serpent,銀蛇騎士團,organization,approved,recommended,0,,台灣中文手冊 Journal p.10,官方譯名：台灣中文手冊 Journal p.10；2026-11-11 新增,
+Knights of Valoria,瓦羅尼亞騎士,organization,approved,recommended,0,,台灣中文手冊 Journal p.23,官方譯名：台灣中文手冊 Journal p.23；2026-11-11 新增; variant of Valorian,
+Druids,德魯伊教徒,organization,approved,recommended,0,,"台灣中文手冊 Journal p.23,25","官方譯名：台灣中文手冊 Journal p.23,25；2026-11-11 新增",
+Infinity,無限,virtue,approved,recommended,0,,台灣中文手冊 Journal p.57 字彙集,官方譯名：台灣中文手冊 Journal p.57 字彙集；2026-11-11 新增,
