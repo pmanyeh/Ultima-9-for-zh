@@ -95,7 +95,13 @@
 - 影片 Esc 跳過：session 24 PASS（1.96 秒時由遊戲的按鍵處理停止）。
 - 旁白字幕在某些視角消失：只記錄、不修改。證據強，是原版行為，見 `docs/research/U9_NARRATION_CAMERA_VISIBILITY.md`。
 - session 24 的「閃退」其實是視窗被最小化，遊戲仍在執行；原因不明，可能是焦點被搶走。
-- 目前最新建置是 `out-m23`，存檔在 `.local/p10-misc/session-27/final-savegame`。
+- 啟動頁 `U9Cht.exe`（`3ae3b5f`，runtime 0.2.42，說明見 `runtime/U9ChtFront/README.md`）：
+  - 頁面內容：遊戲位置、強化功能開關、字型與日誌排版、解析度。
+  - 開始遊戲時套用中文化資料，離開後還原。
+  - 解析度只支援 800×600 和 1600×1200，其他大小會讓 runtime 以錯誤 18 結束遊戲。
+  - 測試資料夾：`.local/p10-misc/front-release`，遊戲位置指向私人副本。
+  - **測試時不要按「自動搜尋」**：它會找到使用者原本的 GOG 安裝。
+- 目前最新建置是 `out-m24`，存檔在 `.local/p10-misc/session-27/final-savegame`。
 
 ## 4. 用中文手冊校對文本（2026-11-11 完成）
 
@@ -182,6 +188,11 @@ python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-12
 - session 11 在播放影片時截圖，遊戲閃退（0xC0000005，原因 UNKNOWN，當時 runtime 閒置）。可以拿原版遊戲比對看看。
 
 ## 6. 其他待辦
+
+- 啟動頁下一步：在玩家電腦上建置 `data/`。
+  - 需要附帶 Python（embeddable 版）和 `u9cht` 套件，從玩家自己的遊戲檔建置。
+  - 建置出的 FLX 含英文原文，不能散布。
+- 發布打包流程：還沒規劃。
 
 - 避頭點（行首標點）規則、英文單字中途斷行。
 - 用 ✕ 關窗時的 0xC000041D 與原版比對。
