@@ -23,7 +23,7 @@ extern "C" DWORD WINAPI U9ChtInitialize(void* argument) noexcept {
         config->error = u9cht::Error::ImageBase;
         u9cht::require(config->image_base == u9cht::GameBase, "unexpected game image base");
         config->error = u9cht::Error::Baseline;
-        u9cht::require(u9cht::sha256(game / L"u9.exe") == u9cht::ExeHash, "executable hash mismatch");
+        u9cht::require(u9cht::known_exe(u9cht::sha256(game / L"u9.exe")), "executable hash mismatch");
         u9cht::require(u9cht::sha256(game / L"ddraw.dll") == u9cht::WrapperHash, "wrapper hash mismatch");
         u9cht::require(std::filesystem::equivalent(u9cht::module_path(nullptr), game / L"u9.exe"),
                        "running executable path mismatch");

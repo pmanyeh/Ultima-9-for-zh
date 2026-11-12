@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(U9ChtRuntime VERSION 0.2.42 LANGUAGES C CXX)
+project(U9ChtRuntime VERSION 0.2.43 LANGUAGES C CXX)
 if(NOT WIN32 OR NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   message(FATAL_ERROR "U9Cht requires MSVC Win32/x86: configure with -A Win32")
 endif()

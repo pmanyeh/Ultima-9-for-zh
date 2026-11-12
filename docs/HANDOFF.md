@@ -101,6 +101,14 @@
   - 解析度只支援 800×600 和 1600×1200，其他大小會讓 runtime 以錯誤 18 結束遊戲。
   - 測試資料夾：`.local/p10-misc/front-release`，遊戲位置指向私人副本。
   - **測試時不要按「自動搜尋」**：它會找到使用者原本的 GOG 安裝。
+- Steam 版支援（runtime 0.2.43）：
+  - Steam 版 `u9.exe` 就是 GOG 版加上 EA 數位簽章；程式碼、`ddraw.dll`、4 個 FLX 都相同（CONFIRMED）。
+  - 啟動器和 runtime 接受兩種雜湊值。
+  - 自動搜尋會讀 Steam 遊戲庫（`libraryfolders.vdf`）；同時找到 GOG 和 Steam 版時，由玩家用「切換版本」按鈕選擇。
+  - Steam 版的 `dxcfg.ini` 是 `display=desktop`，改解析度時不動它。
+  - 私人副本 `.local/steam-game` 已在遊戲內實測，中文化正常（2026-11-12）。
+  - **測試時也不要按「切換版本」**：它會指到使用者原本的安裝。
+- 「讀檔後再開新遊戲，世界沒有重置」：原版 bug，英文原版也會（CONFIRMED）。只記錄，見 `docs/research/U9_NEW_GAME_AFTER_LOAD.md`。說明檔要提醒玩家先重新啟動遊戲。
 - 目前最新建置是 `out-m24`，存檔在 `.local/p10-misc/session-27/final-savegame`。
 
 ## 4. 用中文手冊校對文本（2026-11-11 完成）
@@ -193,6 +201,7 @@ python scripts/run_p8_0_session.py finish --session .local/p10-misc/session-12
   - 需要附帶 Python（embeddable 版）和 `u9cht` 套件，從玩家自己的遊戲檔建置。
   - 建置出的 FLX 含英文原文，不能散布。
 - 發布打包流程：還沒規劃。
+- 說明檔 `說明.txt`：要寫進「開新遊戲前請先重新啟動遊戲」（原版 bug）。
 
 - 避頭點（行首標點）規則、英文單字中途斷行。
 - 用 ✕ 關窗時的 0xC000041D 與原版比對。

@@ -2,6 +2,7 @@
 #include "front_core.h"
 #include "platform.h"
 #include "protocol.h"
+#include "version_manifest.h"
 #include <fstream>
 #include <iostream>
 
@@ -43,6 +44,17 @@ int main() {
         check(!read_manifest(root / L"bad.json").ok, "unsafe or unmatched names rejected");
         check(!read_manifest(root / L"absent.json").ok, "absent manifest");
     }
+    {   // Steam libraries and editions
+        const std::string vdf = "\"libraryfolders\"\n{\n\t\"0\"\n\t{\n\t\t\"path\"\t\t\"C:\\\\Program Files (x86)\\\\Steam\"\n"
+                                "\t\t\"label\"\t\t\"\"\n\t}\n\t\"1\"\n\t{\n\t\t\"path\"\t\t\"D:\\\\Steam \\\"Lib\\\"\"\n\t}\n}\n";
+        const auto libs = steam_library_paths(vdf);
+        check(libs.size() == 2 && libs[0] == L"C:\\Program Files (x86)\\Steam" && libs[1] == L"D:\\Steam \"Lib\"", "vdf library paths");
+        check(steam_library_paths("").empty() && steam_library_paths("\"path\" \"unterminated").empty(), "vdf malformed");
+        check(std::wstring(exe_edition(ExeHash)) == L"GOG" && std::wstring(exe_edition(SteamExeHash)) == L"Steam" &&
+              std::wstring(exe_edition(std::wstring(64, L'0'))).empty() && known_exe(SteamExeHash), "editions");
+        write(root / L"ed" / L"u9.exe", "not the game");
+        check(game_edition(root / L"ed").empty() && game_edition(root / L"none").empty(), "unsupported or missing exe");
+    }
     {   // Settings round trip, defaults and clamping
         const auto ini = root / L"u9cht.ini", front = root / L"front.ini";
         auto d = load_settings(ini, front);
@@ -69,8 +81,12 @@ int main() {
         check(read(game / L"Options.ini") == "[Video]\r\nGameScreenWidth=1600\r\nGameScreenHeight=1200\r\nGameScreenDepth=32\r\n" &&
               read(game / L"dxcfg.ini") == "[general]\r\ndisplay=1600x1200@120\r\npresentation=windowed\r\n", "only sizes changed");
         check(apply_resolution(game, {0, 0}).ok && game_resolution(game).width == 1600, "zero keeps the setting");
-        write(game / L"dxcfg.ini", "[general]\r\npresentation=windowed\r\n");
-        check(!apply_resolution(game, {800, 600}).ok && game_resolution(game).width == 1600, "unexpected format refused untouched");
+        write(game / L"dxcfg.ini", "[general]\r\ndisplay=desktop\r\npresentation=application\r\n");   // Steam release
+        check(apply_resolution(game, {800, 600}).ok && game_resolution(game).width == 800 &&
+              read(game / L"dxcfg.ini") == "[general]\r\ndisplay=desktop\r\npresentation=application\r\n", "desktop wrapper left as is");
+        write(game / L"Options.ini", "[Video]\r\nGameScreenDepth=32\r\n");
+        check(!apply_resolution(game, {1600, 1200}).ok && read(game / L"Options.ini") == "[Video]\r\nGameScreenDepth=32\r\n",
+              "Options.ini without sizes refused untouched");
         check(game_resolution(root / L"nowhere").width == 0, "missing Options.ini");
         const auto ini = root / L"r-u9cht.ini", front = root / L"r-front.ini";
         auto s = default_settings(); s.width = 1600; s.height = 1200;

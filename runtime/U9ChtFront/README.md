@@ -8,7 +8,7 @@ puts the original files back.
 
 | Section | Contents | Stored in |
 | --- | --- | --- |
-| 遊戲位置 | Folder holding `u9.exe`. Found automatically from the GOG registry entries, uninstall entries and common GOG folders, or chosen by hand. Checks the `u9.exe` and `ddraw.dll` hashes (GOG release) and the four static files. | `front.ini` `[game] dir` |
+| 遊戲位置 | Folder holding `u9.exe`. Found automatically from the GOG registry entries, the Steam libraries (`libraryfolders.vdf`), uninstall entries and common GOG folders, or chosen by hand. When more than one install is found, 切換版本 buttons let the player choose. Checks the `u9.exe` hash (GOG or Steam release), `ddraw.dll` and the four static files. | `front.ini` `[game] dir` |
 | 中文化資料 | State of `data/` (the `build_localization.py` output) and its plan count. | — |
 | 強化功能 | Hover names (with the delay), wheel paging, Ctrl+wheel zoom, movie subtitles. | `u9cht.ini` `[features]` |
 | 畫面與字型 | Chinese font, journal letter and line spacing, resolution (keep, 800×600 or 1600×1200). | `u9cht.ini` `[font]` and `[journal]`; `front.ini` `[display]` |
@@ -34,6 +34,16 @@ Choosing a size changes only these values; every other byte of both files is kep
 - `display=WxH` in `dxcfg.ini`.
 
 The change is persistent, like changing it in the game's own options.
+
+The Steam release ships `dxcfg.ini` with `display=desktop`, which scales the game to the desktop. That line names no size, so it is left as it is and only `Options.ini` changes.
+
+## Steam release
+
+The Steam `u9.exe` (app 3067560) is the GOG executable with an Electronic Arts Authenticode signature appended. This was CONFIRMED on 2026-11-12:
+- after removing the signature, the bytes are identical;
+- `ddraw.dll` and the four static files are identical.
+
+Every hooked address is therefore the same. `version_manifest.h` accepts both hashes (`known_exe`, `exe_edition`). The Steam copy was played in game through this page on 2026-11-12.
 
 ## Install model
 
@@ -68,6 +78,7 @@ Everything sits beside `U9Cht.exe` unless overridden on the command line:
 
 - `U9ChtFrontCoreTests` (ctest) runs only on synthetic files. It covers:
   - manifest parsing;
+  - Steam library parsing and editions;
   - settings round trip and clamping;
   - resolution edits;
   - install, recover, a foreign change, version mismatch and damaged data.

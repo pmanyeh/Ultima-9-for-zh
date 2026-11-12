@@ -118,7 +118,7 @@ int wmain(int argc, wchar_t** argv) {
                          (std::filesystem::path(module_path(nullptr)).parent_path() / L"U9ChtRuntime.dll").wstring());
         const auto log_path = std::filesystem::absolute(options[L"--log"]);
         require(std::filesystem::is_directory(log_path.parent_path()), "log directory must exist");
-        require(sha256(game / L"u9.exe") == ExeHash && sha256(game / L"ddraw.dll") == WrapperHash,
+        require(known_exe(sha256(game / L"u9.exe")) && sha256(game / L"ddraw.dll") == WrapperHash,
                 "STOP: executable/wrapper baseline mismatch");
         Config config;
         if (options.count(L"--mode")) {

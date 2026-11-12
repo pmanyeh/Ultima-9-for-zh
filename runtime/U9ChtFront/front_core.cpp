@@ -165,7 +165,7 @@ Manifest read_manifest(const fs::path& file) {
 GameStatus check_game(const fs::path& dir, const Manifest& m, std::wstring* detail) {
     std::error_code ec;
     if (dir.empty() || !fs::is_regular_file(dir / L"u9.exe", ec)) return GameStatus::NotFound;
-    if (hash_or_empty(dir / L"u9.exe") != ExeHash) return GameStatus::ExeMismatch;
+    if (!known_exe(hash_or_empty(dir / L"u9.exe"))) return GameStatus::ExeMismatch;
     if (hash_or_empty(dir / L"ddraw.dll") != WrapperHash) return GameStatus::WrapperMismatch;
     for (const auto& [name, source] : m.source) {
         const auto now = hash_or_empty(dir / L"static" / name);
@@ -173,6 +173,28 @@ GameStatus check_game(const fs::path& dir, const Manifest& m, std::wstring* deta
         if (now != source && now != out) { if (detail) *detail = name; return GameStatus::ResourceMismatch; }
     }
     return GameStatus::Ok;
+}
+
+std::wstring game_edition(const fs::path& dir) { return exe_edition(hash_or_empty(dir / L"u9.exe")); }
+
+std::vector<std::wstring> steam_library_paths(const std::string& vdf) {
+    std::vector<std::wstring> out;
+    size_t at = 0;
+    while ((at = vdf.find("\"path\"", at)) != std::string::npos) {
+        at += 6;
+        const auto open = vdf.find('"', at);
+        if (open == std::string::npos) break;
+        std::string text;
+        size_t i = open + 1;
+        for (; i < vdf.size() && vdf[i] != '"'; ++i) {
+            if (vdf[i] == '\\' && i + 1 < vdf.size()) ++i;   // VDF escapes: a doubled backslash, an escaped quote
+            text += vdf[i];
+        }
+        if (i >= vdf.size()) break;
+        if (!text.empty()) out.push_back(widen(text));
+        at = i + 1;
+    }
+    return out;
 }
 
 std::vector<fs::path> find_game_candidates() {
@@ -213,11 +235,29 @@ std::vector<fs::path> find_game_candidates() {
         scan(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall", view, L"DisplayName", L"InstallLocation");
     }
     scan(HKEY_CURRENT_USER, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall", 0, L"DisplayName", L"InstallLocation");
+    {   // Steam: every library in libraryfolders.vdf, at the release's install folder.
+        std::vector<std::wstring> steam;
+        HKEY key = nullptr;
+        if (RegOpenKeyExW(HKEY_CURRENT_USER, L"SOFTWARE\\Valve\\Steam", 0, KEY_READ, &key) == ERROR_SUCCESS) {
+            steam.push_back(value(key, L"SteamPath")); RegCloseKey(key);
+        }
+        if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Valve\\Steam", 0, KEY_READ | KEY_WOW64_32KEY, &key) == ERROR_SUCCESS) {
+            steam.push_back(value(key, L"InstallPath")); RegCloseKey(key);
+        }
+        for (const auto& root : steam) {
+            if (root.empty()) continue;
+            std::ifstream in(fs::path(root) / L"steamapps" / L"libraryfolders.vdf", std::ios::binary);
+            std::ostringstream text; text << in.rdbuf();
+            auto libraries = steam_library_paths(text.str());
+            libraries.push_back(root);
+            for (const auto& lib : libraries) add((fs::path(lib) / L"steamapps" / L"common" / L"Ultima IX").wstring());
+        }
+    }
     for (const wchar_t* dir : {L"C:\\GOG Games\\Ultima 9", L"C:\\GOG Games\\Ultima IX",
                                L"C:\\Program Files (x86)\\GOG Galaxy\\Games\\Ultima 9",
                                L"C:\\Program Files (x86)\\GOG.com\\Ultima 9"}) add(dir);
     std::stable_sort(found.begin(), found.end(), [](const fs::path& a, const fs::path& b) {
-        return (hash_or_empty(a / L"u9.exe") == ExeHash) > (hash_or_empty(b / L"u9.exe") == ExeHash);
+        return !game_edition(a).empty() > !game_edition(b).empty();
     });
     return found;
 }
@@ -252,8 +292,10 @@ Result apply_resolution(const fs::path& game, Resolution r) {
     if (!read_bytes(game / L"Options.ini", options) || !read_bytes(game / L"dxcfg.ini", wrapper))
         return {false, L"找不到 Options.ini 或 dxcfg.ini，無法設定解析度。"};
     const std::regex width("GameScreenWidth=\\d{1,5}"), height("GameScreenHeight=\\d{1,5}"), display("display=\\d{1,5}x\\d{1,5}");
-    if (!std::regex_search(options, width) || !std::regex_search(options, height) || !std::regex_search(wrapper, display))
-        return {false, L"Options.ini 或 dxcfg.ini 的格式和預期不同，沒有修改解析度。"};
+    if (!std::regex_search(options, width) || !std::regex_search(options, height))
+        return {false, L"Options.ini 的格式和預期不同，沒有修改解析度。"};
+    // The game renders at the Options.ini size. dxcfg.ini follows only when it names a size: the Steam release
+    // ships display=desktop (the wrapper scales to the desktop), which is left as it is.
     const auto w = std::to_string(r.width), h = std::to_string(r.height);
     const auto first = std::regex_constants::format_first_only;
     const auto new_options = std::regex_replace(std::regex_replace(options, width, "GameScreenWidth=" + w, first),

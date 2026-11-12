@@ -32,12 +32,14 @@ constexpr int Width = 900, Height = 716;
 
 enum Id {
     None, BrowseGame, SearchGame, Hover, DelayMinus, DelayPlus, Wheel, Zoom, Movies,
-    FontPick, FontDefault, LetterMinus, LetterPlus, LineMinus, LinePlus, ResPrev, ResNext, Start, Help, Report, Quit
+    FontPick, FontDefault, LetterMinus, LetterPlus, LineMinus, LinePlus, ResPrev, ResNext, Start, Help, Report, Quit, Choice0, Choice1, Choice2
 };
 struct Hit { RECT r; Id id; bool enabled; };
 
 struct App {
     fs::path base, data, runtime, fonts;
+    std::vector<fs::path> candidates;   // installs found by the last search (GOG, Steam, ...)
+    std::wstring edition;               // of the selected folder: "GOG", "Steam" or ""
     Settings s;
     Manifest manifest;
     GameStatus game = GameStatus::NotFound;
@@ -77,19 +79,27 @@ void save() {
 void refresh_game() {
     app.game_detail.clear();
     app.game = check_game(app.s.game_dir, app.manifest, &app.game_detail);
+    app.edition = app.s.game_dir.empty() ? std::wstring() : game_edition(app.s.game_dir);
 }
+// Searches for installs. A valid chosen folder is kept; otherwise the first supported install is chosen.
+// With more than one install the page shows a button for each, and the player picks.
 void search_game(bool keep_valid) {
+    app.candidates = find_game_candidates();
+    if (app.candidates.size() > 3) app.candidates.resize(3);
     if (keep_valid && app.game == GameStatus::Ok) return;
-    const auto found = find_game_candidates();
-    if (!found.empty()) { app.s.game_dir = found.front().wstring(); refresh_game(); save(); }
+    if (!app.candidates.empty()) { app.s.game_dir = app.candidates.front().wstring(); refresh_game(); save(); }
+}
+std::wstring choice_label(const fs::path& dir) {
+    const auto e = game_edition(dir);
+    return e.empty() ? dir.filename().wstring() : e + L" 版";
 }
 std::wstring game_status_text(bool& ok) {
     ok = app.game == GameStatus::Ok;
     switch (app.game) {
-    case GameStatus::Ok: return L"✔ 已找到遊戲，版本相符（GOG 版）";
+    case GameStatus::Ok: return L"✔ 已找到遊戲，版本相符（" + app.edition + L" 版）";
     case GameStatus::NotFound: return app.s.game_dir.empty() ? L"✘ 找不到遊戲，請按「選擇資料夾」指定 Ultima 9 的安裝位置"
                                                               : L"✘ 這個資料夾裡沒有 u9.exe";
-    case GameStatus::ExeMismatch: return L"✘ u9.exe 版本不符：目前只支援 GOG 版";
+    case GameStatus::ExeMismatch: return L"✘ u9.exe 版本不符：目前支援 GOG 版和 Steam 版";
     case GameStatus::WrapperMismatch: return L"✘ ddraw.dll 不是 GOG 版附的版本";
     case GameStatus::ResourceMismatch: return L"✘ 遊戲檔案和中文化資料不相符：static\\" + app.game_detail;
     }
@@ -163,7 +173,18 @@ void paint(HDC dc) {
     p.button(628, 138, 112, 32, L"選擇資料夾…", BrowseGame, idle);
     p.button(748, 138, 112, 32, L"自動搜尋", SearchGame, idle);
     bool game_ok = false; const auto status = game_status_text(game_ok);
-    p.text(40, 174, 820, 26, status, p.note, game_ok ? Good : Bad);
+    const bool choose = app.candidates.size() > 1;
+    p.text(40, 174, choose ? 470 : 820, 26, status, p.note, game_ok ? Good : Bad);
+    if (choose) {
+        // One button per install found; the selected one is drawn as primary.
+        int x = 860 - int(app.candidates.size()) * 118 + 6;
+        p.text(x - 80, 174, 76, 26, L"切換版本：", p.note, Muted, DT_RIGHT);
+        for (size_t i = 0; i < app.candidates.size(); ++i, x += 118) {
+            std::error_code ec;
+            const bool current = !app.s.game_dir.empty() && fs::equivalent(app.candidates[i], app.s.game_dir, ec);
+            p.button(x, 172, 112, 28, choice_label(app.candidates[i]), Id(Choice0 + int(i)), idle, current);
+        }
+    }
 
     p.heading_line(210, L"中文化資料");
     std::wstring data;
@@ -312,9 +333,18 @@ void act(Id id) {
     switch (id) {
     case BrowseGame: { const auto dir = pick_folder(app.window); if (!dir.empty()) { s.game_dir = dir; refresh_game(); } break; }
     case SearchGame: {
-        const auto found = find_game_candidates();
-        if (found.empty()) set_message(L"自動搜尋沒有找到 Ultima 9，請用「選擇資料夾」指定。", true);
-        else { s.game_dir = found.front().wstring(); refresh_game(); set_message(L"找到：" + s.game_dir, false); }
+        search_game(true);
+        if (app.candidates.empty()) set_message(L"自動搜尋沒有找到 Ultima 9，請用「選擇資料夾」指定。", true);
+        else if (app.candidates.size() == 1) set_message(L"找到：" + app.candidates.front().wstring(), false);
+        else set_message(L"找到 " + std::to_wstring(app.candidates.size()) + L" 個安裝，可以用右上方的按鈕切換。", false);
+        break;
+    }
+    case Choice0: case Choice1: case Choice2: {
+        const size_t i = size_t(id - Choice0);
+        if (i < app.candidates.size()) {
+            s.game_dir = app.candidates[i].wstring(); refresh_game();
+            set_message(L"改用：" + s.game_dir, false);
+        }
         break;
     }
     case Hover: toggle(FeatureHoverNames); break;

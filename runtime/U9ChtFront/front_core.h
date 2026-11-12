@@ -55,8 +55,13 @@ std::map<std::wstring, std::wstring> json_hash_object(const std::string& json, c
 enum class GameStatus { Ok, NotFound, ExeMismatch, WrapperMismatch, ResourceMismatch };
 // ResourceMismatch: a static file matches neither the build's source nor its output.
 GameStatus check_game(const fs::path& dir, const Manifest& m, std::wstring* detail = nullptr);
-// Registry (GOG, uninstall entries) and common folders; folders holding u9.exe, best match first.
+// Registry (GOG, Steam libraries, uninstall entries) and common folders; folders holding u9.exe, supported
+// editions first.
 std::vector<fs::path> find_game_candidates();
+// "GOG", "Steam" or "" (no u9.exe, or an executable this release does not support).
+std::wstring game_edition(const fs::path& dir);
+// Library folders listed in a Steam libraryfolders.vdf text (exposed for tests).
+std::vector<std::wstring> steam_library_paths(const std::string& vdf);
 
 struct Result { bool ok = true; std::wstring message; };
 // Undo an install whose receipt is in `backup`. Files changed by anything else are left alone and reported.
