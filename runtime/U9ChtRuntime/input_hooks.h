@@ -27,6 +27,7 @@ struct Options {
     bool probe = false;
     bool wheel = false;
     bool hover = false;
+    bool zoom = false;               // Ctrl+wheel -> zoom (independent of wheel paging)
     DWORD hover_delay_ms = 250;
 };
 void configure(const Options& options);

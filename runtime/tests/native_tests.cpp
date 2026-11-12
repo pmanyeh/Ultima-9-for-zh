@@ -15,6 +15,11 @@ int wmain(int argc, wchar_t** argv) {
         c.protocol++; require(!valid_protocol(c), "wrong protocol accepted"); c.protocol--;
         c.size--; require(!valid_protocol(c), "wrong ABI size accepted"); c.size++;
         c.flags = 8; require(!valid_protocol(c), "unknown flags accepted"); c.flags = 0;
+        c.features = 32; require(!valid_protocol(c), "unknown feature accepted"); c.features = AllFeatures;
+        require(valid_protocol(c), "all features rejected"); c.features = DefaultFeatures;
+        c.hover_delay_ms = MinHoverDelayMs-1; require(!valid_protocol(c), "short hover delay accepted");
+        c.hover_delay_ms = MaxHoverDelayMs+1; require(!valid_protocol(c), "long hover delay accepted");
+        c.hover_delay_ms = DefaultHoverDelayMs;
         c.mode = static_cast<Mode>(99); require(!valid_protocol(c), "unknown mode accepted");
         require(sha256_bytes("abc", 3) == L"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
                 "SHA-256 known vector failed");

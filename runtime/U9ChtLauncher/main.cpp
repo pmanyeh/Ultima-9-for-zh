@@ -45,7 +45,8 @@ std::vector<std::wstring> ini_list(const wchar_t* section, const std::filesystem
 }
 std::map<std::wstring, std::wstring> read_settings(const std::filesystem::path& file) {
     static const std::map<std::wstring, std::vector<std::wstring>> known = {
-        {L"font", {L"file"}}, {L"journal", {L"letter_spacing", L"line_spacing"}}};
+        {L"font", {L"file"}}, {L"journal", {L"letter_spacing", L"line_spacing"}},
+        {L"features", {L"hover_names", L"hover_delay_ms", L"wheel_pages", L"wheel_zoom", L"movie_subtitles", L"input_probe"}}};
     need(std::filesystem::is_regular_file(file), "settings file not found");
     std::map<std::wstring, std::wstring> values;
     for (const auto& section : ini_list(nullptr, file)) {
@@ -139,6 +140,26 @@ int wmain(int argc, wchar_t** argv) {
                 need(value <= max, "settings: " + utf8(key) + " must be 0.." + std::to_string(max));
                 out = value;
             };
+            auto toggle = [&](const wchar_t* key, uint32_t bit) {
+                if (!settings.count(key)) return;
+                const auto& text = settings.at(key);
+                need(text == L"0" || text == L"1", "settings: " + utf8(key) + " must be 0 or 1");
+                config.features = text == L"1" ? (config.features | bit) : (config.features & ~bit);
+            };
+            toggle(L"features.hover_names", FeatureHoverNames);
+            toggle(L"features.wheel_pages", FeatureWheelPages);
+            toggle(L"features.wheel_zoom", FeatureWheelZoom);
+            toggle(L"features.movie_subtitles", FeatureMovieSubtitles);
+            toggle(L"features.input_probe", FeatureInputProbe);
+            if (settings.count(L"features.hover_delay_ms")) {
+                const auto& text = settings.at(L"features.hover_delay_ms");
+                need(!text.empty() && text.size() <= 4 && std::all_of(text.begin(), text.end(), iswdigit),
+                     "settings: features.hover_delay_ms must be a whole number");
+                const auto value = uint32_t(std::stoul(text));
+                need(value >= MinHoverDelayMs && value <= MaxHoverDelayMs, "settings: features.hover_delay_ms must be " +
+                     std::to_string(MinHoverDelayMs) + ".." + std::to_string(MaxHoverDelayMs));
+                config.hover_delay_ms = value;
+            }
             number(L"journal.letter_spacing", MaxJournalLetterSpacing, config.journal_letter_spacing);
             number(L"journal.line_spacing", MaxJournalLineSpacing, config.journal_line_spacing);
             if (settings.count(L"font.file")) {

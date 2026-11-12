@@ -1532,10 +1532,10 @@ void Engine::install(const Config& config, Logger& logger) {
         "\",\"resource_sha256\":\""+utf8(pack.resource_hash)+"\",\"entries\":"+std::to_string(pack.count));
     if (render) {
         glyphs.open(config_path(config.font_path));
-        {   // P11: movie cues next to the allowlist; absent file = original movie playback.
+        {   // P11: movie cues next to the allowlist; absent file or the switch off = original movie playback.
             const auto cues = config_path(config.allowlist_path).parent_path() / L"movies.tsv";
             std::ifstream file(cues, std::ios::binary);
-            if (file) {
+            if (file && (config.features & FeatureMovieSubtitles)) {
                 std::ostringstream data; data << file.rdbuf();
                 movie_config.cues = parse_subtitles(data.str(),&movie_cue_rejects);
                 movie_config.style.font_family = glyphs.font_family();
@@ -1544,18 +1544,22 @@ void Engine::install(const Config& config, Logger& logger) {
             log->event("movie_subtitles","\"enabled\":"+std::string(movies_enabled?"true":"false")+",\"cues\":"+
                 std::to_string(movie_config.cues.size())+",\"rejected\":"+std::to_string(movie_cue_rejects));
         }
-        {   // Input hooks (input_hooks.h). Marker files next to the allowlist:
-            //   input_probe.on  -> log-only probe;  wheel_pages.off / hover_names.off -> disable a feature.
+        {   // Input hooks (input_hooks.h), switched by config.features ([features] in the settings INI).
+            // Developer marker files next to the allowlist still apply: input_probe.on adds the log-only probe;
+            // wheel_pages.off / hover_names.off switch a feature off.
             const auto dir = config_path(config.allowlist_path).parent_path();
             const auto exists = [&](const wchar_t* name) { return std::ifstream(dir / name, std::ios::binary).good(); };
             input_hooks::Options o;
-            o.probe = exists(L"input_probe.on");
-            o.wheel = !exists(L"wheel_pages.off");
-            o.hover = !exists(L"hover_names.off");
+            o.probe = (config.features & FeatureInputProbe) || exists(L"input_probe.on");
+            o.wheel = (config.features & FeatureWheelPages) && !exists(L"wheel_pages.off");
+            o.zoom = (config.features & FeatureWheelZoom) != 0;
+            o.hover = (config.features & FeatureHoverNames) && !exists(L"hover_names.off");
+            o.hover_delay_ms = config.hover_delay_ms;
             input_hooks::configure(o);
             input_hooks_enabled = input_hooks::any_enabled();
             log->event("input_hooks","\"probe\":"+std::string(o.probe?"true":"false")+",\"wheel_pages\":"+
-                std::string(o.wheel?"true":"false")+",\"hover_names\":"+std::string(o.hover?"true":"false")+
+                std::string(o.wheel?"true":"false")+",\"wheel_zoom\":"+std::string(o.zoom?"true":"false")+
+                ",\"hover_names\":"+std::string(o.hover?"true":"false")+
                 ",\"hover_delay_ms\":"+std::to_string(o.hover_delay_ms));
         }
         log->event("runtime_font","\"family\":\""+utf8(glyphs.font_family())+"\",\"sha256\":\""+utf8(glyphs.font_sha256())+
